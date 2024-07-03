@@ -1,0 +1,14 @@
+/* Custom sidebar styles */
+.nav-sidebar .nav-item > .nav-link.active {
+    background-color: #1e282c;
+    color: #ffffff;
+}
+
+.nav-sidebar .nav-item .nav-treeview {
+    background-color: #2c3b41;
+}
+
+.nav-sidebar .nav-item .nav-treeview > .nav-item > .nav-link.active {
+    background-color: #1e282c;
+    color: #ffffff;
+}
