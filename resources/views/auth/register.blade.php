@@ -29,6 +29,16 @@
                 <x-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
             </div>
 
+            <div class="mt-4">
+                <x-label for="role_id" value="{{ __('Role') }}" />
+                <select id="role_id" name="role_id" class="block mt-1 w-full" required>
+                    <option value="SuperAdmin">Super Admin</option>
+                    <option value="SchoolAdmin">School Admin</option>
+                    <option value="Teacher">Teacher</option>
+                    <option value="Parent">Parent</option>
+                </select>
+            </div>
+
             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
                 <div class="mt-4">
                     <x-label for="terms">

@@ -47,33 +47,21 @@
                                 <p>Students</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route('school.register.form') }}" class="nav-link {{ request()->routeIs('school.register.form') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>School Registration</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('school.list') }}" class="nav-link {{ request()->routeIs('school.list') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>School List</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-header">MANAGEMENT</li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-calendar-alt"></i>
-                        <p>Attendance</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-calendar"></i>
-                        <p>Events</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-hotel"></i>
-                        <p>Holidays</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-clock"></i>
-                        <p>Teacher TimeTable</p>
-                    </a>
-                </li>
             </ul>
         </nav>
     </div>

@@ -17,24 +17,16 @@ use App\Http\Controllers\SuperAdminController;
 // Authentication Routes
 
 
-// Home Route
-Route::get('/', function () {
-    return view('welcome');
-});
-// Include the Super Admin routes
+
 
 Route::middleware(['auth', 'role:SuperAdmin'])->group(function () {
     Route::get('/superadmin/dashboard', [SuperAdminController::class, 'dashboard'])->name('superadmin.dashboard');
-
-    // Add other Super Admin routes here
     Route::get('/superadmin/profile', [SuperAdminController::class, 'profile'])->name('superadmin.profile');
     Route::get('/superadmin/settings', [SuperAdminController::class, 'settings'])->name('superadmin.settings');
-});
 
+    //routes for school registration and listing
+    Route::get('schools/register', [SuperAdminController::class, 'registerSchoolForm'])->name('school.register.form');
+    Route::post('schools/register', [SuperAdminController::class, 'registerSchool'])->name('school.register');
+    Route::get('schools', [SuperAdminController::class, 'listSchools'])->name('school.list');
 
-// Include the Super Admin routes
-Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-    Route::get('/superadmin/dashboard', [SuperAdminController::class, 'dashboard'])->name('superadmin.dashboard');
-    Route::get('/superadmin/profile', [SuperAdminController::class, 'profile'])->name('superadmin.profile');
-    Route::get('/superadmin/settings', [SuperAdminController::class, 'settings'])->name('superadmin.settings');
 });
