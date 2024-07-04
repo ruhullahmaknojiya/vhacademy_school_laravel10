@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
@@ -39,11 +41,11 @@ class RegisterController extends Controller
             'role_id' => $data['role_id'],
         ]);
 
-        \Log::info('User created: ' . $user->id);
+        Log::info('User created: ' . $user->id);
 
         $user->roles()->attach($data['role_id']);
 
-        \Log::info('Role attached: ' . $data['role_id'] . ' to user: ' . $user->id);
+        Log::info('Role attached: ' . $data['role_id'] . ' to user: ' . $user->id);
 
 
         return $user;
