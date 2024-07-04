@@ -19,7 +19,7 @@ use App\Http\Controllers\SuperAdminController;
 
 
 
-Route::middleware(['auth', 'role:SuperAdmin'])->group(function () {
+Route::middleware(['auth', 'role:superAdmin'])->group(function () {
     Route::get('/superadmin/dashboard', [SuperAdminController::class, 'dashboard'])->name('superadmin.dashboard');
     Route::get('/superadmin/profile', [SuperAdminController::class, 'profile'])->name('superadmin.profile');
     Route::get('/superadmin/settings', [SuperAdminController::class, 'settings'])->name('superadmin.settings');
