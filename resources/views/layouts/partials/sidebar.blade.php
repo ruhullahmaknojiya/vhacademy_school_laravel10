@@ -7,7 +7,7 @@
                 <img src="{{ asset('images/logo.png') }}" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+                <a href="#" class="d-block">{{ \Illuminate\Support\Facades\Auth::user()->name }}</a>
             </div>
         </div>
 
@@ -20,15 +20,15 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
-                <li class="nav-item has-treeview {{ request()->is('superadmin/user-management*') ? 'menu-open' : '' }}">
-                    <a href="#" class="nav-link {{ request()->is('superadmin/user-management*') ? 'active' : '' }}">
+                <li class="nav-item ">
+                    <a href="#" class="nav-link ">
                         <i class="nav-icon fas fa-user"></i>
                         <p>
                             User Management
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
+                    <ul class="nav nav-treeview ">
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
