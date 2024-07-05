@@ -30,38 +30,52 @@
                     </a>
                     <ul class="nav nav-treeview ">
                         <li class="nav-item">
+                            <a href="{{ route('school.list') }}" class="nav-link {{ request()->routeIs('school.list') ? 'active' : '' }}">
+                                <i class="fas fa-school nav-icon"></i>
+                                <p>School List</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
+                                <i class="fas fa-user-tie nav-icon"></i>
                                 <p>Principle</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
+                                <i class="fas fa-chalkboard-teacher nav-icon"></i>
                                 <p>Teachers</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
+                                <i class="fas fa-user-graduate nav-icon"></i>
                                 <p>Students</p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="{{ route('school.register.form') }}" class="nav-link {{ request()->routeIs('school.register.form') ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>School Registration</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('school.list') }}" class="nav-link {{ request()->routeIs('school.list') ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>School List</p>
-                            </a>
-                        </li>
+
+
                     </ul>
                 </li>
-                <li class="nav-header">MANAGEMENT</li>
+                <li class="nav-header">Educational Management</li>
+                <li class="nav-item">
+                    <a href="{{ route('superadmin.medium.index') }}" class="nav-link {{ request()->routeIs('superadmin.medium.index') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-language"></i>
+                        <p>Medium</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('superadmin.standard.index') }}" class="nav-link {{ request()->routeIs('superadmin.standard.index') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-list-ol"></i>
+                        <p>Standard</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('superadmin.class.index') }}" class="nav-link {{ request()->routeIs('superadmin.class.index') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-chalkboard-teacher"></i>
+                        <p>Class</p>
+                    </a>
+                </li>
             </ul>
         </nav>
     </div>

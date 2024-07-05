@@ -38,13 +38,13 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'role_id' => $data['role_id'],
+            // 'role_id' => $data['role_id'],
         ]);
 
         Log::info('User created: ' . $user->id);
-
-        $user->roles()->attach($data['role_id']);
-
+        $role = Role::where('name', 'SuperAdmin')->first();
+        $user->role_id = $role->id;
+        $user->roles()->attach($role->id, ['created_at' => now(), 'updated_at' => now()]);
         Log::info('Role attached: ' . $data['role_id'] . ' to user: ' . $user->id);
 
 

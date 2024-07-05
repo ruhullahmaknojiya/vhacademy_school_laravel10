@@ -11,6 +11,10 @@
     display: block !important;
 }
      </style>
+     <!-- Additional AdminLTE Plugins CSS -->
+    <link rel="stylesheet" href="{{ asset('vendor/fullcalendar/main.min.css') }}"> <!-- FullCalendar -->
+    <link rel="stylesheet" href="{{ asset('vendor/chart.js/Chart.min.css') }}"> <!-- Chart.js -->
+
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
@@ -47,6 +51,9 @@
 <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
 <script src="{{ asset('js/custom.js') }}"></script> <!-- Add your custom JS here -->
+<!-- Additional AdminLTE Plugins JS -->
+<script src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script> <!-- Chart.js -->
+<script src="{{ asset('vendor/fullcalendar/main.min.js') }}"></script> <!-- FullCalendar -->
 
 <!-- Additional JS if needed -->
 @stack('js')

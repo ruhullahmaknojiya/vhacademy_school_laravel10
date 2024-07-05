@@ -12,6 +12,10 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
+
+    const ROLE_SUPERADMIN = 'superadmin';
+    const ROLE_SCHOOLADMIN = 'schooladmin';
+
     use HasApiTokens;
     use HasFactory;
     use HasProfilePhoto;
@@ -39,6 +43,11 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id');
     }
+
+    public function role()
+{
+    return $this->belongsTo(Role::class);
+}
 
     public function hasRole($role)
     {
