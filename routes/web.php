@@ -23,7 +23,8 @@ use App\Http\Controllers\SuperAdmin\EducationalController;
 
 
 Route::middleware(['auth', 'role:superAdmin'])->group(function () {
-    Route::get('/superadmin/dashboard', [SuperAdminController::class, 'dashboard'])->name('superadmin.dashboard');
+
+    Route::get('superadmin/dashboard', [SuperAdminController::class, 'dashboard'])->name('superadmin.dashboard');
     Route::get('/superadmin/profile', [SuperAdminController::class, 'profile'])->name('superadmin.profile');
     Route::get('/superadmin/settings', [SuperAdminController::class, 'settings'])->name('superadmin.settings');
 
