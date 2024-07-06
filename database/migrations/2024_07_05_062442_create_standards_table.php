@@ -11,7 +11,7 @@ class CreateStandardsTable extends Migration
         Schema::create('standards', function (Blueprint $table) {
             $table->id();
             $table->string('standard_name');
-            $table->foreignId('medium_id')->constrained('media')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('medium_id')->references('id')->on('media')->cascadeOnDelete('cascade');
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

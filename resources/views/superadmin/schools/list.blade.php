@@ -1,7 +1,9 @@
 @extends('layouts.superadmin')
 
 @section('content')
-<div class="container">
+   
+<section class="content">
+    <div class="container-fluid">
     <h2 class="mb-4">Schools List</h2>
     <div class="card">
         <div class="card-header">
@@ -62,5 +64,6 @@
             </div>
         </div>
     </div>
-</div>
+    </div>
+</section>
 @endsection
