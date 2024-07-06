@@ -6,7 +6,11 @@
     <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/adminlte.min.css') }}">
     <link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}"> <!-- Add your custom CSS here -->
-     <style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/css/adminlte.min.css" rel="stylesheet">
+
+<style>
          .menu-open > .nav-treeview {
     display: block !important;
 }
@@ -55,6 +59,9 @@
 <!-- Additional AdminLTE Plugins JS -->
 <script src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script> <!-- Chart.js -->
 <script src="{{ asset('vendor/fullcalendar/main.min.js') }}"></script> <!-- FullCalendar -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/js/adminlte.min.js"></script>
 
 <!-- Additional JS if needed -->
 @stack('js')

@@ -10,22 +10,25 @@ class CreateParentsTable extends Migration
     {
         Schema::create('parents', function (Blueprint $table) {
             $table->id();
-            $table->string('parentProfession');
-            $table->string('parentOf');
-            $table->string('Father_photo')->nullable();
-            $table->string('father_full_name');
-            $table->string('father_email')->unique();
-            $table->string('father_personal_number');
-            $table->date('father_dob');
-            $table->string('mother_full_name');
-            $table->date('mother_dob');
-            $table->string('mother_profession');
-            $table->boolean('mother_job_or_housewise'); // true for job, false for housewife
-            $table->string('mother_job_name')->nullable();
-            $table->string('mother_mobile_number');
-            $table->string('password');
+            $table->unsignedBigInteger('student_id');
+            $table->string('father_name')->nullable();
+            $table->string('father_phone')->nullable();
+            $table->string('father_occupation')->nullable();
+            $table->string('father_photo')->nullable();
+            $table->string('mother_name')->nullable();
+            $table->string('mother_phone')->nullable();
+            $table->string('mother_occupation')->nullable();
+            $table->string('mother_photo')->nullable();
+            $table->string('guardian_name');
+            $table->string('guardian_relation');
+            $table->string('guardian_email')->nullable();
+            $table->string('guardian_phone');
+            $table->string('guardian_occupation')->nullable();
+            $table->string('guardian_address')->nullable();
+            $table->string('guardian_photo')->nullable();
             $table->timestamps();
-            $table->string('firebase_token')->nullable();
+
+            $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
         });
     }
 

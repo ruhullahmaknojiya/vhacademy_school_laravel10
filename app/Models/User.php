@@ -29,6 +29,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role_id', // Add this line
+        'fcm_token'
     ];
     // protected $hidden = ['password', 'remember_token'];
 
@@ -45,13 +46,23 @@ class User extends Authenticatable
     }
 
     public function role()
-{
+    {
     return $this->belongsTo(Role::class);
-}
+     }
+
+     public function userable()
+     {
+        return $this->morphTo();
+     }
 
     public function hasRole($role)
     {
         return $this->roles()->where('name', $role)->exists();
+    }
+
+    public function school()
+    {
+        return $this->belongsTo(School::class);
     }
 
 

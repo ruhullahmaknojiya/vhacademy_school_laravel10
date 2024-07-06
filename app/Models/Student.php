@@ -8,37 +8,49 @@ use Illuminate\Database\Eloquent\Model;
 class Student extends Model
 {
     use HasFactory;
-
+    protected $table = 'students';
     protected $fillable = [
-        'fullName',
-        'photo',
-        'studentRollId',
-        'admission_number',
-        'admission_date',
-        'birthday',
+        'uid',
+        'admission_no',
+        'roll_number',
+        'first_name',
+        'last_name',
+        'class_id',
+        'section_id',
+        'medium_id',
+        'school_id',
         'gender',
-        'address',
-        'Parents_phoneNo',
-        'student_mobileNo',
-        'studentAcademicYear',
+        'date_of_birth',
+        'category',
         'religion',
         'caste',
-        'uid',
-        'adharcard',
-        'email_id',
-        'lc_document',
-        'adharcard_document',
-        'lc_number',
-        'school_id',
-        'medium_id',
-        'standard_id',
-        'class_id',
-        'firebase_token',
+        'mobile_number',
+        'email',
+        'admission_date',
+        'blood_group',
+        'house',
+        'height',
+        'weight',
+        'medical_history',
+        'student_photo',
+        'aadharcard_number',
+        'current_address',
+        'permanent_address'
     ];
+
+    public function parents()
+    {
+        return $this->hasMany(Parent::class);
+    }
+
+    public function documents()
+    {
+        return $this->hasMany(Document::class);
+    }
 
     public function school()
     {
-        return $this->belongsTo(School::class);
+        return $this->belongsTo(School::class); // Added school relationship
     }
 
     public function medium()
@@ -56,8 +68,18 @@ class Student extends Model
         return $this->belongsTo(ClassModel::class);
     }
 
+    // public function parent()
+    // {
+    //     return $this->belongsTo(ParentModel::class);
+    // }
+
     public function parent()
     {
-        return $this->belongsTo(ParentModel::class);
+        return $this->hasOne(ParentModel::class);
+    }
+
+    public function user()
+    {
+        return $this->morphOne(User::class, 'userable');
     }
 }

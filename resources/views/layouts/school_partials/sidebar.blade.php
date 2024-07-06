@@ -30,7 +30,7 @@
                     </a>
                     <ul class="nav nav-treeview ">
                         <li class="nav-item">
-                            <a href="{{ route('students.index') }}" class="nav-link {{ request()->routeIs('students.index') ? 'active' : '' }}">
+                            <a href="{{ route('schooladmin.students.index') }}" class="nav-link {{ request()->routeIs('schooladmin.students.index') ? 'active' : '' }}">
                                 <i class="fas fa-user-graduate nav-icon"></i>
                                 <p>Students</p>
                             </a>

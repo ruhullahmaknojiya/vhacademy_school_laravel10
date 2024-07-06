@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Standard extends Model
 {
     use HasFactory;
-
+    protected $table = 'standards';
     protected $fillable = [
         'standard_name',
         'medium_id',

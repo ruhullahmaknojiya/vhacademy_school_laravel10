@@ -8,27 +8,39 @@ use Illuminate\Database\Eloquent\Model;
 class ParentModel extends Model
 {
     use HasFactory;
-
+    protected $table = 'parents';
     protected $fillable = [
-        'parentProfession',
-        'parentOf',
-        'Father_photo',
-        'father_full_name',
-        'father_email',
-        'father_personal_number',
-        'father_dob',
-        'mother_full_name',
-        'mother_dob',
-        'mother_profession',
-        'mother_job_or_housewise',
-        'mother_job_name',
-        'mother_mobile_number',
-        'password',
-        'firebase_token',
+        'student_id',
+        'father_name',
+        'father_phone',
+        'father_occupation',
+        'father_photo',
+        'mother_name',
+        'mother_phone',
+        'mother_occupation',
+        'mother_photo',
+        'guardian_name',
+        'guardian_relation',
+        'guardian_phone',
+        'guardian_email',
+        'guardian_occupation',
+        'guardian_address',
+        'guardian_photo'
     ];
 
-    public function students()
+    // public function student()
+    // {
+    //     return $this->belongsTo(Student::class);
+    // }
+
+    public function user()
     {
-        return $this->hasMany(Student::class);
+        return $this->morphOne(User::class, 'userable');
     }
+
+    public function student()
+    {
+        return $this->belongsTo(Student::class);
+    }
+
 }

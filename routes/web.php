@@ -20,6 +20,8 @@ use App\Http\Controllers\SuperAdmin\EducationalController;
 // Authentication Routes
 
 
+// Auth::routes();
+
 
 
 Route::middleware(['auth', 'role:superAdmin'])->group(function () {
@@ -62,12 +64,13 @@ Route::middleware(['auth', 'role:superAdmin'])->group(function () {
 
 });
 
-Route::middleware(['auth','role:SchoolAdmin'])->group(function () {
-    Route::get('school/dashboard', [SchoolController::class, 'dashboard'])->name('schooladmin.dashboard');
-    Route::get('/students', [StudentController::class, 'index'])->name('students.index');
-Route::get('/students/create', [StudentController::class, 'create'])->name('students.create');
-Route::post('/students', [StudentController::class, 'store'])->name('students.store');
-Route::get('/students/{id}', [StudentController::class, 'show'])->name('students.show');
-Route::resource('students', 'App\Http\Controllers\School\StudentController');
+   Route::middleware(['auth','role:SchoolAdmin'])->group(function () {
+
+    Route::get('SchoolAdmin/school/dashboard', [SchoolController::class, 'dashboard'])->name('schooladmin.dashboard');
+    Route::get('SchoolAdmin/students', [StudentController::class, 'index'])->name('schooladmin.students.index');
+Route::get('SchoolAdmin/students/create', [StudentController::class, 'create'])->name('schooladmin.students.create');
+Route::post('SchoolAdmin/students', [StudentController::class, 'store'])->name('schooladmin.students.store');
+Route::get('SchoolAdmin/students/{id}', [StudentController::class, 'show'])->name('schooladmin.students.show');
+// Route::resource('SchoolAdmin/students', 'App\Http\Controllers\School\StudentController');
 
 });

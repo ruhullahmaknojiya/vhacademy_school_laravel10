@@ -57,7 +57,7 @@
 
                     </ul>
                 </li>
-                <li class="nav-header">Educational Management</li>
+                <li class="nav-header">Educational Management ( LMS ) </li>
                 <li class="nav-item">
                     <a href="{{ route('superadmin.medium.index') }}" class="nav-link {{ request()->routeIs('superadmin.medium.index') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-language"></i>
@@ -74,6 +74,24 @@
                     <a href="{{ route('superadmin.class.index') }}" class="nav-link {{ request()->routeIs('superadmin.class.index') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-chalkboard-teacher"></i>
                         <p>Class</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('superadmin.class.index') }}" class="nav-link {{ request()->routeIs('superadmin.class.index') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-book"></i>
+                        <p>Subjects</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('superadmin.class.index') }}" class="nav-link {{ request()->routeIs('superadmin.class.index') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-book-open"></i>
+                        <p>Chapter</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('superadmin.class.index') }}" class="nav-link {{ request()->routeIs('superadmin.class.index') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-book-reader"></i>
+                        <p>Topic ( Chapter Wise )</p>
                     </a>
                 </li>
             </ul>

@@ -10,50 +10,43 @@ class CreateStudentsTable extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
-            $table->string('fullName');
-            $table->string('photo')->nullable();
-            $table->string('studentRollId');
-            $table->string('admission_number');
-            $table->date('admission_date');
-            $table->date('birthday');
+            $table->string('admission_no')->unique();
+            $table->integer('roll_number');
+            $table->unsignedBigInteger('medium_id');
+            $table->unsignedBigInteger('class_id');
+            $table->unsignedBigInteger('section_id');
+            $table->unsignedBigInteger('school_id');
+            $table->string('uid')->unique(); // Added uid
+            $table->string('first_name');
+            $table->string('last_name')->nullable();
             $table->string('gender');
-            // Current Address
-            $table->string('current_country');
-            $table->string('current_state');
-            $table->string('current_city');
-            $table->string('current_zipcode');
-            $table->text('current_full_address');
-            // Home Address
-            $table->string('home_country');
-            $table->string('home_state');
-            $table->string('home_city');
-            $table->string('home_zipcode');
-            $table->text('home_full_address');
-            // Foreign key to parents table
-            $table->string('student_mobileNo')->nullable();
-            $table->string('studentAcademicYear');
-            $table->string('religion');
-            $table->string('caste');
-            $table->string('uid')->unique();
-            $table->string('adharcard');
-            $table->string('email_id')->unique();
-            $table->string('lc_document')->nullable();
-            $table->string('adharcard_document')->nullable();
-            $table->string('lc_number')->nullable();
-            $table->foreignId('school_id')->constrained('schools')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('medium_id')->constrained('mediums')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('standard_id')->constrained('standards')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('class_id')->constrained('classes')->onDelete('cascade')->onUpdate('cascade');
-            $table->string('firebase_token')->nullable();
-            $table->foreignId('parent_id')->constrained('parents')->onDelete('cascade');
+            $table->date('date_of_birth');
+            $table->string('category');
+            $table->string('religion')->nullable();
+            $table->string('caste')->nullable();
+            $table->string('mobile_number')->nullable();
+            $table->string('email')->nullable();
+            $table->date('admission_date');
+            $table->string('blood_group')->nullable();
+            $table->string('house')->nullable();
+            $table->float('height')->nullable();
+            $table->float('weight')->nullable();
+            $table->text('medical_history')->nullable();
+            $table->string('student_photo')->nullable();
+            $table->string('aadharcard_number')->nullable();
+            $table->string('current_address')->nullable();
+            $table->string('permanent_address')->nullable();
             $table->timestamps();
+
+            // Foreign keys
+            $table->foreign('medium_id')->references('id')->on('mediums')->onDelete('cascade');
+            $table->foreign('class_id')->references('id')->on('standards')->onDelete('cascade');
+            $table->foreign('section_id')->references('id')->on('classes')->onDelete('cascade');
+            $table->foreign('school_id')->references('id')->on('schools'); // Added foreign key constraint for school_id
+
         });
     }
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
+
     public function down()
     {
         Schema::dropIfExists('students');
