@@ -1,7 +1,7 @@
 @extends('layouts.superadmin')
 
 @section('content')
-   
+
 <section class="content">
     <div class="container-fluid">
     <h2 class="mb-4">Schools List</h2>
@@ -34,7 +34,7 @@
                 <tbody>
                     @foreach ($schools as $school)
                         <tr>
-                            <td>{{ $school->id }}</td>
+                            <td>{{ $loop->iteration }}</td>
                             <td>{{ $school->name }}</td>
                             <td>{{ $school->address }}</td>
                             <td>{{ $school->phone }}</td>

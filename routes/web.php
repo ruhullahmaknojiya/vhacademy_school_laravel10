@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\School\StudentController;
+use App\Http\Controllers\School\ParentController;
 use App\Http\Controllers\SuperAdmin\EducationalController;
 
 /*
@@ -72,6 +73,11 @@ Route::middleware(['auth', 'role:superAdmin'])->group(function () {
 Route::get('SchoolAdmin/students/create', [StudentController::class, 'create'])->name('schooladmin.students.create');
 Route::post('SchoolAdmin/students', [StudentController::class, 'store'])->name('schooladmin.students.store');
 Route::get('SchoolAdmin/students/{id}', [StudentController::class, 'show'])->name('schooladmin.students.show');
-// Route::resource('SchoolAdmin/students', 'App\Http\Controllers\School\StudentController');
+
+//Parents Route
+Route::get('SchoolAdmin/parents', [ParentController::class, 'index'])->name('schooladmin.parents.index');
+Route::get('SchoolAdmin/parents/{id}', [ParentController::class, 'show'])->name('schooladmin.parents.show');
+
+// Route::resource('parents', ParentController::class);
 
 });

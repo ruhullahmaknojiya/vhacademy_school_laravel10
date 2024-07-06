@@ -207,7 +207,7 @@ class StudentController extends Controller
          $studentPassword = Hash::make($student->first_name . $student->date_of_birth . $student->mobile_number);
 
          User::create([
-            'name' => $studentUsername,
+            'name' => $student->uid,
             'email' => $student->email,
             'password' => $studentPassword,
             'role_id' => $studentRole->id,
@@ -221,17 +221,17 @@ class StudentController extends Controller
 
         $parentDetail = ParentModel::create([
             'student_id' => $student->id,
-            'father_name' => $validatedData['father_name'] ?? null,
-            'father_phone' => $validatedData['father_phone'] ?? null,
-            'father_occupation' => $validatedData['father_occupation'] ?? null,
+            'father_name' => $validatedData['father_name'],
+            'father_phone' => $validatedData['father_phone'],
+            'father_occupation' => $validatedData['father_occupation'],
             'father_photo' => $validatedData['father_photo'] ?? null,
-            'mother_name' => $validatedData['mother_name'] ?? null,
+            'mother_name' => $validatedData['mother_name'],
             'mother_phone' => $validatedData['mother_phone'] ?? null,
-            'mother_occupation' => $validatedData['mother_occupation'] ?? null,
+            'mother_occupation' => $validatedData['mother_occupation'],
             'mother_photo' => $validatedData['mother_photo'] ?? null,
             'guardian_name' => $validatedData['guardian_name'],
             'guardian_relation' => $validatedData['guardian_relation'],
-            'guardian_email' => $validatedData['guardian_email'] ?? null,
+            'guardian_email' => $validatedData['guardian_email'],
             'guardian_phone' => $validatedData['guardian_phone'],
             'guardian_occupation' => $validatedData['guardian_occupation'] ?? null,
             'guardian_address' => $validatedData['guardian_address'] ?? null,
@@ -239,7 +239,9 @@ class StudentController extends Controller
         ]);
 
           // Create parent user
-          $parentUsername = $request->guardian_name . date('Ymd', strtotime($student->date_of_birth)) . $request->guardian_phone;
+          $validatedData['uid'] = strtoupper(substr($school->name, 0, 3)) . $validatedData['admission_no'] . date('Ymd', strtotime($validatedData['date_of_birth']));
+
+          $parentUsername = strtoupper(substr($school->name, 0, 3)) . date('Ymd', strtotime($student->date_of_birth)) . $request->father_phone;
           $parentPassword = Hash::make($request->guardian_name . $request->guardian_phone . $student->uid . $student->date_of_birth);
 
           User::create([

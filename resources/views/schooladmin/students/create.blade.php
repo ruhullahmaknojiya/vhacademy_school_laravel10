@@ -2,8 +2,7 @@
 
 
 @section('content')
-<div class="container">
-    <h2>Student Admission</h2>
+
     {{-- <form action="{{ route('schooladmin.students.store') }}" method="POST" enctype="multipart/form-data"> --}}
         {{-- @csrf --}}
         <!-- Student Details -->
@@ -23,7 +22,7 @@
 
         {{-- <button type="submit" class="btn btn-primary">Submit</button> --}}
     {{-- </form> --}}
-</div>
+
 @endsection
 
 

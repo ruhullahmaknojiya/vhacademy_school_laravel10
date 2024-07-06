@@ -18,4 +18,10 @@ class Document extends Model
     {
         return $this->belongsTo(Students::class);
     }
+
+
+    public function documentable()
+    {
+        return $this->morphTo();
+    }
 }
