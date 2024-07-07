@@ -1,7 +1,7 @@
 @extends('layouts.superadmin')
 
 @section('content')
-   
+
 <section class="content">
     <div class="container-fluid">
     <h2 class="mb-4">Schools List</h2>

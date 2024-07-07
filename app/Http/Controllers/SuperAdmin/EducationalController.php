@@ -38,9 +38,10 @@ class EducationalController extends Controller
 
     public function updateMedium(Request $request, $id)
     {
-        $request->validate(['name' => 'required|string|max:255']);
+
         $medium = Medium::find($id);
-        $medium->update($request->all());
+        $input=$request->all();
+        $medium->update($input);
         return redirect()->route('superadmin.medium.index')->with('success', 'Medium updated successfully.');
     }
 
@@ -86,7 +87,7 @@ class EducationalController extends Controller
             'standard_name' => $request->standard_name,
             'status' => true, // Default status
         ]);
-        Standard::create($request->all());
+
 
         return redirect()->route('superadmin.standard.index')->with('success', 'Standard created successfully.');
     }
@@ -99,9 +100,12 @@ class EducationalController extends Controller
 
     public function updateStandard(Request $request, $id)
     {
-        $request->validate(['name' => 'required|string|max:255']);
+
+
         $standard = Standard::find($id);
-        $standard->update($request->all());
+        $input=$request->all();
+
+        $standard->update($input);
         return redirect()->route('superadmin.standard.index')->with('success', 'Standard updated successfully.');
     }
 

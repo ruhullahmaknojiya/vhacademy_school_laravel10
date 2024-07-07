@@ -8,7 +8,7 @@
         @method('PUT')
         <div class="form-group">
             <label for="name">Name</label>
-            <input type="text" name="name" class="form-control" value="{{ $medium->name }}" required>
+            <input type="text" name="medium_name" class="form-control" value="{{ $medium->medium_name }}" required>
         </div>
         <button type="submit" class="btn btn-success">Update</button>
     </form>

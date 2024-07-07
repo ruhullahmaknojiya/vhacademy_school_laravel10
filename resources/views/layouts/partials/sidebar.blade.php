@@ -77,19 +77,19 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('superadmin.class.index') }}" class="nav-link {{ request()->routeIs('superadmin.class.index') ? 'active' : '' }}">
+                    <a href="{{ route('Subject') }}" class="nav-link {{ request()->routeIs('Subject') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-book"></i>
                         <p>Subjects</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('superadmin.class.index') }}" class="nav-link {{ request()->routeIs('superadmin.class.index') ? 'active' : '' }}">
+                    <a href="{{ route('topics') }}" class="nav-link {{ request()->routeIs('topics') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-book-open"></i>
                         <p>Chapter</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('superadmin.class.index') }}" class="nav-link {{ request()->routeIs('superadmin.class.index') ? 'active' : '' }}">
+                    <a href="{{ route('subtopics') }}" class="nav-link {{ request()->routeIs('superadmin.class.index') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-book-reader"></i>
                         <p>Topic ( Chapter Wise )</p>
                     </a>

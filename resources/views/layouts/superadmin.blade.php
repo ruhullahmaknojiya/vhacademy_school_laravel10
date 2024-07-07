@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/adminlte.min.css') }}">
     <link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}"> <!-- Add your custom CSS here -->
+    <link rel="shortcut icon" href="{{asset('/images/logo.png')}}">
+
      <style>
          .menu-open > .nav-treeview {
     display: block !important;
