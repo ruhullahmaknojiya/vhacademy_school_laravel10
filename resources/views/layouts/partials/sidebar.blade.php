@@ -20,6 +20,14 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
+                <li class="nav-item {{ \Illuminate\Support\Facades\Request::is('superadmin/Events') ? 'active' : '' }}">
+                    <a href="{{route('events')}}" class="nav-link {{ \Illuminate\Support\Facades\Request::is('superadmin/Events') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-calendar-day"></i>
+                        <p>
+                            EVENTS
+                        </p>
+                    </a>
+                </li>
                 <li class="nav-item ">
                     <a href="#" class="nav-link ">
                         <i class="nav-icon fas fa-user"></i>
@@ -77,19 +85,19 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('superadmin.class.index') }}" class="nav-link {{ request()->routeIs('superadmin.class.index') ? 'active' : '' }}">
+                    <a href="{{ route('Subject') }}" class="nav-link {{ request()->routeIs('Subject') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-book"></i>
                         <p>Subjects</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('superadmin.class.index') }}" class="nav-link {{ request()->routeIs('superadmin.class.index') ? 'active' : '' }}">
+                    <a href="{{ route('topics') }}" class="nav-link {{ request()->routeIs('Topics') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-book-open"></i>
                         <p>Chapter</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('superadmin.class.index') }}" class="nav-link {{ request()->routeIs('superadmin.class.index') ? 'active' : '' }}">
+                    <a href="{{ route('subtopics') }}" class="nav-link {{ request()->routeIs('SubTopics') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-book-reader"></i>
                         <p>Topic ( Chapter Wise )</p>
                     </a>

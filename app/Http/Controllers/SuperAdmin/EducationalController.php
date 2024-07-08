@@ -134,7 +134,7 @@ class EducationalController extends Controller
 
     public function editClass($id)
     {
-        $class = SchoolClass::find($id);
+        $class = ClassModel::find($id);
         return view('superadmin.educational.class.edit', compact('class'));
     }
 

@@ -1,7 +1,8 @@
 @extends('layouts.school_admin')
 
 @section('content')
-<div class="container">
+    <div class="content">
+        <div class="container-fluid">
     <div class="row">
         <div class="col-md-3">
             <div class="card">
@@ -69,5 +70,6 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 @endsection
