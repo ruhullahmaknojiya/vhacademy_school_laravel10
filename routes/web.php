@@ -125,6 +125,4 @@ Route::get('SchoolAdmin/feepayment/create', [FeePaymentController::class, 'creat
 Route::post('SchoolAdmin/feepayment', [FeePaymentController::class, 'store'])->name('schooladmin.feecollection.feepayment.store');
 Route::post('SchoolAdmin/feepayment/{id}', [FeePaymentController::class, 'show'])->name('schooladmin.feecollection.feepayment.show');
 Route::get('SchoolAdmin/feepayment/{id}/edit', [FeePaymentController::class, 'editClass'])->name('schooladmin.feecollection.feepayment.edit');
-
-
 });
