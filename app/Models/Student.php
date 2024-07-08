@@ -82,4 +82,17 @@ class Student extends Model
     {
         return $this->morphOne(User::class, 'userable');
     }
+
+
+    public function feePayments()
+    {
+        return $this->hasMany(FeePayment::class);
+    }
+
+     // Relationship with FeeAssignment
+     public function feeAssignments()
+     {
+         return $this->hasMany(FeeAssignment::class, 'student_id');
+     }
+
 }

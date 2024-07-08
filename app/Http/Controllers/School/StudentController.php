@@ -16,6 +16,8 @@ use App\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
+
 
 class StudentController extends Controller
 {
@@ -24,9 +26,11 @@ class StudentController extends Controller
     public function index()
     {
         // Retrieve all students and pass them to the view
-
+        $mediums = Medium::all();
+        $standards = Standard::all();
+        $classes = ClassModel::all();
         $students = Student::paginate(10);
-        return view('schooladmin.students.index', compact('students'));
+        return view('schooladmin.students.index', compact('mediums', 'standards', 'classes','students'));
     }
 
 
@@ -42,7 +46,7 @@ class StudentController extends Controller
     {
         try {
 
-            $validatedData = $request->validate([
+            $validatedData = Validator::make($request->all(),[
                 // Student details
                 'admission_no' => 'required|unique:students|max:255',
                 'roll_number' => 'required|numeric',
@@ -50,7 +54,7 @@ class StudentController extends Controller
                 'class_id' => 'required|exists:standards,id',
                 'section_id' => 'required|exists:classes,id',
                 'first_name' => 'required|max:255',
-                'last_name' => 'nullable|max:255',
+                'last_name' => 'required|max:255',
                 'gender' => 'required',
                 'date_of_birth' => 'required|date',
                 'category' => 'required',
@@ -76,18 +80,18 @@ class StudentController extends Controller
                 'rte' => 'nullable|boolean',
                 'previous_school_details' => 'nullable|max:1000',
                 'note' => 'nullable|max:1000',
-                'father_name' => 'nullable|max:255',
-                'father_phone' => 'nullable|numeric',
-                'father_occupation' => 'nullable|max:255',
+                'father_name' => 'required|max:255',
+                'father_phone' => 'required|numeric',
+                'father_occupation' => 'required|max:255',
                 'father_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-                'mother_name' => 'nullable|max:255',
+                'mother_name' => 'required|max:255',
                 'mother_phone' => 'nullable|numeric',
-                'mother_occupation' => 'nullable|max:255',
+                'mother_occupation' => 'required|max:255',
                 'mother_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-                'guardian_name' => 'required|max:255',
-                'guardian_relation' => 'required|max:255',
+                'guardian_name' => 'nullable|max:255',
+                'guardian_relation' => 'nullable|max:255',
                 'guardian_email' => 'required|email|max:255|unique:users,email',
-                'guardian_phone' => 'required|numeric|digits:10',
+                'guardian_phone' => 'nullable|numeric|digits:10',
                 'guardian_occupation' => 'nullable|max:255',
                 'guardian_address' => 'nullable|max:255',
                 'guardian_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -175,7 +179,9 @@ class StudentController extends Controller
                 'documents.*.file.max' => 'The document file must not exceed 2048 KB.',
             ]);
 
-
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
 
 
         if ($request->hasFile('student_photo')) {

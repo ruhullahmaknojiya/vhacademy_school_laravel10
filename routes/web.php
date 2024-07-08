@@ -7,6 +7,12 @@ use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\School\StudentController;
 use App\Http\Controllers\School\ParentController;
 use App\Http\Controllers\SuperAdmin\EducationalController;
+use App\Http\Controllers\School\TeacherController;
+use App\Http\Controllers\School\Fees\FeeTypeController;
+use App\Http\Controllers\School\Fees\FeeGroupController;
+use App\Http\Controllers\School\Fees\FeesMasterController;
+use App\Http\Controllers\School\Fees\FeeAssignmentController;
+use App\Http\Controllers\School\Fees\FeePaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,6 +84,47 @@ Route::get('SchoolAdmin/students/{id}', [StudentController::class, 'show'])->nam
 Route::get('SchoolAdmin/parents', [ParentController::class, 'index'])->name('schooladmin.parents.index');
 Route::get('SchoolAdmin/parents/{id}', [ParentController::class, 'show'])->name('schooladmin.parents.show');
 
-// Route::resource('parents', ParentController::class);
+//Teacher Route
+Route::get('SchoolAdmin/teachers', [TeacherController::class, 'index'])->name('schooladmin.teachers.index');
+Route::get('SchoolAdmin/teachers/create', [TeacherController::class, 'create'])->name('schooladmin.teachers.create');
+Route::post('SchoolAdmin/teachers', [TeacherController::class, 'store'])->name('schooladmin.teachers.store');
+Route::post('SchoolAdmin/teachers/{id}', [TeacherController::class, 'show'])->name('schooladmin.teachers.show');
+
+//Fee Collection Route
+// Fee Type
+Route::get('SchoolAdmin/feetype', [FeeTypeController::class, 'index'])->name('schooladmin.feecollection.feetype.index');
+Route::get('SchoolAdmin/feetype/create', [FeeTypeController::class, 'create'])->name('schooladmin.feecollection.feetype.create');
+Route::post('SchoolAdmin/feetype', [FeeTypeController::class, 'store'])->name('schooladmin.feecollection.feetype.store');
+Route::post('SchoolAdmin/feetype/{id}', [FeeTypeController::class, 'show'])->name('schooladmin.feecollection.feetype.show');
+Route::get('SchoolAdmin/feetype/{id}/edit', [FeeTypeController::class, 'editClass'])->name('schooladmin.feecollection.feetype.edit');
+// Fee Group
+Route::get('SchoolAdmin/feegroup', [FeeGroupController::class, 'index'])->name('schooladmin.feecollection.feegroup.index');
+Route::get('SchoolAdmin/feegroup/create', [FeeGroupController::class, 'create'])->name('schooladmin.feecollection.feegroup.create');
+Route::post('SchoolAdmin/feegroup', [FeeGroupController::class, 'store'])->name('schooladmin.feecollection.feegroup.store');
+Route::post('SchoolAdmin/feegroup/{id}', [FeeGroupController::class, 'show'])->name('schooladmin.feecollection.feegroup.show');
+Route::get('SchoolAdmin/feegroup/{id}/edit', [FeeGroupController::class, 'editClass'])->name('schooladmin.feecollection.feegroup.edit');
+
+// Fee Master
+Route::get('SchoolAdmin/feesmaster', [FeesMasterController::class, 'index'])->name('schooladmin.feecollection.feesmaster.index');
+Route::get('SchoolAdmin/feesmaster/create', [FeesMasterController::class, 'create'])->name('schooladmin.feecollection.feesmaster.create');
+Route::post('SchoolAdmin/feesmaster', [FeesMasterController::class, 'store'])->name('schooladmin.feecollection.feesmaster.store');
+Route::post('SchoolAdmin/feesmaster/{id}', [FeesMasterController::class, 'show'])->name('schooladmin.feecollection.feesmaster.show');
+Route::get('SchoolAdmin/feesmaster/{id}/edit', [FeesMasterController::class, 'editClass'])->name('schooladmin.feecollection.feesmaster.edit');
+
+// Fee Assign to Class wise Student
+Route::get('SchoolAdmin/feesassign', [FeeAssignmentController::class, 'index'])->name('schooladmin.feecollection.feesassign.index');
+Route::get('SchoolAdmin/feesassign/create', [FeeAssignmentController::class, 'create'])->name('schooladmin.feecollection.feesassign.create');
+Route::post('SchoolAdmin/feesassign', [FeeAssignmentController::class, 'store'])->name('schooladmin.feecollection.feesassign.store');
+Route::post('SchoolAdmin/feesassign/{id}', [FeeAssignmentController::class, 'show'])->name('schooladmin.feecollection.feesassign.show');
+Route::get('SchoolAdmin/feesassign/{id}/edit', [FeeAssignmentController::class, 'editClass'])->name('schooladmin.feecollection.feesassign.edit');
+
+// Fee Collect And Fee Payment to Class wise Student
+Route::get('SchoolAdmin/feepayment', [FeePaymentController::class, 'index'])->name('schooladmin.feecollection.feepayment.index');
+Route::get('SchoolAdmin/feepayment/dueFees', [FeePaymentController::class, 'dueFees'])->name('schooladmin.feecollection.feepayment.dueFees');
+Route::get('SchoolAdmin/feepayment/create', [FeePaymentController::class, 'create'])->name('schooladmin.feecollection.feepayment.create');
+Route::post('SchoolAdmin/feepayment', [FeePaymentController::class, 'store'])->name('schooladmin.feecollection.feepayment.store');
+Route::post('SchoolAdmin/feepayment/{id}', [FeePaymentController::class, 'show'])->name('schooladmin.feecollection.feepayment.show');
+Route::get('SchoolAdmin/feepayment/{id}/edit', [FeePaymentController::class, 'editClass'])->name('schooladmin.feecollection.feepayment.edit');
+
 
 });

@@ -127,7 +127,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="last_name">Last Name</label>
+                                    <label for="last_name">Last Name <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control @error('last_name') is-invalid @enderror" id="last_name" name="last_name" value="{{ old('last_name') }}">
                                     @error('last_name')
                                         <span class="invalid-feedback" role="alert">
@@ -338,8 +338,8 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="father_name">Father Name</label>
-                                    <input type="text" class="form-control @error('father_name') is-invalid @enderror" id="father_name" name="father_name" value="{{ old('father_name') }}">
+                                    <label for="father_name">Father Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control @error('father_name') is-invalid @enderror" id="father_name" name="father_name" value="{{ old('father_name') }}" required>
                                     @error('father_name')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -349,8 +349,8 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="father_phone">Father Phone</label>
-                                    <input type="text" class="form-control @error('father_phone') is-invalid @enderror" id="father_phone" name="father_phone" value="{{ old('father_phone') }}">
+                                    <label for="father_phone">Father Phone <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control @error('father_phone') is-invalid @enderror" id="father_phone" name="father_phone" value="{{ old('father_phone') }}" required>
                                     @error('father_phone')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -360,8 +360,19 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="father_occupation">Father Occupation</label>
-                                    <input type="text" class="form-control @error('father_occupation') is-invalid @enderror" id="father_occupation" name="father_occupation" value="{{ old('father_occupation') }}">
+                                    <label for="guardian_email">Father Email <span class="text-danger">*</span></label>
+                                    <input type="email" class="form-control @error('guardian_email') is-invalid @enderror" id="guardian_email" name="guardian_email" value="{{ old('guardian_email') }}" required>
+                                    @error('guardian_email')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="father_occupation">Father Occupation <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control @error('father_occupation') is-invalid @enderror" id="father_occupation" name="father_occupation" value="{{ old('father_occupation') }}" required>
                                     @error('father_occupation')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -369,9 +380,6 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="father_photo">Father Photo</label>
@@ -383,10 +391,14 @@
                                     @enderror
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="row">
+
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="mother_name">Mother Name</label>
-                                    <input type="text" class="form-control @error('mother_name') is-invalid @enderror" id="mother_name" name="mother_name" value="{{ old('mother_name') }}">
+                                    <label for="mother_name">Mother Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control @error('mother_name') is-invalid @enderror" id="mother_name" name="mother_name" value="{{ old('mother_name') }}" required>
                                     @error('mother_name')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -396,9 +408,20 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="mother_phone">Mother Phone</label>
+                                    <label for="mother_phone"> Mother Phone </label>
                                     <input type="text" class="form-control @error('mother_phone') is-invalid @enderror" id="mother_phone" name="mother_phone" value="{{ old('mother_phone') }}">
                                     @error('mother_phone')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="mother_occupation">Mother Occupation <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control @error('mother_occupation') is-invalid @enderror" id="mother_occupation" name="mother_occupation" value="{{ old('mother_occupation') }}" required>
+                                    @error('mother_occupation')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -408,17 +431,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="mother_occupation">Mother Occupation</label>
-                                    <input type="text" class="form-control @error('mother_occupation') is-invalid @enderror" id="mother_occupation" name="mother_occupation" value="{{ old('mother_occupation') }}">
-                                    @error('mother_occupation')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
+
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="mother_photo">Mother Photo</label>
@@ -435,8 +448,8 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="guardian_name">Guardian Name <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control @error('guardian_name') is-invalid @enderror" id="guardian_name" name="guardian_name" value="{{ old('guardian_name') }}" required>
+                                    <label for="guardian_name">Guardian Name </label>
+                                    <input type="text" class="form-control @error('guardian_name') is-invalid @enderror" id="guardian_name" name="guardian_name" value="{{ old('guardian_name') }}" >
                                     @error('guardian_name')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -446,8 +459,8 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="guardian_relation">Guardian Relation <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control @error('guardian_relation') is-invalid @enderror" id="guardian_relation" name="guardian_relation" value="{{ old('guardian_relation') }}" required>
+                                    <label for="guardian_relation">Guardian Relation </label>
+                                    <input type="text" class="form-control @error('guardian_relation') is-invalid @enderror" id="guardian_relation" name="guardian_relation" value="{{ old('guardian_relation') }}" >
                                     @error('guardian_relation')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -457,8 +470,8 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="guardian_phone">Guardian Phone <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control @error('guardian_phone') is-invalid @enderror" id="guardian_phone" name="guardian_phone" value="{{ old('guardian_phone') }}" required>
+                                    <label for="guardian_phone">Guardian Phone </label>
+                                    <input type="text" class="form-control @error('guardian_phone') is-invalid @enderror" id="guardian_phone" name="guardian_phone" value="{{ old('guardian_phone') }}">
                                     @error('guardian_phone')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -469,17 +482,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="guardian_email">Guardian Email</label>
-                                    <input type="email" class="form-control @error('guardian_email') is-invalid @enderror" id="guardian_email" name="guardian_email" value="{{ old('guardian_email') }}">
-                                    @error('guardian_email')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
+
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="guardian_occupation">Guardian Occupation</label>
@@ -491,6 +494,7 @@
                                     @enderror
                                 </div>
                             </div>
+
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="guardian_address">Guardian Address</label>
@@ -502,9 +506,6 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="guardian_photo">Guardian Photo</label>
@@ -517,6 +518,7 @@
                                 </div>
                             </div>
                         </div>
+
 
                         <!-- Miscellaneous Details -->
                         <div class="row">
@@ -567,17 +569,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="local_identification_number">Local Identification Number</label>
-                                    <input type="text" class="form-control @error('local_identification_number') is-invalid @enderror" id="local_identification_number" name="local_identification_number" value="{{ old('local_identification_number') }}">
-                                    @error('local_identification_number')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
+
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="rte">RTE</label>
