@@ -118,7 +118,7 @@ Route::middleware(['auth', 'role:superAdmin'])->group(function () {
 
    Route::middleware(['auth','role:SchoolAdmin'])->group(function () {
 
-    Route::get('SchoolAdmin/dashboard', [SchoolController::class, 'dashboard'])->name('schooladmin.dashboard');
+    Route::get('SchoolAdmin/school/dashboard', [SchoolController::class, 'dashboard'])->name('schooladmin.dashboard');
     Route::get('SchoolAdmin/students', [StudentController::class, 'index'])->name('schooladmin.students.index');
 Route::get('SchoolAdmin/students/create', [StudentController::class, 'create'])->name('schooladmin.students.create');
 Route::post('SchoolAdmin/students', [StudentController::class, 'store'])->name('schooladmin.students.store');
