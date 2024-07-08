@@ -45,7 +45,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{ route('schooladmin.parents.index') }}" class="nav-link {{ request()->routeIs('schooladmin.parents.index') ? 'active' : '' }}">
                                 <i class="fas fa-user-tie nav-icon"></i>
                                 <p>Parents</p>
                             </a>

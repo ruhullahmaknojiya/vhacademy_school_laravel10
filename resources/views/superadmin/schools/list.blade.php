@@ -34,7 +34,7 @@
                 <tbody>
                     @foreach ($schools as $school)
                         <tr>
-                            <td>{{ $school->id }}</td>
+                            <td>{{ $loop->iteration }}</td>
                             <td>{{ $school->name }}</td>
                             <td>{{ $school->address }}</td>
                             <td>{{ $school->phone }}</td>
