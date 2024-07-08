@@ -75,7 +75,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link">
+                            <a href="{{ route('schooladmin.feecollection.feepayment.dueFees')}}" class="nav-link {{ request()->routeIs('schooladmin.feecollection.feepayment.dueFees') ? 'active' : '' }}">
                                 <i class="fas fa-search-minus nav-icon"></i>
                                 <p>Search Due Fees</p>
                             </a>
