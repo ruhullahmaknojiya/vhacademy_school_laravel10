@@ -57,6 +57,14 @@
 
                     </ul>
                 </li>
+                <li class="nav-item {{ \Illuminate\Support\Facades\Request::is('superadmin/Events') ? 'active' : '' }}">
+                    <a href="{{route('events')}}" class="nav-link {{ \Illuminate\Support\Facades\Request::is('superadmin/Events') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-calendar-day"></i>
+                        <p>
+                            EVENTS
+                        </p>
+                    </a>
+                </li>
                 <li class="nav-header">Educational Management ( LMS ) </li>
                 <li class="nav-item">
                     <a href="{{ route('superadmin.medium.index') }}" class="nav-link {{ request()->routeIs('superadmin.medium.index') ? 'active' : '' }}">

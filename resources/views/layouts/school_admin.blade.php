@@ -22,7 +22,7 @@
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-
+@include('layouts.school_partials.datatables_css')
     <!-- Additional CSS if needed -->
     @stack('css')
 
@@ -65,6 +65,6 @@
 
 <!-- Additional JS if needed -->
 @stack('js')
-
+@include('layouts.school_partials.datatables_js')
 </body>
 </html>

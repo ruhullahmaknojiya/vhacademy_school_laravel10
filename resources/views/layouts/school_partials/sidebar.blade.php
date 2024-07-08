@@ -20,6 +20,9 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
+                <li class="nav-item {{ \Illuminate\Support\Facades\Request::is('School/SchoolEvents*') ? 'active' : '' }}">
+                    <a class="nav-link {{ \Illuminate\Support\Facades\Request::is('School/SchoolEvents*') ? 'active' : '' }}" href="{{route('school_events')}}"> <i class="fas fa-calendar-day"></i> <p> Events</p></a>
+                </li>
                 <li class="nav-item ">
                     <a href="#" class="nav-link ">
                         <i class="nav-icon fas fa-user"></i>

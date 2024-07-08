@@ -1,7 +1,8 @@
 <?php
 
+use App\Http\Controllers\SuperAdmin\EventController;
 use App\Http\Controllers\SuperAdmin\SubjectController;
-use App\Http\Controllers\ProfileController;
+
 use App\Http\Controllers\SuperAdmin\SubTopicsController;
 use App\Http\Controllers\SuperAdmin\TopicsController;
 use Illuminate\Support\Facades\Route;
@@ -96,6 +97,13 @@ Route::middleware(['auth', 'role:superAdmin'])->group(function () {
     Route::get('/get_subjects/{standardId}', [SubTopicsController::class,'getSubjects'])->name('get_subjects');
     Route::get('/get_topics/{subjectId}', [SubTopicsController::class,'getTopics'])->name('get_topics');
     Route::get('/get_subtopics/{topictId}', [SubTopicsController::class,'getSubTopics'])->name('get_subtopics');
+    //Event modual
+    Route::get('superadmin/Events',[EventController::class,'index'])->name('events');
+    Route::get('superadmin/create-Events',[EventController::class,'create'])->name('create_events');
+    Route::post('superadmin/save-Events',[EventController::class,'store'])->name('save_events');
+    Route::get('superadmin/edit-Events/{id}',[EventController::class,'edit'])->name('edit_events');
+    Route::post('superadmin/update-Events/{id}',[EventController::class,'update'])->name('update_events');
+    Route::delete('superadmin/delete-Events/{id}',[EventController::class,'destroy'])->name('delete_events');
 });
 
    Route::middleware(['auth','role:SchoolAdmin'])->group(function () {
@@ -107,4 +115,12 @@ Route::post('SchoolAdmin/students', [StudentController::class, 'store'])->name('
 Route::get('SchoolAdmin/students/{id}', [StudentController::class, 'show'])->name('schooladmin.students.show');
 // Route::resource('SchoolAdmin/students', 'App\Http\Controllers\School\StudentController');
 
+       //Event modual
+       Route::get('SchoolAdmin/SchoolEvents',[\App\Http\Controllers\School\EventController::class,'index'])->name('school_events');
+       Route::get('SchoolAdmin/create-SchoolEvents',[\App\Http\Controllers\School\EventController::class,'create'])->name('create_schoolevents');
+       Route::post('SchoolAdmin/save-SchoolEvents',[\App\Http\Controllers\School\EventController::class,'store'])->name('save_schoolevents');
+       Route::get('SchoolAdmin/edit-SchoolEvents/{id}',[\App\Http\Controllers\School\EventController::class,'edit'])->name('edit_schoolevents');
+       Route::post('SchoolAdmin/update-SchoolEvents/{id}',[\App\Http\Controllers\School\EventController::class,'update'])->name('update_schoolevents');
+       Route::delete('SchoolAdmin/delete-SchoolEvents/{id}',[\App\Http\Controllers\School\EventController::class,'destroy'])->name('delete_schoolevents');
+//end event
 });
