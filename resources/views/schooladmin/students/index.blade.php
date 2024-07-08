@@ -1,7 +1,9 @@
 @extends('layouts.school_admin')
 
 @section('content')
-<div class="container">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row ">
     <div class="card">
         <div class="card-header">
             <h3>Select Criteria</h3>
@@ -53,7 +55,13 @@
             </form>
         </div>
     </div>
-
+            </div>
+        </div>
+    </section>
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
     <div class="card mt-3">
         {{-- <div class="row">
             <div class="card-header">
@@ -74,8 +82,8 @@
                     <h3 class="card-title">Students Details</h3>
                 </div>
                 <div class="col-md-6 text-right">
-                    <a href="{{ route('schooladmin.students.create') }}" class="btn btn-success" style="background-color: black; color: white;">
-                        <i class="fas fa-plus-circle" style="background-color: black; color: white;"></i> Add Student
+                    <a href="{{ route('schooladmin.students.create') }}" class="btn btn-primary" >
+                        <i class="fas fa-plus-circle" ></i> Add Student
                     </a>
                 </div>
             </div>
@@ -84,7 +92,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="table-responsive">
-                        <table class="table table-bordered">
+                        <table class="table table-bordered" id="mytable">
                             <thead>
                                 <tr>
                                     <th>Admission No</th>
@@ -138,4 +146,25 @@
         </div>
     </div>
 </div>
+        </div>
+    </div>
+                </div>
+            </div>
+            </div>
+            </div>
 @endsection
+@push('js')
+    <script>
+        $(function() {
+            $("#mytable").DataTable({
+                "responsive": true,
+                "lengthChange": true,
+                "autoWidth": true,
+                "responsive": true,
+                order: true,
+                "scrollX": false,
+                "buttons": ["copy", "csv", "excel", "pdf", ]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        });
+    </script>
+@endpush

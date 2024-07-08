@@ -15,10 +15,10 @@
         <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <div class="card card-primary">
-                <div class="card-header" style="background-color: black; color: white;">
-                    <h2 class="card-title" style="font-family: 'Arial', sans-serif;">School Registration Form</h3>
-                    <a href="{{ route('school.list') }}" class="btn btn-secondary float-right" style="background-color:white;color:black">Back</a>
+            <div class="card ">
+                <div class="card-header" >
+                    <h2 class="card-title" style="font-family: 'Arial', sans-serif;">School Registration Form</h2>
+                        <a href="{{ route('school.list') }}" class="btn  float-right"><i class="fa fa-arrow-left"></i></a>
                 </div>
                 <form method="POST" action="{{ route('school.register') }}">
                     @csrf
@@ -80,7 +80,7 @@
                         </div>
                     </div>
                     <div class="card-footer d-flex justify-content-center">
-                        <button type="submit" class="btn btn-primary float-right" style="background-color: black; color: white;width: 250px;">Register School</button>
+                        <button type="submit" class="btn btn-primary float-right" >Register School</button>
                     </div>
                 </form>
             </div>

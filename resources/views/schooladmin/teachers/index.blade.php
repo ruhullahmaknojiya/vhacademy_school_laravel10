@@ -1,23 +1,37 @@
 @extends('layouts.school_admin')
-
+@section('title')
+    Teacher
+@endsection
 @section('content')
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row ">
+                <div class="col-sm-12">
+                    <h1>Teacher List</h1>
+                </div>
+
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+
 <div class="container">
-    <h2 class="mb-4">Teacher List</h2>
+
     <div class="card">
         <div class="card-header">
             <div class="row">
                 <div class="col-md-6">
-                    <h3 class="card-title">Teacher Details</h3>
+                    <h3 class="card-title">Teacher List</h3>
                 </div>
                 <div class="col-md-6 text-right">
-                    <a href="{{ route('schooladmin.teachers.create') }}" class="btn btn-success" style="background-color: black; color: white;">
-                        <i class="fas fa-plus-circle" style="background-color: black; color: white;"></i> Add Teacher
+                    <a href="{{ route('schooladmin.teachers.create') }}" class="btn btn-primary" >
+                        <i class="fas fa-plus-circle" ></i> Add Teacher
                     </a>
                 </div>
             </div>
         </div>
         <div class="card-body">
-            <table class="table table-bordered table-hover">
+            <table class="table table-bordered table-hover" id="mytables">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -67,3 +81,20 @@
     </div>
 </div>
 @endsection
+@push('js')
+    <script>
+        $(function () {
+            $("#mytables").DataTable({
+                "responsive": true, "lengthChange": true, "autoWidth": true,
+                "responsive": true,
+                order: true,
+                "scrollX": false,
+                "buttons": ["copy", "csv", "excel", "pdf",]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        });
+
+
+    </script>
+
+
+@endpush

@@ -1,10 +1,19 @@
 @extends('layouts.superadmin')
 
 @section('content')
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Schools List</h1>
+                </div>
 
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
 <section class="content">
     <div class="container-fluid">
-    <h2 class="mb-4">Schools List</h2>
+
     <div class="card">
         <div class="card-header">
             <div class="row">
@@ -12,14 +21,14 @@
                     <h3 class="card-title">School Details</h3>
                 </div>
                 <div class="col-md-6 text-right">
-                    <a href="{{ route('school.register.form') }}" class="btn btn-success" style="background-color: black; color: white;">
-                        <i class="fas fa-plus-circle" style="background-color: black; color: white;"></i> Add School
+                    <a href="{{ route('school.register.form') }}" class="btn btn-primary" >
+                        <i class="fas fa-plus-circle" ></i> Add School
                     </a>
                 </div>
             </div>
         </div>
         <div class="card-body">
-            <table class="table table-bordered table-hover">
+            <table class="table table-bordered table-hover" id="mytables">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -44,10 +53,10 @@
                                 <a href="{{ route('schools.show', $school->id) }}" class="btn btn-info btn-sm mr-1">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                                <a href="{{ route('schools.edit', $school->id) }}" class="btn btn-primary btn-sm mr-1">
+                                <a href="javascript:void(0);" class="btn btn-primary btn-sm mr-1">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <form action="{{ route('schools.disable', $school->id) }}" method="POST" style="display:inline;">
+                                <form action="javascript:void(0);" method="POST" style="display:inline;">
                                     @csrf
                                     @method('PATCH')
                                     <button type="submit" class="btn btn-warning btn-sm">
@@ -67,3 +76,20 @@
     </div>
 </section>
 @endsection
+@push('js')
+    <script>
+        $(function () {
+            $("#mytables").DataTable({
+                "responsive": true, "lengthChange": true, "autoWidth": true,
+                "responsive": true,
+                order: true,
+                "scrollX": false,
+                "buttons": ["copy", "csv", "excel", "pdf",]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        });
+
+
+    </script>
+
+
+@endpush

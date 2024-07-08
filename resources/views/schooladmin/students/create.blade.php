@@ -2,7 +2,16 @@
 
 
 @section('content')
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row ">
+                <div class="col-sm-12">
+                    <h1>Student Admission</h1>
+                </div>
 
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
     {{-- <form action="{{ route('schooladmin.students.store') }}" method="POST" enctype="multipart/form-data"> --}}
         {{-- @csrf --}}
         <!-- Student Details -->

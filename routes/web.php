@@ -1,6 +1,10 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SuperAdmin\EventController;
+use App\Http\Controllers\SuperAdmin\SubjectController;
+use App\Http\Controllers\SuperAdmin\SubTopicsController;
+use App\Http\Controllers\SuperAdmin\TopicsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\SchoolController;
@@ -69,6 +73,46 @@ Route::middleware(['auth', 'role:superAdmin'])->group(function () {
    Route::put('superadmin/class/{id}', [EducationalController::class, 'updateClass'])->name('superadmin.class.update');
    Route::delete('superadmin/class/{id}', [EducationalController::class, 'destroyClass'])->name('superadmin.class.destroy');
 
+    //School_subject modual
+    Route::get('superadmin/Subject',[SubjectController::class,'index'])->name('Subject');
+    Route::get('superadmin/create-Subject',[SubjectController::class,'create'])->name('create_Subject');
+    Route::post('superadmin/save-Subject',[SubjectController::class,'store'])->name('save_Subject');
+    Route::get('superadmin/edit-Subject/{id}',[SubjectController::class,'edit'])->name('edit_Subject');
+    Route::post('superadmin/update-Subject/{id}',[SubjectController::class,'update'])->name('update_Subject');
+    Route::delete('superadmin/delete-Subject/{id}',[SubjectController::class,'destroy'])->name('delete_Subject');
+    Route::get('/get-standards/{mediumId}', [SubjectController::class,'getStandards'])->name('getstandard');
+
+    //School_Topics modual
+    Route::get('superadmin/Chapter',[TopicsController::class,'index'])->name('topics');
+    Route::get('superadmin/create-Chapter',[TopicsController::class,'create'])->name('create_topic');
+    Route::post('superadmin/save-Chapter',[TopicsController::class,'store'])->name('save_topic');
+    Route::get('superadmin/edit-Chapter/{id}',[TopicsController::class,'edit'])->name('edit_topic');
+    Route::post('superadmin/update-Chapter/{id}',[TopicsController::class,'update'])->name('update_topic');
+    Route::delete('superadmin/delete-Chapter/{id}',[TopicsController::class,'destroy'])->name('delete_topic');
+    Route::get('/getstandards/{mediumId}', [TopicsController::class,'getStandards'])->name('get-standards');
+    Route::get('/get-subjects/{standardId}', [TopicsController::class,'getSubjects'])->name('get-subjects');
+
+
+//School_SubTopics modual
+    Route::get('superadmin/SubTopics',[SubTopicsController::class,'index'])->name('subtopics')->middleware('auth');
+    Route::get('superadmin/create-SubTopics',[SubTopicsController::class,'create'])->name('create_subtopics')->middleware('auth');
+    Route::post('superadmin/save-SubTopics',[SubTopicsController::class,'store'])->name('save_subtopics')->middleware('auth');
+    Route::get('superadmin/edit-SubTopics/{id}',[SubTopicsController::class,'edit'])->name('edit_subtopics')->middleware('auth');
+    Route::post('superadmin/update-SubTopics/{id}',[SubTopicsController::class,'update'])->name('update_subtopics')->middleware('auth');
+    Route::delete('superadmin/delete-SubTopics/{id}',[SubTopicsController::class,'destroy'])->name('delete_subtopics')->middleware('auth');
+    Route::get('/get_standards/{mediumId}', [SubTopicsController::class,'getStandards'])->name('get_standards');
+    Route::get('/get_subjects/{standardId}', [SubTopicsController::class,'getSubjects'])->name('get_subjects');
+    Route::get('/get_topics/{subjectId}', [SubTopicsController::class,'getTopics'])->name('get_topics');
+    Route::get('/get_subtopics/{topictId}', [SubTopicsController::class,'getSubTopics'])->name('get_subtopics');
+
+
+    //Event modual
+    Route::get('superadmin/Events',[EventController::class,'index'])->name('events');
+    Route::get('superadmin/create-Events',[EventController::class,'create'])->name('create_events');
+    Route::post('superadmin/save-Events',[EventController::class,'store'])->name('save_events');
+    Route::get('superadmin/edit-Events/{id}',[EventController::class,'edit'])->name('edit_events');
+    Route::post('superadmin/update-Events/{id}',[EventController::class,'update'])->name('update_events');
+    Route::delete('superadmin/delete-Events/{id}',[EventController::class,'destroy'])->name('delete_events');
 
 });
 
@@ -89,6 +133,16 @@ Route::get('SchoolAdmin/teachers', [TeacherController::class, 'index'])->name('s
 Route::get('SchoolAdmin/teachers/create', [TeacherController::class, 'create'])->name('schooladmin.teachers.create');
 Route::post('SchoolAdmin/teachers', [TeacherController::class, 'store'])->name('schooladmin.teachers.store');
 Route::post('SchoolAdmin/teachers/{id}', [TeacherController::class, 'show'])->name('schooladmin.teachers.show');
+
+
+       //Event modual
+       Route::get('SchoolAdmin/SchoolEvents',[\App\Http\Controllers\School\EventController::class,'index'])->name('school_events');
+       Route::get('SchoolAdmin/create-SchoolEvents',[\App\Http\Controllers\School\EventController::class,'create'])->name('create_schoolevents');
+       Route::post('SchoolAdmin/save-SchoolEvents',[\App\Http\Controllers\School\EventController::class,'store'])->name('save_schoolevents');
+       Route::get('SchoolAdmin/edit-SchoolEvents/{id}',[\App\Http\Controllers\School\EventController::class,'edit'])->name('edit_schoolevents');
+       Route::post('SchoolAdmin/update-SchoolEvents/{id}',[\App\Http\Controllers\School\EventController::class,'update'])->name('update_schoolevents');
+       Route::delete('SchoolAdmin/delete-SchoolEvents/{id}',[\App\Http\Controllers\School\EventController::class,'destroy'])->name('delete_schoolevents');
+//end event
 
 //Fee Collection Route
 // Fee Type

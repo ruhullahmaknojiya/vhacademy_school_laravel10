@@ -20,6 +20,9 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
+                <li class="nav-item {{ \Illuminate\Support\Facades\Request::is('SchoolAdmin/SchoolEvents*') ? 'active' : '' }}">
+                    <a class="nav-link {{ \Illuminate\Support\Facades\Request::is('SchoolAdmin/SchoolEvents*') ? 'active' : '' }}" href="{{route('school_events')}}"> <i class="fas fa-calendar-day"></i> <p> Events</p></a>
+                </li>
                 <li class="nav-item ">
                     <a href="#" class="nav-link ">
                         <i class="nav-icon fas fa-user"></i>
@@ -62,7 +65,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('schooladmin.feecollection.feepayment.create')}}" class="nav-link {{ request()->routeIs('schooladmin.feecollection.feesassign.create') ? 'active' : '' }}">
+                            <a href="{{ route('schooladmin.feecollection.feepayment.index')}}" class="nav-link {{ request()->routeIs('schooladmin.feecollection.feepayment.index') ? 'active' : '' }}">
                                 <i class="fas fa-hand-holding-usd nav-icon"></i>
                                 <p>Collect Fees</p>
                             </a>
