@@ -22,11 +22,11 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-body">
-                    <form method="post" action="{{route('save_events')}}" enctype="multipart/form-data">
+                    <form method="post" action="{{route('superadmin.events.store')}}" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-12 mb-4">
-                                <h5 class="form-title"><b>Create Event Information</b><a class="float-right" href="{{route('events')}}"><i class="fa fa-arrow-left " style="color:blue;"></i></a></h5>
+                                <h5 class="form-title"><b>Create Event Information</b><a class="float-right" href="{{route('superadmin.events.index')}}"><i class="fa fa-arrow-left " style="color:blue;"></i></a></h5>
                             </div>
 
 
