@@ -96,7 +96,7 @@
         <tbody>
             @foreach ($feePayments as $feePayment)
                 <tr>
-                    <td>LKG ({{ $feePayment->student->medium->medium_name }}) {{ $feePayment->student->class->class_name }}</td>
+                    <td>LKG ({{ $feePayment->student->medium ?? $feePayment->student->medium->medium_name }}) {{ $feePayment->student->class->class_name }}</td>
                     <td>{{ $feePayment->student->admission_no }}</td>
                     <td>{{ $feePayment->student->first_name }} {{ $feePayment->student->last_name }}</td>
                     <td>{{ $feePayment->feeAssignment->feesMaster->feeType->name }}</td>

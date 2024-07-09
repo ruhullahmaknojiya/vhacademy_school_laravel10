@@ -11,7 +11,7 @@
                 <select name="medium_id" id="medium_id" class="form-control">
                     <option value="">Select Medium</option>
                     @foreach($mediums as $medium)
-                        <option value="{{ $medium->id }}">{{ $medium->name }}</option>
+                        <option value="{{ $medium->id }}">{{ $medium->medium_name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -20,7 +20,7 @@
                 <select name="standard_id" id="standard_id" class="form-control">
                     <option value="">Select Standard</option>
                     @foreach($standards as $standard)
-                        <option value="{{ $standard->id }}">{{ $standard->name }}</option>
+                        <option value="{{ $standard->id }}">{{ $standard->standard_name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -29,7 +29,7 @@
                 <select name="class_id" id="class_id" class="form-control">
                     <option value="">Select Class</option>
                     @foreach($classes as $class)
-                        <option value="{{ $class->id }}">{{ $class->name }}</option>
+                        <option value="{{ $class->id }}">{{ $class->class_name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -43,22 +43,31 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Student ID</th>
-                <th>Name</th>
+                <th>No</th>
+                <th>Admission No.</th>
+                <th>Student UID</th>
+                <th>Student Name</th>
                 <th>Medium</th>
                 <th>Standard</th>
-                <th>Class</th>
+                <th>Father Name</th>
+                <th>Father Mobile</th>
+                <th>Due Date</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             @foreach($students as $student)
                 <tr>
-                    <td>{{ $student->id }}</td>
-                    <td>{{ $student->first_name }}</td>
-                    <td>{{ $student->medium->name }}</td>
-                    {{-- <td>{{ $student->standard->name }}</td> --}}
-                    <td>{{ $student->class->name }}</td>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $student->admission_no }}</td>
+                    <td>{{ $student->uid }}</td>
+                    <td>{{ $student->first_name }} {{ $student->last_name }}</td>
+                    <td>{{ $student->medium->medium_name }}</td>
+                    <td>{{ $student->standard->standard_name }} ( {{ $student->class->class_name }} )</td>
+                    <td>{{ $student->parent->father_name }}</td>
+                    <td>{{ $student->parent->father_phone }}</td>
+                    <td>{{ optional(optional($student->feeAssignment)->feesMaster)->due_date ?? 'N/A' }}</td>
+
                     <td>
                         <a href="" class="btn btn-primary">Collect Fee</a>
                     </td>

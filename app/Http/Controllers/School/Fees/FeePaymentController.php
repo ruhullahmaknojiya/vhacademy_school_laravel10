@@ -26,37 +26,53 @@ class FeePaymentController extends Controller
         $feeGroups = FeeGroup::all();
         $feesMasters = FeesMaster::all();
 
-        $feePayments = FeePayment::with('student', 'feeAssignment.feesMaster.feeType');
-
-        if ($request->filled('medium_id')) {
-            $feePayments = $feePayments->whereHas('student', function($query) use ($request) {
+        $feePayments = Student::with('feePayments')
+        ->where(function ($query) use ($request) {
+            if ($request->medium_id) {
                 $query->where('medium_id', $request->medium_id);
-            });
-        }
+            }
+            if ($request->standard_id) {
+                $query->where('class_id', $request->standard_id);
+            }
+            if ($request->class_id) {
+                $query->where('section_id', $request->class_id);
+            }
+        })
+        // ->whereDoesntHave('feePayments', function ($query) {
+        //     $query->where('status', 'paid');
+        // })
+        ->get();
+        // $feePayments = FeePayment::with('student', 'feeAssignment.feesMaster.feeType');
 
-        if ($request->filled('standard_id')) {
-            $feePayments = $feePayments->whereHas('student', function($query) use ($request) {
-                $query->where('standard_id', $request->standard_id);
-            });
-        }
+        // if ($request->filled('medium_id')) {
+        //     $feePayments = $feePayments->whereHas('student', function($query) use ($request) {
+        //         $query->where('medium_id', $request->medium_id);
+        //     });
+        // }
 
-        if ($request->filled('section_id')) {
-            $feePayments = $feePayments->whereHas('student', function($query) use ($request) {
-                $query->where('class_id', $request->section_id);
-            });
-        }
+        // if ($request->filled('standard_id')) {
+        //     $feePayments = $feePayments->whereHas('student', function($query) use ($request) {
+        //         $query->where('class_id', $request->standard_id);
+        //     });
+        // }
 
-        if ($request->filled('fee_group_id')) {
-            $feePayments = $feePayments->whereHas('feeAssignment', function($query) use ($request) {
-                $query->where('fee_group_id', $request->fee_group_id);
-            });
-        }
+        // if ($request->filled('section_id')) {
+        //     $feePayments = $feePayments->whereHas('student', function($query) use ($request) {
+        //         $query->where('section_id', $request->section_id);
+        //     });
+        // }
 
-        if ($request->filled('fees_master_id')) {
-            $feePayments = $feePayments->where('fee_assignment_id', $request->fees_master_id);
-        }
+        // if ($request->filled('fee_group_id')) {
+        //     $feePayments = $feePayments->whereHas('feeAssignment', function($query) use ($request) {
+        //         $query->where('fee_group_id', $request->fee_group_id);
+        //     });
+        // }
 
-        $feePayments = $feePayments->get();
+        // if ($request->filled('fees_master_id')) {
+        //     $feePayments = $feePayments->where('fee_assignment_id', $request->fees_master_id);
+        // }
+
+        // $feePayments = $feePayments->get();
 
         return view('schooladmin.feecollection.feepayment.index', compact('feePayments', 'mediums', 'standards', 'sections', 'feeGroups', 'feesMasters'));
     }
@@ -74,17 +90,17 @@ class FeePaymentController extends Controller
                     $query->where('medium_id', $request->medium_id);
                 }
                 if ($request->standard_id) {
-                    $query->where('standard_id', $request->standard_id);
+                    $query->where('class_id', $request->standard_id);
                 }
                 if ($request->class_id) {
-                    $query->where('class_id', $request->class_id);
+                    $query->where('section_id', $request->class_id);
                 }
             })
             ->whereDoesntHave('feePayments', function ($query) {
                 $query->where('status', 'paid');
             })
             ->get();
-
+            // dd($students);
         return view('schooladmin.feecollection.feepayment.due', compact('students', 'mediums', 'standards', 'classes', 'feeGroups'));
  }
 
