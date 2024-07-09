@@ -14,6 +14,7 @@ class EventController extends Controller
     {
         //
 
+        // $events = Event::where('school_id',null)->get();
         $events = Event::where('school_id',null)->get();
         return view('superadmin.events.index',compact('events'));
     }

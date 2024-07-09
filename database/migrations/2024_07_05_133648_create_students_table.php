@@ -37,7 +37,6 @@ class CreateStudentsTable extends Migration
             $table->string('current_address')->nullable();
             $table->string('permanent_address')->nullable();
             $table->timestamps();
-
             // Foreign keys
             $table->foreign('medium_id')->references('id')->on('mediums')->onDelete('cascade');
             $table->foreign('class_id')->references('id')->on('standards')->onDelete('cascade');

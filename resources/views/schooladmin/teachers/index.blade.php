@@ -31,7 +31,7 @@
             </div>
         </div>
         <div class="card-body">
-            <table class="table table-bordered table-hover" id="mytables">
+            <table class="table table-bordered table-striped" id="teacherTable">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -82,19 +82,19 @@
 </div>
 @endsection
 @push('js')
-    <script>
-        $(function () {
-            $("#mytables").DataTable({
-                "responsive": true, "lengthChange": true, "autoWidth": true,
-                "responsive": true,
-                order: true,
-                "scrollX": false,
-                "buttons": ["copy", "csv", "excel", "pdf",]
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-        });
-
-
-    </script>
+<script>
+    $(function() {
+        $("#teacherTable").DataTable({
+            "responsive": true,
+            "lengthChange": true,
+            "autoWidth": true,
+            "responsive": true,
+            order: true,
+            "scrollX": false,
+            "buttons": ["copy", "csv", "excel", "pdf", ]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    });
+</script>
 
 
 @endpush

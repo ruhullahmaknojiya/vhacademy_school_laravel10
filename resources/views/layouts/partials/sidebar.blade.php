@@ -20,14 +20,6 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
-                <li class="nav-item {{ \Illuminate\Support\Facades\Request::is('superadmin/Events') ? 'active' : '' }}">
-                    <a href="{{route('events')}}" class="nav-link {{ \Illuminate\Support\Facades\Request::is('superadmin/Events') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-calendar-day"></i>
-                        <p>
-                            EVENTS
-                        </p>
-                    </a>
-                </li>
                 <li class="nav-item ">
                     <a href="#" class="nav-link ">
                         <i class="nav-icon fas fa-user"></i>
@@ -65,7 +57,20 @@
 
                     </ul>
                 </li>
-                <li class="nav-header">Educational Management ( LMS ) </li>
+                <li class="nav-header">ACADEMIC MANAGEMENT</li>
+                <li class="nav-item">
+                    <a href="{{ route('superadmin.events.index') }}" class="nav-link {{ request()->routeIs('superadmin.events.index') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-calendar-day"></i>
+                        <p>Events</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="" class="nav-link ">
+                        <i class="nav-icon fas fa-umbrella-beach"></i>
+                        <p>Holiday</p>
+                    </a>
+                </li>
+                <li class="nav-header">EDUCATIONAL MANAGEMENT ( LMS ) </li>
                 <li class="nav-item">
                     <a href="{{ route('superadmin.medium.index') }}" class="nav-link {{ request()->routeIs('superadmin.medium.index') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-language"></i>

@@ -17,7 +17,7 @@
             </div>
         </div>
         <div class="card-body">
-            <table class="table table-bordered table-hover">
+            <table class="table table-bordered table-striped" id="parentsTable">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -60,3 +60,19 @@
     </div>
 </div>
 @endsection
+@push('js')
+
+<script>
+    $(function() {
+        $("#parentsTable").DataTable({
+            "responsive": true,
+            "lengthChange": true,
+            "autoWidth": true,
+            "responsive": true,
+            order: true,
+            "scrollX": false,
+            "buttons": ["copy", "csv", "excel", "pdf", ]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    });
+</script>
+@endpush

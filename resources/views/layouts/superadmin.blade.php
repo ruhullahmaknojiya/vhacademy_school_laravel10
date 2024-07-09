@@ -17,6 +17,7 @@
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    @include('layouts.school_partials.datatables_css')
 
     <!-- Additional CSS if needed -->
     @stack('css')
@@ -54,6 +55,7 @@
 <!-- Additional AdminLTE Plugins JS -->
 <script src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script> <!-- Chart.js -->
 <script src="{{ asset('vendor/fullcalendar/main.min.js') }}"></script> <!-- FullCalendar -->
+@include('layouts.school_partials.datatables_js')
 
 <!-- Additional JS if needed -->
 @stack('js')

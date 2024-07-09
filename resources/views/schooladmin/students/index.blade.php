@@ -63,19 +63,6 @@
             <div class="row">
                 <div class="col-sm-12">
     <div class="card mt-3">
-        {{-- <div class="row">
-            <div class="card-header">
-            <div class="col-md-6">
-               <h3>Students List</h3>
-             </div>
-
-            <div class="col-md-6 text-right">
-                <a href="{{ route('schooladmin.students.create') }}" class="btn btn-success" style="background-color: black; color: white;">
-                    <i class="fas fa-plus-circle" style="background-color: black; color: white;"></i> Add Student
-                </a>
-            </div>
-            </div>
-        </div> --}}
         <div class="card-header">
             <div class="row">
                 <div class="col-md-6">
@@ -92,7 +79,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="mytable">
+                        <table class="table table-bordered table-striped" id="studentTable">
                             <thead>
                                 <tr>
                                     <th>Admission No</th>
@@ -154,9 +141,10 @@
             </div>
 @endsection
 @push('js')
+
     <script>
         $(function() {
-            $("#mytable").DataTable({
+            $("#studentTable").DataTable({
                 "responsive": true,
                 "lengthChange": true,
                 "autoWidth": true,

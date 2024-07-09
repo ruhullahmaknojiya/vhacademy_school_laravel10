@@ -36,13 +36,13 @@ class FeePaymentController extends Controller
 
         if ($request->filled('standard_id')) {
             $feePayments = $feePayments->whereHas('student', function($query) use ($request) {
-                $query->where('class_id', $request->standard_id);
+                $query->where('standard_id', $request->standard_id);
             });
         }
 
         if ($request->filled('section_id')) {
             $feePayments = $feePayments->whereHas('student', function($query) use ($request) {
-                $query->where('section_id', $request->section_id);
+                $query->where('class_id', $request->section_id);
             });
         }
 

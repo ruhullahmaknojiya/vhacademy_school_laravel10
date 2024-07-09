@@ -30,8 +30,8 @@
 
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-striped table-bordered" id="mytables">
-                                    <thead >
+                                <table class="table table-bordered table-striped" id="eventTable">
+                                <thead class="">
                                     <tr>
 
                                         <th>No</th>
@@ -85,7 +85,9 @@
 
                                     </tbody>
                                 </table>
+
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -97,7 +99,7 @@
 @push('js')
     <script>
         $(function () {
-            $("#mytables").DataTable({
+            $("#eventTable").DataTable({
                 "responsive": true, "lengthChange": true, "autoWidth": true,
                 "responsive": true,
                 order: true,
@@ -108,6 +110,4 @@
 
 
     </script>
-
-
 @endpush

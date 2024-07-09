@@ -15,8 +15,8 @@
         </div><!-- /.container-fluid -->
     </section>
 
-    <div class="content">
-        <div class="container-fluid">
+<div class="content">
+  <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12">
             <div class="card card-table">
@@ -38,7 +38,7 @@
 
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-striped table-bordered" id="mytable">
+                            <table class="table table-bordered table-striped" id="eventTable">
                             <thead class="">
                             <tr>
 
@@ -105,22 +105,22 @@
     </div>
     </div>
     </div>
-    </div>
+
 @endsection
 @push('js')
-    <script>
-        $(function() {
-            $("#mytable").DataTable({
-                "responsive": true,
-                "lengthChange": true,
-                "autoWidth": true,
-                "responsive": true,
-                order: true,
-                "scrollX": false,
-                "buttons": ["copy", "csv", "excel", "pdf", ]
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-        });
-    </script>
+<script>
+    $(function() {
+        $("#eventTable").DataTable({
+            "responsive": true,
+            "lengthChange": true,
+            "autoWidth": true,
+            "responsive": true,
+            order: true,
+            "scrollX": false,
+            "buttons": ["copy", "csv", "excel", "pdf", ]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    });
+</script>
 
 
 @endpush

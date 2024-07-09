@@ -107,7 +107,7 @@ Route::middleware(['auth', 'role:superAdmin'])->group(function () {
 
 
     //Event modual
-    Route::get('superadmin/Events',[EventController::class,'index'])->name('events');
+    Route::get('superadmin/Events',[EventController::class,'index'])->name('superadmin.events.index');
     Route::get('superadmin/create-Events',[EventController::class,'create'])->name('create_events');
     Route::post('superadmin/save-Events',[EventController::class,'store'])->name('save_events');
     Route::get('superadmin/edit-Events/{id}',[EventController::class,'edit'])->name('edit_events');
@@ -136,7 +136,7 @@ Route::post('SchoolAdmin/teachers/{id}', [TeacherController::class, 'show'])->na
 
 
        //Event modual
-       Route::get('SchoolAdmin/SchoolEvents',[\App\Http\Controllers\School\EventController::class,'index'])->name('school_events');
+       Route::get('SchoolAdmin/SchoolEvents',[\App\Http\Controllers\School\EventController::class,'index'])->name('schooladmin.events.index');
        Route::get('SchoolAdmin/create-SchoolEvents',[\App\Http\Controllers\School\EventController::class,'create'])->name('create_schoolevents');
        Route::post('SchoolAdmin/save-SchoolEvents',[\App\Http\Controllers\School\EventController::class,'store'])->name('save_schoolevents');
        Route::get('SchoolAdmin/edit-SchoolEvents/{id}',[\App\Http\Controllers\School\EventController::class,'edit'])->name('edit_schoolevents');

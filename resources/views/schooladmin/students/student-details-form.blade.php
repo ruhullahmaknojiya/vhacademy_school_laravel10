@@ -7,7 +7,11 @@
                     <form action="{{ route('schooladmin.students.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
-
+                        @if ($message = Session::get('success'))
+                        <div>
+                            <strong>{{ $message }}</strong>
+                        </div>
+                        @endif
                         <!-- Show validation errors -->
                         <!-- Show validation errors -->
                         @if ($errors->any())
@@ -18,7 +22,7 @@
                                 @endforeach
                             </ul>
                         </div>
-                    @endif
+                           @endif
                             <div class="row">
                                 <div class="col-12">
                                     <h5 class="form-title"><span></span><a href="{{route('schooladmin.students.index')}}"><i class="fas fa-arrow-left" style="float: right;"></i></a></h5>

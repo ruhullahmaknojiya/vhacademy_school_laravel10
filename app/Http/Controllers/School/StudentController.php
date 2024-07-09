@@ -45,15 +45,15 @@ class StudentController extends Controller
     public function store(Request $request)
     {
         try {
-
+            // dd($request->all());
             $validatedData = Validator::make($request->all(),[
                 // Student details
-                'admission_no' => 'required|unique:students|max:255',
+                'admission_no' => 'required|unique:students,admission_no|max:255',
                 'roll_number' => 'required|numeric',
+                'first_name' => 'required|max:255',
                 'medium_id' => 'required|exists:mediums,id',
                 'class_id' => 'required|exists:standards,id',
                 'section_id' => 'required|exists:classes,id',
-                'first_name' => 'required|max:255',
                 'last_name' => 'required|max:255',
                 'gender' => 'required',
                 'date_of_birth' => 'required|date',
@@ -75,11 +75,6 @@ class StudentController extends Controller
                 'bank_account_number' => 'nullable|max:20',
                 'bank_name' => 'nullable|max:255',
                 'ifsc_code' => 'nullable|max:11',
-                'national_identification_number' => 'nullable|max:20',
-                'local_identification_number' => 'nullable|max:20',
-                'rte' => 'nullable|boolean',
-                'previous_school_details' => 'nullable|max:1000',
-                'note' => 'nullable|max:1000',
                 'father_name' => 'required|max:255',
                 'father_phone' => 'required|numeric',
                 'father_occupation' => 'required|max:255',
@@ -140,11 +135,6 @@ class StudentController extends Controller
                 'bank_account_number.max' => 'The bank account number must not exceed 20 characters.',
                 'bank_name.max' => 'The bank name must not exceed 255 characters.',
                 'ifsc_code.max' => 'The IFSC code must not exceed 11 characters.',
-                'national_identification_number.max' => 'The national identification number must not exceed 20 characters.',
-                'local_identification_number.max' => 'The local identification number must not exceed 20 characters.',
-                'rte.boolean' => 'The RTE field must be true or false.',
-                'previous_school_details.max' => 'The previous school details must not exceed 1000 characters.',
-                'note.max' => 'The note must not exceed 1000 characters.',
                 'father_name.max' => 'The father name must not exceed 255 characters.',
                 'father_phone.numeric' => 'The father phone must be a number.',
                 'father_occupation.max' => 'The father occupation must not exceed 255 characters.',
@@ -178,12 +168,17 @@ class StudentController extends Controller
                 'documents.*.file.mimes' => 'The document file must be a file of type: pdf, jpeg, png, jpg, gif.',
                 'documents.*.file.max' => 'The document file must not exceed 2048 KB.',
             ]);
+            Log::error('Validation Errors:', $errors);
+
+            Log::info('Request Data:', $request->all());
 
             if ($validator->fails()) {
+                Log::error('Validation Errors:', $validator->errors()->toArray());
                 return redirect()->back()->withErrors($validator)->withInput();
             }
 
 
+            Log::info('Problem is', [$validator->fails]);
         if ($request->hasFile('student_photo')) {
             $studentPhotoName = time().'.'.$request->student_photo->extension();
             $request->student_photo->move(public_path('images/students'), $studentPhotoName);
@@ -191,17 +186,21 @@ class StudentController extends Controller
         }
         // dd(Auth::user()->id);
         $school = School::where('user_id', Auth::user()->id)->first();
+        Log::info('Validation Data', [$school]);
 
         // $school = Auth::user()->school;
         $validatedData['school_id'] = $school->id;
 
+        Log::info('Validation Data', [$validatedData['school_id']]);
 
         $validatedData['uid'] = strtoupper(substr($school->name, 0, 3)) . $validatedData['admission_no'] . date('Ymd', strtotime($validatedData['date_of_birth']));
 
+        Log::info('Validation Data', [$validatedData['uid']]);
 
-        Log::info('StudentController@store: UID and school_id set', ['uid' => $validatedData['uid'], 'school_id' => $school->id]);
-
-        $student = Student::create($validatedData);
+// Proceed with storing data if validation passes
+        $student = new Student($validatedData);
+        $student->save();
+        // $student = Student::create($validatedData);
         Log::info('StudentController@store: Student record created', ['student' => $student]);
 
          // Fetch role IDs
@@ -218,8 +217,6 @@ class StudentController extends Controller
             'password' => $studentPassword,
             'role_id' => $studentRole->id,
             'fcm_token' => null,
-            'userable_id' => $student->id,
-            'userable_type' => 'App\Models\Student'
         ]);
 
 
@@ -256,8 +253,6 @@ class StudentController extends Controller
               'password' => $parentPassword,
               'role_id' => $parentRole->id,
               'fcm_token' => $request->fcm_token,
-               'userable_id' => $parentDetail->id,
-               'userable_type' => 'App\Models\ParentModel'
           ]);
 
         if ($request->has('documents')) {

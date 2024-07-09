@@ -20,9 +20,7 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
-                <li class="nav-item {{ \Illuminate\Support\Facades\Request::is('SchoolAdmin/SchoolEvents*') ? 'active' : '' }}">
-                    <a class="nav-link {{ \Illuminate\Support\Facades\Request::is('SchoolAdmin/SchoolEvents*') ? 'active' : '' }}" href="{{route('school_events')}}"> <i class="fas fa-calendar-day"></i> <p> Events</p></a>
-                </li>
+
                 <li class="nav-item ">
                     <a href="#" class="nav-link ">
                         <i class="nav-icon fas fa-user"></i>
@@ -127,9 +125,15 @@
                         </li> --}}
                     </ul>
                 </li>
-                <!-- Fees Management Menu -->
+                <!-- Accedmic Management Menu -->
                 <li class="nav-header">ACADEMIC MANAGEMENT</li>
                 <li class="nav-item">
+                    <li class="nav-item">
+                        <a href="{{ route('schooladmin.events.index') }}" class="nav-link {{ request()->routeIs('schooladmin.events.index') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-calendar-day"></i>
+                            <p>Events</p>
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a href="" class="nav-link">
                             <i class="fas fa-calendar-alt nav-icon"></i>
@@ -150,7 +154,7 @@
                     </li>
                     <li class="nav-item">
                         <a href="" class="nav-link">
-                            <i class="fas fa-arrow-up nav-icon"></i>
+                            <i class="fas fa-user-graduate nav-icon"></i>
                             <p>Promote Students</p>
                         </a>
                     </li>
