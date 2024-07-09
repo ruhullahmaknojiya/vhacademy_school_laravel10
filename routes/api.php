@@ -98,14 +98,14 @@ Route::middleware('auth:api')->group(function () {
 
 
 
-//Route::middleware('auth:api')->group(function () {
-//    Route::get('/timetable_data', [TimetableController::class, 'getTimetable']);
-//    Route::post('/homework_insert', [TeacherController::class, 'store']);
-//    Route::post('/homework_submition/{id}', [TeacherController::class, 'updatehomeworkstatus']);
-//    Route::get('/homeworkdata', [TeacherController::class, 'gethomeworkdata']);
-//    Route::get('/filter_student_data', [TeacherController::class, 'getFilteredStudentData']);
-//    Route::post('/check_attendance', [TeacherController::class, 'check_attendance']);
-//    Route::post('/store_attendance', [TeacherController::class, 'store_attendance']);
-//
-//
-//});
+Route::middleware('auth:api')->group(function () {
+    Route::get('/timetable_data', [TimetableController::class, 'getTimetable']);
+    Route::post('/homework_insert', [TeacherController::class, 'store']);
+    Route::post('/homework_submition/{id}', [TeacherController::class, 'updatehomeworkstatus']);
+    Route::get('/homeworkdata', [TeacherController::class, 'gethomeworkdata']);
+    Route::get('/filter_student_data', [TeacherController::class, 'getFilteredStudentData']);
+    Route::post('/check_attendance', [TeacherController::class, 'check_attendance']);
+    Route::post('/store_attendance', [TeacherController::class, 'store_attendance']);
+
+
+});

@@ -147,7 +147,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="" class="nav-link">
+                        <a href="{{route('teacher.timetable.index')}}" class="nav-link {{ request()->routeIs('teacher.timetable.index') ? 'active' : '' }}">
                             <i class="fas fa-chalkboard nav-icon"></i>
                             <p>Teacher Timetable</p>
                         </a>
