@@ -17,6 +17,7 @@ class CreateTeachersTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('staff_id')->unique();
+            $table->unsignedBigInteger('school_id');
             $table->string('designation');
             $table->string('department');
             $table->string('first_name');
@@ -55,6 +56,8 @@ class CreateTeachersTable extends Migration
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('school_id')->references('id')->on('schools'); // Added foreign key constraint for school_id
+
         });
     }
 

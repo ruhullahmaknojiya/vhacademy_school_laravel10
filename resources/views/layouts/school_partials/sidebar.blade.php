@@ -135,13 +135,13 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('schooladmin.events.index') }}" class="nav-link {{ request()->routeIs('schooladmin.events.index') ? 'active' : '' }}">
+                        <a href="" class="nav-link ">
                             <i class="nav-icon fas fa-calendar-day"></i>
                             <p>Home Work</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('schooladmin.events.index') }}" class="nav-link {{ request()->routeIs('schooladmin.events.index') ? 'active' : '' }}">
+                        <a href="" class="nav-link ">
                             <i class="nav-icon fas fa-calendar-day"></i>
                             <p>Attendance</p>
                         </a>
