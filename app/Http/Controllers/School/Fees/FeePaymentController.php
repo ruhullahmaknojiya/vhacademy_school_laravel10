@@ -83,7 +83,7 @@ class FeePaymentController extends Controller
         $standards = Standard::all();
         $classes = ClassModel::all();
         $feeGroups = FeeGroup::all();
-
+        // $students = Student::with(['feePayments'])->get();
         $students = Student::with('feePayments')
             ->where(function ($query) use ($request) {
                 if ($request->medium_id) {
@@ -100,7 +100,7 @@ class FeePaymentController extends Controller
                 $query->where('status', 'paid');
             })
             ->get();
-            // dd($students);
+        //     // dd($students);
         return view('schooladmin.feecollection.feepayment.due', compact('students', 'mediums', 'standards', 'classes', 'feeGroups'));
  }
 

@@ -15,7 +15,7 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
-                    <a href="{{ route('SchoolAdmin.dashboard') }}" class="nav-link {{ request()->routeIs('SchoolAdmin.dashboard') ? 'active' : '' }}">
+                    <a href="{{ route('schooladmin.dashboard') }}" class="nav-link {{ request()->routeIs('schooladmin.dashboard') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Dashboard</p>
                     </a>
@@ -135,9 +135,15 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="" class="nav-link">
-                            <i class="fas fa-calendar-alt nav-icon"></i>
-                            <p>Class Timetable</p>
+                        <a href="{{ route('schooladmin.events.index') }}" class="nav-link {{ request()->routeIs('schooladmin.events.index') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-calendar-day"></i>
+                            <p>Home Work</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('schooladmin.events.index') }}" class="nav-link {{ request()->routeIs('schooladmin.events.index') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-calendar-day"></i>
+                            <p>Attendance</p>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -158,30 +164,32 @@
                             <p>Promote Students</p>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="" class="nav-link">
-                            <i class="fas fa-language nav-icon"></i>
-                            <p>Medium</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="" class="nav-link">
-                            <i class="fas fa-layer-group nav-icon"></i>
-                            <p>Standard</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="" class="nav-link">
-                            <i class="fas fa-door-open nav-icon"></i>
-                            <p>Class</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="" class="nav-link">
-                            <i class="fas fa-book nav-icon"></i>
-                            <p>Subject</p>
-                        </a>
-                    </li>
+
+                </li>
+                <li class="nav-header">EDUCATION MANAGEMENT</li>
+                <li class="nav-item">
+                    <a href="" class="nav-link">
+                        <i class="fas fa-language nav-icon"></i>
+                        <p>Medium</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="" class="nav-link">
+                        <i class="fas fa-layer-group nav-icon"></i>
+                        <p>Standard</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="" class="nav-link">
+                        <i class="fas fa-door-open nav-icon"></i>
+                        <p>Class</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="" class="nav-link">
+                        <i class="fas fa-book nav-icon"></i>
+                        <p>Subject</p>
+                    </a>
                 </li>
             </ul>
         </nav>

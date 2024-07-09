@@ -109,11 +109,11 @@ Route::middleware(['auth', 'role:superAdmin'])->group(function () {
 
     //Event modual
     Route::get('superadmin/Events',[EventController::class,'index'])->name('superadmin.events.index');
-    Route::get('superadmin/create-Events',[EventController::class,'create'])->name('create_events');
-    Route::post('superadmin/save-Events',[EventController::class,'store'])->name('save_events');
-    Route::get('superadmin/edit-Events/{id}',[EventController::class,'edit'])->name('edit_events');
-    Route::post('superadmin/update-Events/{id}',[EventController::class,'update'])->name('update_events');
-    Route::delete('superadmin/delete-Events/{id}',[EventController::class,'destroy'])->name('delete_events');
+    Route::get('superadmin/create-Events',[EventController::class,'create'])->name('superadmin.events.create');
+    Route::post('superadmin/save-Events',[EventController::class,'store'])->name('superadmin.events.store');
+    Route::get('superadmin/edit-Events/{id}',[EventController::class,'edit'])->name('superadmin.events.edit');
+    Route::post('superadmin/update-Events/{id}',[EventController::class,'update'])->name('superadmin.events.update');
+    Route::delete('superadmin/delete-Events/{id}',[EventController::class,'destroy'])->name('superadmin.events.delete');
 
 });
 

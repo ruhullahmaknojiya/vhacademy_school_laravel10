@@ -69,8 +69,8 @@
                         </div>
                     </div>
                     </div>
-
                 </form>
+
             </div>
             <div class="card-body">
                 <div class="row">

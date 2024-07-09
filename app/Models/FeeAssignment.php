@@ -42,4 +42,9 @@ class FeeAssignment extends Model
     {
         return $this->belongsTo(ClassModel::class);
     }
+
+    public function student()
+    {
+        return $this->belongsTo(Student::class);
+    }
 }

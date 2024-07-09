@@ -70,12 +70,12 @@ class Student extends Model
 
     public function standard()
     {
-        return $this->belongsTo(Standard::class,'class_id');
+        return $this->belongsTo(Standard::class);
     }
 
     public function class()
     {
-        return $this->belongsTo(ClassModel::class,'section_id');
+        return $this->belongsTo(ClassModel::class);
     }
 
     // public function parent()
@@ -97,7 +97,9 @@ class Student extends Model
      // Relationship with FeeAssignment
      public function feeAssignments()
      {
-         return $this->hasMany(FeeAssignment::class, 'student_id');
+        return $this->hasMany(FeeAssignment::class, 'class', 'class')
+        ->whereColumn('medium', 'students.medium')
+        ->whereColumn('standard', 'students.standard');
      }
 
 }
