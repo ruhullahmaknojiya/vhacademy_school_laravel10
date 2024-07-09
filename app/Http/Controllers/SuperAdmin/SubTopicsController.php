@@ -23,11 +23,42 @@ class SubTopicsController extends Controller
      */
     public function index()
     {
-        //
-        $subtopics=SubTopic::with('topic')->get();
+        $mediums = Medium::all();
+    $standards = collect();
+    $subjects = collect();
+    $subtopics = collect();
+
+    $defaultMedium = Medium::first();
+    $defaultStandard = $defaultMedium ? Standard::where('medium_id', $defaultMedium->id)->first() : null;
+    $defaultSubject = $defaultStandard ? Subject::where('std_id', $defaultStandard->id)->first() : null;
+    $defaultSubtopic = $defaultSubject ? SubTopic::where('subject_id', $defaultSubject->id)->first() : null;
+
+    if ($request->has('medium_id') && $request->medium_id != '') {
+        $standards = Standard::where('medium_id', $request->medium_id)->get();
+    } else if ($defaultMedium) {
+        $standards = Standard::where('medium_id', $defaultMedium->id)->get();
+        $request->medium_id = $defaultMedium->id;
+    }
+
+    if ($request->has('standard_id') && $request->standard_id != '') {
+        $subjects = Subject::where('std_id', $request->standard_id)->with('standard.medium')->get();
+    } else if ($defaultStandard) {
+        $subjects = Subject::where('std_id', $defaultStandard->id)->with('standard.medium')->get();
+        $request->standard_id = $defaultStandard->id;
+    }
+
+    if ($request->has('subject_id') && $request->subject_id != '') {
+        $subtopics = SubTopic::where('subject_id', $request->subject_id)->with('topic')->get();
+    } else if ($defaultSubject) {
+        $subtopics = SubTopic::where('subject_id', $defaultSubject->id)->with('topic')->get();
+        $request->subject_id = $defaultSubject->id;
+    }
 
 
-        return view('superadmin.SubTopics.index',compact('subtopics'));
+        // $subtopics=SubTopic::with('topic')->get();
+
+
+        return view('superadmin.SubTopics.index',compact('mediums', 'standards', 'subjects', 'subtopics'));
     }
 
     /**

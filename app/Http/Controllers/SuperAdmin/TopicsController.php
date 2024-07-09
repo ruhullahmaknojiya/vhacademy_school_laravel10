@@ -21,21 +21,41 @@ class TopicsController extends Controller
      */
     public function index(Request $request)
     {
-        //
-        if ($request->subject) {
-            $topics = Topic::where('sub_id',$request->subject)->get();
-            $subjects = Subject::all();
-            return view('superadmin.Topics.index',compact('subjects', 'topics'));
+        $mediums = Medium::all();
+        $standards = collect();
+        $subjects = collect();
+        $topics = collect();  // Changed from $subtopics to $topics for clarity
+
+        $defaultMedium = Medium::first();
+        $defaultStandard = $defaultMedium ? Standard::where('medium_id', $defaultMedium->id)->first() : null;
+        $defaultSubject = $defaultStandard ? Subject::where('std_id', $defaultStandard->id)->first() : null;
+
+        if ($request->has('medium_id') && $request->medium_id != '') {
+            $standards = Standard::where('medium_id', $request->medium_id)->get();
+        } else if ($defaultMedium) {
+            $standards = Standard::where('medium_id', $defaultMedium->id)->get();
+            $request->medium_id = $defaultMedium->id;
         }
-        if ($request->topic) {
-            $topics = Topic::where('topic',$request->topic)->get();
-            $subjects = Subject::all();
-            return view('superadmin.Topics.index',compact('subjects', 'topics'));
+
+        if ($request->has('standard_id') && $request->standard_id != '') {
+            $subjects = Subject::where('std_id', $request->standard_id)->with('standard.medium')->get();
+        } else if ($defaultStandard) {
+            $subjects = Subject::where('std_id', $defaultStandard->id)->with('standard.medium')->get();
+            $request->standard_id = $defaultStandard->id;
         }
-        $topics=Topic::all();
-        $subjects = Subject::all();
-        return view('superadmin.Topics.index',compact('topics','subjects'));
-    }
+
+        if ($request->has('subject_id') && $request->subject_id != '') {
+             $topics = Topic::where('sub_id', $request->subject_id)->get();
+        } else if ($defaultSubject) {
+             $topics = Topic::where('sub_id', $defaultSubject->id)->get();
+            $request->subject_id = $defaultSubject->id;
+        }
+
+        // Include subject relationship in the final topics query
+        $topics = $topics->isEmpty() ? Topic::with(['subject'])->get() : $topics;
+
+        return view('superadmin.Topics.index', compact('mediums', 'standards', 'subjects', 'topics'));
+      }
 
     /**
      * Show the form for creating a new resource.
@@ -64,19 +84,15 @@ class TopicsController extends Controller
             'type'=>'required',
             'sub_id'=>'required',
             'description'=>'required',
-            // 'topic_image' => 'required|image|mimes:jpeg,png,jpg,gif',
             'file_path' => 'nullable|mimes:pdf',
             'video_link' => 'nullable|url',
-            // 'topic_banner' => 'required|image|mimes:jpeg,png,jpg,gif',
         ],[
             'topic.required' => 'The Topic Name  is required.',
             'sub_id.required' => 'The Subject Name  is required.',
             'description.required' => 'The Description  is required.',
             'type.required' => 'The Topic Type  is required.',
-            // 'topic_image.required' => 'The Topic Image  is required.',
             'file_path.required' => 'The File  is required.',
             'video_link.required' => 'The Topic Video Link  is required.',
-            // 'topic_banner.required' => 'The Topic Banner Image  is required.',
 
 
         ]);

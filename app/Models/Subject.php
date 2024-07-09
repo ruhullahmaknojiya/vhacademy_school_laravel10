@@ -12,10 +12,15 @@ class Subject extends Model
     public $table='subjects';
                 public $fillable=['subject','subject_code','description','sub_image','std_id','subject_banner'];
 
-    public function standers(){
+                public function standard()
+                {
+                    return $this->belongsTo(Standard::class, 'std_id');
+                }
 
-    return $this->belongsTo(Standard::class,'std_id');
-}
+                public function medium()
+                {
+                    return $this->standard->medium();
+                }
 
     public function topic(){
 

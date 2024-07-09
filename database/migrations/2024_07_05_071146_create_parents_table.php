@@ -10,25 +10,25 @@ class CreateParentsTable extends Migration
     {
         Schema::create('parents', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('student_id');
-            $table->string('father_name')->nullable();
-            $table->string('father_phone')->nullable();
-            $table->string('father_occupation')->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->string('father_name');
+            $table->string('father_phone');
+            $table->string('father_occupation');
             $table->string('father_photo')->nullable();
-            $table->string('mother_name')->nullable();
+            $table->string('mother_name');
             $table->string('mother_phone')->nullable();
-            $table->string('mother_occupation')->nullable();
+            $table->string('mother_occupation');
             $table->string('mother_photo')->nullable();
-            $table->string('guardian_name');
-            $table->string('guardian_relation');
-            $table->string('guardian_email')->nullable();
-            $table->string('guardian_phone');
+            $table->string('guardian_name')->nullable();
+            $table->string('guardian_relation')->nullable();
+            $table->string('guardian_email');
+            $table->string('guardian_phone')->nullable();
             $table->string('guardian_occupation')->nullable();
             $table->string('guardian_address')->nullable();
             $table->string('guardian_photo')->nullable();
             $table->timestamps();
 
-            $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

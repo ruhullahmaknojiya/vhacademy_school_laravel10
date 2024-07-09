@@ -10,6 +10,8 @@ class Student extends Model
     use HasFactory;
     protected $table = 'students';
     protected $fillable = [
+        'user_id',
+        'parent_id',
         'uid',
         'admission_no',
         'roll_number',
@@ -35,12 +37,20 @@ class Student extends Model
         'student_photo',
         'aadharcard_number',
         'current_address',
-        'permanent_address'
+        'permanent_address',
+        'bank_account_number',
+        'bank_name',
+        'ifsc_code',
+        'rte'
     ];
 
     public function parents()
     {
         return $this->hasMany(Parent::class);
+    }
+    public function parent()
+    {
+        return $this->belongsTo(ParentModel::class, 'parent_id');
     }
 
     public function documents()
@@ -60,23 +70,18 @@ class Student extends Model
 
     public function standard()
     {
-        return $this->belongsTo(Standard::class);
+        return $this->belongsTo(Standard::class,'class_id');
     }
 
     public function class()
     {
-        return $this->belongsTo(ClassModel::class);
+        return $this->belongsTo(ClassModel::class,'section_id');
     }
 
     // public function parent()
     // {
     //     return $this->belongsTo(ParentModel::class);
     // }
-
-    public function parent()
-    {
-        return $this->hasOne(ParentModel::class);
-    }
 
     public function user()
     {

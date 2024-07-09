@@ -21,26 +21,39 @@ class SubjectController extends Controller
      */
     public function index(Request $request)
     {
-        //
 
+        $mediums = Medium::all();
+        $standards = collect();
+        $subjects = collect();
 
+        $defaultMedium = Medium::first();
+        $defaultStandard = $defaultMedium ? Standard::where('medium_id', $defaultMedium->id)->first() : null;
+        $defaultSubject = $defaultStandard ? Subject::where('std_id', $defaultStandard->id)->first() : null;
 
-
-        if ($request->standard_id) {
-            $subjects = Subject::where('std_id',$request->standard_id)->get();
-            $standars = Standard::all();
-            return view('superadmin.Subjects.index',compact('standars', 'subjects'));
+        if ($request->has('medium_id') && $request->medium_id != '') {
+            $standards = Standard::where('medium_id', $request->medium_id)->get();
+        } else if ($defaultMedium) {
+            $standards = Standard::where('medium_id', $defaultMedium->id)->get();
+            $request->medium_id = $defaultMedium->id;
         }
-        if ($request->subject) {
-            $subjects = Subject::where('subject',$request->subject)->get();
-            $standars = Standard::all();
-            return view('superadmin.Subjects.index',compact('standars', 'subjects'));
+
+        if ($request->has('standard_id') && $request->standard_id != '') {
+            $subjects = Subject::where('std_id', $request->standard_id)->with('standard.medium')->get();
+        } else if ($defaultStandard) {
+            $subjects = Subject::where('std_id', $defaultStandard->id)->with('standard.medium')->get();
+            $request->standard_id = $defaultStandard->id;
         }
 
-        $subjects = Subject::all();
-        $standars = Standard::all();
-        return view('superadmin.Subjects.index',compact('subjects','standars'));
+        return view('superadmin.Subjects.index', compact('mediums', 'subjects', 'standards', 'defaultMedium', 'defaultStandard', 'defaultSubject'));
     }
+
+
+
+    public function getNewStandards(Request $request)
+{
+    $standards = Standard::where('medium_id', $request->medium_id)->get();
+    return response()->json($standards);
+}
 
     /**
      * Show the form for creating a new resource.

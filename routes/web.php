@@ -104,6 +104,7 @@ Route::middleware(['auth', 'role:superAdmin'])->group(function () {
     Route::get('/get_subjects/{standardId}', [SubTopicsController::class,'getSubjects'])->name('get_subjects');
     Route::get('/get_topics/{subjectId}', [SubTopicsController::class,'getTopics'])->name('get_topics');
     Route::get('/get_subtopics/{topictId}', [SubTopicsController::class,'getSubTopics'])->name('get_subtopics');
+    Route::get('/get-newstandards', [SubjectController::class, 'getNewStandards'])->name('get-newstandards');
 
 
     //Event modual

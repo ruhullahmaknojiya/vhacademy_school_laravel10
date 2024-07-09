@@ -2,77 +2,78 @@
 @section('title')
     Chapter
 @endsection
-@section('content')
-    @include('flash-message')
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row ">
-                <div class="col-sm-12">
-                    <h1>Chapter</h1>
-                </div>
-                <div class="justify-content-center mt-4 ml-2">
-                    <form method="GET" action="{{route('topics')}}" class="form-inline" style="margin-left: 400px;" >
-                        <div class="row" >
 
+                    @section('content')
+                    @include('flash-message')
+                    <section class="content-header">
+                        <div class="container-fluid">
+                            <div class="row ">
+                                <div class="col-sm-12">
+                                    <h1>Chapter</h1>
+                                </div>
 
-                            <div class="mr-4">
-                                <select class="form-control filter-dropdown" name="subject"
-                                        id="standards">
-                                    <option value="">Select Subject</option>
-                                    @foreach ($subjects as $subject)
-                                        <option value="{{ $subject->id }}" {{ request()->sub_id == $subject->id ? 'selected' : '' }}>{{ $subject->subject }}</option>
-                                    @endforeach
-
-
-                                </select>
                             </div>
-                            <div class="mr-2">
-                                <select class="form-control filter-dropdown" name="topic"
-                                        id="standards">
-                                    <option value="">Select Toipc</option>
-                                    @foreach ($topics as $topic)
-                                        <option value="{{ $topic->topic }}" {{ request()->topic == $topic->topic ? 'selected' : '' }}>{{ $topic->topic }}</option>
-                                    @endforeach
+                        </div><!-- /.container-fluid -->
+                    </section>
 
+                    <div class="content">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h3 class="card-title">Chapter Details</h3>
+                                    </div>
+                                    <div class="col-md-6 text-right">
+                                        <a href="{{ route('create_topic') }}" class="btn btn-primary"> <i class="fas fa-plus-circle" ></i> Add New Chapter</a>
+                                    </div>
+                                </div>
+                                <form method="GET" action="{{ route('topics') }}" class="form-inline" style="margin-left: 10px;">
+                                    <div class="row">
+                                        <div class="mr-2 mb-2">
+                                            <select class="form-control filter-dropdown" name="medium_id" id="mediums">
+                                                <option value="">Select Medium</option>
+                                                @foreach ($mediums as $medium)
+                                                    <option value="{{ $medium->id }}" {{ request()->medium_id == $medium->id ? 'selected' : (isset($defaultMedium) && $defaultMedium->id == $medium->id ? 'selected' : '') }}>
+                                                        {{ $medium->medium_name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
 
-                                </select>
+                                        <div class="mr-2 mb-2">
+                                            <select class="form-control filter-dropdown" name="standard_id" id="standards">
+                                                <option value="">Select Standard</option>
+                                                @if(request()->medium_id || isset($defaultMedium))
+                                                    @foreach ($standards as $standard)
+                                                        <option value="{{ $standard->id }}" {{ request()->standard_id == $standard->id ? 'selected' : (isset($defaultStandard) && $defaultStandard->id == $standard->id ? 'selected' : '') }}>
+                                                            {{ $standard->standard_name }}
+                                                        </option>
+                                                    @endforeach
+                                                @endif
+                                            </select>
+                                        </div>
+
+                                        <div class="mr-2 mb-2">
+                                            <select class="form-control filter-dropdown" name="subject_id" id="subjects">
+                                                <option value="">Select Subject</option>
+                                                @foreach ($subjects as $subject)
+                                                    <option value="{{ $subject->id }}" {{ request()->subject_id == $subject->id ? 'selected' : (isset($defaultSubject) && $defaultSubject->id == $subject->id ? 'selected' : '') }}>
+                                                        {{ $subject->subject }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="mr-2 mb-2">
+                                            <button type="submit" class="btn btn-primary">Filter</button>
+                                        </div>
+                                        <div class="mr-2 mb-2">
+                                            <a href="{{ route('Subject') }}" class="btn btn-danger">Reset</a>
+                                        </div>
+                                    </div>
+                                </form>
+
                             </div>
-
-
-                                <button type="submit" class="btn btn-primary mr-2">Filter</button>
-
-
-                                <a href="{{ route('topics') }}" class="btn btn-dark">Reset</a>
-
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div><!-- /.container-fluid -->
-    </section>
-
-    <div class="content">
-        <div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="card card-table">
-                <div class="card-body">
-
-                    <div class="page-header">
-                        <div class="row align-items-center">
-                            <div class="col">
-                                <h3 class="page-title">List Chapter</h3>
-                            </div>
-                            <div class="col-auto text-end float-end ms-auto download-grp">
-
-                                <a href="{{route('create_topic')}}" class="btn btn-primary"><i
-                                        class="fas fa-plus"></i></a>
-                            </div>
-                        </div>
-
-
-                    </div>
-
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered" id="mytable">
@@ -80,14 +81,12 @@
                             <tr>
 
                                 <th>No</th>
+                                <th>Medium</th>
+                                <th>Standard</th>
                                 <th>Subject</th>
-                                <th>Image</th>
-                                <th>Banner-Image</th>
                                 <th>Topic</th>
-                                <th>Type</th>
-{{--                                <th>Video</th>--}}
                                 <th>Description</th>
-
+                                <th>Type</th>
                                 <th class="text-end">Action</th>
                             </tr>
                             </thead>
@@ -96,18 +95,16 @@
                                 <tr>
 
                                     <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $topic->subject->standard->medium->medium_name }}</td>
+                                    <td>{{ $topic->subject->standard->standard_name }}</td>
                                     <td>{{ $topic->subject->subject }}</td>
-                                    <td> <img src="{{asset('public/storage/images/school/subject/topics/'.$topic->topic_image)}}" width="50" height="60" alt="Subject-Image"></td>
-                                    <td> <img src="{{asset('public/storage/images/school/subject/topics/'.$topic->topic_banner)}}" width="50" height="60" alt="Subject-Image"></td>
                                     <td>{{$topic->topic}}</td>
-                                    <td >@if($topic->type=='free')
-                                            <span class="badge badge-success">{{$topic->type}}</span>
-                                        @elseif($topic->type=='paid')
-                                            <span class="badge badge-danger">{{$topic->type}}</span>
-                                        @endif</td>
-
-
                                     <td>{{$topic->description}}</td>
+                                    <td >@if($topic->type=='free')
+                                        <span class="badge badge-success">{{$topic->type}}</span>
+                                    @elseif($topic->type=='paid')
+                                        <span class="badge badge-danger">{{$topic->type}}</span>
+                                    @endif</td>
                                     <td class="text-end">
                                         <div class="btn-group">
                                             <a href="{{route('edit_topic',$topic->id)}}"
@@ -160,4 +157,55 @@
                 }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
             });
         </script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#mediums').change(function() {
+        var mediumId = $(this).val();
+        if (mediumId) {
+            $.ajax({
+                url: '/standards/' + mediumId,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $('#standards').empty();
+                    $('#standards').append('<option value="">Select Standard</option>');
+                    $.each(data, function(key, value) {
+                        $('#standards').append('<option value="' + key + '">' + value + '</option>');
+                    });
+                    $('#subjects').empty();
+                    $('#subjects').append('<option value="">Select Subject</option>');
+                }
+            });
+        } else {
+            $('#standards').empty();
+            $('#standards').append('<option value="">Select Standard</option>');
+            $('#subjects').empty();
+            $('#subjects').append('<option value="">Select Subject</option>');
+        }
+    });
+
+    $('#standard').change(function() {
+        var standardId = $(this).val();
+        if (standardId) {
+            $.ajax({
+                url: '/subjects/' + standardId,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $('#subjects').empty();
+                    $('#subjects').append('<option value="">Select Subject</option>');
+                    $.each(data, function(key, value) {
+                        $('#subjects').append('<option value="' + key + '">' + value + '</option>');
+                    });
+                }
+            });
+        } else {
+            $('#subjects').empty();
+            $('#subjects').append('<option value="">Select Subject</option>');
+        }
+    });
+});
+</script>
     @endpush

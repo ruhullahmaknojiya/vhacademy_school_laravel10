@@ -10,6 +10,8 @@ class CreateStudentsTable extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('parent_id');
             $table->string('admission_no')->unique();
             $table->integer('roll_number');
             $table->unsignedBigInteger('medium_id');
@@ -36,8 +38,15 @@ class CreateStudentsTable extends Migration
             $table->string('aadharcard_number')->nullable();
             $table->string('current_address')->nullable();
             $table->string('permanent_address')->nullable();
+            $table->string('bank_account_number')->nullable();
+            $table->string('bank_name')->nullable();
+            $table->string('ifsc_code')->nullable();
+            $table->string('rte')->nullable();
+
             $table->timestamps();
             // Foreign keys
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('parent_id')->references('id')->on('parents')->onDelete('cascade');
             $table->foreign('medium_id')->references('id')->on('mediums')->onDelete('cascade');
             $table->foreign('class_id')->references('id')->on('standards')->onDelete('cascade');
             $table->foreign('section_id')->references('id')->on('classes')->onDelete('cascade');

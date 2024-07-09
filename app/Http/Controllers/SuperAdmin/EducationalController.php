@@ -86,7 +86,7 @@ class EducationalController extends Controller
             'standard_name' => $request->standard_name,
             'status' => true, // Default status
         ]);
-        Standard::create($request->all());
+        // Standard::create($request->all());
 
         return redirect()->route('superadmin.standard.index')->with('success', 'Standard created successfully.');
     }

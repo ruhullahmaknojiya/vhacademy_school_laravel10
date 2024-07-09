@@ -10,7 +10,7 @@ class ParentModel extends Model
     use HasFactory;
     protected $table = 'parents';
     protected $fillable = [
-        'student_id',
+        'user_id',
         'father_name',
         'father_phone',
         'father_occupation',
