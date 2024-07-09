@@ -89,7 +89,7 @@ class EventController extends Controller
 
         $save_event->save();
 
-        return redirect()->route('events')->with('success','Event Add Scuccessfully');
+        return redirect()->route('superadmin.events.index')->with('success','Event Add Scuccessfully');
     }
 
     /**
@@ -156,7 +156,7 @@ class EventController extends Controller
         }
 
         $update_event->update($input);
-        return redirect()->route('events')->with('info','Event Update Successfully');
+        return redirect()->route('superadmin.events.index')->with('info','Event Update Successfully');
     }
 
     /**
@@ -169,6 +169,6 @@ class EventController extends Controller
     {
         $delete_event=Event::find($id);
         $delete_event->delete();
-        return redirect()->route('events')->with('danger','Event Delete Successfully');
+        return redirect()->route('superadmin.events.index')->with('danger','Event Delete Successfully');
     }
 }

@@ -24,7 +24,7 @@
                     <div class="card">
                         <div class="card-header">
                             <div><h3 class="card-title float-left">List Events</h3></div>
-                            <div class="card-tools"><a href="{{route('create_events')}}" class="btn btn-primary"><i
+                            <div class="card-tools"><a href="{{route('superadmin.events.create')}}" class="btn btn-primary"><i
                                         class="fas fa-plus"></i></a></div>
                         </div>
 
@@ -62,14 +62,14 @@
                                         <h6>One Time </h6>
                                        @endif
                                     </td>
-                                            <td>{{ Str::limit($event->short_Description, 200) }}</td>
+                                            <td>{{ \Illuminate\Support\Str::limit($event->short_Description, 200) }}</td>
                                             <td class="text-end">
                                                 <div class="btn-group">
-                                                    <a href="{{route('edit_events',$event->id)}}"
+                                                    <a href="{{route('superadmin.events.edit',$event->id)}}"
                                                        class="btn btn-sm btn-info me-2">
                                                         <i class="fa fa-edit"></i>
                                                     </a>&nbsp;
-                                                    <form action="{{route('delete_events',$event->id)}}" method="POST">
+                                                    <form action="{{route('superadmin.events.delete',$event->id)}}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
 
