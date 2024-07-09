@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\School\TeacherTimeController;
 use App\Http\Controllers\SuperAdmin\EventController;
 use App\Http\Controllers\SuperAdmin\SubjectController;
 use App\Http\Controllers\SuperAdmin\SubTopicsController;
 use App\Http\Controllers\SuperAdmin\TopicsController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\SchoolController;
@@ -32,12 +34,15 @@ use App\Http\Controllers\School\Fees\FeePaymentController;
 
 
 // Auth::routes();
+Route::get('/logout', function () {
+    Auth::logout();
+    return redirect('/login');
+})->name('logout');
+
+Route::group(['middlware'=>'role:SuperAdmin','auth'], function () {
 
 
-
-Route::middleware(['auth', 'role:superAdmin'])->group(function () {
-
-    Route::get('superadmin/dashboard', [SuperAdminController::class, 'dashboard'])->name('superadmin.dashboard');
+    Route::get('/superadmin/dashboard', [SuperAdminController::class, 'dashboard'])->name('SuperAdmin.dashboard');
     Route::get('/superadmin/profile', [SuperAdminController::class, 'profile'])->name('superadmin.profile');
     Route::get('/superadmin/settings', [SuperAdminController::class, 'settings'])->name('superadmin.settings');
 
@@ -109,17 +114,18 @@ Route::middleware(['auth', 'role:superAdmin'])->group(function () {
 
     //Event modual
     Route::get('superadmin/Events',[EventController::class,'index'])->name('superadmin.events.index');
-    Route::get('superadmin/create-Events',[EventController::class,'create'])->name('create_events');
-    Route::post('superadmin/save-Events',[EventController::class,'store'])->name('save_events');
-    Route::get('superadmin/edit-Events/{id}',[EventController::class,'edit'])->name('edit_events');
-    Route::post('superadmin/update-Events/{id}',[EventController::class,'update'])->name('update_events');
-    Route::delete('superadmin/delete-Events/{id}',[EventController::class,'destroy'])->name('delete_events');
+    Route::get('superadmin/create-Events',[EventController::class,'create'])->name('superadmin.events.create');
+    Route::post('superadmin/save-Events',[EventController::class,'store'])->name('superadmin.events.store');
+    Route::get('superadmin/edit-Events/{id}',[EventController::class,'edit'])->name('superadmin.events.edit');
+    Route::post('superadmin/update-Events/{id}',[EventController::class,'update'])->name('superadmin.events.update');
+    Route::delete('superadmin/delete-Events/{id}',[EventController::class,'destroy'])->name('superadmin.events.delete');
 
 });
 
-   Route::middleware(['auth','role:SchoolAdmin'])->group(function () {
 
-    Route::get('SchoolAdmin/school/dashboard', [SchoolController::class, 'dashboard'])->name('schooladmin.dashboard');
+       Route::group(['middlware'=>'role:SchoolAdmin','auth'], function () {
+
+    Route::get('SchoolAdmin/school/dashboard', [SchoolController::class, 'dashboard'])->name('SchoolAdmin.dashboard');
     Route::get('SchoolAdmin/students', [StudentController::class, 'index'])->name('schooladmin.students.index');
 Route::get('SchoolAdmin/students/create', [StudentController::class, 'create'])->name('schooladmin.students.create');
 Route::post('SchoolAdmin/students', [StudentController::class, 'store'])->name('schooladmin.students.store');
@@ -144,6 +150,19 @@ Route::post('SchoolAdmin/teachers/{id}', [TeacherController::class, 'show'])->na
        Route::post('SchoolAdmin/update-SchoolEvents/{id}',[\App\Http\Controllers\School\EventController::class,'update'])->name('update_schoolevents');
        Route::delete('SchoolAdmin/delete-SchoolEvents/{id}',[\App\Http\Controllers\School\EventController::class,'destroy'])->name('delete_schoolevents');
 //end event
+
+
+           //teacher time table
+
+           Route::get('SchoolAdmin/Teacher/Timetable',[TeacherTimeController::class,'index'])->name('teacher.timetable.index');
+           Route::get('SchoolAdmin/Teacher/Create-Timetable',[TeacherTimeController::class,'create'])->name('teacher_timetable');
+           Route::post('SchoolAdmin/Teacher/Save-Timetable',[TeacherTimeController::class,'store'])->name('teacher_timetable_insert');
+           Route::get('SchoolAdmin/Teacher/Edit-Timetable/{id}',[TeacherTimeController::class,'edit'])->name('teacher_timetable_edit');
+           Route::post('SchoolAdmin/Teacher/Update-Timetable/{id}',[TeacherTimeController::class,'update'])->name('teacher_timetable_update');
+           Route::delete('SchoolAdmin/Teacher/Delete-Timetable/{id}',[TeacherTimeController::class,'destroy'])->name('teacher_timetable_delete');
+
+
+           //end
 
 //Fee Collection Route
 // Fee Type
@@ -181,3 +200,4 @@ Route::post('SchoolAdmin/feepayment', [FeePaymentController::class, 'store'])->n
 Route::post('SchoolAdmin/feepayment/{id}', [FeePaymentController::class, 'show'])->name('schooladmin.feecollection.feepayment.show');
 Route::get('SchoolAdmin/feepayment/{id}/edit', [FeePaymentController::class, 'editClass'])->name('schooladmin.feecollection.feepayment.edit');
 });
+
