@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('teacher_timetables', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('teacher_id');
+         $table->unsignedBigInteger('teacher_id');
             $table->unsignedBigInteger('medium_id');
             $table->unsignedBigInteger('standard_id');
             $table->unsignedBigInteger('class_id');
