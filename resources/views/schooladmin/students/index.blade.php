@@ -5,22 +5,16 @@
 @section('content')
     @include('flash-message')
     <section class="content-header">
-        <div class="container-fluid">
-            <div class="row ">
-                <div class="col-sm-12">
-                    <h1>Students</h1>
-                </div>
 
-            </div>
-        </div><!-- /.container-fluid -->
     </section>
     <div class="content">
         <div class="card">
             <div class="card-header">
                 <div class="row">
                     <div class="col-md-6">
-                        <h3 class="card-title">Students Details</h3>
+                        <h1 class="card-title">Students Detail</h>
                     </div>
+                    <br>
                     <div class="col-md-6 text-right">
                         <a href="{{ route('schooladmin.students.create') }}" class="btn btn-primary" >
                             <i class="fas fa-plus-circle" ></i> Add Student
