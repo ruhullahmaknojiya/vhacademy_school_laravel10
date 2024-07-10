@@ -4,6 +4,7 @@ namespace App\Http\Controllers\School;
 
 use App\Http\Controllers\Controller;
 use App\Models\ClassModel;
+use App\Models\School;
 use Illuminate\Http\Request;
 use App\Models\Medium;
 
@@ -18,26 +19,34 @@ use Illuminate\Support\Facades\Auth;
 class TeacherTimeController extends Controller
 {
     public function index(){
-        $timetables=TeacherTimetable::all();
+        $userby=Auth::user();
+
+        $School=School::where('user_id', $userby->id)->first();
+
+        $timetables=TeacherTimetable::where('school_id',$School->id)->get();
         return view('schooladmin.teachertimetable.index',compact('timetables'));
     }
 
     public function create()
     {
         $userby=Auth::user();
-        $teachers=Teacher::with('user')->where('user_id', $userby->school_id)->get();
+
+        $School=School::where('user_id', $userby->id)->first();
+
+        $teachers=Teacher::where('school_id', $School->id)->get();
+
         $classes=ClassModel::all();
 
 
         $mediums=Medium::all();
-        return view('schooladmin.teachertimetable.create',compact('mediums','classes','teachers','days'));
+        return view('schooladmin.teachertimetable.create',compact('mediums','classes','teachers'));
     }
 
 
 
     public function store(Request $request)
     {
-        //  dd($request->all());
+
         $validate = $request->validate([
             'teacher_id' => 'required',
             'medium_id' => 'required',
@@ -62,6 +71,10 @@ class TeacherTimeController extends Controller
 
         // dd($request->all());
         $userby=Auth::user();
+
+        $School=School::where('user_id', $userby->id)->first();
+
+
         // Create a new Subtopic instance
         $save_timetable=new TeacherTimetable();
         $save_timetable->teacher_id=$request->teacher_id;
@@ -73,7 +86,7 @@ class TeacherTimeController extends Controller
         $save_timetable->date=$request->date;
         $save_timetable->start_time=$request->start_time;
         $save_timetable->end_time=$request->end_time;
-        $save_timetable->school_id=$userby->id;
+        $save_timetable->school_id=$School->id;
 
         // Handle PDF file upload
 
@@ -81,7 +94,7 @@ class TeacherTimeController extends Controller
         $save_timetable->save();
 
 
-        return redirect()->route('teacher_timetable')->with('success','SubTopic Add Scuccessfully');
+        return redirect()->route('teacher.timetable.index')->with('success','SubTopic Add Scuccessfully');
     }
     public function edit($id){
         $timetable=TeacherTimetable::find($id);
@@ -91,7 +104,7 @@ class TeacherTimeController extends Controller
         $subjects=Subject::all();
         $teachers=Teacher::with('user')->where('school_id', $userby->school_id)->get();
         $classes=ClassModel::all();
-        return view('schooladmin.teachertimetable.edit',compact('mediums','classes','teachers','days','standard','subjects','timetable'));
+        return view('schooladmin.teachertimetable.edit',compact('mediums','classes','teachers','standard','subjects','timetable'));
 
 
     }
@@ -120,8 +133,11 @@ class TeacherTimeController extends Controller
                 ]);
 
                 // dd($request->all());
-                $userby=Auth::user();
-                // Create a new Subtopic instance
+        $userby=Auth::user();
+
+        $School=School::where('user_id', $userby->id)->first();
+
+        // Create a new Subtopic instance
                 $save_timetable=TeacherTimetable::find($id);
                 $save_timetable->teacher_id=$request->teacher_id;
                 $save_timetable->medium_id=$request->medium_id;
@@ -132,18 +148,29 @@ class TeacherTimeController extends Controller
                 $save_timetable->date=$request->date;
                 $save_timetable->start_time=$request->start_time;
                 $save_timetable->end_time=$request->end_time;
-                $save_timetable->school_id=$userby->id;
+                $save_timetable->school_id=$School->id;
 
                 // Handle PDF file upload
 
 
                 $save_timetable->save();
-                return redirect()->route('teacher_timetable_index')->with('success','Timetable Update Scuccessfully');
+                return redirect()->route('teacher.timetable.index')->with('success','Timetable Update Scuccessfully');
     }
     public function destroy($id)
     {
         $delete_timetable=TeacherTimetable::find($id);
         $delete_timetable->delete();
-        return redirect()->route('teacher_timetable_index')->with('danger','Teacher Timetable Delete Successfully');
+        return redirect()->route('teacher.timetable.index')->with('danger','Teacher Timetable Delete Successfully');
+    }
+    public function standards($mediumId)
+    {
+        $standards = Standard::where('medium_id', $mediumId)->pluck('standard_name', 'id');
+        return response()->json($standards);
+    }
+
+    public function subjects($standardId)
+    {
+        $subjects = Subject::where('std_id', $standardId)->pluck('subject', 'id');
+        return response()->json($subjects);
     }
 }

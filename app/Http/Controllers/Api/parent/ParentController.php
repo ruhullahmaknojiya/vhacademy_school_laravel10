@@ -12,30 +12,31 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Api\BaseController  as BaseController;
 use Illuminate\Support\Facades\Storage;
 use App\Models\User;
+use Illuminate\Support\Facades\Crypt;
 class ParentController extends BaseController
 {
 
 
 
 
-//    public function getdata()
-//    {
-//        // Get the authenticated user
-//        $authenticatedUser =Auth::guard('api')->user();
-//// dd($authenticatedUser);
-//        // If user is authenticated, fetch user and guardian data
-//        if ($authenticatedUser) {
-//            // Fetch user and guardian data for the authenticated user
-//            $user = $authenticatedUser->load('guardian');
-//
-//            return response()->json([
-//                'user' => $user,
-//            ], 200);
-//        } else {
-//            // If user is not authenticated, return unauthorized error
-//            return response()->json(['error' => 'Unauthorized.'], 403);
-//        }
-//    }
+    public function getdata()
+    {
+        // Get the authenticated user
+        $authenticatedUser =Auth::guard('api')->user();
+// dd($authenticatedUser);
+        // If user is authenticated, fetch user and guardian data
+        if ($authenticatedUser) {
+            // Fetch user and guardian data for the authenticated user
+            $user = $authenticatedUser->load('parent');
+
+            return response()->json([
+                'user' => $user,
+            ], 200);
+        } else {
+            // If user is not authenticated, return unauthorized error
+            return response()->json(['error' => 'Unauthorized.'], 403);
+        }
+    }
 
 //    public function register(Request $request)
 //    {
@@ -122,46 +123,52 @@ class ParentController extends BaseController
 //            $user->save();
 //        }
 //    }
+
+
+
     public function login(Request $request)
     {
 
-// dd($request->user_type);
-if (Auth::attempt(['name' => $request->name, 'password' => $request->password, 'role_id' => 4])) {
+        if (Auth::attempt(['name' => $request->name, 'password' => $request->password, 'role_id' => 4])) {
             // Authentication successful
             $user = Auth::user();
+            $token = $user->createToken('MyApp')->accessToken;
 
             // Retrieve the student associated with the user
-            $student = ParentModel::where('user_id', $user->id)->first();
+            $parent = ParentModel::where('user_id', $user->id)->get();
 
-            if ($student) {
+            if ($parent) {
                 // Retrieve the standard using the student's standard_id
-                // $standard = Stander::where('id', $student->standard_id)->first();
+                // $standard = Stander::where('status','1')->with('Subject.topic.subtopic')->get();
 
                 // Retrieve the medium using the standard's medium_id
                 // $medium = Medium::where('id', $standard->medium_id)
                 //     ->pluck('name')
                 //     ->first();
 
-                $success = [
-                    'id' =>$user->id,
-                    'username' => $user->name,
-//                    'first_name' => $user->first_name,
-//                    'last_name' => $user->last_name,
-//                    'subscription_status' => $user->subscription_status ?? null,
+                // 'token' => $user->createToken('MyApp')->accessToken,
 
-                    'token' => $user->createToken('MyApp')->accessToken,
-                ];
-            } else {
-                // Handle the case where the user has no associated student record
-                return $this->sendError('Student record not found.', ['error' => 'Parent record not found.']);
             }
-
-            return $this->sendResponse($success, 'User login successfull.');
+            //  else {
+            //     // Handle the case where the user has no associated student record
+            //     return $this->sendError('Student record not found.', ['error' => 'Student record not found.']);
+            // }
+            return response()->json([
+                'token' => $token,
+                'user' => $user,
+                'Parent' => $parent,
+                'message' => 'parent login successfull',
+            ], 200);
+            // return $this->sendResponse($success, 'User login successfull.');
         } else {
             // Authentication failed
-            return $this->sendError('Unauthorized.',['error' => 'Unauthorized']);
+            return response()->json([
+                'message' => 'Invalid credentials or user not found',
+            ], 401);
         }
     }
+
+
 
 
 // public function update(Request $request)

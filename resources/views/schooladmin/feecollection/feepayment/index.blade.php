@@ -95,12 +95,14 @@
         </thead>
         <tbody>
             @foreach ($feePayments as $feePayment)
+
+
                 <tr>
-                    <td>LKG ({{ $feePayment->student->medium ?? $feePayment->student->medium->medium_name }}) {{ $feePayment->student->class->class_name }}</td>
-                    <td>{{ $feePayment->student->admission_no }}</td>
-                    <td>{{ $feePayment->student->first_name }} {{ $feePayment->student->last_name }}</td>
-                    <td>{{ $feePayment->feeAssignment->feesMaster->feeType->name }}</td>
-                    <td>{{ $feePayment->amount_paid }}</td>
+                    <td>LKG ({{$feePayment->medium->medium_name ?? ''}}) {{ $feePayment->class->class_name ?? ''}}</td>
+                    <td>{{ $feePayment->admission_no ?? '' }}</td>
+                    <td>{{ $feePayment->first_name ?? '' }} {{ $feePayment->last_name ?? ''}}</td>
+                    <td>{{ $feePayment->fee_assignment_id ?? ''}}</td>
+                    <td>{{ $feePayment->amount_paid ?? '' }}</td>
                     <td>{{ $feePayment->payment_date }}</td>
                     <td>{{ $feePayment->status }}</td>
                     <td>

@@ -28,7 +28,7 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <h5 class="form-title"><span> Teacher TimeTable</span><a
-                                                href="{{ route('teacher_timetable_index') }}"><i class="fas fa-arrow-left"
+                                                href="{{ route('teacher.timetable.index') }}"><i class="fas fa-arrow-left"
                                                     style="float: right;"></i></a></h5>
                                     </div>
                                     <div class="col-12 col-sm-4">
@@ -38,12 +38,12 @@
                                                 <option>Select Teacher</option>
                                                 <option value="{{ $timetable->teacher_id }}" selected
                                                   >
-                                                  {{$timetable->teacher->user->first_name}} {{$timetable->teacher->user->last_name}}
+                                                  {{$timetable->teacher->first_name}} {{$timetable->teacher->last_name}}
                                                 </option>
                                                 @foreach ($teachers as $teacher)
 
                                                     <option value="{{ $teacher->id }}">
-                                                        {{ $teacher->user->first_name }} {{ $teacher->user->last_name }}
+                                                        {{ $teacher->first_name }} {{ $teacher->last_name }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -61,12 +61,12 @@
                                                 <option>Select Medium</option>
                                                 <option value="{{ $timetable->medium_id }}" selected
                                                     >
-                                                    {{$timetable->medium->name}}
+                                                    {{$timetable->medium->medium_name}}
                                                   </option>
                                                 @foreach ($mediums as $medium)
 
                                                     <option value="{{ $medium->id }}">
-                                                        {{ $medium->name }}
+                                                        {{ $medium->medium_name }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -81,7 +81,7 @@
 
                                                 <option value="{{ $timetable->standard_id }}" selected
                                                     >
-                                                    {{ $timetable->stander->name}}
+                                                    {{ $timetable->standerd->standard_name}}
                                                   </option>
                                                 <option>Select Standard</option>
 
@@ -97,12 +97,12 @@
                                                 <option>Select Class</option>
                                                 <option value="{{ $timetable->class_id }}"
                                                    selected>
-                                                   {{$timetable->classs->name}}
+                                                   {{$timetable->classmodel->class_name}}
                                                 </option>
                                                 @foreach ($classes as $class)
 
                                                     <option value="{{ $class->id }}">
-                                                        {{ $class->name }}
+                                                        {{ $class->class_name }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -126,20 +126,27 @@
 
                                         </div>
                                     </div>
+                                    @php
+                                        // Array to store the days of the week
+                                        $daysOfWeek = [];
+
+                                        // Loop to get the last 7 days
+                                        for ($i = 0; $i < 7; $i++) {
+                                            // Subtract days from the current date and get the day name
+                                            $daysOfWeek[] = date('l', strtotime("-$i days"));
+                                        }
+
+                                        // Assume $selectedDay is the day you want to pre-select
+                                        $selectedDay = old('day_id', $timetable ?? null); // You can set $selectedDay from a controller or form submission
+                                    @endphp
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
                                             <label>Day <span class="text-danger">*</span></label>
                                             <select type="text" name="day_id" id="class" class="form-control">
                                                 <option>Select Day</option>
-                                                <option value="{{ $timetable->day_id }}"
-                                                    selected>
-                                                    <td>{{$timetable->day->day_name}}
-                                                 </option>
-                                                @foreach ($days as $day)
 
-                                                    <option value="{{ $day->id }}">
-                                                        {{ $day->day_name }}
-                                                    </option>
+                                                @foreach ($daysOfWeek as $day)
+                                                    <option value="{{ $day }}" {{ $day == $selectedDay ? 'selected' : '' }}>{{ $day }}</option>
                                                 @endforeach
                                             </select>
                                             <span class="validation-message " id="mediumValidation"></span>

@@ -16,7 +16,7 @@ class StudentDataController extends Controller
     public function getStudent(Request $request)
     {
         // Load authenticated student with relationships
-        $student =  Auth::guard('api')->user()->student->load('Medium', 'std', 'Subject.topic.subtopic');
+        $student =  Auth::guard('api')->user()->student->load('Medium', 'standard', 'Subject.topic.subtopic');
 
         if (!$student) {
             return response()->json(['error' => 'Student not found'], 404);

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\School\SchoolController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Api\StandardController;
 use App\Http\Controllers\Api\Student\RegisterController;
 use App\Http\Controllers\Api\SubjectController;
@@ -11,8 +12,7 @@ use App\Http\Controllers\Api\Guest\StanderdController;
 // use App\Http\Controllers\Api\Guest\GetSubjectController;
 use App\Http\Controllers\Api\Guest\GetTopicController;
 use App\Http\Controllers\Api\Guest\GetSubTopicController;
-use App\Http\Controllers\Api\Guest\GetRendomSubjectController;
-use Illuminate\Http\Request;
+
 // use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Teacher\TeacherController;
 
@@ -44,16 +44,16 @@ Route::post('Teacherlogin', [TeacherController::class, 'login']);
 
 
 //get data
-//Route::get('get_mediums',[getDataController::class,'get_mediums']);
-//Route::get('get_std',[getDataController::class,'get_standards_by_medium']);
-//Route::get('get_all_classes',[getDataController::class,'get_all_classes']);
+Route::get('get_mediums',[getDataController::class,'get_mediums']);
+Route::get('get_standard',[getDataController::class,'get_standards_by_medium']);
+Route::get('get_classes',[getDataController::class,'get_all_classes']);
 
 //
-//Route::get('get_standard',[StandardController::class,'getStandard']);
-//Route::get('get_subject',[SubjectController::class,'getSubject']);
+Route::get('get_standard',[StandardController::class,'getStandard']);
+Route::get('get_subject',[SubjectController::class,'getSubject']);
+Route::get('get_topic',[TopicController::class,'getTopics']);
+Route::get('get_subtopic',[SubTopicController::class,'getSubtopcs']);
 //Route::get('get_home_subject',[\App\Http\Controllers\Api\HomeSubjectController::class,'getSubjects']);
-//Route::get('get_topic',[TopicController::class,'getTopics']);
-//Route::get('get_subtopic',[SubTopicController::class,'getSubtopcs']);
 
 //Route::get('/quiz', [App\Http\Controllers\Api\QuizController::class,'index']);
 
@@ -82,7 +82,7 @@ Route::post('Teacherlogin', [TeacherController::class, 'login']);
 
 
 Route::middleware('auth:api')->group(function () {
-    Route::get('/parent_data', [ParentController::class, 'getdata']);
+    Route::get('/parent_Details', [ParentController::class, 'getdata']);
 //    Route::post('/parent_update', [ParentController::class, 'update']);
 //    Route::post('/parent_update_password', [ParentController::class, 'changePassword']);
 //    Route::post('/user_feedback', [FeedbackController::class, 'userFeedBack']);
@@ -99,10 +99,10 @@ Route::middleware('auth:api')->group(function () {
 
 
 Route::middleware('auth:api')->group(function () {
-    Route::get('/timetable_data', [TimetableController::class, 'getTimetable']);
-    Route::post('/homework_insert', [TeacherController::class, 'store']);
-    Route::post('/homework_submition/{id}', [TeacherController::class, 'updatehomeworkstatus']);
-    Route::get('/homeworkdata', [TeacherController::class, 'gethomeworkdata']);
+    Route::get('/timetable_details', [TimetableController::class, 'getTimetable']);
+    Route::post('/homework_Create', [TeacherController::class, 'store']);
+    Route::post('/homework_update/{id}', [TeacherController::class, 'updatehomeworkstatus']);
+    Route::get('/get_homework', [TeacherController::class, 'gethomeworkdata']);
     Route::get('/filter_student_data', [TeacherController::class, 'getFilteredStudentData']);
     Route::post('/check_attendance', [TeacherController::class, 'check_attendance']);
     Route::post('/store_attendance', [TeacherController::class, 'store_attendance']);

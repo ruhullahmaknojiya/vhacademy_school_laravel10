@@ -59,10 +59,18 @@ class User extends Authenticatable
     {
         return $this->roles()->where('name', $role)->exists();
     }
+    public function student()
+    {
+        return $this->hasOne(Student::class,'user_id');
+    }
 
     public function school()
     {
         return $this->belongsTo(School::class);
+    }
+    public function parent()
+    {
+        return $this->belongsTo(ParentModel::class);
     }
 
     public function teacher()

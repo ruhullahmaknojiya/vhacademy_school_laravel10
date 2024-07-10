@@ -52,7 +52,7 @@ Route::get('/logout', function () {
 Route::group(['middlware'=>'role:SuperAdmin','auth'], function () {
 
 
-    Route::get('/superadmin/dashboard', [SuperAdminController::class, 'dashboard'])->name('SuperAdmin.dashboard');
+    Route::get('/superadmin/dashboard', [SuperAdminController::class, 'dashboard'])->name('superadmin.dashboard');
     Route::get('/superadmin/profile', [SuperAdminController::class, 'profile'])->name('superadmin.profile');
     Route::get('/superadmin/settings', [SuperAdminController::class, 'settings'])->name('superadmin.settings');
 
@@ -168,6 +168,8 @@ Route::group(['middlware'=>'role:SchoolAdmin','auth'], function () {
     Route::get('SchoolAdmin/Teacher/Edit-Timetable/{id}',[TeacherTimeController::class,'edit'])->name('teacher_timetable_edit');
     Route::post('SchoolAdmin/Teacher/Update-Timetable/{id}',[TeacherTimeController::class,'update'])->name('teacher_timetable_update');
     Route::delete('SchoolAdmin/Teacher/Delete-Timetable/{id}',[TeacherTimeController::class,'destroy'])->name('teacher_timetable_delete');
+    Route::get('standards/{mediumId}', [TeacherTimeController::class,'standards'])->name('teacher_standard');
+    Route::get('/subjects/{standardId}', [TeacherTimeController::class,'subjects'])->name('teacher_subjects');
 
 
            //end
