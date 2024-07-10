@@ -26,20 +26,20 @@ class TeacherTimetable extends Model
         return $this->belongsTo(Medium::class,'medium_id');
     }
 
-    public function stander(){
+    public function standerd(){
 
-        return $this->belongsTo(Stander::class,'standard_id');
+        return $this->belongsTo(Standard::class,'standard_id');
     }
 
-    public function classs(){
+    public function classmodel(){
 
-        return $this->belongsTo(Classs::class,'class_id');
+        return $this->belongsTo(ClassModel::class,'class_id');
     }
 
-    public function day(){
-
-        return $this->belongsTo(Day::class,'day_id');
-    }
+//    public function day(){
+//
+//        return $this->belongsTo(Day::class,'day_id');
+//    }
     public function subject(){
 
         return $this->belongsTo(Subject::class,'subject_id');

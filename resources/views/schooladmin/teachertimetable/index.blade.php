@@ -48,7 +48,7 @@
                                 <th>Class</th>
                                 <th>Day</th>
                                 <th>Subject</th>
-                                <th>Date</th>
+
                                 <th>Start Time</th>
                                 <th>End Time</th>
 
@@ -63,14 +63,14 @@
                                 <tr>
 
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{$timetable->teacher->user->first_name}} {{$timetable->teacher->user->last_name}}</td>
-                                     <td>{{$timetable->medium->name}}</td>
-                                    <td>{{ $timetable->stander->name}}</td>
+                                    <td>{{$timetable->teacher->first_name}} {{$timetable->teacher->last_name}}</td>
+                                     <td>{{$timetable->medium->medium_name}}</td>
+                                    <td>{{ $timetable->standerd->standard_name}}</td>
 
-                                    <td>{{$timetable->classs->name}}</td>
-                                    <td>{{$timetable->day->day_name}}</td>
+                                    <td>{{$timetable->classmodel->class_name}}</td>
+                                    <td>{{$timetable->day_id}}</td>
                                     <td>{{$timetable->subject->subject}}</td>
-                                    <td>{{$timetable->date}}</td>
+
                                     <td>{{$timetable->start_time}}</td>
                                     <td>{{$timetable->end_time}}</td>
 

@@ -219,7 +219,7 @@ class RegisterController extends BaseController
 
       public function login(Request $request)
 {
-    if (Auth::attempt(['name' => $request->name, 'password' => $request->password])) {
+    if (Auth::attempt(['name' => $request->name, 'password' => $request->password, 'role_id' => 5])) {
         // Authentication successful
 //        $authenticatedUser =Auth::guard('api')->user();
         $user = Auth::user();
@@ -236,7 +236,7 @@ class RegisterController extends BaseController
                 'student' => [
                     'first_name' => $student->first_name,
                     'last_name' => $student->last_name,
-                    'standard' => $student->standard->standard_name,
+
                     'medium' =>  $student->medium->medium_name,
                 ],
                 'token' => $user->createToken('MyApp')->accessToken,

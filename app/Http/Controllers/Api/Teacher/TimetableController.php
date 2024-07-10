@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api\Teacher;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use  App\Models\TeacherTimetable;
-use Auth;
+
+use Illuminate\Support\Facades\Auth;
+
 class TimetableController extends Controller
 {
     public function getTimetable()
@@ -15,12 +17,12 @@ class TimetableController extends Controller
 
         if ($authenticatedUser) {
             // Fetch the teacher associated with the authenticated user
-            $teacher = $authenticatedUser->teachers;
+            $teacher = $authenticatedUser->teacher;
 
             if ($teacher) {
                 // Fetch the teacher's timetables along with related user and other necessary relationships
                 $timetables = TeacherTimetable::where('teacher_id', $teacher->id)
-                    ->with(['teacher.user', 'medium', 'stander', 'classs', 'subject', 'day'])
+                    ->with(['teacher.user', 'medium', 'standerd', 'classmodel', 'subject'])
                     ->get();
 
                 // Organize timetables by day
@@ -37,14 +39,14 @@ class TimetableController extends Controller
                     $timetableData[$dayName][] = [
                         'startTime' => $timetable->start_time,
                         'endTime' => $timetable->end_time,
-                        'class' => "{$timetable->subject->subject} (Class {$timetable->stander->name} {$timetable->classs->name})",
+                        'class' => "{$timetable->subject->subject} (Class {$timetable->standerd->standard_name} {$timetable->classs->class_name})",
                     ];
                 }
 
                 return response()->json([
                     'user' => [
-                        'first_name' => $teacher->user->first_name,
-                        'last_name' => $teacher->user->last_name,
+                        'first_name' => $teacher->user->name,
+
                     ],
                     'timetables' => $timetableData,
                 ], 200);
