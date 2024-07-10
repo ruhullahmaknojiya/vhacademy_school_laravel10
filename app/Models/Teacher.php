@@ -12,6 +12,7 @@ class Teacher extends Model
     protected $fillable = [
         'user_id',
         'staff_id',
+        'school_id',
         'designation',
         'department',
         'first_name',

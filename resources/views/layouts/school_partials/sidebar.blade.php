@@ -54,7 +54,7 @@
                <!-- Fees Management Menu -->
                 <li class="nav-header">ACCOUNT MANAGEMENT</li>
                 <li class="nav-item">
-                    <a href="" class="nav-link">
+                    <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-money-check-alt"></i>
                         <p>
                             Fees Collection
@@ -135,8 +135,8 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="" class="nav-link ">
-                            <i class="nav-icon fas fa-calendar-day"></i>
+                        <a href="{{ route('schooladmin.homework.index') }}" class="nav-link {{ request()->routeIs('schooladmin.homework.index') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-book"></i>
                             <p>Home Work</p>
                         </a>
                     </li>
@@ -168,29 +168,53 @@
                 </li>
                 <li class="nav-header">EDUCATION MANAGEMENT</li>
                 <li class="nav-item">
-                    <a href="" class="nav-link">
+                    <a href="#" class="nav-link ">
+                    <i class="nav-icon fas fa-money-check-alt"></i>
+                    <p>
+                        LMS CONTENT
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="{{route('schooladmin.educational.medium.index')}}" class="nav-link {{ request()->routeIs('schooladmin.educational.medium.index') ? 'active' : '' }}">
                         <i class="fas fa-language nav-icon"></i>
                         <p>Medium</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="" class="nav-link">
+                    <a href="{{route('schooladmin.educational.standard.index')}}" class="nav-link {{ request()->routeIs('schooladmin.educational.standard.index') ? 'active' : '' }}">
                         <i class="fas fa-layer-group nav-icon"></i>
                         <p>Standard</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="" class="nav-link">
+                    <a href="{{route('schooladmin.educational.class.index')}}" class="nav-link {{ request()->routeIs('schooladmin.educational.class.index') ? 'active' : '' }}">
                         <i class="fas fa-door-open nav-icon"></i>
                         <p>Class</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="" class="nav-link">
+                    <a href="{{route('schooladmin.educational.subject.index')}}" class="nav-link {{ request()->routeIs('schooladmin.educational.subject.index') ? 'active' : '' }}">
                         <i class="fas fa-book nav-icon"></i>
                         <p>Subject</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{route('schooladmin.educational.chapter.index')}}" class="nav-link {{ request()->routeIs('schooladmin.educational.chapter.index') ? 'active' : '' }}">
+                        <i class="fas fa-book nav-icon"></i>
+                        <p>Chapter</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('schooladmin.educational.topic.index')}}" class="nav-link {{ request()->routeIs('schooladmin.educational.topic.index') ? 'active' : '' }}">
+                        <i class="fas fa-book nav-icon"></i>
+                        <p>Topic</p>
+                    </a>
+                </li>
+
+                </ul>
+            </li>
             </ul>
         </nav>
     </div>

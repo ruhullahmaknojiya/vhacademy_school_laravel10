@@ -94,7 +94,7 @@ Route::middleware('auth:api')->group(function () {
 //    Route::get('/student_homework_data', [App\Http\Controllers\Api\Student\StudentDataController::class, 'getStudentHomeworkData']);
 //
 //});
-//teacher
+//teacher     
 
 
 

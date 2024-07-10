@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateHomeWorksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('home_works', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('teacher_id')->references('id')->on('user');
-            $table->foreignId('medium_id')->references('id')->on('mediums')->cascadeOnDelete();
-            $table->foreignId('standard_id')->references('id')->on('standers')->cascadeOnDelete();
-            $table->foreignId('class_id')->references('id')->on('classses')->cascadeOnDelete();
-            $table->foreignId('subject_id')->references('id')->on('subjects')->cascadeOnDelete();
-            $table->foreignId('school_id')->references('id')->on('schools')->cascadeOnDelete()->nullable();
+            $table->unsignedBigInteger('teacher_id');
+            $table->unsignedBigInteger('medium_id');
+            $table->unsignedBigInteger('standard_id');
+            $table->unsignedBigInteger('class_id');
+            $table->unsignedBigInteger('subject_id');
+            $table->unsignedBigInteger('school_id');
             $table->date('date');
             $table->date('submition_date')->nullable();
             $table->string('submition_status')->default('pending');
@@ -29,6 +29,14 @@ return new class extends Migration
             $table->string('topic_description');
             $table->integer('status')->default(0);
             $table->timestamps();
+
+            // Adding foreign key constraints
+            $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('cascade');
+            $table->foreign('medium_id')->references('id')->on('mediums')->onDelete('cascade');
+            $table->foreign('standard_id')->references('id')->on('standards')->onDelete('cascade');
+            $table->foreign('class_id')->references('id')->on('classes')->onDelete('cascade');
+            $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
+            $table->foreign('school_id')->references('id')->on('schools')->onDelete('cascade');
         });
     }
 
@@ -41,4 +49,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('home_works');
     }
-};
+}

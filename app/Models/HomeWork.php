@@ -12,31 +12,44 @@ class HomeWork extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'teacher_id', 'medium_id', 'standard_id', 'class_id', 'subject_id', 'date', 'topic_title', 'topic_description', 'school_id', 'pdf_path',
+        'teacher_id',
+        'medium_id',
+        'standard_id',
+        'class_id',
+        'subject_id',
+        'school_id',
+        'date',
+        'submition_date',
+        'submition_status',
+        'pdf_file',
+        'topic_title',
+        'topic_description',
+        'status',
     ];
-    public function teacher(){
 
-        return $this->belongsTo(Teacher::class,'teacher_id');
+
+    public function teacher() {
+        return $this->belongsTo(Teacher::class);
     }
 
-    public function medium(){
-
-        return $this->belongsTo(Medium::class,'medium_id');
+    public function medium() {
+        return $this->belongsTo(Medium::class);
     }
 
-    public function stander(){
-
-        return $this->belongsTo(Stander::class,'standard_id');
+    public function standard() {
+        return $this->belongsTo(Standard::class);
     }
 
-    public function classs(){
-
-        return $this->belongsTo(Classs::class,'class_id');
+    public function class() {
+        return $this->belongsTo(ClassModel::class);
     }
 
-
-    public function subject(){
-
-        return $this->belongsTo(Subject::class,'subject_id');
+    public function subject() {
+        return $this->belongsTo(Subject::class);
     }
+
+    public function school() {
+        return $this->belongsTo(School::class);
+    }
+
 }

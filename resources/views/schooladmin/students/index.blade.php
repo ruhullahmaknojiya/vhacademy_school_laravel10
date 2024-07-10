@@ -62,7 +62,7 @@
                                 </select>
                             </div>
                         </div>
-                    <div class="col-mr-3">
+                    <div class="col-md-2">
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Search</button>
 
@@ -84,7 +84,6 @@
                                         <th>UID</th>
                                         <th>Student Name</th>
                                         <th>Roll No.</th>
-                                        <th>Medium</th>
                                         <th>Class</th>
                                         <th>Father Name</th>
                                         <th>DOB</th>
@@ -100,15 +99,15 @@
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $student->admission_no }}</td>
                                             <td>{{ $student->uid }}</td>
-                                            <td>{{ $student->first_name }}</td>
+                                            <td class="text-center">{{ $student->first_name }}</td>
                                             <td>{{ $student->roll_number }}</td>
-                                            <td>{{ $student->medium->medium_name }}</td>
-                                            <td>{{ $student->standard ? $student->standard->standard_name : 'N/A'  }} ({{ $student->class ? $student->class->class_name : 'N/A' }})</td>
+                                            <td class="text-center">{{ $student->medium->medium_name }} {{ $student->standard ? $student->standard->standard_name : 'N/A'  }} ({{ $student->class ? $student->class->class_name : 'N/A' }})</td>
                                             <td>{{ $student->parent->father_name }}</td>
                                             <td>{{ $student->date_of_birth }}</td>
                                             <td>{{ $student->gender }}</td>
                                             <td>{{ $student->category }}</td>
                                             <td>{{ $student->mobile_number }}</td>
+
                                 <td class="d-flex">
                                     <a href="{{ route('schooladmin.students.show', $student->id) }}" class="btn btn-info btn-sm mr-1">
                                         <i class="fas fa-eye"></i>

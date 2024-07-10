@@ -15,14 +15,20 @@ return new class extends Migration
     {
         Schema::create('teacher_timetables', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('teacher_id');
+            $table->unsignedBigInteger('medium_id');
+            $table->unsignedBigInteger('standard_id');
+            $table->unsignedBigInteger('class_id');
+            $table->unsignedBigInteger('subject_id');
+            $table->unsignedBigInteger('school_id');
+            $table->date('date');
+            $table->time('start_time');
+            $table->time('end_time');
             $table->foreignId('teacher_id')->references('id')->on('teachers')->cascadeOnDelete();
             $table->foreignId('medium_id')->references('id')->on('mediums')->cascadeOnDelete();
             $table->foreignId('standard_id')->references('id')->on('standards')->cascadeOnDelete();
             $table->foreignId('class_id')->references('id')->on('classes')->cascadeOnDelete();
             $table->foreignId('subject_id')->references('id')->on('subjects')->cascadeOnDelete();
-            $table->date('date');
-            $table->time('start_time');
-            $table->time('end_time');
             $table->foreignId('school_id')->references('id')->on('schools')->cascadeOnDelete()->nullable();
             $table->timestamps();
         });

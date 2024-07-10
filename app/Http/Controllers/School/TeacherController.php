@@ -96,6 +96,7 @@ class TeacherController extends Controller
             $teacher = Teacher::create([
                 'user_id' => $user->id,
                 'staff_id' => $staffId,
+                'school_id' =>  $school->id,
                 'designation' => $request->input('designation'),
                 'department' => $request->input('department'),
                 'first_name' => $request->input('first_name'),

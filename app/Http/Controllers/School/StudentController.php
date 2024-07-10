@@ -100,12 +100,14 @@ class StudentController extends Controller
         try {
             $authUser = Auth::user();
             $school = School::where('user_id', $authUser->id)->first();
+            $studentRole = Role::where('name', 'Student')->first();
+
             // Create the user entry for guardian
             $schoolNamePrefix = strtoupper(substr($school->name, 0, 3));
             $user = new User();
-            $user->name = $schoolNamePrefix . $validatedData['admission_no'] . date('Ymd', strtotime($validatedData['date_of_birth']));
+            $user->name = $schoolNamePrefix . $validatedData['father_phone'] . date('Ymd', strtotime($validatedData['date_of_birth']));
             $user->email = $validatedData['guardian_email'];
-            $user->password = Hash::make($validatedData['guardian_name'] . $validatedData['guardian_phone'] . $user->name . $validatedData['date_of_birth']);
+            $user->password = Hash::make($validatedData['father_phone'] .'@'. $validatedData['date_of_birth']);
             $user->role_id = Role::where('name', 'Parent')->first()->id;
             $user->fcm_token = $request->input('fcm_token');
             $user->save();
@@ -133,9 +135,18 @@ class StudentController extends Controller
 
             $validatedData['uid'] = strtoupper(substr($school->name, 0, 3)) . $validatedData['admission_no'] . date('Ymd', strtotime($validatedData['date_of_birth']));
 
+            $userStudent = new User();
+            $userStudent->name = $schoolNamePrefix . $validatedData['admission_no'] . date('Ymd', strtotime($validatedData['date_of_birth']));
+            $userStudent->email = $validatedData['email'];
+            $userStudent->password = Hash::make($validatedData['father_phone']);
+            $userStudent->role_id = Role::where('name', 'Student')->first()->id;
+            $userStudent->fcm_token = $request->input('fcm_token');
+            $userStudent->save();
+
+
             // Create the student entry
             $student = new Student();
-            $student->user_id = $user->id; // Set the user_id in student table $school
+            $student->user_id = $userStudent->id; // Set the user_id in student table $school
             $student->school_id =$school->id; // Set the user_id in student table medium_id,class_id,section_id
             $student->parent_id = $parent->id;
             $student->uid = $validatedData['uid'];

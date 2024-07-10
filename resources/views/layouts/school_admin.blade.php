@@ -14,7 +14,46 @@
     <link rel="stylesheet" href="https://adminlte.io/themes/v3/dist/css/adminlte.min.css">
 
             <!-- DataTables CSS -->
-
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                }
+                .table {
+                    width: 100%;
+                    margin: 20px 0;
+                    border-collapse: collapse;
+                }
+                .table th, .table td {
+                    padding: 10px;
+                    text-align: left;
+                    border: 1px solid #ddd;
+                }
+                .table th {
+                    background-color: #f2f2f2;
+                }
+                .table .text-center {
+                    text-align: center;
+                }
+                .table .d-flex {
+                    display: flex;
+                    justify-content: center;
+                }
+                .table .btn {
+                    margin-right: 5px;
+                }
+                .table .btn:last-child {
+                    margin-right: 0;
+                }
+                .table .btn i {
+                    margin-right: 3px;
+                }
+                .table .btn-sm {
+                    padding: 5px 10px;
+                }
+                .table .btn-info {
+                    color: #fff;
+                }
+            </style>
    <style>
     table.dataTable {
         width: 100%;
