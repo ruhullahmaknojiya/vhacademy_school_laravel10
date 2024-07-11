@@ -24,7 +24,7 @@ class StudentDataController extends Controller
 
         // Return the student information
         return response()->json([
-            'user_type' => Auth::user()->user_type,
+            'user_type' => Auth::user()->role_id,
             'data' => Auth::user(),
         ]);
     }
@@ -49,11 +49,11 @@ class StudentDataController extends Controller
         $student->save();
 
         // Load the student with relationships
-        $student->load('Medium', 'std', 'Subject.topic.subtopic');
+        $student->load('medium', 'standard', 'Subject.topic.subtopic');
 
         // Return the updated student information
         return response()->json([
-            'user_type' => $user->user_type,
+            'user_type' => $user->role_id,
             'data' => $student,
         ]);
     }
@@ -73,17 +73,18 @@ class StudentDataController extends Controller
                 $homeworks = HomeWork::where('medium_id', $student->medium_id)
                     ->where('standard_id', $student->standard_id)
                     ->where('class_id', $student->class_id)
-                    ->with(['teacher.user', 'medium', 'stander', 'classs', 'subject'])
+                    ->with(['teacher.user', 'medium', 'standard', 'classmodel', 'subject'])
                     ->get();
 
                 $homeworkData = $homeworks->map(function ($homework) {
                     return [
-                        'teacher_first_name' => optional($homework->teacher->user)->first_name,
-                        'teacher_last_name' => optional($homework->teacher->user)->last_name,
-                        'phone' => optional($homework->teacher->user)->phone,                        'homework_id' => optional($homework)->id,
-                        'medium' => optional($homework->medium)->name,
-                        'standard' => optional($homework->stander)->name ?? 'N/A',
-                        'class' => optional($homework->classs)->name ?? 'N/A',
+                        'teacher_first_name' => optional($homework->teacher)->first_name,
+                        'teacher_last_name' => optional($homework->teacher)->last_name,
+                        'phone' => optional($homework->teacher)->phone,
+                        'homework_id' => optional($homework)->id,
+                        'medium' => optional($homework->medium)->medium_name,
+                        'standard' => optional($homework->standard)->standard_name ?? 'N/A',
+                        'class' => optional($homework->classmodel)->class_name ?? 'N/A',
                         'subject' => optional($homework->subject)->subject ?? 'N/A',
                         'date' => $homework->date,
                         'submition_date' => $homework->submition_date,
@@ -95,8 +96,8 @@ class StudentDataController extends Controller
 
                 return response()->json([
                     'student' => [
-                        'first_name' => $authenticatedUser->first_name,
-                        'last_name' => $authenticatedUser->last_name,
+                        'first_name' => $authenticatedUser->teacher->first_name,
+                        'last_name' => $authenticatedUser->teacher->last_name,
                     ],
                     'homeworks' => $homeworkData,
                 ], 200);

@@ -73,9 +73,13 @@ class Student extends Model
         return $this->belongsTo(Standard::class);
     }
 
-    public function class()
+    public function classs()
     {
         return $this->belongsTo(ClassModel::class);
+    }
+    public function Subject()
+    {
+        return $this->belongsTo(Subject::class,'subject_id');
     }
 
     // public function parent()

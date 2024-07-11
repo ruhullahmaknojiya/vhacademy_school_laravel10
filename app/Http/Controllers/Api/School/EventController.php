@@ -22,7 +22,7 @@ class EventController extends Controller
         if ($events->isEmpty()) {
             return response()->json([
                 'status' => 'false',
-                'message' => 'No standards found.',
+                'message' => 'No Event found.',
             ], 502);
         }
 
@@ -45,7 +45,7 @@ class EventController extends Controller
                     'end_date' => $event->end_date,
                     'color' => $event->color,
                           'repeat' => $event->repeated,
-             
+
                     'School_id' => $event->school_id ,
                 ];
             }),
