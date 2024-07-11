@@ -153,18 +153,29 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="" class="nav-link">
+                        <a href="#" class="nav-link">
                             <i class="fas fa-user-check nav-icon"></i>
                             <p>Assign Class Teacher</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="" class="nav-link">
+                        <a href="#" class="nav-link">
                             <i class="fas fa-user-graduate nav-icon"></i>
                             <p>Promote Students</p>
                         </a>
                     </li>
-
+                    <li class="nav-item">
+                        <a href="{{route('import-form')}}" class="nav-link {{ request()->routeIs('import-form') ? 'active' : '' }}">
+                            <i class="fas fa-user-graduate nav-icon"></i>
+                            <p>Import Students</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{route('teacher.import-form')}}" class="nav-link {{ request()->routeIs('teacher.import-form') ? 'active' : '' }}">
+                            <i class="fas fa-user-graduate nav-icon"></i>
+                            <p>Import Teacher</p>
+                        </a>
+                    </li>
                 </li>
                 <li class="nav-header">EDUCATION MANAGEMENT</li>
                 <li class="nav-item">

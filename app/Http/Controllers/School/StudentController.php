@@ -18,7 +18,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
-
+use App\Imports\StudentsImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class StudentController extends Controller
 {
@@ -229,5 +230,37 @@ class StudentController extends Controller
         $student = Student::with('parent')->findOrFail($id);
         return view('schooladmin.students.show', compact('student'));
     }
+
+
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx',
+            'medium_id' => 'required|exists:mediums,id',
+            'class_id' => 'required|exists:standards,id',
+            'section_id' => 'required|exists:classes,id',
+        ]);
+
+        $medium_id = $request->input('medium_id');
+        $class_id = $request->input('class_id');
+        $section_id = $request->input('section_id');
+
+        $import = new StudentsImport($medium_id, $class_id, $section_id);
+        Excel::import($import, $request->file('file'));
+
+        return view('schooladmin.students.importexcel.import-results', ['results' => $import->results]);
+    }
+
+
+    public function showImportForm()
+    {
+        $standards = Standard::all();
+        $mediums = Medium::all();
+        $classes = ClassModel::all();
+
+        return view('schooladmin.students.importexcel.import', compact('mediums', 'standards', 'classes'));
+    }
+
 }
 ?>

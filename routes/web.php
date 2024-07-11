@@ -239,5 +239,11 @@ Route::group(['middlware'=> ['auth','role:SchoolAdmin']], function () {
     Route::get('/get-newtopics', 'SubTopicsController@getNewTopics')->name('get-newtopics');
 
 
+    Route::get('/import-form', [StudentController::class, 'showImportForm'])->name('import-form');
+    Route::post('/import', [StudentController::class, 'import'])->name('import');
+
+    Route::get('/teacher.import-form', [TeacherController::class, 'showImportForm'])->name('teacher.import-form');
+    Route::post('/teacher.import', [TeacherController::class, 'import'])->name('teacher.import');
+
 });
 

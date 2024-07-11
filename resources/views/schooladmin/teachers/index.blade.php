@@ -74,9 +74,7 @@
                     @endforeach
                 </tbody>
             </table>
-            <div class="pagination justify-content-center">
-                {{ $teachers->links() }}
-            </div>
+
         </div>
     </div>
 </div>

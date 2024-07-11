@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
+use App\Imports\TeachersImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TeacherController extends Controller
 {
@@ -20,7 +22,7 @@ class TeacherController extends Controller
     {
         Log::info('Fetching all teachers');
         // $teachers = Teacher::with('user', 'documents')->get();
-        $teachers = Teacher::paginate(10);
+        $teachers = Teacher::get();
         Log::info('Fetched teachers', ['teacher_count' => $teachers->count()]);
         return view('schooladmin.teachers.index', compact('teachers'));
         // return view('schooladmin.teachers.index', compact('teachers'));
@@ -210,4 +212,38 @@ class TeacherController extends Controller
 
         return redirect()->route('schooladmin.teachers.index')->with('success', 'Teacher deleted successfully');
     }
+
+
+
+    public function import(Request $request)
+    {
+        $validatedData = $request->validate([
+            'file' => 'required|mimes:xlsx,xls,csv',
+        ]);
+
+        try {
+            Log::info('Starting import');
+            $import = new TeachersImport();
+            Excel::import($import, $request->file('file')->store('temp'));
+            Log::info('Import successful');
+            if ($import->stopProcessing) {
+                Log::info('Import stopped due to blank row.');
+                return view('schooladmin.teachers.importexcel.import_results', ['results' => $import->results, 'message' => 'Import stopped due to blank row.']);
+                // return view('schooladmin.teachers.importexcel.import_results', ['results' => $import->results]);
+
+            }
+            Log::info('Import successful');
+            return view('schooladmin.teachers.importexcel.import_results', ['results' => $import->results]);
+        } catch (\Exception $e) {
+            Log::error('Error in import controller', ['error' => $e->getMessage(), 'stack' => $e->getTraceAsString()]);
+            return back()->with('error', 'There was an error importing the teachers.');
+        }
+    }
+
+    public function showImportForm()
+    {
+        return view('schooladmin.teachers.importexcel.import');
+    }
+
+
 }
