@@ -40,6 +40,11 @@ class User extends Authenticatable
         'two_factor_secret',
     ];
 
+    public function hasRole($role)
+    {
+        return $this->role->name === $role;
+    }
+
     public function roles()
     {
         return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id');
@@ -55,10 +60,10 @@ class User extends Authenticatable
         return $this->morphTo();
      }
 
-    public function hasRole($role)
-    {
-        return $this->roles()->where('name', $role)->exists();
-    }
+    // public function hasRole($role)
+    // {
+    //     return $this->roles()->where('name', $role)->exists();
+    // }
     public function student()
     {
         return $this->hasOne(Student::class,'user_id');

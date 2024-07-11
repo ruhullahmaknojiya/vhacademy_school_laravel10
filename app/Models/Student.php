@@ -70,12 +70,12 @@ class Student extends Model
 
     public function standard()
     {
-        return $this->belongsTo(Standard::class);
+        return $this->belongsTo(Standard::class,'class_id');
     }
 
     public function class()
     {
-        return $this->belongsTo(ClassModel::class);
+        return $this->belongsTo(ClassModel::class,'section_id');
     }
 
     // public function parent()

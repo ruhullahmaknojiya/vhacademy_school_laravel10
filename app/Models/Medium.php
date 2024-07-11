@@ -14,7 +14,7 @@ class Medium extends Model
         'status',
     ];
 
-    public function standards()
+    public function standard()
     {
         return $this->hasMany(Standard::class);
     }

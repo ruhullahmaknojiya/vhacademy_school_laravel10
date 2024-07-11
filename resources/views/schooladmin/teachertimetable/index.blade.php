@@ -4,17 +4,8 @@
 @endsection
 @section('content')
     @include('flash-message')
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row ">
-                <div class="col-sm-12">
-                    <h1>School-Timetable</h1>
-                </div>
 
-            </div>
-        </div><!-- /.container-fluid -->
-    </section>
-
+<br>
     <div class="content">
         <div class="container-fluid">
     <div class="row">
@@ -25,7 +16,7 @@
                     <div class="page-header">
                         <div class="row align-items-center">
                             <div class="col">
-                                <h3 class="page-title">List School-Timetable</h3>
+                                <h3 class="page-title">School Timetable</h3>
                             </div>
                             <div class="col-auto text-end float-end ms-auto download-grp">
 
@@ -68,7 +59,7 @@
                                     <td>{{ $timetable->standerd->standard_name}}</td>
 
                                     <td>{{$timetable->classmodel->class_name}}</td>
-                                    <td>{{$timetable->day_id}}</td>
+                                    <td>{{$timetable->day}}</td>
                                     <td>{{$timetable->subject->subject}}</td>
 
                                     <td>{{$timetable->start_time}}</td>

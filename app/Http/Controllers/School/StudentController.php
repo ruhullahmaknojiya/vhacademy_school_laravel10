@@ -24,13 +24,31 @@ class StudentController extends Controller
 {
 
 
-    public function index()
+    public function index(Request $request)
     {
         // Retrieve all students and pass them to the view
         $mediums = Medium::all();
         $standards = Standard::all();
         $classes = ClassModel::all();
-        $students = Student::paginate(10);
+        $query = Student::query();
+        //  dd($request);
+        if ($request->has('medium') && $request->medium) {
+            $query->whereHas('standard.medium', function ($q) use ($request) {
+                $q->where('id', $request->medium);
+            });
+        }
+
+        if ($request->has('standard') && $request->standard) {
+            $query->whereHas('standard', function ($q) use ($request) {
+                $q->where('id', $request->standard);
+            });
+        }
+
+        if ($request->has('class') && $request->class) {
+            $query->where('section_id', $request->class);
+        }
+
+        $students = $query->paginate(10);
         return view('schooladmin.students.index', compact('mediums', 'standards', 'classes','students'));
     }
 

@@ -21,44 +21,59 @@ class SubTopicsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $mediums = Medium::all();
-    $standards = collect();
-    $subjects = collect();
-    $subtopics = collect();
+        $standards = Standard::all();
+        $subjects = Subject::all();
+        $topics = Topic::all();
 
-    $defaultMedium = Medium::first();
-    $defaultStandard = $defaultMedium ? Standard::where('medium_id', $defaultMedium->id)->first() : null;
-    $defaultSubject = $defaultStandard ? Subject::where('std_id', $defaultStandard->id)->first() : null;
-    $defaultSubtopic = $defaultSubject ? SubTopic::where('subject_id', $defaultSubject->id)->first() : null;
+        $query = SubTopic::query();
 
-    if ($request->has('medium_id') && $request->medium_id != '') {
-        $standards = Standard::where('medium_id', $request->medium_id)->get();
-    } else if ($defaultMedium) {
-        $standards = Standard::where('medium_id', $defaultMedium->id)->get();
-        $request->medium_id = $defaultMedium->id;
+        if ($request->has('medium_id') && $request->medium_id) {
+            $query->whereHas('topic.subject.standard.medium', function ($q) use ($request) {
+                $q->where('id', $request->medium_id);
+            });
+        }
+
+        if ($request->has('standard_id') && $request->standard_id) {
+            $query->whereHas('topic.subject.standard', function ($q) use ($request) {
+                $q->where('id', $request->standard_id);
+            });
+        }
+
+        if ($request->has('subject_id') && $request->subject_id) {
+            $query->whereHas('topic.subject', function ($q) use ($request) {
+                $q->where('id', $request->subject_id);
+            });
+        }
+
+        if ($request->has('topic_id') && $request->topic_id) {
+            $query->where('topic_id', $request->topic_id);
+        }
+
+        $subtopics = $query->get();
+
+        return view('superadmin.SubTopics.index',compact('mediums', 'standards', 'subjects','topics' ,'subtopics'));
     }
 
-    if ($request->has('standard_id') && $request->standard_id != '') {
-        $subjects = Subject::where('std_id', $request->standard_id)->with('standard.medium')->get();
-    } else if ($defaultStandard) {
-        $subjects = Subject::where('std_id', $defaultStandard->id)->with('standard.medium')->get();
-        $request->standard_id = $defaultStandard->id;
+
+    public function getNewStandards(Request $request)
+    {
+    $standards = Standard::where('medium_id', $request->medium_id)->get();
+    return response()->json($standards);
     }
 
-    if ($request->has('subject_id') && $request->subject_id != '') {
-        $subtopics = SubTopic::where('subject_id', $request->subject_id)->with('topic')->get();
-    } else if ($defaultSubject) {
-        $subtopics = SubTopic::where('subject_id', $defaultSubject->id)->with('topic')->get();
-        $request->subject_id = $defaultSubject->id;
+    public function getNewSubjects(Request $request)
+    {
+    $subjects = Subject::where('standard_id', $request->standard_id)->get();
+    return response()->json($subjects);
     }
 
-
-        // $subtopics=SubTopic::with('topic')->get();
-
-
-        return view('superadmin.SubTopics.index',compact('mediums', 'standards', 'subjects', 'subtopics'));
+    public function getNewTopics(Request $request)
+    {
+    $topics = Topic::where('subject_id', $request->subject_id)->get();
+    return response()->json($topics);
     }
 
     /**

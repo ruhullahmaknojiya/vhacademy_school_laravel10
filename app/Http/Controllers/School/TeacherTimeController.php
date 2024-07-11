@@ -46,15 +46,15 @@ class TeacherTimeController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request);
 
         $validate = $request->validate([
             'teacher_id' => 'required',
             'medium_id' => 'required',
             'std_id' => 'required',
             'class_id' => 'required',
-            'day_id' => 'required',
             'subject_id' => 'required',
-            'date' => 'required',
+             'day' => 'required',
             'start_time' => 'required',
             'end_time' => 'required',
         ], [
@@ -62,9 +62,8 @@ class TeacherTimeController extends Controller
             'medium_id.required' => 'The Medium is required.',
             'std_id.required' => 'The Standard is required.',
             'class_id.required' => 'The Class is required.',
-            'day_id.required' => 'The Day is required.',
+            'day.required' => 'The Day is required.',
             'subject_id.required' => 'The Subject is required.',
-            'date.required' => 'The Date is required.',
             'start_time.required' => 'The Start Time is required.',
             'end_time.required' => 'The End Time is required.',
         ]);
@@ -81,12 +80,11 @@ class TeacherTimeController extends Controller
         $save_timetable->medium_id=$request->medium_id;
         $save_timetable->standard_id=$request->std_id;
         $save_timetable->class_id=$request->class_id;
-        $save_timetable->day_id=$request->day_id;
+        $save_timetable->day=$request->day;
         $save_timetable->subject_id=$request->subject_id;
-        $save_timetable->date=$request->date;
         $save_timetable->start_time=$request->start_time;
         $save_timetable->end_time=$request->end_time;
-        $save_timetable->school_id=$School->id;
+        $save_timetable->school_id = $School->id;
 
         // Handle PDF file upload
 

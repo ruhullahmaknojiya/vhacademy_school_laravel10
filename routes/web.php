@@ -49,12 +49,12 @@ Route::get('/logout', function () {
     return redirect('/login');
 })->name('logout');
 
-Route::group(['middlware'=>'role:SuperAdmin','auth'], function () {
+Route::group(['middlware'=> ['auth','role:SuperAdmin']], function () {
 
 
-    Route::get('/superadmin/dashboard', [SuperAdminController::class, 'dashboard'])->name('superadmin.dashboard');
-    Route::get('/superadmin/profile', [SuperAdminController::class, 'profile'])->name('superadmin.profile');
-    Route::get('/superadmin/settings', [SuperAdminController::class, 'settings'])->name('superadmin.settings');
+    Route::get('superadmin/dashboard', [SuperAdminController::class, 'dashboard'])->name('superadmin.dashboard');
+    Route::get('superadmin/profile', [SuperAdminController::class, 'profile'])->name('superadmin.profile');
+    Route::get('superadmin/settings', [SuperAdminController::class, 'settings'])->name('superadmin.settings');
 
     //routes for school registration and listing
     Route::get('schools/register', [SuperAdminController::class, 'registerSchoolForm'])->name('school.register.form');
@@ -62,7 +62,7 @@ Route::group(['middlware'=>'role:SuperAdmin','auth'], function () {
     Route::get('schools', [SuperAdminController::class, 'listSchools'])->name('school.list');
     Route::get('schools/{school}/edit', [SuperAdminController::class, 'editSchoolForm'])->name('schools.edit');
     Route::patch('schools/{school}/disable', [SuperAdminController::class, 'disableSchool'])->name('schools.disable');
-    Route::get('/schools/{id}', [SuperAdminController::class, 'show'])->name('schools.show');
+    Route::get('schools/{id}', [SuperAdminController::class, 'show'])->name('schools.show');
     //routes for Educational Details registration and listing
    // Medium Routes
     Route::get('superadmin/medium', [EducationalController::class, 'indexMedium'])->name('superadmin.medium.index');
@@ -109,18 +109,25 @@ Route::group(['middlware'=>'role:SuperAdmin','auth'], function () {
 
 
     //School_SubTopics modual
-    Route::get('superadmin/SubTopics',[SubTopicsController::class,'index'])->name('subtopics')->middleware('auth');
-    Route::get('superadmin/create-SubTopics',[SubTopicsController::class,'create'])->name('create_subtopics')->middleware('auth');
-    Route::post('superadmin/save-SubTopics',[SubTopicsController::class,'store'])->name('save_subtopics')->middleware('auth');
-    Route::get('superadmin/edit-SubTopics/{id}',[SubTopicsController::class,'edit'])->name('edit_subtopics')->middleware('auth');
-    Route::post('superadmin/update-SubTopics/{id}',[SubTopicsController::class,'update'])->name('update_subtopics')->middleware('auth');
-    Route::delete('superadmin/delete-SubTopics/{id}',[SubTopicsController::class,'destroy'])->name('delete_subtopics')->middleware('auth');
-    Route::get('/get_standards/{mediumId}', [SubTopicsController::class,'getStandards'])->name('get_standards');
-    Route::get('/get_subjects/{standardId}', [SubTopicsController::class,'getSubjects'])->name('get_subjects');
-    Route::get('/get_topics/{subjectId}', [SubTopicsController::class,'getTopics'])->name('get_topics');
-    Route::get('/get_subtopics/{topictId}', [SubTopicsController::class,'getSubTopics'])->name('get_subtopics');
-    Route::get('/get-newstandards', [SubjectController::class, 'getNewStandards'])->name('get-newstandards');
+    Route::get('superadmin/SubTopics',[SubTopicsController::class,'index'])->name('subtopics.index');
+    Route::get('superadmin/create-SubTopics',[SubTopicsController::class,'create'])->name('create_subtopics');
+    Route::post('superadmin/save-SubTopics',[SubTopicsController::class,'store'])->name('save_subtopics');
+    Route::get('superadmin/edit-SubTopics/{id}',[SubTopicsController::class,'edit'])->name('edit_subtopics');
+    Route::post('superadmin/update-SubTopics/{id}',[SubTopicsController::class,'update'])->name('update_subtopics');
+    Route::delete('superadmin/delete-SubTopics/{id}',[SubTopicsController::class,'destroy'])->name('delete_subtopics');
+    Route::get('get_standards/{mediumId}', [SubTopicsController::class,'getStandards'])->name('get_standards');
+    Route::get('get_subjects/{standardId}', [SubTopicsController::class,'getSubjects'])->name('get_subjects');
+    Route::get('get_topics/{subjectId}', [SubTopicsController::class,'getTopics'])->name('get_topics');
+    Route::get('get_subtopics/{topictId}', [SubTopicsController::class,'getSubTopics'])->name('get_subtopics');
+    // Route::get('get-newstandards', [SubjectController::class, 'getNewStandards'])->name('get-newstandards');
+    // Route to get new standards based on the selected medium
+    Route::get('/get-newstandards', 'SubTopicsController@getNewStandards')->name('get-newstandards');
 
+    // Route to get new subjects based on the selected standard
+    Route::get('/get-newsubjects', 'SubTopicsController@getNewSubjects')->name('get-newsubjects');
+
+    // Route to get new topics based on the selected subject
+    Route::get('/get-newtopics', 'SubTopicsController@getNewTopics')->name('get-newtopics');
 
     //Event modual
     Route::get('superadmin/Events',[EventController::class,'index'])->name('superadmin.events.index');
@@ -132,7 +139,7 @@ Route::group(['middlware'=>'role:SuperAdmin','auth'], function () {
 
 });
 
-Route::group(['middlware'=>'role:SchoolAdmin','auth'], function () {
+Route::group(['middlware'=> ['auth','role:SchoolAdmin']], function () {
 
     Route::get('SchoolAdmin/school/dashboard', [SchoolController::class, 'dashboard'])->name('schooladmin.dashboard');
     Route::get('SchoolAdmin/students', [StudentController::class, 'index'])->name('schooladmin.students.index');
@@ -221,6 +228,15 @@ Route::group(['middlware'=>'role:SchoolAdmin','auth'], function () {
     Route::get('SchoolAdmin/subject', [SubjectLmsController::class, 'index'])->name('schooladmin.educational.subject.index');
     Route::get('SchoolAdmin/chapter', [ChapterLmsController::class, 'index'])->name('schooladmin.educational.chapter.index');
     Route::get('SchoolAdmin/topic', [TopicLmsController::class, 'index'])->name('schooladmin.educational.topic.index');
+
+    // Route to get new Medium based on the selected standard
+    Route::get('/get-newstandards', 'SubTopicsController@getNewStandards')->name('get-newstandards');
+
+    // Route to get new subjects based on the selected standard
+    Route::get('/get-newsubjects', 'SubTopicsController@getNewSubjects')->name('get-newsubjects');
+
+    // Route to get new topics based on the selected subject
+    Route::get('/get-newtopics', 'SubTopicsController@getNewTopics')->name('get-newtopics');
 
 
 });

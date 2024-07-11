@@ -19,7 +19,9 @@ use App\Models\FeesMaster;
 use App\Models\Subject;
 use App\Models\SubTopic;
 use App\Models\Topic;
+use App\Models\Event;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 
 class SchoolController extends Controller
@@ -33,7 +35,8 @@ class SchoolController extends Controller
     public function dashboard()
     {
         // $totalFee = $this->getTotalFee();
-
+        $events = Event::paginate(200);
+        // dd($events);
         $monthlyCollectedFee = $this->getMonthlyCollectedFee();
         $studentsCount = Student::count();
         $teachersCount = Teacher::count();
@@ -50,7 +53,8 @@ class SchoolController extends Controller
             'monthlyCollectedFee','studentsCount',
             'teachersCount', 'parentsCount', 'mediumCount',
             'standardCount', 'classCount', 'subjectCount',
-            'chapterCount', 'topicCount','totalBoys','totalGirls'
+            'chapterCount', 'topicCount','totalBoys','totalGirls',
+            'events'
         ));
     }
 

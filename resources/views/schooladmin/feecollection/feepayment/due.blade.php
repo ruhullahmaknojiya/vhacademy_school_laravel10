@@ -2,20 +2,15 @@
 
 @section('content')
     @include('flash-message')
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row ">
-                <div class="col-sm-12">
-                    <h3>Due Fee</h3>
-                </div>
+    <div class="content-header">
 
-            </div>
-        </div><!-- /.container-fluid -->
     </section>
     <div class="content">
         <div class="card">
             <div class="card-header">
-
+                <div class="col-mt-12">
+                    <h3>Due Fee</h3>
+                </div>
                 <form action="{{ route('schooladmin.feecollection.feepayment.dueFees') }}" method="GET" class="mb-4">
                     <div class="form-row">
                         <div class="form-group col-md-3">

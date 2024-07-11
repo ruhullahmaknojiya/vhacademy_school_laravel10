@@ -1,15 +1,18 @@
 <!DOCTYPE html>
-<html>
 <head>
     <title>@yield('title')</title>
     <!-- Include AdminLTE CSS -->
+    <link rel="icon" href="{{ asset('images/logo.png') }}" type="image/x-icon"> <!-- Link to the favicon -->
+
     <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/adminlte.min.css') }}">
     <link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}"> <!-- Add your custom CSS here -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Theme style -->
     <link rel="stylesheet" href="https://adminlte.io/themes/v3/dist/css/adminlte.min.css">
     <!-- DataTables CSS -->
+
+
     <style>
         body {
             font-family: 'Arial, sans-serif'; /* Change font family here */
@@ -102,14 +105,19 @@
             display: block !important;
         }
     </style>
-    <!-- Additional AdminLTE Plugins CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css">
-    <link rel="stylesheet" href="{{ asset('vendor/chart.js/Chart.min.css') }}"> <!-- Chart.js -->
-    <!-- Google Fonts -->
-    {{-- <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet"> --}}
+
     @include('layouts.school_partials.datatables_css')
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/core/main.min.css' rel='stylesheet' />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/daygrid/main.min.css' rel='stylesheet' />
+
     <!-- Additional CSS if needed -->
-    @stack('css')
+    <!-- FullCalendar CSS -->
+{{-- <link rel="stylesheet" href="{{ asset('vendor/fullcalendar/core/main.min.css') }}"> --}}
+
+{{-- <link rel="stylesheet" href="{{ asset('vendor/fullcalendar/daygrid/main.min.css') }}"> --}}
+
+@stack('css')
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -134,21 +142,26 @@
 
 </div>
 <!-- ./wrapper -->
-
 <!-- Scripts -->
 <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
 <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
 <script src="{{ asset('js/custom.js') }}"></script> <!-- Add your custom JS here -->
 <!-- Additional AdminLTE Plugins JS -->
-<script src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script> <!-- Chart.js -->
-<script src="{{ asset('vendor/fullcalendar/main.min.js') }}"></script> <!-- FullCalendar -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+{{-- <script src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script> <!-- Chart.js --> --}}
+ {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script> --}}
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script> --}}
 <!-- Additional JS if needed -->
-@stack('js')
 @include('layouts.school_partials.datatables_js')
 
+<!-- FullCalendar JS -->
+ <!-- FullCalendar JS -->
+ <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/core/main.min.js'></script>
+ <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/interaction/main.min.js'></script>
+ <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/daygrid/main.min.js'></script>
+
+
+ @stack('js')
 </body>
 </html>

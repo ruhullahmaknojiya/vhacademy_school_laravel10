@@ -41,7 +41,7 @@ class HomeworkController extends Controller
             $homeworks->whereDate('date', $request->date);
         }
 
-        $homeworks = $homeworks->get();
+        $homeworks = $homeworks->paginate(10);;
 
         $mediums = Medium::all();
         $standards = Standard::all();

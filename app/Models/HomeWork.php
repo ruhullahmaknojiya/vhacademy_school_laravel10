@@ -40,7 +40,7 @@ class HomeWork extends Model
         return $this->belongsTo(Standard::class);
     }
 
-    public function classmodel() {
+    public function class() {
         return $this->belongsTo(ClassModel::class);
     }
 

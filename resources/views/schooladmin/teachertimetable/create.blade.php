@@ -109,7 +109,7 @@
                             <div class="col-12 col-sm-4">
                                 <div class="form-group local-forms">
                                     <label>Day <span class="text-danger">*</span></label>
-                                    <select type="text" name="day_id" id="class" class="form-control">
+                                    <select type="text" name="day" id="day" class="form-control">
                                         <option>Select Day</option>
                                         @foreach ($daysOfWeek as $day)
                                             <option value="{{ $day }}">{{ $day }}</option>
@@ -118,15 +118,7 @@
                                     <span class="validation-message " id="mediumValidation"></span>
                                 </div>
                             </div>
-                            <div class="col-12 col-sm-4">
-                                <div class="form-group local-forms">
-                                    <label>Date<span class="text-danger">*</span></label>
-                                    <input type="date" name="date" id="date" class="form-control">
-                                    @error('date')
-                                    <span class="error  text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
+
 
                             <div class="col-12 col-sm-4">
                                 <div class="form-group local-forms">
