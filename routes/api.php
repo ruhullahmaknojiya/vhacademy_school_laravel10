@@ -34,10 +34,16 @@ use App\Http\Controllers\Api\get\getDataController;
 
 //Route::post('/signup', [RegisterController::class, 'register']);
 //Route::post('/verify-otp', [RegisterController::class, 'verifyOtp']);
+
+//login api
+
 Route::post('Studentlogin', [RegisterController::class, 'login']);
 Route::post('Parentlogin', [ParentController::class, 'login']);
 Route::post('Teacherlogin', [TeacherController::class, 'login']);
 //Route::post('Schoollogin', [SchoolController::class, 'login']);
+
+//end login api
+
 //parent
 //Route::post('/parent_signup', [ParentController::class, 'register']);
 // Route::post('/verify-otp', [RegisterController::class, 'verifyOtp']);
@@ -54,11 +60,10 @@ Route::get('get_subject',[SubjectController::class,'getSubject']);
 Route::get('get_topic',[TopicController::class,'getTopics']);
 Route::get('get_subtopic',[SubTopicController::class,'getSubtopcs']);
 //Route::get('get_home_subject',[\App\Http\Controllers\Api\HomeSubjectController::class,'getSubjects']);
-
 //Route::get('/quiz', [App\Http\Controllers\Api\QuizController::class,'index']);
 
 
-//Route::get('getEvents',[App\Http\Controllers\Api\School\EventController::class,'getEvents']);
+Route::get('getEvents',[App\Http\Controllers\Api\School\EventController::class,'getEvents']);
 //Route::get('getHolidays',[App\Http\Controllers\Api\School\HolidayController::class,'getHolidays']);
 //Route::get('getEventHoliday',[App\Http\Controllers\Api\EventHolidayController::class,'getEventsAndHolidays']);
 
@@ -78,34 +83,43 @@ Route::get('get_subtopic',[SubTopicController::class,'getSubtopcs']);
 //Route::group(['prefix' =>'subtopic'],function(){
 //    Route::get('guest_get_subtopic',[GetSubTopicController::class,'getSubtopcs']);
 //});
-//
-
-
-Route::middleware('auth:api')->group(function () {
-    Route::get('/parent_Details', [ParentController::class, 'getdata']);
-//    Route::post('/parent_update', [ParentController::class, 'update']);
-//    Route::post('/parent_update_password', [ParentController::class, 'changePassword']);
-//    Route::post('/user_feedback', [FeedbackController::class, 'userFeedBack']);
-    Route::get('getStudent-Data', [\App\Http\Controllers\Api\Student\StudentDataController::class, 'getStudent']);
-//    Route::post('update_medium', [\App\Http\Controllers\Api\Student\StudentDataController::class, 'updateStudentMedium']);
-
-});
-//Route::middleware('auth:api')->group(function () {
-//    Route::get('/student_homework_data', [App\Http\Controllers\Api\Student\StudentDataController::class, 'getStudentHomeworkData']);
-//
-//});
-//teacher     
+//   
 
 
 
 Route::middleware('auth:api')->group(function () {
+    //time table
     Route::get('/timetable_details', [TimetableController::class, 'getTimetable']);
+    //end
+
+    //time table
     Route::post('/homework_Create', [TeacherController::class, 'store']);
     Route::post('/homework_update/{id}', [TeacherController::class, 'updatehomeworkstatus']);
     Route::get('/get_homework', [TeacherController::class, 'gethomeworkdata']);
+    Route::get('/student_homework_data', [App\Http\Controllers\Api\Student\StudentDataController::class, 'getStudentHomeworkData']);
+    //end
+
+    //student data
     Route::get('/filter_student_data', [TeacherController::class, 'getFilteredStudentData']);
-    Route::post('/check_attendance', [TeacherController::class, 'check_attendance']);
+    Route::get('getStudent-Data', [\App\Http\Controllers\Api\Student\StudentDataController::class, 'getStudent']);
+    Route::post('update_medium', [\App\Http\Controllers\Api\Student\StudentDataController::class, 'updateStudentMedium']);
+
+    //end
+
+    //parent api
+    Route::get('/parent_Details', [ParentController::class, 'getdata']);
+    Route::post('/parent_update', [ParentController::class, 'update']);
+    Route::post('/parent_update_password', [ParentController::class, 'changePassword']);
+    //end
+
+
+
+    //attendance api
+    Route::get('/check_attendance', [TeacherController::class, 'check_attendance']);
     Route::post('/store_attendance', [TeacherController::class, 'store_attendance']);
+    //end
 
 
+
+//    Route::post('/user_feedback', [FeedbackController::class, 'userFeedBack']);
 });

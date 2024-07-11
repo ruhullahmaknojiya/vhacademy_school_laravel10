@@ -176,9 +176,9 @@ class TeacherController extends Controller
                         'first_name' => optional($homework->teacher->user)->name,
 //                        'last_name' => optional($homework->teacher->user)->last_name,
                         'id' => optional($homework)->id,
-                        'medium' => optional($homework->medium)->name,
-                        'standard' => optional($homework->stander)->name ?? 'N/A', // Default to 'N/A' if stander is null
-                        'class' => optional($homework->classs)->name ?? 'N/A', // Default to 'N/A' if classs is null
+                        'medium' => optional($homework->medium)->medium_name,
+                        'standard' => optional($homework->standard)->standard_name ?? 'N/A', // Default to 'N/A' if stander is null
+                        'class' => optional($homework->classmodel)->class_name ?? 'N/A', // Default to 'N/A' if classs is null
                         'subject' => optional($homework->subject)->subject ?? 'N/A', // Default to 'N/A' if subject is null
                         'date' => $homework->date,
                         'submition_date' => $homework->submition_date,
@@ -228,19 +228,18 @@ class TeacherController extends Controller
 
                 // Fetch all students matching the provided medium, standard, and class
                 $students = Student::where('medium_id', $mediumId)
-                    ->where('standard_id', $standardId)
                     ->where('class_id', $classId)
                     ->with(['users', 'medium', 'standard', 'classs'])
                     ->get();
 
                 $studentData = $students->map(function ($student) {
                     return [
-                        'first_name' => optional($student->users)->first_name,
-                        'last_name' => optional($student->users)->last_name,
-                        'phone' => optional($student->users)->phone,
-                        'medium' => optional($student->medium)->name,
-                        'standard' => optional($student->std)->name ?? 'N/A',
-                        'class' => optional($student->classs)->name ?? 'N/A',
+                        'first_name' => optional($student)->first_name,
+                        'last_name' => optional($student)->last_name,
+                        'phone' => optional($student)->phone,
+                        'medium' => optional($student->medium)->medium_name,
+                        'standard' => optional($student->standard)->standard_name ?? 'N/A',
+                        'class' => optional($student->classs)->class_name ?? 'N/A',
                         'address' => optional($student)->address ?? 'N/A',
                         'admission_no' => optional($student)->admission_no ?? 'N/A',
                         'blood_group' => optional($student)->blood_group ?? 'N/A',

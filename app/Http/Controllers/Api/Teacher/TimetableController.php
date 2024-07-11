@@ -28,7 +28,7 @@ class TimetableController extends Controller
                 // Organize timetables by day
                 $timetableData = [];
                 foreach ($timetables as $timetable) {
-                    $dayName = $timetable->day->day_name;
+                    $dayName = $timetable->day_id;
 
                     // Initialize the day array if it doesn't exist
                     if (!isset($timetableData[$dayName])) {
@@ -39,13 +39,14 @@ class TimetableController extends Controller
                     $timetableData[$dayName][] = [
                         'startTime' => $timetable->start_time,
                         'endTime' => $timetable->end_time,
-                        'class' => "{$timetable->subject->subject} (Class {$timetable->standerd->standard_name} {$timetable->classs->class_name})",
+                        'class' => "{$timetable->subject->subject} (Class {$timetable->standerd->standard_name} {$timetable->classmodel->class_name})",
                     ];
                 }
 
                 return response()->json([
                     'user' => [
-                        'first_name' => $teacher->user->name,
+                        'username' => $teacher->user->name,
+                        'first_name' => $teacher->first_name.' '.$teacher->last_name,
 
                     ],
                     'timetables' => $timetableData,
