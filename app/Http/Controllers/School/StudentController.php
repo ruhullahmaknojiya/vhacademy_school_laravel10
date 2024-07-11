@@ -161,8 +161,6 @@ class StudentController extends Controller
             $userStudent->role_id = Role::where('name', 'Student')->first()->id;
             $userStudent->fcm_token = $request->input('fcm_token');
             $userStudent->save();
-
-
             // Create the student entry
             $student = new Student();
             $student->user_id = $userStudent->id; // Set the user_id in student table $school
@@ -236,20 +234,30 @@ class StudentController extends Controller
     public function import(Request $request)
     {
         $request->validate([
-            'file' => 'required|mimes:xlsx',
+            'file' => 'required|mimes:xlsx,xls,csv',
             'medium_id' => 'required|exists:mediums,id',
             'class_id' => 'required|exists:standards,id',
             'section_id' => 'required|exists:classes,id',
         ]);
-
+        try {
         $medium_id = $request->input('medium_id');
         $class_id = $request->input('class_id');
         $section_id = $request->input('section_id');
 
         $import = new StudentsImport($medium_id, $class_id, $section_id);
         Excel::import($import, $request->file('file'));
-
-        return view('schooladmin.students.importexcel.import-results', ['results' => $import->results]);
+        Log::info('Import successful');
+        if ($import->stopProcessing) {
+            Log::info('Import stopped due to blank row.');
+            return view('schooladmin.students.importexcel.import', ['results' => $import->results, 'message' => 'Import stopped due to blank row.']);
+            // return view('schooladmin.teachers.importexcel.import_results', ['results' => $import->results]);
+        }
+        Log::info('Import successful');
+        return view('schooladmin.students.importexcel.import', ['results' => $import->results]);
+    } catch (\Exception $e) {
+            Log::error('Error in import controller', ['error' => $e->getMessage(), 'stack' => $e->getTraceAsString()]);
+            return back()->with('error', 'There was an error importing the Student Data.');
+        }
     }
 
 

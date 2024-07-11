@@ -33,14 +33,25 @@ class ParentModel extends Model
     //     return $this->belongsTo(Student::class);
     // }
 
+    // public function user()
+    // {
+    //     return $this->morphOne(User::class, 'userable');
+    // }
+
     public function user()
     {
-        return $this->morphOne(User::class, 'userable');
+        return $this->belongsTo(User::class);
     }
+
 
     public function student()
     {
         return $this->belongsTo(Student::class);
+    }
+
+    public function students()
+    {
+        return $this->hasMany(Student::class,'parent_id');
     }
 
 }

@@ -1,8 +1,9 @@
 @extends('layouts.school_admin')
+@section('title', 'Parents')
 
 @section('content')
-<div class="container">
-    <h2 class="mb-4">Parents</h2>
+<div class="content">
+<br>
     <div class="card">
         <div class="card-header">
             <div class="row">
@@ -10,9 +11,7 @@
                     <h3 class="card-title">Parent Details</h3>
                 </div>
                 <div class="col-md-6 text-right">
-                    {{-- <a href="{{ route('schooladmin.parents.create') }}" class="btn btn-success" style="background-color: black; color: white;">
-                        <i class="fas fa-plus-circle" style="background-color: black; color: white;"></i> Add Student
-                    </a> --}}
+
                 </div>
             </div>
         </div>
@@ -21,9 +20,11 @@
                 <thead>
                     <tr>
                         <th>#</th>
+                        <th>Username</th>
                         <th>Name</th>
                         <th>Phone</th>
                         <th>Email</th>
+                        <th>No. oF Students</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -31,9 +32,11 @@
                     @foreach ($parents as $parent)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
+                            <td>{{ $parent->user->name }}</td>
                             <td>{{ $parent->father_name }}</td>
                             <td>{{ $parent->father_phone }}</td>
                             <td>{{ $parent->guardian_email }}</td>
+                            <td>{{ $parent->students->count() }}</td> <!-- Display number of students -->
                             <td class="d-flex">
                                 <a href="{{ route('schooladmin.parents.show', $parent->id) }}" class="btn btn-info btn-sm mr-1">
                                     <i class="fas fa-eye"></i>
@@ -60,19 +63,26 @@
     </div>
 </div>
 @endsection
-@push('js')
 
+@push('js')
 <script>
     $(function() {
-        $("#parentsTable").DataTable({
+        var table = $("#parentsTable").DataTable({
             "responsive": true,
             "lengthChange": true,
             "autoWidth": true,
-            "responsive": true,
-            order: true,
+            "order": true,
             "scrollX": false,
-            "buttons": ["copy", "csv", "excel", "pdf", ]
-        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            "buttons": ["copy", "csv", "excel", "pdf"]
+        });
+
+        table.buttons().container().appendTo('#parentsTable_wrapper .col-md-6:eq(0)').addClass('float-left');
     });
 </script>
+
+<style>
+    .dt-buttons {
+        float: left;
+    }
+</style>
 @endpush
