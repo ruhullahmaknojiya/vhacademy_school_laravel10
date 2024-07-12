@@ -41,16 +41,29 @@ class EventController extends Controller
     public function store(Request $request)
     {
         //
+
         $request->validate([
-            'event_title'=>'required',
-            // 'event_image' => 'required|image|mimes:jpeg,png,jpg,gif',event_pdf
-             'event_pdf' => 'required|mimes:pdf'
-            // event_pdf
+            'event_title' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
+            'color' => 'required',
+            'short_Description' => 'required',
+            'event_pdf' => 'required|mimes:pdf'
+
         ], [
-            'event_title.required' => ' Event Title is required',
-             'event_pdf.required' => ' Pdf is required',
+            'event_title.required' => 'The Event Title is required.',
+            'start_date.required' => 'The Date is required.',
+            'end_date.required' => 'The Date is required.',
+            'color.required' => 'The Color is required.',
+            'short_Description.required' => 'The Description is required.',
+            'event_pdf.required' => ' Pdf is required',
+
 
         ]);
+
+
+
+
         $save_event=new Event();
         $save_event->event_title=$request->event_title;
         $save_event->start_date=$request->start_date;

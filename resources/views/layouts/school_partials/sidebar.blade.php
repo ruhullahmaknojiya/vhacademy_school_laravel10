@@ -129,7 +129,7 @@
                 <li class="nav-header">ACADEMIC MANAGEMENT</li>
                 <li class="nav-item">
                     <li class="nav-item">
-                        <a href="{{ route('schooladmin.events.index') }}" class="nav-link {{ request()->routeIs('schooladmin.events.index') ? 'active' : '' }}">
+                        <a href="{{ route('schoolAdmin.events.index') }}" class="nav-link {{ request()->routeIs('schoolAdmin.events.index') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-calendar-day"></i>
                             <p>Events</p>
                         </a>

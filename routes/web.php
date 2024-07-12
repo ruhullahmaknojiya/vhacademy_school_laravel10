@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\SchoolController;
+use App\Http\Controllers\School\Event\SchoolEvController;
 use App\Http\Controllers\School\StudentController;
 use App\Http\Controllers\School\ParentController;
 use App\Http\Controllers\SuperAdmin\EducationalController;
@@ -130,12 +131,12 @@ Route::group(['middlware'=> ['auth','role:SuperAdmin']], function () {
     Route::get('/get-newtopics', 'SubTopicsController@getNewTopics')->name('get-newtopics');
 
     //Event modual
-    Route::get('superadmin/Events',[EventController::class,'index'])->name('superadmin.events.index');
-    Route::get('superadmin/create-Events',[EventController::class,'create'])->name('superadmin.events.create');
-    Route::post('superadmin/save-Events',[EventController::class,'store'])->name('superadmin.events.store');
-    Route::get('superadmin/edit-Events/{id}',[EventController::class,'edit'])->name('superadmin.events.edit');
-    Route::post('superadmin/update-Events/{id}',[EventController::class,'update'])->name('superadmin.events.update');
-    Route::delete('superadmin/delete-Events/{id}',[EventController::class,'destroy'])->name('superadmin.events.delete');
+    Route::get('superadmin/events',[EventController::class,'index'])->name('superadmin.events.index');
+    Route::get('superadmin/events/create',[EventController::class,'create'])->name('superadmin.events.create');
+    Route::post('superadmin/events/store',[EventController::class,'store'])->name('superadmin.events.store');
+    Route::get('superadmin/events/edit/{id}',[EventController::class,'edit'])->name('superadmin.events.edit');
+    Route::post('superadmin/events/update/{id}',[EventController::class,'update'])->name('superadmin.events.update');
+    Route::delete('superadmin/events/delete/{id}',[EventController::class,'destroy'])->name('superadmin.events.delete');
 
 });
 
@@ -158,15 +159,6 @@ Route::group(['middlware'=> ['auth','role:SchoolAdmin']], function () {
     Route::post('SchoolAdmin/teachers/{id}', [TeacherController::class, 'show'])->name('schooladmin.teachers.show');
 
 
-    //Event modual
-    Route::get('SchoolAdmin/SchoolEvents',[\App\Http\Controllers\School\EventController::class,'index'])->name('schooladmin.events.index');
-    Route::get('SchoolAdmin/create-SchoolEvents',[\App\Http\Controllers\School\EventController::class,'create'])->name('create_schoolevents');
-    Route::post('SchoolAdmin/save-SchoolEvents',[\App\Http\Controllers\School\EventController::class,'store'])->name('save_schoolevents');
-    Route::get('SchoolAdmin/edit-SchoolEvents/{id}',[\App\Http\Controllers\School\EventController::class,'edit'])->name('edit_schoolevents');
-    Route::post('SchoolAdmin/update-SchoolEvents/{id}',[\App\Http\Controllers\School\EventController::class,'update'])->name('update_schoolevents');
-    Route::delete('SchoolAdmin/delete-SchoolEvents/{id}',[\App\Http\Controllers\School\EventController::class,'destroy'])->name('delete_schoolevents');
-    //end event
-
 
     //teacher time table
     Route::get('SchoolAdmin/Teacher/Timetable',[TeacherTimeController::class,'index'])->name('teacher.timetable.index');
@@ -178,9 +170,6 @@ Route::group(['middlware'=> ['auth','role:SchoolAdmin']], function () {
     Route::get('standards/{mediumId}', [TeacherTimeController::class,'standards'])->name('teacher_standard');
     Route::get('/subjects/{standardId}', [TeacherTimeController::class,'subjects'])->name('teacher_subjects');
 
-
-           //end
-
     //** Fee Collection Route ***
     // Fee Type
     Route::get('SchoolAdmin/feetype', [FeeTypeController::class, 'index'])->name('schooladmin.feecollection.feetype.index');
@@ -188,7 +177,8 @@ Route::group(['middlware'=> ['auth','role:SchoolAdmin']], function () {
     Route::post('SchoolAdmin/feetype', [FeeTypeController::class, 'store'])->name('schooladmin.feecollection.feetype.store');
     Route::post('SchoolAdmin/feetype/{id}', [FeeTypeController::class, 'show'])->name('schooladmin.feecollection.feetype.show');
     Route::get('SchoolAdmin/feetype/{id}/edit', [FeeTypeController::class, 'editClass'])->name('schooladmin.feecollection.feetype.edit');
-        // Fee Group
+
+    // Fee Group
     Route::get('SchoolAdmin/feegroup', [FeeGroupController::class, 'index'])->name('schooladmin.feecollection.feegroup.index');
     Route::get('SchoolAdmin/feegroup/create', [FeeGroupController::class, 'create'])->name('schooladmin.feecollection.feegroup.create');
     Route::post('SchoolAdmin/feegroup', [FeeGroupController::class, 'store'])->name('schooladmin.feecollection.feegroup.store');
@@ -239,11 +229,21 @@ Route::group(['middlware'=> ['auth','role:SchoolAdmin']], function () {
     Route::get('/get-newtopics', 'SubTopicsController@getNewTopics')->name('get-newtopics');
 
 
+     //Event modual
+     Route::get('schoolAdmin/events',[SchoolEvController::class,'index'])->name('schoolAdmin.events.index');
+     Route::get('schoolAdmin/events/create',[SchoolEvController::class,'create'])->name('schoolAdmin.events.create');
+     Route::post('schoolAdmin/events/store',[SchoolEvController::class,'store'])->name('schoolAdmin.events.store');
+     Route::get('schoolAdmin/events/edit/{id}',[SchoolEvController::class,'edit'])->name('schoolAdmin.events.edit');
+     Route::post('schoolAdmin/events/update/{id}',[SchoolEvController::class,'update'])->name('schoolAdmin.events.update');
+     Route::delete('schoolAdmin/events/delete/{id}',[SchoolEvController::class,'destroy'])->name('schoolAdmin.events.delete');
+
+
     Route::get('/import-form', [StudentController::class, 'showImportForm'])->name('import-form');
     Route::post('/import', [StudentController::class, 'import'])->name('import');
 
     Route::get('/teacher.import-form', [TeacherController::class, 'showImportForm'])->name('teacher.import-form');
     Route::post('/teacher.import', [TeacherController::class, 'import'])->name('teacher.import');
+
 
 });
 
