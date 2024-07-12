@@ -16,7 +16,6 @@ class SchoolEvController extends Controller
 
     public function index(Request $request)
     {
-
         $user=Auth::user();
         $school = School::where('user_id', $user->id)->first();
 

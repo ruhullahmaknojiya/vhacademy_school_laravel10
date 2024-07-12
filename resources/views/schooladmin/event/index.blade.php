@@ -85,10 +85,10 @@
                                             <td class="text-end">
                                                 @if($event->school_id)
                                                 <div class="btn-group">
-                                                    <a href="{{route('superadmin.events.edit',$event->id)}}" class="btn btn-sm btn-info me-2">
+                                                    <a href="{{route('schoolAdmin.events.edit',$event->id)}}" class="btn btn-sm btn-info me-2">
                                                         <i class="fa fa-edit"></i>
                                                     </a>&nbsp;
-                                                    <form action="{{route('superadmin.events.delete',$event->id)}}" method="POST">
+                                                    <form action="{{route('schoolAdmin.events.delete',$event->id)}}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" onclick="return confirm('Are you sure you want to delete this item?');" class="btn btn-sm btn-danger me-2"><i class="fa fa-trash"></i></button>

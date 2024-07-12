@@ -107,7 +107,8 @@ class TeachersImport implements ToModel, WithHeadingRow
             $latestTeacher = Teacher::orderBy('id', 'desc')->first();
             $staffId = $schoolName . (1001 + ($latestTeacher ? $latestTeacher->id : 0));
             $username = $staffId . str_replace('-', '', $dateOfBirth);
-            $password = $staffId . str_replace('-', '', $dateOfBirth) . substr($phone, 0, 2) . substr($phone, -2);
+            $password = $staffId .'@'.$phone;
+            Log::error($username, ['password' => $password]);
             $teacherRole = Role::where('name', 'Teacher')->first();
 
             // Create the user entry

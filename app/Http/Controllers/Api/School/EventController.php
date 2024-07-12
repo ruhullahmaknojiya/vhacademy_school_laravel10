@@ -13,11 +13,11 @@ class EventController extends Controller
     //
     public function getEvents(Request $request){
 
-        $perPage = $request->input('per_page', 10);
-        $page = $request->input('page', 1); // Current page
+        // $perPage = $request->input('per_page', 10);
+        // $page = $request->input('page', 1); // Current page
         $user = Auth::guard('api')->user();
 
-        $events = Event::where('school_id','!=',null)->paginate($perPage, ['*'], 'page', $page);
+        $events = Event::all();
 
         if ($events->isEmpty()) {
             return response()->json([
@@ -28,11 +28,6 @@ class EventController extends Controller
 
         $response = [
             'status' => 'true',
-            'count' => $events->count(),
-            'total' => $events->total(),
-            'per_page' => $perPage,
-            'current_page' => $events->currentPage(),
-            'last_page' => $events->lastPage(),
             'Events' => $events->map(function ($event) {
                 return [
                     'id' => $event->id,

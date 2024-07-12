@@ -13,7 +13,6 @@ use App\Models\Topic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-
 class SubTopicsController extends Controller
 {
     /**
@@ -54,7 +53,7 @@ class SubTopicsController extends Controller
 
         $subtopics = $query->get();
 
-        return view('superadmin.SubTopics.index',compact('mediums', 'standards', 'subjects','topics' ,'subtopics'));
+        return view('superadmin.subtopics.index',compact('mediums', 'standards', 'subjects','topics' ,'subtopics'));
     }
 
 
@@ -86,7 +85,7 @@ class SubTopicsController extends Controller
         //
 //        $subjects=Subject::all();
         $mediums=Medium::all();
-        return view('superadmin.SubTopics.create',compact('mediums'));
+        return view('superadmin.subtopics.create',compact('mediums'));
     }
 
     /**
@@ -109,7 +108,6 @@ class SubTopicsController extends Controller
             'vhm_end_title'=>'required',
             'vhm_start_url'=>'required',
             'vhm_end_url'=>'required',
-            // 'stopic_image'=>'required',
             'file_path'=>'required',
         ],[
             'sub_topic.required' => 'The Subtopic Name  is required.',
@@ -121,7 +119,6 @@ class SubTopicsController extends Controller
             'vhm_end_title.required' => 'The Vhm End Title  is required.',
             'vhm_start_url.required' => 'The Vhm Start url  is required.',
             'vhm_end_url.required' => 'The Vhm End url  is required.',
-            // 'stopic_image.required' => 'The Image is required.',
             'file_path.required' => 'The File  is required.',
 
 
@@ -138,16 +135,8 @@ class SubTopicsController extends Controller
         $save_subtopics->vhm_end_title=$request->vhm_end_title;
         $save_subtopics->vhm_start_url=$request->vhm_start_url;
         $save_subtopics->vhm_end_url=$request->vhm_end_url;
-        if ($request->hasFile("stopic_image")) {
-            $img = $request->file("stopic_image");
-            if (Storage::exists('public/images/school/subject/subtopics/' . $save_subtopics->stopic_image)) {
-                Storage::delete('public/images/school/subject/subtopics/' . $save_subtopics->stopic_image);
-            }
-            $img->store('public/images/school/subject/subtopics');
-            $save_subtopics['stopic_image'] = $img->hashName();
 
 
-        }
         // Handle PDF file upload
         if ($request->hasFile("file_path")) {
             $pdfFile = $request->file("file_path");
@@ -256,7 +245,7 @@ class SubTopicsController extends Controller
         $subjects=Subject::all();
         $topics=Topic::all();
         $subtopics=SubTopic::all();
-        return view('superadmin.SubTopics.edit',compact('edit_subtopics','subtopics','topics','standard','subjects','mediums'));
+        return view('superadmin.subtopics.edit',compact('edit_subtopics','subtopics','topics','standard','subjects','mediums'));
     }
 
     /**

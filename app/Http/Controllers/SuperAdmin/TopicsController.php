@@ -78,66 +78,37 @@ class TopicsController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $validate=$request->validate([
-            'topic'=>'required',
-            'type'=>'required',
-            'sub_id'=>'required',
-            'description'=>'required',
+        // dd($request);
+        $validate = $request->validate([
+            'topic' => 'required',
+            'type' => 'required',
+            'std_id' => 'required',
+            'description' => 'required',
             'file_path' => 'nullable|mimes:pdf',
             'video_link' => 'nullable|url',
-        ],[
-            'topic.required' => 'The Topic Name  is required.',
-            'sub_id.required' => 'The Subject Name  is required.',
-            'description.required' => 'The Description  is required.',
-            'type.required' => 'The Topic Type  is required.',
-            'file_path.required' => 'The File  is required.',
-            'video_link.required' => 'The Topic Video Link  is required.',
-
-
+        ], [
+            'topic.required' => 'The Topic Name is required.',
+            'sub_id.required' => 'The Subject Name is required.',
+            'description.required' => 'The Description is required.',
+            'type.required' => 'The Topic Type is required.',
         ]);
 
+        $save_Topic = new Topic();
+        $save_Topic->topic = $request->topic;
+        $save_Topic->type = $request->type;
+        $save_Topic->description = $request->description;
+        $save_Topic->video_link = $request->video_link;
+        $save_Topic->sub_id = $request->sub_id;
 
-
-        $save_Topic=new Topic();
-        $save_Topic->topic=$request->topic;
-        $save_Topic->type=$request->type;
-        $save_Topic->description=$request->description;
-        $save_Topic->video_link=$request->video_link;
-        $save_Topic->sub_id=$request->sub_id;
-        // if ($request->hasFile("topic_image")) {
-        //     $img = $request->file("topic_image");
-        //     if (Storage::exists('public/images/school/subject/topics/' . $save_Topic->topic_image)) {
-        //         Storage::delete('public/images/school/subject/topics/' . $save_Topic->topic_image);
-        //     }
-        //     $img->store('public/images/school/subject/topics');
-        //     $save_Topic['topic_image'] = $img->hashName();
-
-
-        // }
-        // if ($request->hasFile("topic_banner")) {
-        //     $img = $request->file("topic_banner");
-        //     if (Storage::exists('public/images/school/subject/topics/' . $save_Topic->topic_banner)) {
-        //         Storage::delete('public/images/school/subject/topics/' . $save_Topic->topic_banner);
-        //     }
-        //     $img->store('public/images/school/subject/topics');
-        //     $save_Topic['topic_banner'] = $img->hashName();
-
-
-        // }
         // Handle PDF file upload
         if ($request->hasFile("file_path")) {
             $pdfFile = $request->file("file_path");
-
-            // Delete existing PDF file if it exists
-            if (Storage::exists('public/pdf/topics/' . $save_Topic->file_path)) {
-                Storage::delete('public/pdf/topics/' . $save_Topic->file_path);
-            }
 
             // Store the new PDF file
             $pdfFile->storeAs('public/pdf/topics', $pdfFile->hashName());
             $save_Topic->file_path = $pdfFile->hashName();
         }
+
         $save_Topic->save();
 
         return redirect()->route('topics')->with('success','Topic Add Scuccessfully');
@@ -237,7 +208,7 @@ class TopicsController extends Controller
 
     public function getSubjects($standardId)
     {
-        $subjects = Subject::where('std_id', $standardId)->pluck('subject','id');
+        $subjects = Subject::where('std_id', $standardId)->pluck('standard_name', 'id');
         return response()->json($subjects);
     }
 }

@@ -21,7 +21,7 @@ use App\Http\Controllers\School\Fees\FeesMasterController;
 use App\Http\Controllers\School\Fees\FeeAssignmentController;
 use App\Http\Controllers\School\Fees\FeePaymentController;
 use App\Http\Controllers\School\Homework\HomeworkController;
-
+use App\Http\Controllers\School\Holiday\SchoolHolidayController;
 use App\Http\Controllers\School\LmsContent\ChapterLmsController;
 use App\Http\Controllers\School\LmsContent\ClassLmsController;
 use App\Http\Controllers\School\LmsContent\MediumLmsController;
@@ -96,7 +96,9 @@ Route::group(['middlware'=> ['auth','role:SuperAdmin']], function () {
     Route::get('superadmin/edit-Subject/{id}',[SubjectController::class,'edit'])->name('edit_Subject');
     Route::post('superadmin/update-Subject/{id}',[SubjectController::class,'update'])->name('update_Subject');
     Route::delete('superadmin/delete-Subject/{id}',[SubjectController::class,'destroy'])->name('delete_Subject');
-    Route::get('/get-standards/{mediumId}', [SubjectController::class,'getStandards'])->name('getstandard');
+    // Route::get('/get-standards/{mediumId}', [SubjectController::class,'getStandards'])->name('getstandard');
+    // Route::get('/getnewstandard/{mediumId}', [SubjectController::class,'getStandards'])->name('getstandard');
+    Route::get('/get-standards/{medium_id}', [SubjectController::class, 'getStandards'])->name('getnewestandard');
 
     //School_Topics modual
     Route::get('superadmin/Chapter',[TopicsController::class,'index'])->name('topics');
@@ -236,6 +238,14 @@ Route::group(['middlware'=> ['auth','role:SchoolAdmin']], function () {
      Route::get('schoolAdmin/events/edit/{id}',[SchoolEvController::class,'edit'])->name('schoolAdmin.events.edit');
      Route::post('schoolAdmin/events/update/{id}',[SchoolEvController::class,'update'])->name('schoolAdmin.events.update');
      Route::delete('schoolAdmin/events/delete/{id}',[SchoolEvController::class,'destroy'])->name('schoolAdmin.events.delete');
+
+      //Holiday modual
+      Route::get('schoolAdmin/holiday',[SchoolHolidayController::class,'index'])->name('schoolAdmin.holiday.index');
+      Route::get('schoolAdmin/holiday/create',[SchoolHolidayController::class,'create'])->name('schoolAdmin.holiday.create');
+      Route::post('schoolAdmin/holiday/store',[SchoolHolidayController::class,'store'])->name('schoolAdmin.holiday.store');
+      Route::get('schoolAdmin/holiday/edit/{id}',[SchoolHolidayController::class,'edit'])->name('schoolAdmin.holiday.edit');
+      Route::post('schoolAdmin/holiday/update/{id}',[SchoolHolidayController::class,'update'])->name('schoolAdmin.holiday.update');
+      Route::delete('schoolAdmin/holiday/delete/{id}',[SchoolHolidayController::class,'destroy'])->name('schoolAdmin.holiday.delete');
 
 
     Route::get('/import-form', [StudentController::class, 'showImportForm'])->name('import-form');

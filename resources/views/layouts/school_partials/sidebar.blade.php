@@ -135,6 +135,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="{{ route('schoolAdmin.holiday.index') }}" class="nav-link {{ request()->routeIs('schoolAdmin.holiday.index') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-calendar-day"></i>
+                            <p>Holiday</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="{{ route('schooladmin.homework.index') }}" class="nav-link {{ request()->routeIs('schooladmin.homework.index') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-book"></i>
                             <p>Home Work</p>

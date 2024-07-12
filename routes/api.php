@@ -59,13 +59,13 @@ Route::get('get_standard',[StandardController::class,'getStandard']);
 Route::get('get_subject',[SubjectController::class,'getSubject']);
 Route::get('get_topic',[TopicController::class,'getTopics']);
 Route::get('get_subtopic',[SubTopicController::class,'getSubtopcs']);
-//Route::get('get_home_subject',[\App\Http\Controllers\Api\HomeSubjectController::class,'getSubjects']);
+Route::get('get_home_subject',[\App\Http\Controllers\Api\HomeSubjectController::class,'getSubjects']);
 //Route::get('/quiz', [App\Http\Controllers\Api\QuizController::class,'index']);
 
 
 Route::get('getEvents',[App\Http\Controllers\Api\School\EventController::class,'getEvents']);
 //Route::get('getHolidays',[App\Http\Controllers\Api\School\HolidayController::class,'getHolidays']);
-//Route::get('getEventHoliday',[App\Http\Controllers\Api\EventHolidayController::class,'getEventsAndHolidays']);
+// Route::get('getEventHoliday',[App\Http\Controllers\Api\EventHolidayController::class,'getEventsAndHolidays']);
 
 
 //Guest Route

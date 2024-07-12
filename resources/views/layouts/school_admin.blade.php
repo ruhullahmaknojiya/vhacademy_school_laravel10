@@ -11,8 +11,6 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="https://adminlte.io/themes/v3/dist/css/adminlte.min.css">
     <!-- DataTables CSS -->
-
-
     <style>
         body {
             font-family: 'Arial, sans-serif'; /* Change font family here */
@@ -110,12 +108,6 @@
     <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/core/main.min.css' rel='stylesheet' />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/daygrid/main.min.css' rel='stylesheet' />
 
-    <!-- Additional CSS if needed -->
-    <!-- FullCalendar CSS -->
-{{-- <link rel="stylesheet" href="{{ asset('vendor/fullcalendar/core/main.min.css') }}"> --}}
-
-{{-- <link rel="stylesheet" href="{{ asset('vendor/fullcalendar/daygrid/main.min.css') }}"> --}}
-
 @stack('css')
 
 </head>
@@ -160,7 +152,6 @@
  <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/core/main.min.js'></script>
  <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/interaction/main.min.js'></script>
  <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/daygrid/main.min.js'></script>
-
 
  @stack('js')
 </body>

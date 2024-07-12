@@ -13,10 +13,29 @@ class EventController extends Controller
     public function index(Request $request)
     {
         //
-
-        // $events = Event::where('school_id',null)->get();
         $events = Event::where('school_id',null)->get();
-        return view('superadmin.events.index',compact('events'));
+
+        $eventsQuery = Event::where('school_id',null);
+
+        if ($request->filled('month') && $request->filled('year')) {
+            $month = $request->input('month');
+            $year = $request->input('year');
+
+            $eventsQuery->whereYear('start_date', $year)
+                        ->whereMonth('start_date', $month);
+        }
+
+        $events = $eventsQuery->get();
+
+        $months = [
+            '01' => 'January', '02' => 'February', '03' => 'March', '04' => 'April',
+            '05' => 'May', '06' => 'June', '07' => 'July', '08' => 'August',
+            '09' => 'September', '10' => 'October', '11' => 'November', '12' => 'December'
+        ];
+
+        $years = range(date('Y') - 10, date('Y') + 10); // last 10 years and next 10 years
+        // $events = Event::where('school_id',null)->get();
+        return view('superadmin.events.index',compact('events', 'months', 'years'));
     }
 
     /**

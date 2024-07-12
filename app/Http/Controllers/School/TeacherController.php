@@ -75,7 +75,7 @@ class TeacherController extends Controller
             Log::info('Generated username', ['username' => $username]);
 
             $phone = $request->input('phone');
-            $password = $staffId . str_replace('-', '', $dateOfBirth) . substr($phone, 0, 2) . substr($phone, -2);  /// password = Staffid + dateofbirth + first letter of mobile number + Last letter of mobile number
+            $password = $staffId . str_replace('-', '', $dateOfBirth) . substr($phone, 0, 2) . substr($phone, -2);  /// password = Staffid + dateofbirth + first Tow letter of mobile number + Two Last letter of mobile number
             Log::info('Generated password',[$password]);
 
             $teacherRole = Role::where('name', 'Teacher')->first();

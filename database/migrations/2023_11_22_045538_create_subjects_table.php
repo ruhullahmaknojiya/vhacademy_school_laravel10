@@ -19,8 +19,7 @@ class CreateSubjectsTable extends Migration
             $table->string('subject', 255);
             $table->string('subject_code', 255);
             $table->string('description', 255);
-            $table->string('sub_image', 255)->nullable();
-            $table->string('subject_banner', 255)->nullable();
+            $table->string('sub_pdf', 255);
             $table->timestamps(); // This creates nullable created_at and updated_at columns
 
             // Indexes

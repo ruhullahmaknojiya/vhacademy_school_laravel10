@@ -27,7 +27,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <h5 class="form-title"><span>Topics Information</span><a
-                                        href="{{route('subtopics')}}"><i class="fas fa-arrow-left"
+                                        href="{{route('subtopics.index')}}"><i class="fas fa-arrow-left"
                                                                          style="float: right;"></i></a></h5>
                             </div>
                             <div class="col-12 col-sm-4">
