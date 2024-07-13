@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Medium;
 Use App\Models\Standard;
 
-class getDataController extends Controller
+class GetDataController extends Controller
 {
   public function get_mediums()
     {

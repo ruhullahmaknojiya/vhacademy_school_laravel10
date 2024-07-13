@@ -6,6 +6,8 @@ use App\Http\Controllers\SuperAdmin\EventController;
 use App\Http\Controllers\SuperAdmin\SubjectController;
 use App\Http\Controllers\SuperAdmin\SubTopicsController;
 use App\Http\Controllers\SuperAdmin\TopicsController;
+use App\Http\Controllers\SuperAdmin\HomeSubjectController;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SuperAdminController;
@@ -140,6 +142,17 @@ Route::group(['middlware'=> ['auth','role:SuperAdmin']], function () {
     Route::post('superadmin/events/update/{id}',[EventController::class,'update'])->name('superadmin.events.update');
     Route::delete('superadmin/events/delete/{id}',[EventController::class,'destroy'])->name('superadmin.events.delete');
 
+
+     //home_course
+     //School_subject modual
+     Route::get('superadmin.homesubject',[\App\Http\Controllers\SuperAdmin\HomeSubjectController::class,'index'])->name('superadmin.homesubject.index');
+     Route::get('superadmin.homesubject/create',[\App\Http\Controllers\SuperAdmin\HomeSubjectController::class,'create'])->name('superadmin.homesubject.create');
+     Route::post('superadmin.homesubject/store',[\App\Http\Controllers\SuperAdmin\HomeSubjectController::class,'store'])->name('superadmin.homesubject.store');
+     Route::get('superadmin.homesubject/edit/{id}',[\App\Http\Controllers\SuperAdmin\HomeSubjectController::class,'edit'])->name('superadmin.homesubject.edit');
+     Route::post('superadmin.homesubject/update/{id}',[\App\Http\Controllers\SuperAdmin\HomeSubjectController::class,'update'])->name('superadmin.homesubject.update');
+     Route::delete('superadmin.homesubject/delete/{id}',[\App\Http\Controllers\SuperAdmin\HomeSubjectController::class,'destroy'])->name('superadmin.homesubject.destroy');
+
+
 });
 
 Route::group(['middlware'=> ['auth','role:SchoolAdmin']], function () {
@@ -232,20 +245,20 @@ Route::group(['middlware'=> ['auth','role:SchoolAdmin']], function () {
 
 
      //Event modual
-     Route::get('schoolAdmin/events',[SchoolEvController::class,'index'])->name('schoolAdmin.events.index');
-     Route::get('schoolAdmin/events/create',[SchoolEvController::class,'create'])->name('schoolAdmin.events.create');
-     Route::post('schoolAdmin/events/store',[SchoolEvController::class,'store'])->name('schoolAdmin.events.store');
-     Route::get('schoolAdmin/events/edit/{id}',[SchoolEvController::class,'edit'])->name('schoolAdmin.events.edit');
-     Route::post('schoolAdmin/events/update/{id}',[SchoolEvController::class,'update'])->name('schoolAdmin.events.update');
-     Route::delete('schoolAdmin/events/delete/{id}',[SchoolEvController::class,'destroy'])->name('schoolAdmin.events.delete');
+     Route::get('schoolAdmin/events',[SchoolEvController::class,'index'])->name('schooladmin.events.index');
+     Route::get('schoolAdmin/events/create',[SchoolEvController::class,'create'])->name('schooladmin.events.create');
+     Route::post('schoolAdmin/events/store',[SchoolEvController::class,'store'])->name('schooladmin.events.store');
+     Route::get('schoolAdmin/events/edit/{id}',[SchoolEvController::class,'edit'])->name('schooladmin.events.edit');
+     Route::post('schoolAdmin/events/update/{id}',[SchoolEvController::class,'update'])->name('schooladmin.events.update');
+     Route::delete('schoolAdmin/events/delete/{id}',[SchoolEvController::class,'destroy'])->name('schooladmin.events.delete');
 
       //Holiday modual
-      Route::get('schoolAdmin/holiday',[SchoolHolidayController::class,'index'])->name('schoolAdmin.holiday.index');
-      Route::get('schoolAdmin/holiday/create',[SchoolHolidayController::class,'create'])->name('schoolAdmin.holiday.create');
-      Route::post('schoolAdmin/holiday/store',[SchoolHolidayController::class,'store'])->name('schoolAdmin.holiday.store');
-      Route::get('schoolAdmin/holiday/edit/{id}',[SchoolHolidayController::class,'edit'])->name('schoolAdmin.holiday.edit');
-      Route::post('schoolAdmin/holiday/update/{id}',[SchoolHolidayController::class,'update'])->name('schoolAdmin.holiday.update');
-      Route::delete('schoolAdmin/holiday/delete/{id}',[SchoolHolidayController::class,'destroy'])->name('schoolAdmin.holiday.delete');
+      Route::get('schoolAdmin/holiday',[SchoolHolidayController::class,'index'])->name('schooladmin.holiday.index');
+      Route::get('schoolAdmin/holiday/create',[SchoolHolidayController::class,'create'])->name('schooladmin.holiday.create');
+      Route::post('schoolAdmin/holiday/store',[SchoolHolidayController::class,'store'])->name('schooladmin.holiday.store');
+      Route::get('schoolAdmin/holiday/edit/{id}',[SchoolHolidayController::class,'edit'])->name('schooladmin.holiday.edit');
+      Route::post('schoolAdmin/holiday/update/{id}',[SchoolHolidayController::class,'update'])->name('schooladmin.holiday.update');
+      Route::delete('schoolAdmin/holiday/delete/{id}',[SchoolHolidayController::class,'destroy'])->name('schooladmin.holiday.delete');
 
 
     Route::get('/import-form', [StudentController::class, 'showImportForm'])->name('import-form');

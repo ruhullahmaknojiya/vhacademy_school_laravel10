@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('layouts.school_admin')
 @section('title')
     Edit School Holiday
 @endsection

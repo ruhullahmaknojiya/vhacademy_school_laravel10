@@ -26,4 +26,6 @@ class Subject extends Model
 
         return $this->hasMany(Topic::class,'sub_id');
     }
+
+
 }

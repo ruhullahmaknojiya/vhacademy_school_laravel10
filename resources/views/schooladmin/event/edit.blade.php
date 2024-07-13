@@ -23,7 +23,7 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-body">
-                    <form method="post" action="{{route('superadmin.events.update',$edit_event->id)}}" enctype="multipart/form-data">
+                    <form method="post" action="{{route('schooladmin.events.update',$edit_event->id)}}" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-12 mb-4">

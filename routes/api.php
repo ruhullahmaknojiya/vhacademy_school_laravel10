@@ -9,17 +9,13 @@ use App\Http\Controllers\Api\SubjectController;
 use App\Http\Controllers\Api\SubTopicController;
 use App\Http\Controllers\Api\TopicController;
 use App\Http\Controllers\Api\Guest\StanderdController;
-// use App\Http\Controllers\Api\Guest\GetSubjectController;
 use App\Http\Controllers\Api\Guest\GetTopicController;
 use App\Http\Controllers\Api\Guest\GetSubTopicController;
-
-// use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Teacher\TeacherController;
-
 use App\Http\Controllers\Api\parent\ParentController;
 use App\Http\Controllers\Api\user\FeedbackController;
 use App\Http\Controllers\Api\Teacher\TimetableController;
-use App\Http\Controllers\Api\get\getDataController;
+use App\Http\Controllers\Api\Get\GetDataController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,53 +36,69 @@ use App\Http\Controllers\Api\get\getDataController;
 Route::post('Studentlogin', [RegisterController::class, 'login']);
 Route::post('Parentlogin', [ParentController::class, 'login']);
 Route::post('Teacherlogin', [TeacherController::class, 'login']);
-//Route::post('Schoollogin', [SchoolController::class, 'login']);
-
-//end login api
-
-//parent
-//Route::post('/parent_signup', [ParentController::class, 'register']);
-// Route::post('/verify-otp', [RegisterController::class, 'verifyOtp']);
 
 
 //get data
-Route::get('get_mediums',[getDataController::class,'get_mediums']);
-Route::get('get_standard',[getDataController::class,'get_standards_by_medium']);
-Route::get('get_classes',[getDataController::class,'get_all_classes']);
+Route::get('get_mediums',[GetDataController::class,'get_mediums']);
+Route::get('get_standard',[GetDataController::class,'get_standards_by_medium']);
+Route::get('get_classes',[GetDataController::class,'get_all_classes']);
 
-//
+
+//get data
+Route::get('get_mediums',[GetDataController::class,'get_mediums']);
+Route::get('get_std',[GetDataController::class,'get_standards_by_medium']);
+Route::get('get_all_classes',[GetDataController::class,'get_all_classes']);
+
+
 Route::get('get_standard',[StandardController::class,'getStandard']);
 Route::get('get_subject',[SubjectController::class,'getSubject']);
+Route::get('get_home_subject',[\App\Http\Controllers\Api\HomeSubjectController::class,'getSubjects']);
 Route::get('get_topic',[TopicController::class,'getTopics']);
 Route::get('get_subtopic',[SubTopicController::class,'getSubtopcs']);
-Route::get('get_home_subject',[\App\Http\Controllers\Api\HomeSubjectController::class,'getSubjects']);
-//Route::get('/quiz', [App\Http\Controllers\Api\QuizController::class,'index']);
+Route::get('/quiz', [App\Http\Controllers\Api\QuizController::class,'index']);
 
 
 Route::get('getEvents',[App\Http\Controllers\Api\School\EventController::class,'getEvents']);
-//Route::get('getHolidays',[App\Http\Controllers\Api\School\HolidayController::class,'getHolidays']);
-// Route::get('getEventHoliday',[App\Http\Controllers\Api\EventHolidayController::class,'getEventsAndHolidays']);
+Route::get('getHolidays',[App\Http\Controllers\Api\School\HolidayController::class,'getHolidays']);
+Route::get('getEventHoliday',[App\Http\Controllers\Api\EventHolidayController::class,'getEventsAndHolidays']);
 
 
 //Guest Route
-//Route::group(['prefix' =>'standard'],function(){
-//    Route::get('guest_get_standard',[StanderdController::class,'getStandard']);
-//});
-//Route::group(['prefix' =>'subject'],function(){
-//    Route::get('guest_get_subject',[App\Http\Controllers\Api\Guest\GetSubjectController::class,'getSubject']);
-//    Route::get('guest_get_rendom_subject',[App\Http\Controllers\Api\Guest\GetRendomSubjectController::class,'getSubject']);
-//
-//});
-//Route::group(['prefix' =>'topic'],function(){
-//    Route::get('guest_get_topic',[GetTopicController::class,'getTopics']);
-//});
-//Route::group(['prefix' =>'subtopic'],function(){
-//    Route::get('guest_get_subtopic',[GetSubTopicController::class,'getSubtopcs']);
-//});
-//   
+Route::group(['prefix' =>'standard'],function(){
+    Route::get('guest_get_standard',[StanderdController::class,'getStandard']);
+});
+Route::group(['prefix' =>'subject'],function(){
+    Route::get('guest_get_subject',[App\Http\Controllers\Api\Guest\GetSubjectController::class,'getSubject']);
+    Route::get('guest_get_rendom_subject',[App\Http\Controllers\Api\Guest\GetRendomSubjectController::class,'getSubject']);
+
+});
+Route::group(['prefix' =>'topic'],function(){
+    Route::get('guest_get_topic',[GetTopicController::class,'getTopics']);
+});
+Route::group(['prefix' =>'subtopic'],function(){
+    Route::get('guest_get_subtopic',[GetSubTopicController::class,'getSubtopcs']);
+});
 
 
 
+Route::middleware('auth:api')->group(function () {
+
+    Route::get('getStudent-Data', [\App\Http\Controllers\Api\Student\StudentDataController::class, 'getStudent']);
+    Route::post('update_medium', [\App\Http\Controllers\Api\Student\StudentDataController::class, 'updateStudentMedium']);
+    Route::get('/student_homework_data', [App\Http\Controllers\Api\Student\StudentDataController::class, 'getStudentHomeworkData']);
+    Route::get('/student_homework_data', [App\Http\Controllers\Api\Student\StudentDataController::class, 'getStudentHomeworkData']);
+
+});
+
+
+
+
+
+
+
+
+
+//For Teacher Api Route
 Route::middleware('auth:api')->group(function () {
     //time table
     Route::get('/timetable_details', [TimetableController::class, 'getTimetable']);

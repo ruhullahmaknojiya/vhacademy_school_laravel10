@@ -27,11 +27,11 @@
                                 <h3 class="card-title float-left">List Events</h3>
                             </div>
                             <div class="card-tools">
-                                <a href="{{route('schoolAdmin.events.create')}}" class="btn btn-primary"><i class="fas fa-plus"></i></a>
+                                <a href="{{route('schooladmin.events.create')}}" class="btn btn-primary"><i class="fas fa-plus"></i></a>
                             </div>
                         </div>
                         <div class="card-body">
-                            <form method="GET" action="{{ route('schoolAdmin.events.index') }}">
+                            <form method="GET" action="{{ route('schooladmin.events.index') }}">
                                 <div class="row mb-4">
                                     <div class="col-md-3">
                                         <select name="month" class="form-control">
@@ -85,10 +85,10 @@
                                             <td class="text-end">
                                                 @if($event->school_id)
                                                 <div class="btn-group">
-                                                    <a href="{{route('schoolAdmin.events.edit',$event->id)}}" class="btn btn-sm btn-info me-2">
+                                                    <a href="{{route('schooladmin.events.edit',$event->id)}}" class="btn btn-sm btn-info me-2">
                                                         <i class="fa fa-edit"></i>
                                                     </a>&nbsp;
-                                                    <form action="{{route('schoolAdmin.events.delete',$event->id)}}" method="POST">
+                                                    <form action="{{route('schooladmin.events.delete',$event->id)}}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" onclick="return confirm('Are you sure you want to delete this item?');" class="btn btn-sm btn-danger me-2"><i class="fa fa-trash"></i></button>

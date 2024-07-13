@@ -39,7 +39,7 @@
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-body">
-                            <form method="post" action="{{route('schoolAdmin.events.store')}}" enctype="multipart/form-data">
+                            <form method="post" action="{{route('schooladmin.events.store')}}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
                                     <div class="col-12 mb-4">

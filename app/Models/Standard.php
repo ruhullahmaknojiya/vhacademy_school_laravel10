@@ -23,4 +23,6 @@ class Standard extends Model
     {
         return $this->hasMany(ClassModel::class);
     }
+
+
 }

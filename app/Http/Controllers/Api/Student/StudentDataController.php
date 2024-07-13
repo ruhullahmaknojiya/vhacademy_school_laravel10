@@ -10,7 +10,7 @@ use App\Models\Student;
 
 class StudentDataController extends Controller
 {
-    //
+
 
 
     public function getStudent(Request $request)

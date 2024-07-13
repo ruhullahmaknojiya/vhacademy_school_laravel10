@@ -64,13 +64,19 @@
                         <p>Events</p>
                     </a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="" class="nav-link ">
                         <i class="nav-icon fas fa-umbrella-beach"></i>
-                        <p>Holiday</p>
+                        <p>Holiday</p>superadmin.homesubject.index
+                    </a>
+                </li> --}}
+                <li class="nav-header">EDUCATIONAL MANAGEMENT ( LMS ) </li>
+                <li class="nav-item">
+                    <a href="{{ route('superadmin.homesubject.index') }}" class="nav-link {{ request()->routeIs('superadmin.homesubject.index') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-language"></i>
+                        <p>Home Subject</p>
                     </a>
                 </li>
-                <li class="nav-header">EDUCATIONAL MANAGEMENT ( LMS ) </li>
                 <li class="nav-item">
                     <a href="{{ route('superadmin.medium.index') }}" class="nav-link {{ request()->routeIs('superadmin.medium.index') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-language"></i>
