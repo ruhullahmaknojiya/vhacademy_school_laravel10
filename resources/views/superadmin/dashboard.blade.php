@@ -4,6 +4,7 @@
 
 @section('content_header')
     <h1>Dashboard</h1>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
     <style>
         body {
@@ -137,78 +138,105 @@
 @stop
 
 @push('js')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar1');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            plugins: ['dayGrid', 'interaction'],
-            editable: true,
-            selectable: true,
-            height: 480,
-            contentHeight: 490,
-            events: [
-                @foreach($events as $event)
-                {
-                    title: '{{ $event->event_title }}',
-                    start: '{{ $event->start_date }}',
-                    end: '{{ $event->end_date }}',
-                    backgroundColor: '{{ $event->color }}',
-                    borderColor: '{{ $event->color }}',
-                    description: '{{ $event->short_Description }}',
-                    pdfLink: '{{ $event->event_pdf }}', // Update to use event_pdf
-                    videoLink: '{{ $event->event_video }}'
-                },
-                @endforeach
-            ],
-             eventClick: function(info) {
-                // Set modal title and description
-                document.getElementById('modalEventTitle').textContent = info.event.title;
-                document.getElementById('modalEventDescription').textContent = info.event.extendedProps.description;
+   document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar1');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        plugins: ['dayGrid', 'interaction'],
+        editable: true,
+        selectable: true,
+        height: 480,
+        contentHeight: 490,
+        events: [
+            @foreach($events as $event)
+            {
+                id: '{{ $event->id }}', // Ensure each event has a unique ID
+                title: '{{ $event->event_title }}',
+                start: '{{ $event->start_date }}',
+                end: '{{ $event->end_date }}',
+                backgroundColor: '{{ $event->color }}',
+                borderColor: '{{ $event->color }}',
+                description: '{{ $event->short_Description }}',
+                pdfLink: '{{ $event->event_pdf }}', // Update to use event_pdf
+                videoLink: '{{ $event->event_video }}'
+            },
+            @endforeach
+        ],
+        eventClick: function(info) {
+            // Set modal title and description
+            document.getElementById('modalEventTitle').textContent = info.event.title;
+            document.getElementById('modalEventDescription').textContent = info.event.extendedProps.description;
 
-                // Set links for PDF and video
-                var pdfLink = info.event.extendedProps.pdfLink ? '/pdf/subtopic/' + info.event.extendedProps.pdfLink : null;
-                var videoLink = info.event.extendedProps.videoLink;
+            // Set links for PDF and video
+            var pdfLink = info.event.extendedProps.pdfLink ? '/pdf/subtopic/' + info.event.extendedProps.pdfLink : null;
+            var videoLink = info.event.extendedProps.videoLink;
 
-                var pdfButton = document.getElementById('modalEventPDF');
-                var videoButton = document.getElementById('modalEventVideo');
+            var pdfButton = document.getElementById('modalEventPDF');
+            var videoButton = document.getElementById('modalEventVideo');
 
-                if (pdfLink) {
-                    pdfButton.href = pdfLink;
-                    pdfButton.classList.remove('disabled');
-                    pdfButton.removeAttribute('disabled');
-                } else {
-                    pdfButton.href = '#';
-                    pdfButton.classList.add('disabled');
-                    pdfButton.setAttribute('disabled', 'disabled');
-                }
-
-                if (videoLink) {
-                    videoButton.href = '#';
-                    videoButton.classList.remove('disabled');
-                    videoButton.removeAttribute('disabled');
-                    videoButton.setAttribute('data-video', videoLink);
-                } else {
-                    videoButton.href = '#';
-                    videoButton.classList.add('disabled');
-                    videoButton.setAttribute('disabled', 'disabled');
-                }
-
-                // Show the modal
-                $('#eventModal').modal('show');
+            if (pdfLink) {
+                pdfButton.href = pdfLink;
+                pdfButton.classList.remove('disabled');
+                pdfButton.removeAttribute('disabled');
+            } else {
+                pdfButton.href = '#';
+                pdfButton.classList.add('disabled');
+                pdfButton.setAttribute('disabled', 'disabled');
             }
-        });
-        calendar.render();
 
-        // Handle video button click to open video in video player
-        document.getElementById('modalEventVideo').addEventListener('click', function(event) {
-            var videoLink = event.currentTarget.getAttribute('data-video');
             if (videoLink) {
-                var videoPlayerModal = new bootstrap.Modal(document.getElementById('videoPlayerModal'));
-                var videoPlayer = document.getElementById('videoPlayer');
-                videoPlayer.src = videoLink;
-                videoPlayerModal.show();
+                videoButton.href = '#';
+                videoButton.classList.remove('disabled');
+                videoButton.removeAttribute('disabled');
+                videoButton.setAttribute('data-video', videoLink);
+            } else {
+                videoButton.href = '#';
+                videoButton.classList.add('disabled');
+                videoButton.setAttribute('disabled', 'disabled');
             }
-        });
+
+            // Show the modal
+            $('#eventModal').modal('show');
+        },
+        eventDrop: function(info) {
+            var eventId = info.event.id;
+            var newStartDate = moment(info.event.start).format('YYYY-MM-DD HH:mm:ss'); // Format the start date
+            var newEndDate = info.event.end ? moment(info.event.end).format('YYYY-MM-DD HH:mm:ss') : null; // Format the end date
+
+            // AJAX request to update the event start and end dates in the database
+            $.ajax({
+                url: '{{ route('update.event.date') }}', // Use Blade to generate the URL
+                method: 'POST',
+                data: {
+                    id: eventId,
+                    start_date: newStartDate,
+                    end_date: newEndDate,
+                    _token: '{{ csrf_token() }}' // CSRF token for security
+                },
+                success: function(response) {
+                    alert('Event dates updated successfully.');
+                },
+                error: function(xhr, status, error) {
+                    alert('Error updating event dates.');
+                    console.log(xhr.responseText); // Log the error response for debugging
+                }
+            });
+        }
     });
+    calendar.render();
+
+    // Handle video button click to open video in video player
+    document.getElementById('modalEventVideo').addEventListener('click', function(event) {
+        var videoLink = event.currentTarget.getAttribute('data-video');
+        if (videoLink) {
+            var videoPlayerModal = new bootstrap.Modal(document.getElementById('videoPlayerModal'));
+            var videoPlayer = document.getElementById('videoPlayer');
+            videoPlayer.src = videoLink;
+            videoPlayerModal.show();
+        }
+    });
+});
 </script>
 @endpush

@@ -27,6 +27,9 @@
                                 <h3 class="card-title float-left">List Events</h3>
                             </div>
                             <div class="card-tools">
+                                <a href="{{ route('schooladmin.import') }}" class="btn btn-primary"><i class="fas fa-succes"> Import Events</i></a>
+                            </div>
+                            <div class="card-tools">
                                 <a href="{{route('schooladmin.events.create')}}" class="btn btn-primary"><i class="fas fa-plus"></i></a>
                             </div>
                         </div>

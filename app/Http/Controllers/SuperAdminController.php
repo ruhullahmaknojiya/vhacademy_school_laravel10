@@ -22,6 +22,8 @@ use App\Models\Topic;
 use App\Models\Event;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+
 
 class SuperAdminController extends Controller
 {
@@ -55,6 +57,39 @@ class SuperAdminController extends Controller
 
         return view('superadmin.dashboard');
     }
+
+    public function updateEventDate(Request $request)
+    {
+        Log::info('Update Event Date Request: ', $request->all());
+
+        try {
+            // Validate the request
+            $request->validate([
+                'id' => 'required|exists:events,id',
+                'start_date' => 'required|date_format:Y-m-d H:i:s',
+                'end_date' => 'nullable|date_format:Y-m-d H:i:s' // end_date can be null
+            ]);
+
+            // Find the event by ID
+            $event = Event::find($request->id);
+
+            if ($event) {
+                // Update the start and end dates
+                $event->start_date = $request->start_date;
+                $event->end_date = $request->end_date;
+                $event->save();
+
+                return response()->json(['success' => 'Event dates updated successfully.']);
+            }
+
+            return response()->json(['error' => 'Event not found.'], 404);
+        } catch (\Exception $e) {
+            Log::error('Error updating event dates: ' . $e->getMessage());
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
+    }
+
+
     public function profile()
     {
         return view('superadmin.profile');
@@ -109,7 +144,6 @@ class SuperAdminController extends Controller
     {
         $schools = School::paginate(10); // Adjust the number as needed
         return view('superadmin.schools.list', compact('schools'));
-
 
     }
 

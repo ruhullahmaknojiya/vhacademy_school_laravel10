@@ -29,6 +29,11 @@
                             <div class="card-tools">
                                 <a href="{{route('superadmin.events.create')}}" class="btn btn-primary"><i class="fas fa-plus"></i></a>
                             </div>
+                            <br>
+                            <div class="card-tools">
+                                <a href="{{ route('superadmin.import') }}" class="btn btn-primary"><i class="fas fa-succes"> Import Events</i></a>
+                            </div>
+
                         </div>
                         <div class="card-body">
                             <form method="GET" action="{{ route('superadmin.events.index') }}">

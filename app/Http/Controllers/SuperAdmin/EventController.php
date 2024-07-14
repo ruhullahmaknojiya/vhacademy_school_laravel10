@@ -98,26 +98,16 @@ class EventController extends Controller
 
         $save_event->school_id=null;
 
-        // if ($request->hasFile("event_image")) {
-        //     $img = $request->file("event_image");
-        //     if (Storage::exists('public/images/admin/event/' . $save_event->event_image)) {
-        //         Storage::delete('public/images/admin/event/' . $save_event->event_image);
-        //     }
-        //     $img->store('public/images/admin/event/');
-        //     $save_event['event_image'] = $img->hashName();
+        if ($request->hasFile("event_pdf")) {
+            $img = $request->file("event_pdf");
+            if (Storage::exists('public/images/admin/event/' . $update_event->event_pdf)) {
+                Storage::delete('public/images/admin/event/' . $update_event->event_pdf);
+            }
+            $img->store('public/images/admin/event/');
+            $input['event_pdf'] = $img->hashName();
+            $update_event->update($input);
 
-
-        // }
-        // if ($request->hasFile("event_pdf")) {
-        //     $img = $request->file("event_pdf");
-        //     if (Storage::exists('public/images/admin/event/' . $save_event->event_pdf)) {
-        //         Storage::delete('public/images/admin/event/' . $save_event->event_pdf);
-        //     }
-        //     $img->store('public/images/admin/event/');
-        //     $save_event['event_pdf'] = $img->hashName();
-
-
-        // }
+        }
 
         $save_event->save();
 
@@ -161,16 +151,7 @@ class EventController extends Controller
 
 
         $input = $request->all();
-        // if ($request->hasFile("event_image")) {
-        //     $img = $request->file("event_image");
-        //     if (Storage::exists('public/images/admin/event/' . $update_event->event_image)) {
-        //         Storage::delete('public/images/admin/event/' . $update_event->event_image);
-        //     }
-        //     $img->store('public/images/admin/event/');
-        //     $input['event_image'] = $img->hashName();
-        //     $update_event->update($input);
 
-        // }
         if ($request->hasFile("event_pdf")) {
             $img = $request->file("event_pdf");
             if (Storage::exists('public/images/admin/event/' . $update_event->event_pdf)) {

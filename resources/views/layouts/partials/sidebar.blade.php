@@ -113,6 +113,13 @@
                         <p>Chapter-Topic</p>
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('superadmin.import') }}" class="nav-link {{ request()->routeIs('superadmin.import') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-book-reader"></i>
+                        <p>Event Import</p>
+                    </a>
+                </li>
             </ul>
         </nav>
     </div>
