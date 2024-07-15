@@ -27,7 +27,7 @@
                         @csrf
                         <div class="row">
                             <div class="col-12 mb-4">
-                                <h5 class="form-title"><b>Edit Event Information</b><a href="{{route('superadmin.events.index')}}"><i class="fas fa-arrow-left" style="float: right;"></i></a></h5>
+                                <h5 class="form-title"><b>Edit Event Information</b><a href="{{route('schooladmin.events.index')}}"><i class="fas fa-arrow-left" style="float: right;"></i></a></h5>
                             </div>
 
                             <div class="col-12 col-sm-4">
@@ -51,16 +51,9 @@
                             <div class="col-12 col-sm-4">
                                 <div class="form-group local-forms">
                                     <label>Color<span class="login-danger">*</span></label>
-                                    <select type="color" name="color" class="form-control" required>
-                                        <option>Please Select Color</option>
-                                        <option value="#FFA500" {{ $edit_event->color == '#FFA500' ? 'selected' : '' }}>Orange</option>
-                                        <option value="#008000" {{ $edit_event->color == '#008000' ? 'selected' : '' }}>Green</option>
-                                        <option value="#0000FF" {{ $edit_event->color == '#0000FF' ? 'selected' : '' }}>Blue</option>
-                                        <option value="#00008B" {{ $edit_event->color == '#00008B' ? 'selected' : '' }}>Dark Blue</option>
-                                        <option value="#FFFF00" {{ $edit_event->color == '#FFFF00' ? 'selected' : '' }}>Yellow</option>
-                                        <option value="#A52A2A" {{ $edit_event->color == '#A52A2A' ? 'selected' : '' }}>Brown</option>
-                                        <option value="#000000" {{ $edit_event->color == '#000000' ? 'selected' : '' }}>Black</option>
-
+                                    <select name="color" class="form-control" required>
+                                        <option value="">Please Select Color</option>
+                                        <option value="#800080" data-color="#800080">School Special (Purple)</option>
                                     </select>
                                     @error('color')
                                     <span class="error invalid-feedback">{{ $message }}</span>
@@ -126,4 +119,55 @@
     </div>
     </div>
     </div>
-@endsection
+    @push('js')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const selectElement = document.querySelector('select[name="color"]');
+            const options = selectElement.querySelectorAll('option');
+
+            options.forEach(option => {
+                if (option.value) {
+                    const colorBox = document.createElement('div');
+                    colorBox.classList.add('color-box');
+                    colorBox.style.backgroundColor = option.value;
+
+                    const optionText = document.createTextNode(' ' + option.textContent);
+
+                    const span = document.createElement('span');
+                    span.classList.add('color-option');
+                    span.appendChild(colorBox);
+                    span.appendChild(optionText);
+
+                    option.innerHTML = '';
+                    option.appendChild(span);
+                }
+            });
+
+            selectElement.addEventListener('change', function() {
+                const selectedOption = selectElement.options[selectElement.selectedIndex];
+                const color = selectedOption.getAttribute('data-color');
+                selectElement.style.backgroundColor = color;
+
+                if (!color || color === '#FFFF00' || color === '#000000') {
+                    selectElement.style.color = '#000000'; // Set text color to black for no selection, yellow, or black
+                } else {
+                    selectElement.style.color = '#FFFFFF'; // Set text color to white for other colors
+                }
+            });
+
+            // Initial selection styling
+            const initialSelectedOption = selectElement.options[selectElement.selectedIndex];
+            if (initialSelectedOption) {
+                const initialColor = initialSelectedOption.getAttribute('data-color');
+                selectElement.style.backgroundColor = initialColor;
+
+                if (!initialColor || initialColor === '#FFFF00' || initialColor === '#000000') {
+                    selectElement.style.color = '#000000'; // Set initial text color to black for no selection, yellow, or black
+                } else {
+                    selectElement.style.color = '#FFFFFF'; // Set initial text color to white for other colors
+                }
+            }
+        });
+    </script>
+    @endpush
+    @endsection

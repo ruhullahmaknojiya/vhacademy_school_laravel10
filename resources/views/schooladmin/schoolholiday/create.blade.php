@@ -21,12 +21,12 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-body">
-                    <form method="post" action="{{route('save_schoolholidays')}}" enctype="multipart/form-data">
+                    <form method="post" action="{{route('schooladmin.holiday.store')}}" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-12">
                                 <h5 class="form-title"><span>School-Holiday Information</span><a
-                                        href="{{route('school_holidays')}}"><i class="fas fa-arrow-left"
+                                        href="{{route('schooladmin.holiday.index')}}"><i class="fas fa-arrow-left"
                                                                                style="float: right;"></i></a></h5>
                             </div>
 
@@ -65,7 +65,7 @@
                             </div>
                             <div class="col-12 col-sm-4">
                                 <div class="form-group local-forms">
-                                    <label>Holiday Image<span class="text-danger">*</span></label>
+                                    <label>Holiday Image</label>
                                     <input type="file" name="holiday_image" class="form-control">
                                     <span style="color: red">{{$errors->first('holiday_image')}}</span>
 

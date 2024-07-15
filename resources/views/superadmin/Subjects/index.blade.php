@@ -23,7 +23,7 @@
                         <a href="{{ route('create_Subject') }}" class="btn btn-primary"><i class="fas fa-plus-circle"></i> Add Subject</a>
                     </div>
                 </div>
-                <form method="GET" action="{{ route('Subject') }}" class="form-inline mt-2">
+                <form method="GET" action="{{ route('subjects') }}" class="form-inline mt-2">
                     <div class="row align-items-end">
                         <div class="col-md-4">
                             <select class="form-control filter-dropdown" name="medium_id" id="mediums">
@@ -49,7 +49,7 @@
                             <button type="submit" class="btn btn-primary">Filter</button>
                         </div>
                         <div class="col-md-2">
-                            <a href="{{ route('Subject') }}" class="btn btn-danger">Reset</a>
+                            <a href="{{ route('subjects') }}" class="btn btn-danger">Reset</a>
                         </div>
                     </div>
                 </form>

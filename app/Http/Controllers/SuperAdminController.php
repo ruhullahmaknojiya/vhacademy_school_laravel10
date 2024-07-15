@@ -57,8 +57,9 @@ class SuperAdminController extends Controller
 
         return view('superadmin.dashboard');
     }
-
-    public function updateEventDate(Request $request)
+    
+    
+     public function updateEventDate(Request $request)
     {
         Log::info('Update Event Date Request: ', $request->all());
 
@@ -88,8 +89,11 @@ class SuperAdminController extends Controller
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }
-
-
+    
+    
+    
+    
+    
     public function profile()
     {
         return view('superadmin.profile');
@@ -144,6 +148,7 @@ class SuperAdminController extends Controller
     {
         $schools = School::paginate(10); // Adjust the number as needed
         return view('superadmin.schools.list', compact('schools'));
+
 
     }
 

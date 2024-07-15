@@ -95,16 +95,8 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="col-12 col-sm-4">
-                                        <div class="form-group local-forms">
-                                            <label>File Path (PDF) <span class="text-danger">*</span></label>
-                                            <input type="file" name="file_path" class="form-control">
-                                            @error('file_path')
-                                                <span class="error text-danger">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                    </div>
-
+                                    
+                                 
                                     <div class="col-12">
                                         <div class="student-submit">
                                             <button type="submit" class="btn btn-primary">Submit</button>

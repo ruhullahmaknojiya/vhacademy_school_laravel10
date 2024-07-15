@@ -24,7 +24,7 @@
                                 @csrf
                                 <div class="row">
                                     <div class="col-12">
-                                        <h5 class="form-title"><span>Subject Information</span><a href="{{route('Subject')}}"><i class="fas fa-arrow-left" style="float: right;"></i></a></h5>
+                                        <h5 class="form-title"><span>Subject Information</span><a href="{{route('subjects')}}"><i class="fas fa-arrow-left" style="float: right;"></i></a></h5>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">

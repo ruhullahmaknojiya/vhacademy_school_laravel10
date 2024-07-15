@@ -4,7 +4,6 @@
 
 @section('content_header')
     <h1>Dashboard</h1>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
     <style>
         body {
@@ -170,7 +169,7 @@
             document.getElementById('modalEventDescription').textContent = info.event.extendedProps.description;
 
             // Set links for PDF and video
-            var pdfLink = info.event.extendedProps.pdfLink ? '/pdf/subtopic/' + info.event.extendedProps.pdfLink : null;
+            var pdfLink = info.event.extendedProps.pdfLink ? '/storage/app/public/admin/event/' + info.event.extendedProps.pdfLink : null;
             var videoLink = info.event.extendedProps.videoLink;
 
             var pdfButton = document.getElementById('modalEventPDF');
@@ -240,3 +239,4 @@
 });
 </script>
 @endpush
+

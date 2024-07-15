@@ -29,15 +29,13 @@ class EventHolidayController extends Controller
                'type' => 'event',
                'id' => $event->id,
                'event_name' => $event->event_title,
-               'event_image' => asset('public/images/admin/event/' . $event->event_image),
-               'event_pdf' => asset('public/images/admin/event/' . $event->event_pdf),
+               'event_pdf' => asset('storage/app/public/admin/event/' . $event->event_pdf),
                'short_description' => $event->short_Description,
                'start_date' => $event->start_date,
                'event_video' => $event->event_video,
                'end_date' => $event->end_date,
                'color' => $event->color,
                 'repeat' => $event->repeated,
-
                'school' => $event->school, // Assuming 'school' relationship is defined
            ];
        })->merge(
@@ -46,7 +44,7 @@ class EventHolidayController extends Controller
                    'type' => 'holiday',
                    'id' => $holiday->id,
                    'holiday_name' => $holiday->holiday_name,
-                   'holiday_image' => asset('public/images/admin/holidays/' . $holiday->holiday_image),
+                   'holiday_image' => asset('storage/app/public/admin/holidays/' . $holiday->holiday_image),
                    'start_date' => $holiday->start_date,
                    'end_date' => $holiday->end_date,
                    // Add more fields as needed

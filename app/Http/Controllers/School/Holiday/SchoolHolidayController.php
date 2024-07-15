@@ -8,6 +8,7 @@ use App\Models\Event;
 use App\Models\Holiday;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Models\School;
 
 
 class SchoolHolidayController extends Controller
@@ -20,10 +21,10 @@ class SchoolHolidayController extends Controller
     public function index(Request $request)
     {
         //
-        $user = Auth::user(); // Assuming you're using Laravel's built-in Auth
-        $schoolId = $user->school_id;
+        $user=Auth::user();
+        $school = School::where('user_id', $user->id)->first();
 
-        $schoolholidays = Holiday::where('school_id', $schoolId)->get();
+        $schoolholidays = Holiday::where('school_id', $school->id)->get();
         return view('schooladmin.schoolholiday.index',compact('schoolholidays'));
     }
 
@@ -50,45 +51,33 @@ class SchoolHolidayController extends Controller
     {
         //
         $user=Auth::user();
-
+        $school = School::where('user_id', $user->id)->first();
         $request->validate([
             'holiday_name' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
             'description' => 'required',
-            'holiday_image' => 'required|nullable|image|mimes:jpeg,png,jpg,gif|dimensions:max_width=2000,max_height=2000|max:2048', // Adjust as needed
 
         ], [
             'holiday_name.required' => 'The Event Title is required.',
             'start_date.required' => 'The Date is required.',
             'end_date.required' => 'The Date is required.',
-
             'description.required' => 'The Description is required.',
-            'holiday_image.required' => 'The Holiday Image is required.',
 
         ]);
 
-        $save_event=new SchoolHoliday();
+        $save_event=new Holiday();
         $save_event->holiday_name=$request->holiday_name;
         $save_event->start_date=$request->start_date;
         $save_event->end_date=$request->end_date;
         $save_event->description=$request->description;
-        $save_event->school_id=$user->school_id;
+        $save_event->school_id=$school->id;
 
-        if ($request->hasFile("holiday_image")) {
-            $img = $request->file("holiday_image");
-            if (Storage::exists('public/images/admin/holidays/' . $save_event->holiday_image)) {
-                Storage::delete('public/images/admin/holidays/' . $save_event->holiday_image);
-            }
-            $img->store('public/images/admin/holidays/');
-            $save_event['holiday_image'] = $img->hashName();
-
-
-        }
+    
 
         $save_event->save();
 
-        return redirect()->route('schoolholiday.index')->with('success','School Holiday Add Scuccessfully');
+        return redirect()->route('schooladmin.holiday.index')->with('success','School Holiday Add Scuccessfully');
     }
 
     /**

@@ -26,11 +26,12 @@
                             <div>
                                 <h3 class="card-title float-left">List Events</h3>
                             </div>
+                            
                             <div class="card-tools">
-                                <a href="{{ route('schooladmin.import') }}" class="btn btn-primary"><i class="fas fa-succes"> Import Events</i></a>
+                                <a href="{{route('schooladmin.events.create')}}" class="btn btn-primary"><i class="fas fa-plus"> Create Event</i></a>
                             </div>
                             <div class="card-tools">
-                                <a href="{{route('schooladmin.events.create')}}" class="btn btn-primary"><i class="fas fa-plus"></i></a>
+                                <a href="{{ route('schooladmin.import') }}" class="btn btn-success"><i class="fas fa-plus"> Import Events</i></a>
                             </div>
                         </div>
                         <div class="card-body">

@@ -87,6 +87,19 @@ class Student extends Model
     //     return $this->belongsTo(ParentModel::class);
     // }
 
+
+
+    public function class()
+    {
+        return $this->belongsTo(ClassModel::class);
+    }
+
+
+    public function attendance()
+    {
+        return $this->hasMany(Attendance::class);
+    }
+
     public function user()
     {
         return $this->morphOne(User::class, 'userable');

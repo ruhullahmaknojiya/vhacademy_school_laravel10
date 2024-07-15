@@ -17,6 +17,11 @@ class DatabaseSeeder extends Seeder
         // Role::create(['name' => 'SuperAdmin']);
         // Role::create(['name' => 'SchoolAdmin']);
         // Role::create(['name' => 'Teacher']);
-        Role::create(['name' => 'Student']);
+        $this->call([
+            // Other seeders
+            AttendancesTableSeeder::class,
+        ]);
+        // Role::create(['name' => 'Student']);
+
     }
 }

@@ -22,10 +22,13 @@ class Subject extends Model
                     return $this->standard->medium();
                 }
 
+     public function standers(){
+
+      return $this->belongsTo(Standard::class,'std_id'); 
+    }
+    
     public function topic(){
 
         return $this->hasMany(Topic::class,'sub_id');
     }
-
-
 }

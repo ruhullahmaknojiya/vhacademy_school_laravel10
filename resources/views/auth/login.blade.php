@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>{{ config('app.name') }} - Login</title>
-    <link rel="shortcut icon" href="{{asset('public/img/lms_logo.png')}}">
+    <link rel="shortcut icon" href="{{asset('public/images/logo.png')}}">
     <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/a81368914c.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -242,7 +242,7 @@
     <div class="login-content">
         <form action="{{ route('login') }}" method="POST">
             @csrf
-            <img src="{{asset('public/img/lms_logo.png')}}">
+            <img src="{{asset('public/images/logo.png')}}">
             <h2 class="title">Welcome</h2>
             <div class="input-div one">
                 <div class="i">
@@ -300,5 +300,3 @@
 </body>
 </html>
 
-
->>>>>>> 09c48102185603593b96b02bc37575957bba8548

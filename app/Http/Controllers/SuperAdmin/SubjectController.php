@@ -39,7 +39,7 @@ class SubjectController extends Controller
         $standards = Standard::where('medium_id', $defaultMedium->id)->get();
     }
 
-    return view('superadmin.Subjects.index', compact('mediums', 'subjects', 'standards', 'defaultMedium', 'defaultStandard'));
+    return view('superadmin.subjects.index', compact('mediums', 'subjects', 'standards', 'defaultMedium', 'defaultStandard'));
 }
 
 
@@ -142,10 +142,10 @@ class SubjectController extends Controller
      */
     public function edit($id)
     {
-        $edit_subject=Subject::find($id);
-        $standars=Standard::all();
-        $mediums=Medium::all();
-        return view('superadmin.subjects.edit',compact('edit_subject','standars','mediums'));
+        $edit_subject = Subject::find($id);
+        $standars = Standard::all();
+        $mediums = Medium::all();
+        return view('superadmin.subjects.edit', compact('edit_subject', 'standars', 'mediums'));
     }
 
     /**
@@ -157,32 +157,11 @@ class SubjectController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $update_subject=Subject::find($id);
-
-
+        $update_subject = Subject::find($id);
         $input = $request->all();
-        if ($request->hasFile("sub_image")) {
-            $img = $request->file("sub_image");
-            if (Storage::exists('public/images/school/subject/' . $update_subject->sub_image)) {
-                Storage::delete('public/images/school/subject/' . $update_subject->sub_image);
-            }
-            $img->store('public/images/school/subject');
-            $input['sub_image'] = $img->hashName();
-            $update_subject->update($input);
 
-        }
-        if ($request->hasFile("subject_banner")) {
-            $img = $request->file("subject_banner");
-            if (Storage::exists('public/images/school/subject/' . $update_subject->subject_banner)) {
-                Storage::delete('public/images/school/subject/' . $update_subject->subject_banner);
-            }
-            $img->store('public/images/school/subject');
-            $update_subject['subject_banner'] = $img->hashName();
-
-
-        }
         $update_subject->update($input);
-        return redirect()->route('subjects')->with('info','Subject Update Successfully');
+        return redirect()->route('subjects')->with('info', 'Subject Update Successfully');
     }
 
     /**
@@ -203,9 +182,7 @@ class SubjectController extends Controller
     public function getStandards($medium_id)
     {
         try {
-
-        $standards = Standard::where('medium_id', $medium_id)->get(['id', 'standard_name']);
-
+            $standards = Standard::where('medium_id', $medium_id)->get(['id', 'standard_name']);
             return response()->json($standards);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);

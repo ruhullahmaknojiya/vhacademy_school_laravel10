@@ -5,7 +5,7 @@ namespace App\Http\Controllers\School\Homework;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Models\Homework;
+use App\Models\HomeWork;
 use App\Models\Medium;
 use App\Models\Standard;
 use App\Models\ClassModel;
@@ -23,7 +23,7 @@ class HomeworkController extends Controller
         $school = School::where('user_id', $user->id)->first();
 
 
-        $homeworks = Homework::where('school_id', $school->id);
+        $homeworks = HomeWork::where('school_id', $school->id);
 
         if ($request->has('medium_id')) {
             $homeworks->where('medium_id', $request->medium_id);

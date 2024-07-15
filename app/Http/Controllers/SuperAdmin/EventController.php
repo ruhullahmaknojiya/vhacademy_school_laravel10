@@ -25,7 +25,7 @@ class EventController extends Controller
                         ->whereMonth('start_date', $month);
         }
 
-        $events = $eventsQuery->get();
+        $events = $eventsQuery->orderBy('start_date', 'asc')->get();
 
         $months = [
             '01' => 'January', '02' => 'February', '03' => 'March', '04' => 'April',
@@ -100,13 +100,18 @@ class EventController extends Controller
 
         if ($request->hasFile("event_pdf")) {
             $img = $request->file("event_pdf");
-            if (Storage::exists('public/images/admin/event/' . $update_event->event_pdf)) {
-                Storage::delete('public/images/admin/event/' . $update_event->event_pdf);
+            if (Storage::exists('public/admin/event/' . $update_event->event_pdf)) {
+                Storage::delete('public/admin/event/' . $update_event->event_pdf);
             }
-            $img->store('public/images/admin/event/');
+            $img->store('public/admin/event/');
             $input['event_pdf'] = $img->hashName();
             $update_event->update($input);
 
+        }
+         if($request->repeated=='on'){
+            $input['repeated']='true';
+        }else{
+            $input['repeated']='false';
         }
 
         $save_event->save();
@@ -151,13 +156,13 @@ class EventController extends Controller
 
 
         $input = $request->all();
-
+   
         if ($request->hasFile("event_pdf")) {
             $img = $request->file("event_pdf");
-            if (Storage::exists('public/images/admin/event/' . $update_event->event_pdf)) {
-                Storage::delete('public/images/admin/event/' . $update_event->event_pdf);
+            if (Storage::exists('public/admin/event/' . $update_event->event_pdf)) {
+                Storage::delete('public/admin/event/' . $update_event->event_pdf);
             }
-            $img->store('public/images/admin/event/');
+            $img->store('public/admin/event/');
             $input['event_pdf'] = $img->hashName();
             $update_event->update($input);
 

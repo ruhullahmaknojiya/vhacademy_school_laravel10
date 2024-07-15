@@ -216,7 +216,7 @@ class SubTopicsController extends Controller
 
 
 
-        return redirect()->route('subtopics')->with('success','SubTopic Add Scuccessfully');
+        return redirect()->route('subtopics.index')->with('success','SubTopic Add Scuccessfully');
     }
 
     /**

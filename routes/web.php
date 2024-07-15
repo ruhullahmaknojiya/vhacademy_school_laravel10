@@ -6,17 +6,15 @@ use App\Http\Controllers\SuperAdmin\EventController;
 use App\Http\Controllers\SuperAdmin\SubjectController;
 use App\Http\Controllers\SuperAdmin\SubTopicsController;
 use App\Http\Controllers\SuperAdmin\TopicsController;
-use App\Http\Controllers\SuperAdmin\HomeSubjectController;
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\School\Event\SchoolEvController;
+use App\Http\Controllers\School\Holiday\SchoolHolidayController;
 use App\Http\Controllers\School\StudentController;
 use App\Http\Controllers\School\ParentController;
 use App\Http\Controllers\SuperAdmin\EducationalController;
-use App\Http\Controllers\SuperAdmin\EventNewImportController;
 use App\Http\Controllers\School\TeacherController;
 use App\Http\Controllers\School\Fees\FeeTypeController;
 use App\Http\Controllers\School\Fees\FeeGroupController;
@@ -24,17 +22,17 @@ use App\Http\Controllers\School\Fees\FeesMasterController;
 use App\Http\Controllers\School\Fees\FeeAssignmentController;
 use App\Http\Controllers\School\Fees\FeePaymentController;
 use App\Http\Controllers\School\Homework\HomeworkController;
-use App\Http\Controllers\School\Holiday\SchoolHolidayController;
 use App\Http\Controllers\School\LmsContent\ChapterLmsController;
 use App\Http\Controllers\School\LmsContent\ClassLmsController;
 use App\Http\Controllers\School\LmsContent\MediumLmsController;
 use App\Http\Controllers\School\LmsContent\StandardLmsController;
 use App\Http\Controllers\School\LmsContent\SubjectLmsController;
 use App\Http\Controllers\School\LmsContent\TopicLmsController;
+use App\Http\Controllers\SuperAdmin\HomeSubjectController;
+use App\Http\Controllers\SuperAdmin\EventNewImportController;
 use App\Http\Controllers\School\EventImportSchlController;
-
-
-
+use App\Http\Controllers\School\TeacherAssign\ClassTeacherAssignmentController;
+use App\Http\Controllers\School\Attendence\AttendenceController;
 
 
 /*
@@ -49,12 +47,18 @@ use App\Http\Controllers\School\EventImportSchlController;
 */
 // Authentication Routes
 
+Route::get('/home', 'HomeController@index')->name('home');
 
 // Auth::routes();
 Route::get('/logout', function () {
     Auth::logout();
     return redirect('/login');
 })->name('logout');
+
+Route::get('/', function () {
+    return redirect()->route('login');
+});
+
 
 Route::group(['middlware'=> ['auth','role:SuperAdmin']], function () {
 
@@ -97,15 +101,15 @@ Route::group(['middlware'=> ['auth','role:SuperAdmin']], function () {
     Route::delete('superadmin/class/{id}', [EducationalController::class, 'destroyClass'])->name('superadmin.class.destroy');
 
     //School_subject modual
-    Route::get('superadmin/Subject',[SubjectController::class,'index'])->name('Subject');
+    Route::get('superadmin/Subject',[SubjectController::class,'index'])->name('subjects');
     Route::get('superadmin/create-Subject',[SubjectController::class,'create'])->name('create_Subject');
     Route::post('superadmin/save-Subject',[SubjectController::class,'store'])->name('save_Subject');
     Route::get('superadmin/edit-Subject/{id}',[SubjectController::class,'edit'])->name('edit_Subject');
     Route::post('superadmin/update-Subject/{id}',[SubjectController::class,'update'])->name('update_Subject');
     Route::delete('superadmin/delete-Subject/{id}',[SubjectController::class,'destroy'])->name('delete_Subject');
     // Route::get('/get-standards/{mediumId}', [SubjectController::class,'getStandards'])->name('getstandard');
-    // Route::get('/getnewstandard/{mediumId}', [SubjectController::class,'getStandards'])->name('getstandard');
-    Route::get('/get-standards/{medium_id}', [SubjectController::class, 'getStandards'])->name('getnewestandard');
+    Route::get('/getnewstandard/{mediumId}', [SubjectController::class,'getStandards'])->name('getstandard');
+    Route::get('/get-newstandards/{medium_id}', [SubjectController::class, 'getStandards'])->name('getnewestandard');
 
     //School_Topics modual
     Route::get('superadmin/Chapter',[TopicsController::class,'index'])->name('topics');
@@ -147,19 +151,20 @@ Route::group(['middlware'=> ['auth','role:SuperAdmin']], function () {
     Route::post('superadmin/events/update/{id}',[EventController::class,'update'])->name('superadmin.events.update');
     Route::delete('superadmin/events/delete/{id}',[EventController::class,'destroy'])->name('superadmin.events.delete');
 
-    //Event Import
+     //Event Import
     Route::get('superadmin/importevents', function () {
         return view('superadmin.events.importevent');
     })->name('superadmin.import');
     Route::post('superadmin/importevents', [EventNewImportController::class, 'import'])->name('superadmin.import.events');
 
-     //School_subject modual
-     Route::get('superadmin.homesubject',[\App\Http\Controllers\SuperAdmin\HomeSubjectController::class,'index'])->name('superadmin.homesubject.index');
-     Route::get('superadmin.homesubject/create',[\App\Http\Controllers\SuperAdmin\HomeSubjectController::class,'create'])->name('superadmin.homesubject.create');
-     Route::post('superadmin.homesubject/store',[\App\Http\Controllers\SuperAdmin\HomeSubjectController::class,'store'])->name('superadmin.homesubject.store');
-     Route::get('superadmin.homesubject/edit/{id}',[\App\Http\Controllers\SuperAdmin\HomeSubjectController::class,'edit'])->name('superadmin.homesubject.edit');
-     Route::post('superadmin.homesubject/update/{id}',[\App\Http\Controllers\SuperAdmin\HomeSubjectController::class,'update'])->name('superadmin.homesubject.update');
-     Route::delete('superadmin.homesubject/delete/{id}',[\App\Http\Controllers\SuperAdmin\HomeSubjectController::class,'destroy'])->name('superadmin.homesubject.destroy');
+     //home_course
+    //School_subject modual
+    Route::get('superadmin.homesubject',[HomeSubjectController::class,'index'])->name('superadmin.homesubject.index');
+    Route::get('superadmin.homesubject/create',[HomeSubjectController::class,'create'])->name('superadmin.homesubject.create');
+    Route::post('superadmin.homesubject/store',[HomeSubjectController::class,'store'])->name('superadmin.homesubject.store');
+    Route::get('superadmin.homesubject/edit/{id}',[HomeSubjectController::class,'edit'])->name('superadmin.homesubject.edit');
+    Route::post('superadmin.homesubject/update/{id}',[HomeSubjectController::class,'update'])->name('superadmin.homesubject.update');
+    Route::delete('superadmin.homesubject/delete/{id}',[HomeSubjectController::class,'destroy'])->name('superadmin.homesubject.destroy');
 
 
 });
@@ -263,17 +268,19 @@ Route::group(['middlware'=> ['auth','role:SchoolAdmin']], function () {
 
       //Event Import
     Route::get('schooladmin/importevents', function () {
-        return view('schooladmin.events.importevent');
+        return view('schooladmin.event.importschlevent');
     })->name('schooladmin.import');
     Route::post('schooladmin/importevents', [EventImportSchlController::class, 'import'])->name('schooladmin.import.events');
 
-      //Holiday modual
-      Route::get('schoolAdmin/holiday',[SchoolHolidayController::class,'index'])->name('schooladmin.holiday.index');
-      Route::get('schoolAdmin/holiday/create',[SchoolHolidayController::class,'create'])->name('schooladmin.holiday.create');
-      Route::post('schoolAdmin/holiday/store',[SchoolHolidayController::class,'store'])->name('schooladmin.holiday.store');
-      Route::get('schoolAdmin/holiday/edit/{id}',[SchoolHolidayController::class,'edit'])->name('schooladmin.holiday.edit');
-      Route::post('schoolAdmin/holiday/update/{id}',[SchoolHolidayController::class,'update'])->name('schooladmin.holiday.update');
-      Route::delete('schoolAdmin/holiday/delete/{id}',[SchoolHolidayController::class,'destroy'])->name('schooladmin.holiday.delete');
+
+
+     //Holiday modual
+    Route::get('schoolAdmin/holiday',[SchoolHolidayController::class,'index'])->name('schooladmin.holiday.index');
+    Route::get('schoolAdmin/holiday/create',[SchoolHolidayController::class,'create'])->name('schooladmin.holiday.create');
+    Route::post('schoolAdmin/holiday/store',[SchoolHolidayController::class,'store'])->name('schooladmin.holiday.store');
+    Route::get('schoolAdmin/holiday/edit/{id}',[SchoolHolidayController::class,'edit'])->name('schooladmin.holiday.edit');
+    Route::post('schoolAdmin/holiday/update/{id}',[SchoolHolidayController::class,'update'])->name('schooladmin.holiday.update');
+    Route::delete('schoolAdmin/holiday/delete/{id}',[SchoolHolidayController::class,'destroy'])->name('schooladmin.holiday.delete');
 
 
     Route::get('/import-form', [StudentController::class, 'showImportForm'])->name('import-form');
@@ -282,6 +289,10 @@ Route::group(['middlware'=> ['auth','role:SchoolAdmin']], function () {
     Route::get('/teacher.import-form', [TeacherController::class, 'showImportForm'])->name('teacher.import-form');
     Route::post('/teacher.import', [TeacherController::class, 'import'])->name('teacher.import');
 
+    Route::resource('classteacherassignments', ClassTeacherAssignmentController::class);
+    Route::delete('/delete-teacher/{id}', [ClassTeacherAssignmentController::class, 'destroy'])->name('classteacherassignments.destroy');
+    Route::get('/get-standards/{medium_id}', [ClassTeacherAssignmentController::class, 'getStandards']);
+    Route::get('attendance_report', [AttendenceController::class, 'attendanceReport'])->name('schooladmin.attendance_report.index');
 
 });
 

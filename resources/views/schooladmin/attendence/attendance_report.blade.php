@@ -1,6 +1,6 @@
 @extends('layouts.school_admin')
 @section('title')
-  Students
+  Attendance Report
 @endsection
 @section('content')
     @include('flash-message')
@@ -12,20 +12,10 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-md-8">
-                        <h1 class="card-title">Students</h1>
-                    </div>
-                    <div class="col-md-2 text-right">
-                        <a href="{{ route('import-form') }}" class="btn btn-primary">
-                            <i class="fas fa-plus-circle"></i> Import Student
-                        </a>
-                    </div>
-                    <div class="col-md-2 text-right">
-                        <a href="{{ route('schooladmin.students.create') }}" class="btn btn-primary">
-                            <i class="fas fa-plus-circle"></i> Add Student
-                        </a>
+                        <h1 class="card-title">Attendance Report</h1>
                     </div>
                 </div>
-                <form method="GET" action="{{ route('schooladmin.students.index') }}">
+                <form method="GET" action="{{ route('schooladmin.attendance_report.index') }}">
                     <div class="row">
                         <div class="col-md-2">
                             <div class="form-group">
@@ -33,7 +23,7 @@
                                 <select class="form-control" id="medium" name="medium">
                                     <option value="">Select Medium</option>
                                     @foreach($mediums as $medium)
-                                        <option value="{{ $medium->id }}">{{ $medium->medium_name }}</option>
+                                        <option value="{{ $medium->id }}" {{ request('medium') == $medium->id ? 'selected' : '' }}>{{ $medium->medium_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -44,7 +34,7 @@
                                 <select class="form-control" id="standard" name="standard">
                                     <option value="">Select Standard</option>
                                     @foreach($standards as $standard)
-                                        <option value="{{ $standard->id }}">{{ $standard->standard_name }}</option>
+                                        <option value="{{ $standard->id }}" {{ request('standard') == $standard->id ? 'selected' : '' }}>{{ $standard->standard_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -55,9 +45,15 @@
                                 <select class="form-control" id="class" name="class">
                                     <option value="">Select Class</option>
                                     @foreach($classes as $class)
-                                        <option value="{{ $class->id }}">{{ $class->class_name }}</option>
+                                        <option value="{{ $class->id }}" {{ request('class') == $class->id ? 'selected' : '' }}>{{ $class->class_name }}</option>
                                     @endforeach
                                 </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="date">Date</label>
+                                <input type="date" class="form-control" id="date" name="date" value="{{ request('date') }}">
                             </div>
                         </div>
                         <div class="col-md-2 align-self-end">
@@ -70,7 +66,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered table-striped" id="studentTable">
+                    <table class="table table-bordered table-striped" id="attendanceTable">
                         <thead>
                             <tr>
                                 <th>No.</th>
@@ -79,49 +75,40 @@
                                 <th>Student Name</th>
                                 <th>Roll No.</th>
                                 <th>Class</th>
-                                <th>DOB</th>
-                                <th>Gender</th>
-                                <th>Category</th>
-                                <th>Father Name</th>
-                                <th>Father Mobile No.</th>
-                                <th>Action</th>
+                                <th>Date</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($students as $student)
+                            @foreach($attendances as $attendance)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $student->admission_no }}</td>
-                                    <td>{{ $student->uid }}</td>
-                                    <td class="text-center">{{ $student->first_name }}</td>
-                                    <td>{{ $student->roll_number }}</td>
-                                    <td>{{ $student->medium->medium_name }} {{ $student->standard->standard_name ? $student->standard->standard_name : 'N/A' }} ({{ $student->class ? $student->class->class_name : 'N/A' }})</td>
-                                    <td>{{ $student->date_of_birth }}</td>
-                                    <td>{{ $student->gender }}</td>
-                                    <td>{{ $student->category }}</td>
-                                    <td>{{ $student->parent->father_name }}</td>
-                                    <td>{{ $student->parent->father_phone }}</td>
-                                    <td class="d-flex">
-                                        <a href="{{ route('schooladmin.students.show', $student->id) }}" class="btn btn-info btn-sm mr-1">
-                                            <i class="fas fa-eye"></i>
-                                        </a>
-                                        <a href="" class="btn btn-primary btn-sm mr-1">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <form action="" method="POST" style="display:inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
+                                    <td>{{ $attendance->student->admission_no }}</td>
+                                    <td>{{ $attendance->student->uid }}</td>
+                                    <td class="text-center">{{ $attendance->student->first_name }}</td>
+                                    <td>{{ $attendance->student->roll_number }}</td>
+                                    <td>{{ $attendance->student->medium->medium_name }} {{ $attendance->student->standard->standard_name ?? 'N/A' }} ({{ $attendance->student->class->class_name ?? 'N/A' }})</td>
+                                    <td>{{ $attendance->attendance_date }}</td>
+                                    <td>
+                                        @if($attendance->holiday_id)
+                                        {{ Holiday }}
+                                        @else
+                                        {{ $attendance->status }}
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($attendance->holiday_id)
+                                            Yes ({{ $attendance->holiday->holiday_name }})
+                                        @else
+                                            No
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                     <div class="pagination justify-content-center">
-                        {{ $students->links() }}
+                        {{ $attendances->links() }}
                     </div>
                 </div>
             </div>
@@ -131,13 +118,13 @@
 @push('js')
     <script>
         $(function() {
-            $("#studentTable").DataTable({
+            $("#attendanceTable").DataTable({
                 "responsive": true,
                 "lengthChange": true,
                 "autoWidth": false,
                 "order": true,
-                "buttons": ["copy", "csv", "excel", "pdf","print"]
-            }).buttons().container().appendTo('#studentTable_wrapper .col-md-6:eq(0)');
+                "buttons": ["copy", "csv", "excel", "pdf", "print"]
+            }).buttons().container().appendTo('#attendanceTable_wrapper .col-md-6:eq(0)');
         });
     </script>
 @endpush

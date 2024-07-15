@@ -29,7 +29,7 @@
                             </div>
                             <div class="col-auto text-end float-end ms-auto download-grp">
 
-                                <a href="{{route('create_schoolholidays')}}" class="btn btn-primary"><i
+                                <a href="{{route('schooladmin.holiday.create')}}" class="btn btn-primary"><i
                                         class="fas fa-plus"></i></a>
                             </div>
                         </div>
@@ -46,7 +46,6 @@
                                 <th>Holiday Name</th>
                                 <th>Start date</th>
                                 <th>End date</th>
-                                <th>Event Image</th>
                                 <th>Description</th>
 
                                 <th class="text-end">Action</th>
@@ -64,15 +63,14 @@
                                     <td>
                                        {{$schoolholiday->end_date}}
                                     </td>
-                                    <td><img src="{{asset('public/storage/images/admin/holidays/'.$schoolholiday->holiday_image)}}" width="60" height="60"></td>
                                     <td>{{$schoolholiday->description}}</td>
                                     <td class="text-end">
                                         <div class="btn-group">
-                                            <a href="{{route('edit_schoolholidays',$schoolholiday->id)}}"
+                                            <a href="{{route('schooladmin.holiday.edit',$schoolholiday->id)}}"
                                                class="btn btn-sm btn-info me-2">
                                                 <i class="fa fa-edit"></i>
                                             </a>&nbsp;
-                                            <form action="{{route('delete_schoolholidays',$schoolholiday->id)}}" method="POST">
+                                            <form action="{{route('schooladmin.holiday.delete',$schoolholiday->id)}}" method="POST">
 
 
 

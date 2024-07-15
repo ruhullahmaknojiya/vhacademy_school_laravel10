@@ -5,17 +5,22 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\StandardController;
 use App\Http\Controllers\Api\Student\RegisterController;
+use App\Http\Controllers\Api\Student\HomeSubjectController;
 use App\Http\Controllers\Api\SubjectController;
 use App\Http\Controllers\Api\SubTopicController;
 use App\Http\Controllers\Api\TopicController;
 use App\Http\Controllers\Api\Guest\StanderdController;
+use App\Http\Controllers\Api\Guest\GetSubjectController;
 use App\Http\Controllers\Api\Guest\GetTopicController;
 use App\Http\Controllers\Api\Guest\GetSubTopicController;
+
+// use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Teacher\TeacherController;
+
 use App\Http\Controllers\Api\parent\ParentController;
 use App\Http\Controllers\Api\user\FeedbackController;
 use App\Http\Controllers\Api\Teacher\TimetableController;
-use App\Http\Controllers\Api\Get\GetDataController;
+use App\Http\Controllers\Api\get\getDataController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,11 +32,6 @@ use App\Http\Controllers\Api\Get\GetDataController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-//Route::post('/signup', [RegisterController::class, 'register']);
-//Route::post('/verify-otp', [RegisterController::class, 'verifyOtp']);
-
-//login api
 
 Route::post('Studentlogin', [RegisterController::class, 'login']);
 Route::post('Parentlogin', [ParentController::class, 'login']);
@@ -52,7 +52,7 @@ Route::get('get_all_classes',[GetDataController::class,'get_all_classes']);
 
 Route::get('get_standard',[StandardController::class,'getStandard']);
 Route::get('get_subject',[SubjectController::class,'getSubject']);
-Route::get('get_home_subject',[\App\Http\Controllers\Api\HomeSubjectController::class,'getSubjects']);
+Route::get('get_home_subject',[HomeSubjectController::class,'getSubjects']);
 Route::get('get_topic',[TopicController::class,'getTopics']);
 Route::get('get_subtopic',[SubTopicController::class,'getSubtopcs']);
 Route::get('/quiz', [App\Http\Controllers\Api\QuizController::class,'index']);
@@ -61,6 +61,7 @@ Route::get('/quiz', [App\Http\Controllers\Api\QuizController::class,'index']);
 Route::get('getEvents',[App\Http\Controllers\Api\School\EventController::class,'getEvents']);
 Route::get('getHolidays',[App\Http\Controllers\Api\School\HolidayController::class,'getHolidays']);
 Route::get('getEventHoliday',[App\Http\Controllers\Api\EventHolidayController::class,'getEventsAndHolidays']);
+
 
 
 //Guest Route
@@ -78,6 +79,8 @@ Route::group(['prefix' =>'topic'],function(){
 Route::group(['prefix' =>'subtopic'],function(){
     Route::get('guest_get_subtopic',[GetSubTopicController::class,'getSubtopcs']);
 });
+//
+
 
 
 
@@ -90,48 +93,3 @@ Route::middleware('auth:api')->group(function () {
 
 });
 
-
-
-
-
-
-
-
-
-//For Teacher Api Route
-Route::middleware('auth:api')->group(function () {
-    //time table
-    Route::get('/timetable_details', [TimetableController::class, 'getTimetable']);
-    //end
-
-    //time table
-    Route::post('/homework_Create', [TeacherController::class, 'store']);
-    Route::post('/homework_update/{id}', [TeacherController::class, 'updatehomeworkstatus']);
-    Route::get('/get_homework', [TeacherController::class, 'gethomeworkdata']);
-    Route::get('/student_homework_data', [App\Http\Controllers\Api\Student\StudentDataController::class, 'getStudentHomeworkData']);
-    //end
-
-    //student data
-    Route::get('/filter_student_data', [TeacherController::class, 'getFilteredStudentData']);
-    Route::get('getStudent-Data', [\App\Http\Controllers\Api\Student\StudentDataController::class, 'getStudent']);
-    Route::post('update_medium', [\App\Http\Controllers\Api\Student\StudentDataController::class, 'updateStudentMedium']);
-
-    //end
-
-    //parent api
-    Route::get('/parent_Details', [ParentController::class, 'getdata']);
-    Route::post('/parent_update', [ParentController::class, 'update']);
-    Route::post('/parent_update_password', [ParentController::class, 'changePassword']);
-    //end
-
-
-
-    //attendance api
-    Route::get('/check_attendance', [TeacherController::class, 'check_attendance']);
-    Route::post('/store_attendance', [TeacherController::class, 'store_attendance']);
-    //end
-
-
-
-//    Route::post('/user_feedback', [FeedbackController::class, 'userFeedBack']);
-});

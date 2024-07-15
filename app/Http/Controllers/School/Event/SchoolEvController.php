@@ -39,7 +39,7 @@ class SchoolEvController extends Controller
 
         $years = range(date('Y') - 10, date('Y') + 10); // last 10 years and next 10 years
 
-        return view('schoolAdmin.event.index', compact('events', 'months', 'years'));
+        return view('schooladmin.event.index', compact('events', 'months', 'years'));
     }
     /**
      * Show the form for creating a new resource.
@@ -116,7 +116,7 @@ class SchoolEvController extends Controller
 
         $save_event->save();
 
-        return redirect()->route('schoolAdmin.events.index')->with('success','School Event Add Scuccessfully');
+        return redirect()->route('schooladmin.events.index')->with('success','School Event Add Scuccessfully');
     }
 
     /**
@@ -138,9 +138,9 @@ class SchoolEvController extends Controller
      */
     public function edit($id)
     {
-        $edit_schoolevent=Event::find($id);
+        $edit_event=Event::find($id);
 
-        return view('schooladmin.events.edit',compact('edit_schoolevent'));
+        return view('schooladmin.event.edit',compact('edit_event'));
     }
 
     /**

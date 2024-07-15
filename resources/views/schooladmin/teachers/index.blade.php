@@ -13,10 +13,15 @@
         <div class="card">
             <div class="card-header">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                         <h3 class="card-title">Teacher List</h3>
                     </div>
-                    <div class="col-md-6 text-right">
+                    <div class="col-md-2 text-right">
+                        <a href="{{ route('teacher.import-form') }}" class="btn btn-primary">
+                            <i class="fas fa-plus-circle"></i> Import Teacher
+                        </a>
+                    </div>
+                    <div class="col-md-2 text-right">
                         <a href="{{ route('schooladmin.teachers.create') }}" class="btn btn-primary">
                             <i class="fas fa-plus-circle"></i> Add Teacher
                         </a>

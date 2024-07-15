@@ -139,7 +139,7 @@
 <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
 <script src="{{ asset('js/custom.js') }}"></script> <!-- Add your custom JS here -->
 <!-- Additional AdminLTE Plugins JS -->
-{{-- <script src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script> <!-- Chart.js --> --}}
+{{-- <script src="{{ asset('public/vendor/chart.js/Chart.min.js') }}"></script> <!-- Chart.js --> --}}
  {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
 {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script> --}}
 {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script> --}}

@@ -22,7 +22,6 @@ class CreateHolidaysTable extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->text('description')->nullable();
-            $table->string('holiday_pdf')->nullable();
             $table->timestamps();
         });
     }

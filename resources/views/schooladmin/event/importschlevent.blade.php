@@ -1,4 +1,4 @@
-@extends('layouts.superadmin')
+@extends('layouts.school_admin')
 
 @section('title')
     Import Events
@@ -35,7 +35,7 @@
             <div class="card-header">
                 <h3 class="card-title">Import Events</h3>
             </div>
-            <form action="{{ route('superadmin.import.events') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('schooladmin.import.events') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="card-body">
                     <div class="form-group">

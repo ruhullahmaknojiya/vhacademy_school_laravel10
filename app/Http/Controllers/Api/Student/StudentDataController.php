@@ -95,10 +95,10 @@ class StudentDataController extends Controller
                 });
 
                 return response()->json([
-                    'student' => [
-                        'first_name' => $authenticatedUser->teacher->first_name,
-                        'last_name' => $authenticatedUser->teacher->last_name,
-                    ],
+                    // 'student' => [
+                        // 'first_name' => $authenticatedUser->teacher->first_name,
+                        // 'last_name' => $authenticatedUser->teacher->last_name,
+                    // ],
                     'homeworks' => $homeworkData,
                 ], 200);
             } else {

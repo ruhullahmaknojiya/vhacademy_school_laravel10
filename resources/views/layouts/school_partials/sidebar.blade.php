@@ -129,14 +129,14 @@
                 <li class="nav-header">ACADEMIC MANAGEMENT</li>
                 <li class="nav-item">
                     <li class="nav-item">
-                        <a href="{{ route('schooladmin.events.index') }}" class="nav-link {{ request()->routeIs('schoolAdmin.events.index') ? 'active' : '' }}">
+                        <a href="{{ route('schooladmin.events.index') }}" class="nav-link {{ request()->routeIs('schooladmin.events.index') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-calendar-day"></i>
                             <p>Events</p>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="{{ route('schooladmin.holiday.index') }}" class="nav-link {{ request()->routeIs('schoolAdmin.holiday.index') ? 'active' : '' }}">
-                            <i class="nav-icon fas fa-calendar-day"></i>
+                     <li class="nav-item">
+                        <a href="{{ route('schooladmin.holiday.index') }}" class="nav-link {{ request()->routeIs('schooladmin.holiday.index') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-umbrella-beach"></i>
                             <p>Holiday</p>
                         </a>
                     </li>
@@ -147,7 +147,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="" class="nav-link ">
+                        <a href="{{route('schooladmin.attendance_report.index')}}" class="nav-link {{ request()->routeIs('schooladmin.attendance_report.index') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-calendar-day"></i>
                             <p>Attendance</p>
                         </a>
@@ -159,7 +159,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{route('classteacherassignments.index')}}" class="nav-link {{ request()->routeIs('classteacherassignments.index') ? 'active' : '' }}">
                             <i class="fas fa-user-check nav-icon"></i>
                             <p>Assign Class Teacher</p>
                         </a>
@@ -221,18 +221,18 @@
 
                 </ul>
                 <li class="nav-header">SETIINGS</li>
-                <li class="nav-item">
-                    <a href="{{route('import-form')}}" class="nav-link {{ request()->routeIs('import-form') ? 'active' : '' }}">
-                        <i class="fas fa-user-graduate nav-icon"></i>
-                        <p>Import Students</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{route('teacher.import-form')}}" class="nav-link {{ request()->routeIs('teacher.import-form') ? 'active' : '' }}">
-                        <i class="fas fa-chalkboard-teacher nav-icon"></i>
-                        <p>Import Teacher</p>
-                    </a>
-                </li>
+                <!--<li class="nav-item">-->
+                <!--    <a href="{{route('import-form')}}" class="nav-link {{ request()->routeIs('import-form') ? 'active' : '' }}">-->
+                <!--        <i class="fas fa-user-graduate nav-icon"></i>-->
+                <!--        <p>Import Students</p>-->
+                <!--    </a>-->
+                <!--</li>-->
+                <!--<li class="nav-item">-->
+                <!--    <a href="{{route('teacher.import-form')}}" class="nav-link {{ request()->routeIs('teacher.import-form') ? 'active' : '' }}">-->
+                <!--        <i class="fas fa-chalkboard-teacher nav-icon"></i>-->
+                <!--        <p>Import Teacher</p>-->
+                <!--    </a>-->
+                <!--</li>-->
             </li>
             </ul>
         </nav>

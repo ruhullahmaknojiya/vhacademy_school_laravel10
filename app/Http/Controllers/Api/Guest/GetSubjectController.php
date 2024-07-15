@@ -1,27 +1,23 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Guest;
 
 use App\Http\Controllers\Controller;
-use App\Models\Subject;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Subject;
 
-class SubjectController extends Controller
+class GetSubjectController extends Controller
 {
-    //
-
     public function getSubject(Request $request){
 
-
-        $perPage = $request->input('per_page', 10);
+        $perPage = $request->input('per_page', 100);
         $page = $request->input('page', 1); // Current page
-        $user = Auth::guard('api')->user();
-       
-       if(isset($user)){
-          $subjects = Subject::where('std_id',$user->student->class_id)->paginate($perPage, ['*'], 'page', $page);
+        // $user=Auth::guard('api')->user();
+        $std_id= $request->standard_id;
+       if(isset($std_id)){
+         $subjects = Subject::where('std_id',$std_id)->paginate($perPage, ['*'], 'page', $page);
          }else{
-           $subjects = Subject::paginate($perPage, ['*'], 'page', $page);
+          $subjects = Subject::paginate($perPage, ['*'], 'page', $page);
        }
 
 
@@ -46,9 +42,8 @@ class SubjectController extends Controller
                     'subject_name' => $subject->subject,
                     'subject_code' => $subject->subject_code,
                     'description' => $subject->description,
-                    'sub_image' => asset('public/images/school/subject/' . $subject->sub_image), // Full path for sub_image
-                    'std_id' => $subject->standard->standard_name ?? '',
-                    'subject_banner' => asset('public/images/school/subject/' . $subject->subject_banner), // Full path for subject_banner
+                    'std_id' => $subject->std_id,
+                    'perthdarshini' => $subject->sub_pdf
                 ];
             }),
         ];

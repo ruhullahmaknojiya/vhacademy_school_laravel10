@@ -19,10 +19,19 @@ class Standard extends Model
         return $this->belongsTo(Medium::class);
     }
 
-    public function classes()
+    public function teachers()
     {
-        return $this->hasMany(ClassModel::class);
+        return $this->belongsToMany(Teacher::class, 'classes_teacher_assignments', 'standard_id', 'teacher_id');
     }
 
 
+    public function classes()
+    {
+        return $this->hasMany(SchoolClass::class); // Assuming your class model is named SchoolClass
+    }
+
+    public function classTeacherAssignments()
+    {
+        return $this->hasMany(ClassTeacherAssignment::class);
+    }
 }

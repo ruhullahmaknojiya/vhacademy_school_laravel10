@@ -11,6 +11,7 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="https://adminlte.io/themes/v3/dist/css/adminlte.min.css">
     <!-- DataTables CSS -->
+
     <style>
         body {
             font-family: 'Arial, sans-serif'; /* Change font family here */
@@ -138,9 +139,9 @@
 <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
 <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
-<script src="{{ asset('js/custom.js') }}"></script> <!-- Add your custom JS here -->
+<script src="{{ asset('/js/custom.js') }}"></script> <!-- Add your custom JS here -->
 <!-- Additional AdminLTE Plugins JS -->
-{{-- <script src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script> <!-- Chart.js --> --}}
+{{-- <script src="{{ asset('public/vendor/chart.js/Chart.min.js') }}"></script> <!-- Chart.js --> --}}
  {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
 {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script> --}}
 {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script> --}}

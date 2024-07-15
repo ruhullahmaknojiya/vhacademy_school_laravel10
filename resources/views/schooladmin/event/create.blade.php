@@ -43,7 +43,7 @@
                                 @csrf
                                 <div class="row">
                                     <div class="col-12 mb-4">
-                                        <h5 class="form-title"><b>Create Event Information</b><a class="float-right" href="{{route('schoolAdmin.events.index')}}"><i class="fa fa-arrow-left " style="color:blue;"></i></a></h5>
+                                        <h5 class="form-title"><b>Create Event Information</b><a class="float-right" href="{{route('schooladmin.events.index')}}"><i class="fa fa-arrow-left " style="color:blue;"></i></a></h5>
                                     </div>
 
                                     <div class="col-12 col-sm-4">
@@ -76,11 +76,6 @@
                                             <label>Color<span class="login-danger">*</span></label>
                                             <select name="color" class="form-control" required>
                                                 <option value="">Please Select Color</option>
-                                                <option value="#FF0000" data-color="#FF0000">Hindu Calendar Day Special (Red)</option>
-                                                <option value="#008000" data-color="#008000">Muslim Calendar Day Special (Green)</option>
-                                                <option value="#87CEEB" data-color="#87CEEB">Parsi Calendar Day Special (Sky Blue)</option>
-                                                <option value="#00008B" data-color="#00008B">Christian Calendar Day Special (Dark Blue)</option>
-                                                <option value="#000000" data-color="#000000">Other Calendar Day Special (Black)</option>
                                                 <option value="#800080" data-color="#800080">School Special (Purple)</option>
                                             </select>
                                             @error('color')
@@ -98,15 +93,7 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    {{-- <div class="col-12 col-sm-4">
-                                        <div class="form-group local-forms">
-                                            <label>Event Image<span class="login-danger">*</span></label>
-                                            <input type="file" name="event_image" class="form-control">
-                                            @error('event_image')
-                                            <span class="error text-danger">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                    </div> --}}
+
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
                                             <label>Event Pdf</label>
@@ -143,17 +130,7 @@
                                 </div>
                             </form>
 
-                            <div class="note">
-                                <p><strong>Note:</strong></p>
-                                <ul>
-                                    <li>Hindu Calendar Day Special - Red</li>
-                                    <li>Muslim Calendar Day Special - Green</li>
-                                    <li>Parsi Calendar Day Special - Sky Blue</li>
-                                    <li>Christian Calendar Day Special - Dark Blue</li>
-                                    <li>Other Calendar Day Special - Black</li>
-                                    <li>School Special - Purple</li>
-                                </ul>
-                            </div>
+
                         </div>
                     </div>
                 </div>

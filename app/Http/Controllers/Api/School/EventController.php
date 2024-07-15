@@ -32,8 +32,8 @@ class EventController extends Controller
                 return [
                     'id' => $event->id,
                     'Event Name' => $event->event_title,
-                    'Event Image' =>asset('public/images/admin/holidays/' . $event->event_image),
-                    'event_pdf' => asset('public/images/admin/event/' . $event->event_pdf),
+                    'Event Image' =>asset('storage/app/public/images/admin/holidays/' . $event->event_image),
+                    'event_pdf' => asset('storage/app/public/admin/event/' . $event->event_pdf),
                     'short_Description' => $event->short_Description,
                     'start_date' => $event->start_date,
                     'event_video' => $event->event_video,
