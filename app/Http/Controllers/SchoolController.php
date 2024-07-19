@@ -46,8 +46,8 @@ class SchoolController extends Controller
         $subjectCount = Subject::count();
         $topicCount = SubTopic::count(); // Assuming chapters are represented by SubTopic model
         $chapterCount  = Topic::count();
-        $totalBoys = Student::where('gender', 'male')->count();
-        $totalGirls = Student::where('gender', 'female')->count();
+        $totalBoys = Student::whereIn('gender', ['male', 'Male', 'm', 'M'])->count();
+         $totalGirls = Student::whereIn('gender', ['female', 'Female', 'f', 'F'])->count();
         return view('schooladmin.dashboard', compact(
             'monthlyCollectedFee','studentsCount',
             'teachersCount', 'parentsCount', 'mediumCount',

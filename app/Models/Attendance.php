@@ -11,6 +11,7 @@ class Attendance extends Model
 
     protected $fillable = [
         'student_id',
+        'school_id',
         'attendance_date',
         'status',
         'holiday_id',
@@ -19,6 +20,10 @@ class Attendance extends Model
     public function student()
     {
         return $this->belongsTo(Student::class);
+    }
+    public function school()
+    {
+        return $this->belongsTo(School::class);
     }
 
     public function holiday()

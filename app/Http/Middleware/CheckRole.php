@@ -11,33 +11,43 @@ class CheckRole
     public function handle($request, Closure $next, $role)
     {
 
+
         // Check if the user is authenticated
-        // if (!Auth::check()) {
-        //     return redirect()->route('login');
-        // }
-
-
-        // // Log authenticated user role and the role parameter
-        // Log::info('Authenticated user role: ' . Auth::user()->role->name);
-        // Log::info('Role parameter passed to middleware: ' . $role);
-
-        // // Check if the authenticated user's role name matches the required role
-        // if (strtolower(Auth::user()->role->name) !== strtolower($role)) {
-        //     abort(403, 'Unauthorized action.');
-        // }
-
-        // return $next($request);
-
         if (!Auth::check()) {
-            return redirect('login');
+            return redirect('/login')->with('message', 'Your session has expired. Please login again.');
         }
 
+        // Check for session expiration
+        $lastActivity = session()->get('last_activity');
+        $sessionLifetime = config('session.lifetime') * 60; // session lifetime in seconds
+
+        if ($lastActivity && (time() - $lastActivity > $sessionLifetime)) {
+            Auth::logout();
+            session()->invalidate();
+
+            return redirect('/login')->with('message', 'Your session has expired. Please login again.');
+        }
+
+        // Update last activity time
+        session()->put('last_activity', time());
+
+        // Check user role
         $user = Auth::user();
-        if ($user->role->name == $role) {
-            return $next($request);
+
+        // Check if the user or role is null
+        if (!$user || !$user->role || !$user->role->name) {
+            Auth::logout();
+            session()->invalidate();
+
+            return redirect('/login')->with('message', 'Your session has expired. Please login again.');
         }
 
-        return redirect('/login')->with('error', "You don't have access to this page.");
+        // Check if user has the required role
+        if ($user->role->name !== $role) {
+            return redirect('/login')->with('error', "You don't have access to this page.");
+        }
+
+        return $next($request);
 
 
 

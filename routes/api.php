@@ -34,8 +34,8 @@ use App\Http\Controllers\Api\get\getDataController;
 */
 
 Route::post('Studentlogin', [RegisterController::class, 'login']);
-Route::post('Parentlogin', [ParentController::class, 'login']);
-Route::post('Teacherlogin', [TeacherController::class, 'login']);
+Route::post('Parentlogin', [ParentController::class, 'parent_login']);
+Route::post('Teacherlogin', [TeacherController::class, 'teacher_login']);
 
 
 //get data

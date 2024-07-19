@@ -16,12 +16,11 @@ class CreateAttendancesTable extends Migration
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
             $table->foreignId('student_id')->constrained('students')->onDelete('cascade');
+            $table->foreignId('school_id')->constrained('schools')->onDelete('cascade');
             $table->date('attendance_date');
             $table->enum('status', ['Present', 'Late', 'Absent', 'Holiday', 'Half Day']);
             $table->foreignId('holiday_id')->nullable()->constrained('holidays')->onDelete('cascade');
             $table->timestamps();
-
-            // Adding unique constraint to ensure one attendance record per student per day
             $table->unique(['student_id', 'attendance_date']);
         });
     }

@@ -17,10 +17,11 @@ use Illuminate\Support\Facades\DB;
 
 class TeacherController extends Controller
 {
-    public function login(Request $request)
+    public function teacher_login(Request $request)
     {
+        $teacherRole = Role::where('name', 'Teacher')->first();
 
-        if (Auth::attempt(['name' => $request->name, 'password' => $request->password, 'role_id' => 3])) {
+        if (Auth::attempt(['name' => $request->name, 'password' => $request->password, 'role_id' => $teacherRole->id])) {
             // Authentication successful
             $user = Auth::user();
             $token = $user->createToken('MyApp')->accessToken;
@@ -28,22 +29,7 @@ class TeacherController extends Controller
             // Retrieve the student associated with the user
             $teacher = Teacher::where('user_id', $user->id)->get();
 
-            if ($teacher) {
-                // Retrieve the standard using the student's standard_id
-                // $standard = Stander::where('status','1')->with('Subject.topic.subtopic')->get();
 
-                // Retrieve the medium using the standard's medium_id
-                // $medium = Medium::where('id', $standard->medium_id)
-                //     ->pluck('name')
-                //     ->first();
-
-                // 'token' => $user->createToken('MyApp')->accessToken,
-
-            }
-            //  else {
-            //     // Handle the case where the user has no associated student record
-            //     return $this->sendError('Student record not found.', ['error' => 'Student record not found.']);
-            // }
             return response()->json([
                 'token' => $token,
                 'user' => $user,

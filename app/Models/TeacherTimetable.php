@@ -13,7 +13,7 @@ use App\Models\Classs;
 use App\Models\Teacher;
 class TeacherTimetable extends Model
 {
-    public $fillable=['teacher_id','medium_id','standard_id','class_id','day_id','subject_id','date','start_time','end_time','school_id'];
+    public $fillable=['teacher_id','medium_id','standard_id','class_id','day','subject_id','date','start_time','end_time','school_id'];
 
     use HasFactory;
     public function teacher(){

@@ -9,14 +9,18 @@ use App\Models\Medium;
 use App\Models\Standard;
 use App\Models\ClassModel;
 use App\Models\Student;
+use App\Models\School;
 
 
 
 class AttendenceController extends Controller
 {
     public function attendanceReport(Request $request)
-{
-    $query = Attendance::with('student.medium', 'student.standard', 'student.class')
+        {
+            $authUser = auth()->user()->id; // Assuming the logged-in user has a school_id attribute
+            $school = School::where('user_id', $authUser)->first();
+            $query = Attendance::with('student.medium', 'student.standard', 'student.class', 'holiday')
+                        ->where('school_id', $school)
                         ->when($request->medium, function ($q) use ($request) {
                             $q->whereHas('student', function ($q) use ($request) {
                                 $q->where('medium_id', $request->medium);
@@ -24,23 +28,51 @@ class AttendenceController extends Controller
                         })
                         ->when($request->standard, function ($q) use ($request) {
                             $q->whereHas('student', function ($q) use ($request) {
-                                $q->where('class_id', $request->standard);
+                                $q->where('standard_id', $request->standard);
                             });
                         })
                         ->when($request->class, function ($q) use ($request) {
                             $q->whereHas('student', function ($q) use ($request) {
-                                $q->where('section_id', $request->class);
+                                $q->where('class_id', $request->class);
                             });
                         })
                         ->when($request->date, function ($q) use ($request) {
                             $q->where('attendance_date', $request->date);
                         });
 
-    $attendances = $query->paginate(10);
+                        $attendances = $query->paginate(10);
 
-    $mediums = Medium::all();
-    $standards = Standard::all();
-    $classes = ClassModel::all();
+                            $mediums = Medium::all();
+                            $standards = Standard::all();
+                            $classes = ClassModel::all();
+
+
+
+    //             $query = Attendance::with('student.medium', 'student.standard', 'student.class')
+    //                     ->when($request->medium, function ($q) use ($request) {
+    //                         $q->whereHas('student', function ($q) use ($request) {
+    //                             $q->where('medium_id', $request->medium);
+    //                         });
+    //                     })
+    //                     ->when($request->standard, function ($q) use ($request) {
+    //                         $q->whereHas('student', function ($q) use ($request) {
+    //                             $q->where('class_id', $request->standard);
+    //                         });
+    //                     })
+    //                     ->when($request->class, function ($q) use ($request) {
+    //                         $q->whereHas('student', function ($q) use ($request) {
+    //                             $q->where('section_id', $request->class);
+    //                         });
+    //                     })
+    //                     ->when($request->date, function ($q) use ($request) {
+    //                         $q->where('attendance_date', $request->date);
+    //                     });
+
+    // $attendances = $query->paginate(10);
+
+    // $mediums = Medium::all();
+    // $standards = Standard::all();
+    // $classes = ClassModel::all();
 
     return view('schooladmin.attendence.attendance_report', compact('attendances', 'mediums', 'standards', 'classes'));
 }

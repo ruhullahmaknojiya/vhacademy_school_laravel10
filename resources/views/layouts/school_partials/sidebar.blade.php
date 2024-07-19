@@ -165,6 +165,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="{{route('subjectteacherassignments.index')}}" class="nav-link {{ request()->routeIs('subjectteacherassignments.index') ? 'active' : '' }}">
+                            <i class="fas fa-user-check nav-icon"></i>
+                            <p>Assign Subject Teacher</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="fas fa-user-graduate nav-icon"></i>
                             <p>Promote Students</p>
@@ -221,18 +227,12 @@
 
                 </ul>
                 <li class="nav-header">SETIINGS</li>
-                <!--<li class="nav-item">-->
-                <!--    <a href="{{route('import-form')}}" class="nav-link {{ request()->routeIs('import-form') ? 'active' : '' }}">-->
-                <!--        <i class="fas fa-user-graduate nav-icon"></i>-->
-                <!--        <p>Import Students</p>-->
-                <!--    </a>-->
-                <!--</li>-->
-                <!--<li class="nav-item">-->
-                <!--    <a href="{{route('teacher.import-form')}}" class="nav-link {{ request()->routeIs('teacher.import-form') ? 'active' : '' }}">-->
-                <!--        <i class="fas fa-chalkboard-teacher nav-icon"></i>-->
-                <!--        <p>Import Teacher</p>-->
-                <!--    </a>-->
-                <!--</li>-->
+                <li class="nav-item">
+                    <a href="{{route('schooladmin.providerconfigurations.index')}}" class="nav-link {{ request()->routeIs('schooladmin.providerconfigurations.index') ? 'active' : '' }}">
+                        <i class="fas fa-book nav-icon"></i>
+                        <p>PaymentGetway Providers</p>
+                    </a>
+                </li>
             </li>
             </ul>
         </nav>

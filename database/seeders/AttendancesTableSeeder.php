@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Student;
 use App\Models\Holiday;
 use App\Models\Attendance;
+use App\Models\School;
 use Faker\Factory as Faker;
 
 class AttendancesTableSeeder extends Seeder
@@ -16,6 +17,7 @@ class AttendancesTableSeeder extends Seeder
         $faker = Faker::create();
         $students = Student::all();
         $holidays = Holiday::all();
+        $school = School::all();
 
         foreach ($students as $student) {
             for ($i = 0; $i < 30; $i++) {
@@ -26,9 +28,10 @@ class AttendancesTableSeeder extends Seeder
 
                 Attendance::create([
                     'student_id' => $student->id,
+                    'school_id' => 1,
                     'attendance_date' => $attendanceDate,
                     'status' => $holiday ? 'Holiday' : $faker->randomElement(['Present', 'Late', 'Absent', 'Half Day']),
-                    'holiday_id' => $holiday ? $holiday->id : null,
+                    'holiday_id' => 1,
                 ]);
             }
         }

@@ -45,8 +45,8 @@ class SuperAdminController extends Controller
          $subjectCount = Subject::count();
          $topicCount = SubTopic::count(); // Assuming chapters are represented by SubTopic model
          $chapterCount  = Topic::count();
-         $totalBoys = Student::where('gender', 'male')->count();
-         $totalGirls = Student::where('gender', 'female')->count();
+         $totalBoys = Student::whereIn('gender', ['male', 'Male', 'm', 'M'])->count();
+         $totalGirls = Student::whereIn('gender', ['female', 'Female', 'f', 'F'])->count();
          return view('superadmin.dashboard', compact(
              'schools','studentsCount',
              'teachersCount', 'parentsCount', 'mediumCount',
@@ -57,8 +57,8 @@ class SuperAdminController extends Controller
 
         return view('superadmin.dashboard');
     }
-    
-    
+
+
      public function updateEventDate(Request $request)
     {
         Log::info('Update Event Date Request: ', $request->all());
@@ -89,11 +89,11 @@ class SuperAdminController extends Controller
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }
-    
-    
-    
-    
-    
+
+
+
+
+
     public function profile()
     {
         return view('superadmin.profile');

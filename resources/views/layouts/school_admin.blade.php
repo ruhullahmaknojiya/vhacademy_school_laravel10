@@ -3,6 +3,7 @@
     <title>@yield('title')</title>
     <!-- Include AdminLTE CSS -->
     <link rel="icon" href="{{ asset('images/logo.png') }}" type="image/x-icon"> <!-- Link to the favicon -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
     <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/adminlte.min.css') }}">
     <link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}">
@@ -136,6 +137,7 @@
 </div>
 <!-- ./wrapper -->
 <!-- Scripts -->
+
 <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
 <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
@@ -147,6 +149,10 @@
 {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script> --}}
 <!-- Additional JS if needed -->
 @include('layouts.school_partials.datatables_js')
+<!-- Include jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+<!-- Include SheetJS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
 
 <!-- FullCalendar JS -->
  <!-- FullCalendar JS -->

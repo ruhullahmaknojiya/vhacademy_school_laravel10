@@ -33,6 +33,9 @@ use App\Http\Controllers\SuperAdmin\EventNewImportController;
 use App\Http\Controllers\School\EventImportSchlController;
 use App\Http\Controllers\School\TeacherAssign\ClassTeacherAssignmentController;
 use App\Http\Controllers\School\Attendence\AttendenceController;
+use App\Http\Controllers\School\PaymentGetway\PaymentConfigurationController;
+use App\Http\Controllers\SuperAdmin\PaymentGetway\ProvidersController;
+use App\Http\Controllers\School\TeacherSubjectAssign\TeacherSubjectAssignController;
 
 
 /*
@@ -166,6 +169,13 @@ Route::group(['middlware'=> ['auth','role:SuperAdmin']], function () {
     Route::post('superadmin.homesubject/update/{id}',[HomeSubjectController::class,'update'])->name('superadmin.homesubject.update');
     Route::delete('superadmin.homesubject/delete/{id}',[HomeSubjectController::class,'destroy'])->name('superadmin.homesubject.destroy');
 
+    // Route::resource('superadmin/providers', SuperAdminProviderController::class);
+    Route::get('superadmin/providers', [ProvidersController::class, 'index'])->name('superadmin.providers.index');
+    Route::get('superadmin/providers/create', [ProvidersController::class, 'create'])->name('superadmin.providers.create');
+    Route::post('superadmin.providers/store',[ProvidersController::class,'store'])->name('superadmin.providers.store');
+    Route::get('superadmin.providers/edit',[ProvidersController::class,'edit'])->name('superadmin.providers.edit');
+    Route::post('superadmin.providers/update/{id}',[ProvidersController::class,'update'])->name('superadmin.providers.update');
+    Route::delete('superadmin.providers/delete/{id}',[ProvidersController::class,'destroy'])->name('superadmin.providers.destroy');
 
 });
 
@@ -289,10 +299,22 @@ Route::group(['middlware'=> ['auth','role:SchoolAdmin']], function () {
     Route::get('/teacher.import-form', [TeacherController::class, 'showImportForm'])->name('teacher.import-form');
     Route::post('/teacher.import', [TeacherController::class, 'import'])->name('teacher.import');
 
+    // Route:: Classteacher Assign
     Route::resource('classteacherassignments', ClassTeacherAssignmentController::class);
     Route::delete('/delete-teacher/{id}', [ClassTeacherAssignmentController::class, 'destroy'])->name('classteacherassignments.destroy');
     Route::get('/get-standards/{medium_id}', [ClassTeacherAssignmentController::class, 'getStandards']);
+
+     // Route:: SubjectTeacher Assign
+    Route::resource('subjectteacherassignments', TeacherSubjectAssignController::class);
+    Route::delete('/delete-teacher/{id}', [TeacherSubjectAssignController::class, 'destroy'])->name('classteacherassignments.destroy');
+    Route::get('/get-standards/{medium_id}', [TeacherSubjectAssignController::class, 'getStandards']);
+    Route::get('/get-teacher-subjects/{standard_id}', [TeacherSubjectAssignController::class, 'getTeacherSubjects']);
+
+    // Route:: Attendace Report
     Route::get('attendance_report', [AttendenceController::class, 'attendanceReport'])->name('schooladmin.attendance_report.index');
+
+    // Route::resource('schooladmin/provider_configurations', SchoolAdminProviderConfigurationController::class);
+    Route::get('schooladmin/provider_configurations', [PaymentConfigurationController::class, 'index'])->name('schooladmin.providerconfigurations.index');
 
 });
 

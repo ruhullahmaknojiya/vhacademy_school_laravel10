@@ -38,16 +38,18 @@ class Authenticate extends Middleware
     protected function redirectTo($request)
     {
 
-        if (! Auth::check()) {
-            return route('login');
-        }
-         // Check if the session has expired
-        $sessionExpiration = strtotime(auth()->user()->last_logged_in) + config('session.lifetime') * 60;
-        if (time() > $sessionExpiration) {
-            Auth::logout(); // Logout the user if the session has expired
-            return route('/');
-        }
+       // Check if the user is authenticated
+       if (!Auth::check()) {
+        // Log out the user if not authenticated
+        Auth::logout();
 
-        return null;
+        // Invalidate the session
+        session()->invalidate();
+
+        // Redirect to login page
+        return redirect('/login')->with('message', 'Your session has expired. Please login again.');
+    }
+
+    return $next($request);
     }
 }

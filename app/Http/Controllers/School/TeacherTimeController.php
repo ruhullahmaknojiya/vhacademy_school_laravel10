@@ -36,64 +36,62 @@ class TeacherTimeController extends Controller
         $teachers=Teacher::where('school_id', $School->id)->get();
 
         $classes=ClassModel::all();
-
-
+        $subjects = Subject::all();
         $mediums=Medium::all();
-        return view('schooladmin.teachertimetable.create',compact('mediums','classes','teachers'));
+        $standards=Standard::all();
+
+        return view('schooladmin.teachertimetable.create',compact('mediums','standards','classes','subjects','teachers'));
     }
 
 
 
     public function store(Request $request)
     {
-        // dd($request);
-
-        $validate = $request->validate([
+        $request->validate([
             'teacher_id' => 'required',
-            'medium_id' => 'required',
-            'std_id' => 'required',
-            'class_id' => 'required',
-            'subject_id' => 'required',
-             'day' => 'required',
-            'start_time' => 'required',
-            'end_time' => 'required',
+            'medium_id.*' => 'required|exists:mediums,id',
+            'standard_id.*' => 'required|exists:standards,id',
+            'subject_id.*' => 'required|exists:subjects,id',
+            'day.*' => 'required|string',
+            'start_time.*' => 'required',
+            'end_time.*' => 'required',
+            'class_id.*' => 'required|exists:classes,id',
         ], [
             'teacher_id.required' => 'The Teacher Name is required.',
-            'medium_id.required' => 'The Medium is required.',
-            'std_id.required' => 'The Standard is required.',
-            'class_id.required' => 'The Class is required.',
-            'day.required' => 'The Day is required.',
-            'subject_id.required' => 'The Subject is required.',
-            'start_time.required' => 'The Start Time is required.',
-            'end_time.required' => 'The End Time is required.',
+            'medium_id.*.required' => 'The Medium is required.',
+            'medium_id.*.exists' => 'The selected Medium is invalid.',
+            'standard_id.*.required' => 'The Standard is required.',
+            'standard_id.*.exists' => 'The selected Standard is invalid.',
+            'subject_id.*.required' => 'The Subject is required.',
+            'subject_id.*.exists' => 'The selected Subject is invalid.',
+            'day.*.required' => 'The Day is required.',
+            'start_time.*.required' => 'The Start Time is required.',
+            'end_time.*.required' => 'The End Time is required.',
+            'class_id.*.required' => 'The Class is required.',
+            'class_id.*.exists' => 'The selected Class is invalid.',
         ]);
 
-        // dd($request->all());
-        $userby=Auth::user();
+        $userby = Auth::user();
+        $School = School::where('user_id', $userby->id)->first();
 
-        $School=School::where('user_id', $userby->id)->first();
+        foreach ($request->subject_id as $index => $subject_id) {
+            TeacherTimetable::create([
+                'teacher_id' => $request->teacher_id,
+                'medium_id' => $request->medium_id[$index],
+                'standard_id' => $request->standard_id[$index],
+                'subject_id' => $subject_id,
+                'day' => $request->day[$index],
+                'start_time' => $request->start_time[$index],
+                'end_time' => $request->end_time[$index],
+                'class_id' => $request->class_id[$index],
+                'school_id' => $School->id,
+            ]);
+        }
 
-
-        // Create a new Subtopic instance
-        $save_timetable=new TeacherTimetable();
-        $save_timetable->teacher_id=$request->teacher_id;
-        $save_timetable->medium_id=$request->medium_id;
-        $save_timetable->standard_id=$request->std_id;
-        $save_timetable->class_id=$request->class_id;
-        $save_timetable->day=$request->day;
-        $save_timetable->subject_id=$request->subject_id;
-        $save_timetable->start_time=$request->start_time;
-        $save_timetable->end_time=$request->end_time;
-        $save_timetable->school_id = $School->id;
-
-        // Handle PDF file upload
-
-
-        $save_timetable->save();
-
-
-        return redirect()->route('teacher.timetable.index')->with('success','SubTopic Add Scuccessfully');
+        return redirect()->route('teacher.timetable.index')->with('success', 'Timetable created successfully.');
     }
+
+
     public function edit($id){
         $timetable=TeacherTimetable::find($id);
         $userby=Auth::user();
