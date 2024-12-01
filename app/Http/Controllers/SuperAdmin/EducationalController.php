@@ -62,7 +62,7 @@ class EducationalController extends Controller
             $standards->where('medium_id', $medium_filter);
         }
 
-        $standards = $standards->paginate(10);
+        $standards = $standards->get();
 
         // return view('index', compact('mediums', 'standards'));
         return view('superadmin.educational.standard.index', compact('mediums','standards'));

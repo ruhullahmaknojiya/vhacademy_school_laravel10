@@ -31,10 +31,13 @@ class SuperAdminController extends Controller
 
     public function dashboard()
     {
+         if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Session expired, please log in again.');
+        }
 
          // $totalFee = $this->getTotalFee();
          $events = Event::where('school_id',null)->paginate(200);
-         // dd($events);
+      
          $schools = School::count();
          $studentsCount = Student::count();
          $teachersCount = Teacher::count();
@@ -57,8 +60,8 @@ class SuperAdminController extends Controller
 
         return view('superadmin.dashboard');
     }
-
-
+    
+    
      public function updateEventDate(Request $request)
     {
         Log::info('Update Event Date Request: ', $request->all());
@@ -89,11 +92,11 @@ class SuperAdminController extends Controller
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }
-
-
-
-
-
+    
+    
+    
+    
+    
     public function profile()
     {
         return view('superadmin.profile');

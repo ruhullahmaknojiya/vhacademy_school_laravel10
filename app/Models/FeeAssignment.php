@@ -8,43 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class FeeAssignment extends Model
 {
     use HasFactory;
-    protected $table = 'fee_assignments';
 
     protected $fillable = [
-        'fee_group_id',
-        'fees_master_id',
+        'class_id',
         'medium_id',
-        'standard_id',
-        'section_id'
+        'semester_id',
+        'fee_category_id',
     ];
 
-    public function feeGroup()
+    public function feeCategory()
     {
-        return $this->belongsTo(FeeGroup::class);
-    }
-
-    public function feesMaster()
-    {
-        return $this->belongsTo(FeesMaster::class);
-    }
-
-    public function medium()
-    {
-        return $this->belongsTo(Medium::class);
-    }
-
-    public function standard()
-    {
-        return $this->belongsTo(Standard::class);
-    }
-
-    public function section()
-    {
-        return $this->belongsTo(ClassModel::class);
-    }
-
-    public function student()
-    {
-        return $this->belongsTo(Student::class);
+        return $this->belongsTo(FeeCategory::class, 'fee_category_id');
     }
 }

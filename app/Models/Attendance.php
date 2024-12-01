@@ -14,6 +14,7 @@ class Attendance extends Model
         'school_id',
         'attendance_date',
         'status',
+        'absent_reason',
         'holiday_id',
     ];
 
@@ -21,6 +22,7 @@ class Attendance extends Model
     {
         return $this->belongsTo(Student::class);
     }
+
     public function school()
     {
         return $this->belongsTo(School::class);

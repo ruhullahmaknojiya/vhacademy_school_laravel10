@@ -68,9 +68,9 @@
                             </div>
                             <div class="col-12 col-sm-4">
                                 <div class="form-group local-forms">
-                                    <label>Topic <span class="text-danger">*</span></label>
+                                    <label>Chapter <span class="text-danger">*</span></label>
                                     <select type="text" name="topic_id" id="topics" class="form-control topics">
-                                        <option>Select Topic</option>
+                                        <option>Select Chapter</option>
 
                                     </select>
                                     @error('topic_id')
@@ -81,7 +81,7 @@
                             </div>
                             <div class="col-12 col-sm-4">
                                 <div class="form-group local-forms">
-                                    <label>SubTopic <span class="text-danger">*</span></label>
+                                    <label>Topic <span class="text-danger">*</span></label>
                                     <input type="text" name="sub_topic" id="sub_topic" class="form-control">
                                     @error('sub_topic')
                                     <span class="error  text-danger">{{ $message }}</span>
@@ -90,7 +90,7 @@
                             </div>
                             <div class="col-12 col-sm-4">
                                 <div class="form-group local-forms">
-                                    <label>SubTopic Type <span class="text-danger">*</span></label>
+                                    <label>Topic Type <span class="text-danger">*</span></label>
                                     <select name="type" class="form-control" id="type">
                                         <option>Select Type</option>
                                         <option value="free">Free</option>

@@ -35,4 +35,8 @@ class TeacherSubjectAssign extends Model
     {
         return $this->belongsTo(Standard::class);
     }
+    
+    
+
+
 }

@@ -11,55 +11,48 @@ use Illuminate\Support\Facades\Auth;
 class TimetableController extends Controller
 {
     public function getTimetable()
-    {
-        // Get the authenticated user
-        $authenticatedUser = Auth::guard('api')->user();
+{
+    // Get the authenticated user
+    $authenticatedUser = Auth::guard('api')->user();
 
-        if ($authenticatedUser) {
-            // Fetch the teacher associated with the authenticated user
-            $teacher = $authenticatedUser->teacher;
+    if ($authenticatedUser) {
+        // Fetch the teacher associated with the authenticated user
+        $teacher = $authenticatedUser->teacher;
 
-            if ($teacher) {
-                // Fetch the teacher's timetables along with related user and other necessary relationships
-                $timetables = TeacherTimetable::where('teacher_id', $teacher->id)
-                    ->with(['teacher.user', 'medium', 'standerd', 'classmodel', 'subject'])
-                    ->get();
+        if ($teacher) {
+            // Fetch the teacher's timetables along with related user and other necessary relationships using eager loading
+            $timetables = TeacherTimetable::where('teacher_id', $teacher->id)
+                ->with(['teacher.user', 'medium', 'standard', 'classmodel', 'subject'])
+                ->get()
+                ->sortBy('start_time'); // Sort timetables by start_time
 
-                // Organize timetables by day
-                $timetableData = [];
-                foreach ($timetables as $timetable) {
-                    $dayName = $timetable->day_id;
-
-                    // Initialize the day array if it doesn't exist
-                    if (!isset($timetableData[$dayName])) {
-                        $timetableData[$dayName] = [];
-                    }
-
-                    // Append the timetable entry to the appropriate day
-                    $timetableData[$dayName][] = [
+            // Organize timetables by day
+            $timetableData = $timetables->groupBy('day')->map(function ($dayTimetables) {
+                return $dayTimetables->map(function ($timetable) {
+                    return [
                         'startTime' => $timetable->start_time,
                         'endTime' => $timetable->end_time,
-                        'class' => "{$timetable->subject->subject} (Class {$timetable->standerd->standard_name} {$timetable->classmodel->class_name})",
+                        'class' => "{$timetable->subject->subject} ({$timetable->medium->medium_name}: {$timetable->standard->standard_name} {$timetable->classmodel->class_name})",
                     ];
-                }
+                })->sortBy('startTime')->values(); // Sort timetables within each day by startTime and reindex the collection
+            });
 
-                return response()->json([
-                    'user' => [
-                        'username' => $teacher->user->name,
-                        'first_name' => $teacher->first_name.' '.$teacher->last_name,
-
-                    ],
-                    'timetables' => $timetableData,
-                ], 200);
-            } else {
-                // If the authenticated user is not a teacher
-                return response()->json(['error' => 'Authenticated user is not a teacher.'], 403);
-            }
+            return response()->json([
+                'user' => [
+                    'username' => $teacher->user->name,
+                    'name' => $teacher->first_name . ' ' . $teacher->last_name,
+                ],
+                'timetables' => $timetableData,
+            ], 200);
         } else {
-            // If user is not authenticated, return unauthorized error
-            return response()->json(['error' => 'Unauthorized.'], 403);
+            // If the authenticated user is not a teacher
+            return response()->json(['error' => 'Authenticated user is not a teacher.'], 403);
         }
+    } else {
+        // If user is not authenticated, return unauthorized error
+        return response()->json(['error' => 'Unauthorized.'], 401);
     }
+}
 
 
 

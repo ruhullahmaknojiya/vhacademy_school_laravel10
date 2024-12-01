@@ -99,7 +99,7 @@ class SchoolHolidayController extends Controller
      */
     public function edit($id)
     {
-        $edit_schoolholiday=SchoolHoliday::find($id);
+        $edit_schoolholiday=Holiday::find($id);
 
         return view('schooladmin.schoolholiday.edit',compact('edit_schoolholiday'));
     }
@@ -113,23 +113,13 @@ class SchoolHolidayController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $update_holiday=SchoolHoliday::find($id);
+        $update_holiday=Holiday::find($id);
 
 
         $input = $request->all();
-        if ($request->hasFile("holiday_image")) {
-            $img = $request->file("holiday_image");
-            if (Storage::exists('public/images/admin/holiday/' . $update_holiday->holiday_image)) {
-                Storage::delete('public/images/admin/holiday/' . $update_holiday->holiday_image);
-            }
-            $img->store('public/images/admin/holiday/');
-            $input['holiday_image'] = $img->hashName();
-            $update_holiday->update($input);
-
-        }
-
+    
         $update_holiday->update($input);
-        return redirect()->route('schoolholiday.index')->with('info','School Holiday Update Successfully');
+        return redirect()->route('schooladmin.holiday.index')->with('info','School Holiday Update Successfully');
     }
 
     /**
@@ -140,8 +130,8 @@ class SchoolHolidayController extends Controller
      */
     public function destroy($id)
     {
-        $delete_holiday=SchoolHoliday::find($id);
+        $delete_holiday=Holiday::find($id);
         $delete_holiday->delete();
-        return redirect()->route('schoolholiday.index')->with('danger','School Holiday Delete Successfully');
+        return redirect()->route('schooladmin.holiday.index')->with('danger','School Holiday Delete Successfully');
     }
 }

@@ -19,11 +19,11 @@ class HomeSubjectController extends Controller
         $page = $request->input('page', 1); // Current page
         $user = Auth::guard('api')->user();
 
-        if (isset($user)) {
+        // if (isset($user)) {
 
+        //     $subjects = HomeSubject::paginate($perPage, ['*'], 'page', $page);
+        // }
             $subjects = HomeSubject::paginate($perPage, ['*'], 'page', $page);
-        }
-
             if ($subjects->isEmpty()) {
                 return response()->json([
                     'status' => 'false',

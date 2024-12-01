@@ -75,7 +75,7 @@
 
                                     <div class="col-12 col-sm-6">
                                         <div class="form-group local-forms">
-                                            <label>File Path (PDF)<span class="text-danger">*</span></label>
+                                            <label>File (Pathadarshini)</label>
                                             <input type="file" name="sub_pdf" class="form-control">
                                             @error('sub_pdf')
                                             <span class="error text-danger">{{ $message }}</span>

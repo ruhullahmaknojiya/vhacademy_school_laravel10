@@ -4,11 +4,18 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="{{ asset('images/logo.png') }}" class="img-circle elevation-2" alt="User Image">
+                <img src="{{ asset('public/images/logo.png') }}" class="img-circle elevation-2" alt="User Image">
             </div>
+            @if (Auth::check())
             <div class="info">
-                <a href="#" class="d-block">{{ \Illuminate\Support\Facades\Auth::user()->name }}</a>
+                <a href="#" class="d-block">{{ Auth::user()->name }}</a>
             </div>
+            @else
+            <div class="info">
+                <a href="{{ route('login') }}" class="d-block">Login</a>
+            </div>
+            @endif
+           
         </div>
 
         <!-- Sidebar Menu -->
@@ -64,7 +71,7 @@
                         <p>Events</p>
                     </a>
                 </li>
-
+               
                 <li class="nav-header">EDUCATIONAL MANAGEMENT ( LMS ) </li>
                 <li class="nav-item">
                     <a href="{{ route('superadmin.homesubject.index') }}" class="nav-link {{ request()->routeIs('superadmin.homesubject.index') ? 'active' : '' }}">
@@ -105,15 +112,7 @@
                 <li class="nav-item">
                     <a href="{{ route('subtopics.index') }}" class="nav-link {{ request()->routeIs('SubTopics.index') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-book-reader"></i>
-                        <p>Chapter-Topic</p>
-                    </a>
-                </li>
-
-                <li class="nav-header">SETIINGS</li>
-                <li class="nav-item">
-                    <a href="{{route('superadmin.providers.index')}}" class="nav-link {{ request()->routeIs('superadmin.providers.index') ? 'active' : '' }}">
-                        <i class="fas fa-wallet"></i>
-                        <p>Payment Method</p>
+                        <p>Topic</p>
                     </a>
                 </li>
             </ul>

@@ -78,7 +78,7 @@
                                 <th>Medium</th>
                                 <th>Standard</th>
                                 <th>Subject</th>
-                                <th>Topic</th>
+                                <th>Chapter</th>
                                 <th>Description</th>
                                 <th>Type</th>
                                 <th class="text-end">Action</th>

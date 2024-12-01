@@ -12,7 +12,7 @@
             <div class="card-header d-flex justify-content-between align-items-end">
                 <form method="GET" action="{{ route('schooladmin.educational.subject.index') }}" class="form-inline w-75">
                     <div class="row w-100">
-                        <div class="col-md-3 mb-2">
+                        <div class="col-md-2 mb-2">
                             <div class="form-group">
                                 <label for="medium" class="mr-2">Medium</label>
                                 <select class="form-control filter-dropdown" name="medium_id" id="mediums">
@@ -23,7 +23,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3 mb-2">
+                        <div class="col-md-2 mb-2">
                             <div class="form-group">
                                 <label for="standard" class="mr-2">Standard</label>
                                 <select class="form-control filter-dropdown" name="standard_id" id="standards">
@@ -36,17 +36,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3 mb-2">
-                            <div class="form-group">
-                                <label for="subject" class="mr-2">Subject</label>
-                                <select class="form-control filter-dropdown" name="subject_id" id="subjects">
-                                    <option value="">Select Subject</option>
-                                    @foreach ($subjects as $subject)
-                                        <option value="{{ $subject->id }}" {{ request()->subject_id == $subject->id ? 'selected' : (isset($defaultSubject) && $defaultSubject->id == $subject->id ? 'selected' : '') }}>{{ $subject->subject }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
+                        
                         <div class="col-md-3 mb-2 d-flex align-items-end">
                             <div class="form-group mr-2">
                                 <button type="submit" class="btn btn-primary">Filter</button>
@@ -88,7 +78,7 @@
                                     <td>{{ $subject->subject_code }}</td>
                                     <td>{{ $subject->description }}</td>
                                     <td class="text-end">
-                                        <span class="badge badge-success">{{ $subject->status ? 'Active' : 'Deactive' }}</span>
+                                        <span class="badge badge-success">{{ 'Active' }}</span>
                                     </td>
                                 </tr>
                             @endforeach

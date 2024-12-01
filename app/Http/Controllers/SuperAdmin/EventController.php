@@ -6,12 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+
 
 class EventController extends Controller
 {
     //
     public function index(Request $request)
     {
+         if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Session expired, please log in again.');
+        }
         //
         $events = Event::where('school_id',null)->get();
 
@@ -100,12 +105,12 @@ class EventController extends Controller
 
         if ($request->hasFile("event_pdf")) {
             $img = $request->file("event_pdf");
-            if (Storage::exists('public/admin/event/' . $update_event->event_pdf)) {
-                Storage::delete('public/admin/event/' . $update_event->event_pdf);
+            if (Storage::exists('public/admin/event/' . $save_event->event_pdf)) {
+                Storage::delete('public/admin/event/' . $save_event->event_pdf);
             }
             $img->store('public/admin/event/');
             $input['event_pdf'] = $img->hashName();
-            $update_event->update($input);
+            $save_event->update($input);
 
         }
          if($request->repeated=='on'){

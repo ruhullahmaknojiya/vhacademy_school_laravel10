@@ -4,11 +4,17 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="{{ asset('images/logo.png') }}" class="img-circle elevation-2" alt="User Image">
+                <img src="{{ asset('public/images/logo.png') }}" class="img-circle elevation-2" alt="User Image">
             </div>
+             @if (Auth::check())
             <div class="info">
-                <a href="#" class="d-block">{{ \Illuminate\Support\Facades\Auth::user()->name }}</a>
+                <a href="#" class="d-block">{{ Auth::user()->name }}</a>
             </div>
+            @else
+            <div class="info">
+                <a href="{{ route('login') }}" class="d-block">Login</a>
+            </div>
+            @endif
         </div>
 
         <!-- Sidebar Menu -->
@@ -55,7 +61,7 @@
                 <li class="nav-header">ACCOUNT MANAGEMENT</li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-money-check-alt"></i>
+                        <i class="nav-icon fas fa-money-bill-wave"></i> <!-- Fees Collection Icon -->
                         <p>
                             Fees Collection
                             <i class="right fas fa-angle-left"></i>
@@ -63,66 +69,26 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('schooladmin.feecollection.feepayment.index')}}" class="nav-link {{ request()->routeIs('schooladmin.feecollection.feepayment.index') ? 'active' : '' }}">
-                                <i class="fas fa-hand-holding-usd nav-icon"></i>
-                                <p>Collect Fees</p>
+                            <a href="{{ route('feemanagement.manageMasterFeeCategories') }}"
+                               class="nav-link {{ request()->routeIs('feemanagement.manageMasterFeeCategories') ? 'active' : '' }}">
+                               <i class="fas fa-folder-open nav-icon"></i> <!-- Icon for Master Fee Categories -->
+                               <p>Master Fee Categories</p>
                             </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="" class="nav-link">
-                                <i class="fas fa-search-dollar nav-icon"></i>
-                                <p>Search Fees Payment</p>
+                         </li>
+                         <li class="nav-item">
+                            <a href="{{ route('manageFeeCategories') }}"
+                               class="nav-link {{ request()->routeIs('manageFeeCategories') ? 'active' : '' }}">
+                               <i class="fas fa-list-alt nav-icon"></i> <!-- Icon for Fee Categories -->
+                               <p>Fee Categories</p>
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('schooladmin.feecollection.feepayment.dueFees')}}" class="nav-link {{ request()->routeIs('schooladmin.feecollection.feepayment.dueFees') ? 'active' : '' }}">
-                                <i class="fas fa-search-minus nav-icon"></i>
-                                <p>Search Due Fees</p>
+                         </li>
+                         <li class="nav-item">
+                            <a href="{{ route('feemanagement.index') }}"
+                               class="nav-link {{ request()->routeIs('feemanagement.index') ? 'active' : '' }}">
+                               <i class="fas fa-chalkboard-teacher nav-icon"></i> <!-- Icon for Fee Assign by Class -->
+                               <p>Fee Assign by Class</p>
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('schooladmin.feecollection.feesassign.index')}}" class="nav-link {{ request()->routeIs('schooladmin.feecollection.feesassign.index') ? 'active' : '' }}">
-                                <i class="fas fa-university nav-icon"></i>
-                                <p>Assign Fees Student</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('schooladmin.feecollection.feesmaster.index')}}" class="nav-link {{ request()->routeIs('schooladmin.feecollection.feesmaster.index') ? 'active' : '' }}">
-                                <i class="fas fa-file-invoice-dollar nav-icon"></i>
-                                <p>Fees Master</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('schooladmin.feecollection.feegroup.index')}}" class="nav-link {{ request()->routeIs('schooladmin.feecollection.feegroup.index') ? 'active' : '' }}">
-                                <i class="fas fa-layer-group nav-icon"></i>
-                                <p>Fees Group</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('schooladmin.feecollection.feetype.index')}}" class="nav-link {{ request()->routeIs('schooladmin.feecollection.feetype.index') ? 'active' : '' }}">
-                                <i class="fas fa-tags nav-icon"></i>
-                                <p>Fees Type</p>
-                            </a>
-                        </li>
-                        {{-- <li class="nav-item">
-                            <a href="" class="nav-link">
-                                <i class="fas fa-percent nav-icon"></i>
-                                <p>Fees Discount</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="" class="nav-link">
-                                <i class="fas fa-forward nav-icon"></i>
-                                <p>Fees Carry Forward</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="" class="nav-link">
-                                <i class="fas fa-bell nav-icon"></i>
-                                <p>Fees Reminder</p>
-                            </a>
-                        </li> --}}
+                         </li>
                     </ul>
                 </li>
                 <!-- Accedmic Management Menu -->
@@ -147,27 +113,27 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{route('schooladmin.attendance_report.index')}}" class="nav-link {{ request()->routeIs('schooladmin.attendance_report.index') ? 'active' : '' }}">
+                        <a href="{{route('schooladmin.teacher_leaves.index')}}" class="nav-link {{ request()->routeIs('schooladmin.teacher_leaves.index') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-calendar-day"></i>
-                            <p>Attendance</p>
+                            <p>Teacher Leave</p>
+                        </a>
+                    </li>
+                     <li class="nav-item">
+                        <a href="{{route('classteacherassignments.index')}}" class="nav-link {{ request()->routeIs('classteacherassignments.index') ? 'active' : '' }}">
+                            <i class="fas fa-user-check nav-icon"></i>
+                            <p>Assign Class Teacher</p>
+                        </a>
+                    </li>
+                     <li class="nav-item">
+                        <a href="{{route('subjectteacherassignments.index')}}" class="nav-link {{ request()->routeIs('subjectteacherassignments.index') ? 'active' : '' }}">
+                            <i class="fas fa-user-check nav-icon"></i>
+                            <p>Assign Subject Teacher</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{route('teacher.timetable.index')}}" class="nav-link {{ request()->routeIs('teacher.timetable.index') ? 'active' : '' }}">
                             <i class="fas fa-chalkboard nav-icon"></i>
                             <p>Teacher Timetable</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{route('classteacherassignments.index')}}" class="nav-link {{ request()->routeIs('classteacherassignments.index') ? 'active' : '' }}">
-                            <i class="fas fa-user-check nav-icon"></i>
-                            <p>Assign Class Teacher</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{route('subjectteacherassignments.index')}}" class="nav-link {{ request()->routeIs('subjectteacherassignments.index') ? 'active' : '' }}">
-                            <i class="fas fa-user-check nav-icon"></i>
-                            <p>Assign Subject Teacher</p>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -228,11 +194,17 @@
                 </ul>
                 <li class="nav-header">SETIINGS</li>
                 <li class="nav-item">
-                    <a href="{{route('schooladmin.providerconfigurations.index')}}" class="nav-link {{ request()->routeIs('schooladmin.providerconfigurations.index') ? 'active' : '' }}">
-                        <i class="fas fa-book nav-icon"></i>
-                        <p>PaymentGetway Providers</p>
+                   <a href="{{route('schooladmin.notices.index')}}" class="nav-link {{ request()->routeIs('schooladmin.notices.index') ? 'active' : '' }}">
+                        <i class="fas fa-user-graduate nav-icon"></i>
+                       <p>School Notice</p>
                     </a>
-                </li>
+                 </li>
+                <!--<li class="nav-item">-->
+                <!--    <a href="{{route('teacher.import-form')}}" class="nav-link {{ request()->routeIs('teacher.import-form') ? 'active' : '' }}">-->
+                <!--        <i class="fas fa-chalkboard-teacher nav-icon"></i>-->
+                <!--        <p>Import Teacher</p>-->
+                <!--    </a>-->
+                <!--</li>-->
             </li>
             </ul>
         </nav>

@@ -47,13 +47,13 @@
                             <a href="{{ route('superadmin.class.edit', $class->id) }}" class="btn btn-primary btn-sm mr-1">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <form action="{{ route('superadmin.class.destroy', $class->id) }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </form>
+                            <!--<form action="{{ route('superadmin.class.destroy', $class->id) }}" method="POST" style="display:inline;">-->
+                            <!--    @csrf-->
+                            <!--    @method('DELETE')-->
+                            <!--    <button type="submit" class="btn btn-danger btn-sm">-->
+                            <!--        <i class="fas fa-trash"></i>-->
+                            <!--    </button>-->
+                            <!--</form>-->
                         </td>
                     </tr>
                     @endforeach

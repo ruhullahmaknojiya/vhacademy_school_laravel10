@@ -20,9 +20,15 @@ class TeacherController extends Controller
 {
     public function index()
     {
+         if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Session expired, please log in again.');
+        }
+        $authUser = Auth::user();
+        $school = School::where('user_id', $authUser->id)->first();
+
         Log::info('Fetching all teachers');
         // $teachers = Teacher::with('user', 'documents')->get();
-        $teachers = Teacher::get();
+        $teachers = Teacher::where('school_id', $school->id)->get();
         Log::info('Fetched teachers', ['teacher_count' => $teachers->count()]);
         return view('schooladmin.teachers.index', compact('teachers'));
         // return view('schooladmin.teachers.index', compact('teachers'));
@@ -154,8 +160,9 @@ class TeacherController extends Controller
     public function show($id)
     {
         Log::info('Showing teacher details', ['teacher_id' => $id]);
-        $teacher = Teacher::with('user', 'documents')->findOrFail($id);
+        $teacher = Teacher::with(['classTeacherAssignments.class', 'standards', 'mediums'])->findOrFail($id);
         return view('schooladmin.teachers.show', compact('teacher'));
+       
     }
 
     public function edit($id)

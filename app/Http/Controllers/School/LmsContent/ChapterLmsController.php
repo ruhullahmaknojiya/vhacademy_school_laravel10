@@ -10,11 +10,16 @@ use App\Models\ClassModel;
 use App\Models\Subject;
 use App\Models\SubTopic;
 use App\Models\Topic;
+use Illuminate\Support\Facades\Auth;
+
 
 class ChapterLmsController extends Controller
 {
     public function index(Request $request)
     {
+         if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Session expired, please log in again.');
+        }
         $mediums = Medium::all();
         $standards = collect();
         $subjects = collect();

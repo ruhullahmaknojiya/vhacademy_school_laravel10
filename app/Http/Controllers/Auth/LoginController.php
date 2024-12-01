@@ -8,6 +8,13 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
+    use AuthenticatesUsers;
+
+    protected function authenticated($request, $user)
+    {
+        return redirect()->route('home');
+    }
+    
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
@@ -36,6 +43,6 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         Auth::logout();
-        return redirect('/');
+        return redirect('login');
     }
 }

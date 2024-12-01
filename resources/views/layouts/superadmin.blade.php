@@ -3,11 +3,11 @@
 <head>
     <title>@yield('title')</title>
     <!-- Include AdminLTE CSS -->
-    <link rel="icon" href="{{ asset('images/logo.png') }}" type="image/x-icon"> <!-- Link to the favicon -->
+    <link rel="icon" href="{{ asset('public/images/logo.png') }}" type="image/x-icon"> <!-- Link to the favicon -->
 
-    <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/adminlte.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/custom.css') }}"> <!-- Add your custom CSS here -->
+    <link rel="stylesheet" href="{{ asset('public/vendor/adminlte/dist/css/adminlte.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/vendor/fontawesome-free/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/css/custom.css') }}"> <!-- Add your custom CSS here -->
     <link href="http://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Theme style -->
     <link rel="stylesheet" href="https://adminlte.io/themes/v3/dist/css/adminlte.min.css">
@@ -134,10 +134,10 @@
 </div>
 <!-- ./wrapper -->
 <!-- Scripts -->
-<script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
-<script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
-<script src="{{ asset('js/custom.js') }}"></script> <!-- Add your custom JS here -->
+<script src="{{ asset('public/vendor/jquery/jquery.min.js') }}"></script>
+<script src="{{ asset('public/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('public/vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
+<script src="{{ asset('public/js/custom.js') }}"></script> <!-- Add your custom JS here -->
 <!-- Additional AdminLTE Plugins JS -->
 {{-- <script src="{{ asset('public/vendor/chart.js/Chart.min.js') }}"></script> <!-- Chart.js --> --}}
  {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}

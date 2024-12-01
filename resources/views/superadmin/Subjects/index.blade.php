@@ -83,11 +83,11 @@
                                             <a href="{{ route('edit_Subject', $subject->id) }}" class="btn btn-sm btn-info me-2">
                                                 <i class="fa fa-edit"></i>
                                             </a>
-                                            <form action="{{ route('delete_Subject', $subject->id) }}" method="POST" style="display:inline-block;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" onclick="return confirm('Are you sure you want to delete this item?');" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
-                                            </form>
+                                            <!--<form action="{{ route('delete_Subject', $subject->id) }}" method="POST" style="display:inline-block;">-->
+                                            <!--    @csrf-->
+                                            <!--    @method('DELETE')-->
+                                            <!--    <button type="submit" onclick="return confirm('Are you sure you want to delete this item?');" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>-->
+                                            <!--</form>-->
                                         </div>
                                     </td>
                                 </tr>

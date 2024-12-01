@@ -76,6 +76,7 @@
                                             <label>Color<span class="login-danger">*</span></label>
                                             <select name="color" class="form-control" required>
                                                 <option value="">Please Select Color</option>
+                                                
                                                 <option value="#800080" data-color="#800080">School Special (Purple)</option>
                                             </select>
                                             @error('color')
@@ -93,7 +94,15 @@
                                             @enderror
                                         </div>
                                     </div>
-
+                                    {{-- <div class="col-12 col-sm-4">
+                                        <div class="form-group local-forms">
+                                            <label>Event Image<span class="login-danger">*</span></label>
+                                            <input type="file" name="event_image" class="form-control">
+                                            @error('event_image')
+                                            <span class="error text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div> --}}
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
                                             <label>Event Pdf</label>
@@ -103,15 +112,7 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="col-12 col-sm-4">
-                                        <div class="form-group local-forms">
-                                            <label>Event Link</label>
-                                            <input type="url" name="event_video" class="form-control" placeholder="Enter Event Link">
-                                            @error('event_video')
-                                            <span class="error text-danger">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                    </div>
+                                   
                                     <div class="col-sm-12">
                                         <div class="form-group local-forms mt-4">
                                             <input type="checkbox" name="repeated" id="repeated">
@@ -130,7 +131,7 @@
                                 </div>
                             </form>
 
-
+                            
                         </div>
                     </div>
                 </div>

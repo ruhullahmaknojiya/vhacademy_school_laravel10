@@ -81,7 +81,7 @@
                                 <th>Class</th>
                                 <th>DOB</th>
                                 <th>Gender</th>
-                                <th>Category</th>
+                                <!--<th>Category</th>-->
                                 <th>Father Name</th>
                                 <th>Father Mobile No.</th>
                                 <th>Action</th>
@@ -98,31 +98,24 @@
                                     <td>{{ $student->medium->medium_name }} {{ $student->standard->standard_name ? $student->standard->standard_name : 'N/A' }} ({{ $student->class ? $student->class->class_name : 'N/A' }})</td>
                                     <td>{{ $student->date_of_birth }}</td>
                                     <td>{{ $student->gender }}</td>
-                                    <td>{{ $student->category }}</td>
+                                    <!--<td>{{ $student->category }}</td>-->
                                     <td>{{ $student->parent->father_name }}</td>
                                     <td>{{ $student->parent->father_phone }}</td>
                                     <td class="d-flex">
                                         <a href="{{ route('schooladmin.students.show', $student->id) }}" class="btn btn-info btn-sm mr-1">
                                             <i class="fas fa-eye"></i>
                                         </a>
-                                        <a href="" class="btn btn-primary btn-sm mr-1">
-                                            <i class="fas fa-edit"></i>
+                                      
+                                        <a href="{{ route('schooladmin.attendance_report.show', ['student_id' => $student->id]) }}" class="btn btn-primary btn-sm">
+                                        <i class="fa fa-user-check"></i> Attendance
                                         </a>
-                                        <form action="" method="POST" style="display:inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
+                                    
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
-                    <div class="pagination justify-content-center">
-                        {{ $students->links() }}
-                    </div>
+                    
                 </div>
             </div>
         </div>

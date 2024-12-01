@@ -41,24 +41,22 @@
                                 <a href="{{ route('schooladmin.parents.show', $parent->id) }}" class="btn btn-info btn-sm mr-1">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                                <a href="" class="btn btn-primary btn-sm mr-1">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <form action="" method="POST" style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
+                                <!--<a href="" class="btn btn-primary btn-sm mr-1">-->
+                                <!--    <i class="fas fa-edit"></i>-->
+                                <!--</a>-->
+                                <!--<form action="" method="POST" style="display:inline;">-->
+                                <!--    @csrf-->
+                                <!--    @method('DELETE')-->
+                                <!--    <button type="submit" class="btn btn-danger btn-sm">-->
+                                <!--        <i class="fas fa-trash"></i>-->
+                                <!--    </button>-->
+                                <!--</form>-->
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
-            <div class="pagination justify-content-center">
-                {{ $parents->links() }}
-            </div>
+        
         </div>
     </div>
 </div>

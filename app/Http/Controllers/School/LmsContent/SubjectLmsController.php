@@ -8,12 +8,16 @@ use App\Models\Subject;
 use App\Models\Medium;
 use App\Models\Standard;
 use App\Models\ClassModel;
+use Illuminate\Support\Facades\Auth;
 
 
 class SubjectLmsController extends Controller
 {
     public function index(Request $request)
     {
+         if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Session expired, please log in again.');
+        }
 
         $mediums = Medium::all();
         $standards = collect();

@@ -16,7 +16,7 @@
             <p><strong>Submission Date:</strong> {{ $homework->submition_date }}</p>
             <p><strong>Status:</strong> {{ $homework->submition_status }}</p>
             <p><strong>Description:</strong> {{ $homework->topic_description }}</p>
-            <p><strong>PDF File:</strong> <a href="{{ asset($homework->pdf_file) }}" target="_blank">View PDF</a></p>
+            <p><strong>PDF File:</strong> <a href="{{ ($homework->pdf_file) }}" target="_blank">View PDF</a></p>
         </div>
     </div>
 </div>

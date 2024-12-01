@@ -66,7 +66,7 @@
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
-                                            <label>Topic <span class="text-danger">*</span></label>
+                                            <label>Chapter <span class="text-danger">*</span></label>
                                             <input type="text" name="topic" class="form-control" value="{{ old('topic') }}">
                                             @error('topic')
                                                 <span class="error text-danger">{{ $message }}</span>
@@ -75,7 +75,7 @@
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
-                                            <label>Topic Type <span class="text-danger">*</span></label>
+                                            <label>Chapter Type <span class="text-danger">*</span></label>
                                             <select name="type" class="form-control">
                                                 <option>Select Type</option>
                                                 <option value="free" {{ old('type') == 'free' ? 'selected' : '' }}>Free</option>
@@ -95,8 +95,8 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    
-                                 
+
+
                                     <div class="col-12">
                                         <div class="student-submit">
                                             <button type="submit" class="btn btn-primary">Submit</button>

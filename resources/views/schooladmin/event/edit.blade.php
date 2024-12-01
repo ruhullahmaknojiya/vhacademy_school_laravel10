@@ -82,15 +82,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-12 col-sm-4">
-                                <div class="form-group local-forms">
-                                    <label>Event Link<span class="login-danger">*</span></label>
-                                    <input type="url" name="event_video" class="form-control" value="{{$edit_event->event_video}}" >
-                                    @error('event_video')
-                                    <span class="error  text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
+                            
                             <div class="col-sm-12">
                                 <div class="form-group local-forms mt-4 ">
 

@@ -60,10 +60,9 @@
                                 @endforeach
                             </select>
                         </div>
-
                         <div class="form-group">
                             <label for="teacher_ids">Teachers:</label>
-                            <select name="teacher_ids[]" id="teacher_ids" class="form-control" style="height: 250px" multiple>
+                            <select name="teacher_ids[]" id="teacher_ids" class="form-control" multiple>
                                 @foreach ($teachers as $teacher)
                                     <option value="{{ $teacher->id }}">{{ $teacher->first_name }} {{ $teacher->last_name }} ({{ $teacher->phone }})</option>
                                 @endforeach
@@ -82,7 +81,7 @@
                     <h3 class="card-title">Class Teacher List</h3>
                 </div>
                 <div class="card-body">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered" id="class_teacher_assignment_table">
                         <thead>
                             <tr>
                                 <th>Medium</th>
@@ -126,16 +125,64 @@
     </div>
 </div>
 @endsection
-
+@push('css')
+<!-- Include DataTables CSS -->
+<link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet" />
+@endpush
 @push('js')
 <!-- Include jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- Include Select2 CSS and JS -->
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
+<!-- Include jQuery -->
+<!-- Include SheetJS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+
 
 <script>
     $(document).ready(function() {
+        
+        // Initialize DataTable
+        $('#class_teacher_assignment_table').DataTable({
+            paging: true,
+            searching: true,
+            ordering: true
+        });
+
+        // Filter table rows based on selected criteria
+        function filterAssignments() {
+            var mediumId = $('#filter_medium').val();
+            var standardId = $('#filter_standard').val();
+            var subjectId = $('#filter_subject').val();
+
+            $('#assignment_table_body tr').each(function() {
+                var row = $(this);
+                var rowMediumId = row.data('medium-id');
+                var rowStandardId = row.data('standard-id');
+                var rowSubjectId = row.data('subject-id');
+
+                var showRow = true;
+
+                if (mediumId && rowMediumId != mediumId) {
+                    showRow = false;
+                }
+                if (standardId && rowStandardId != standardId) {
+                    showRow = false;
+                }
+                if (subjectId && rowSubjectId != subjectId) {
+                    showRow = false;
+                }
+
+                if (showRow) {
+                    row.show();
+                } else {
+                    row.hide();
+                }
+            });
+        }
+
+        $('#filter_medium, #filter_standard, #filter_subject').change(filterAssignments);
+        
+        
         $('#medium_id').change(function() {
             var mediumId = $(this).val();
             $('#standard_id').prop('disabled', true);
@@ -143,7 +190,7 @@
 
             if (mediumId) {
                 $.ajax({
-                    url: '/get-standards/' + mediumId,
+                    url: '/get-class-standards/' + mediumId,
                     type: 'GET',
                     success: function(data) {
                         $('#standard_id').prop('disabled', false).html(data);

@@ -43,6 +43,12 @@ class HomeWork extends Model
     public function class() {
         return $this->belongsTo(ClassModel::class);
     }
+    
+    //for Api use
+    public function classmodel()
+    {
+        return $this->belongsTo(ClassModel::class, 'class_id');
+    }
 
     public function subject() {
         return $this->belongsTo(Subject::class);

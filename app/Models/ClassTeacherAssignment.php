@@ -9,6 +9,7 @@ class ClassTeacherAssignment extends Model
 {
     use HasFactory;
     protected $table = 'classes_teacher_assignments';
+    
     public function medium()
     {
         return $this->belongsTo(Medium::class);

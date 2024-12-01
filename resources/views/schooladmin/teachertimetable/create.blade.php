@@ -30,7 +30,7 @@
                                     <div class="form-group local-forms">
                                         <label>Select Teacher <span class="text-danger">*</span></label>
                                         <select type="text" name="teacher_id" id="teacher" class="form-control">
-                                            <option>Select Teacher</option>
+                                            <option value="">---Select---</option>
                                             @foreach($teachers as $teacher)
                                                 <option value="{{$teacher->id}}">{{$teacher->first_name}} {{$teacher->last_name}}</option>
                                             @endforeach
@@ -52,11 +52,11 @@
                                             <tr>
                                                 <th>Medium</th>
                                                 <th>Standard</th>
+                                                <th>Class</th>
                                                 <th>Subject</th>
                                                 <th>Day</th>
                                                 <th>Time From</th>
                                                 <th>Time To</th>
-                                                <th>Class</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -64,6 +64,7 @@
                                             <tr>
                                                 <td>
                                                     <select name="medium_id[]" class="form-control medium-dropdown">
+                                                        <option value="">---Select---</option>
                                                         @foreach($mediums as $medium)
                                                             <option value="{{ $medium->id }}">{{ $medium->medium_name }}</option>
                                                         @endforeach
@@ -71,16 +72,25 @@
                                                 </td>
                                                 <td>
                                                     <select name="standard_id[]" class="form-control standard-dropdown">
-                                                        <option value="">Select Standard</option>
+                                                        <option value="">---Select---</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="class_id[]" class="form-control">
+                                                        <option value="">---Select---</option>
+                                                        @foreach($classes as $class)
+                                                            <option value="{{ $class->id }}">{{ $class->class_name }}</option>
+                                                        @endforeach
                                                     </select>
                                                 </td>
                                                 <td>
                                                     <select name="subject_id[]" class="form-control subject-dropdown">
-                                                        <option value="">Select Subject</option>
+                                                        <option value="">---Select---</option>
                                                     </select>
                                                 </td>
                                                 <td>
                                                     <select name="day[]" class="form-control">
+                                                        <option value="">---Select---</option>
                                                         @php
                                                             $daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
                                                         @endphp
@@ -91,13 +101,7 @@
                                                 </td>
                                                 <td><input type="time" name="start_time[]" class="form-control" required></td>
                                                 <td><input type="time" name="end_time[]" class="form-control" required></td>
-                                                <td>
-                                                    <select name="class_id[]" class="form-control">
-                                                        @foreach($classes as $class)
-                                                            <option value="{{ $class->id }}">{{ $class->class_name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </td>
+                                                
                                                 <td><button type="button" class="btn btn-danger remove-row">Delete</button></td>
                                             </tr>
                                         </tbody>
@@ -129,6 +133,7 @@
             var newRow = `<tr>
                             <td>
                                 <select name="medium_id[]" class="form-control medium-dropdown">
+                                    <option value="">---Select---</option>
                                     @foreach($mediums as $medium)
                                         <option value="{{ $medium->id }}">{{ $medium->medium_name }}</option>
                                     @endforeach
@@ -136,16 +141,25 @@
                             </td>
                             <td>
                                 <select name="standard_id[]" class="form-control standard-dropdown">
-                                    <option value="">Select Standard</option>
+                                    <option value="">---Select---</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select name="class_id[]" class="form-control">
+                                    <option value="">---Select---</option>
+                                    @foreach($classes as $class)
+                                        <option value="{{ $class->id }}">{{ $class->class_name }}</option>
+                                    @endforeach
                                 </select>
                             </td>
                             <td>
                                 <select name="subject_id[]" class="form-control subject-dropdown">
-                                    <option value="">Select Subject</option>
+                                    <option value="">---Select---</option>
                                 </select>
                             </td>
                             <td>
                                 <select name="day[]" class="form-control">
+                                    <option value="">---Select---</option>
                                     @php
                                         $daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
                                     @endphp
@@ -156,13 +170,7 @@
                             </td>
                             <td><input type="time" name="start_time[]" class="form-control" required></td>
                             <td><input type="time" name="end_time[]" class="form-control" required></td>
-                            <td>
-                                <select name="class_id[]" class="form-control">
-                                    @foreach($classes as $class)
-                                        <option value="{{ $class->id }}">{{ $class->class_name }}</option>
-                                    @endforeach
-                                </select>
-                            </td>
+                            
                             <td><button type="button" class="btn btn-danger remove-row">Delete</button></td>
                         </tr>`;
             $('#timetableTable tbody').append(newRow);
@@ -180,7 +188,7 @@
                 type: 'GET',
                 success: function(data) {
                     var standardDropdown = $row.find('.standard-dropdown');
-                    standardDropdown.empty().append('<option>Select Standard</option>');
+                    standardDropdown.empty().append('<option value="">---Select---</option>');
                     $.each(data, function(key, value) {
                         standardDropdown.append('<option value="' + key + '">' + value + '</option>');
                     });
@@ -196,7 +204,7 @@
                 type: 'GET',
                 success: function(data) {
                     var subjectDropdown = $row.find('.subject-dropdown');
-                    subjectDropdown.empty().append('<option>Select Subject</option>');
+                    subjectDropdown.empty().append('<option value="">---Select---</option>');
                     $.each(data, function(key, value) {
                         subjectDropdown.append('<option value="' + key + '">' + value + '</option>');
                     });

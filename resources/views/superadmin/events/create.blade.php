@@ -43,7 +43,7 @@
                                 @csrf
                                 <div class="row">
                                     <div class="col-12 mb-4">
-                                        <h5 class="form-title"><b>Create Event Information</b><a class="float-right" href="{{route('schoolAdmin.events.index')}}"><i class="fa fa-arrow-left " style="color:blue;"></i></a></h5>
+                                        <h5 class="form-title"><b>Create Event Information</b><a class="float-right" href="{{route('superadmin.events.index')}}"><i class="fa fa-arrow-left " style="color:blue;"></i></a></h5>
                                     </div>
 
                                     <div class="col-12 col-sm-4">
@@ -143,17 +143,7 @@
                                 </div>
                             </form>
 
-                            <div class="note">
-                                <p><strong>Note:</strong></p>
-                                <ul>
-                                    <li>Hindu Calendar Day Special - Red</li>
-                                    <li>Muslim Calendar Day Special - Green</li>
-                                    <li>Parsi Calendar Day Special - Sky Blue</li>
-                                    <li>Christian Calendar Day Special - Dark Blue</li>
-                                    <li>Other Calendar Day Special - Black</li>
-                                    <li>School Special - Purple</li>
-                                </ul>
-                            </div>
+                         
                         </div>
                     </div>
                 </div>
@@ -189,7 +179,7 @@
             const color = selectedOption.getAttribute('data-color');
             selectElement.style.backgroundColor = color;
 
-            if (!color || color === '#FFFF00' || color === '#000000') {
+            if (!color || color === '#FFFF00') {
                 selectElement.style.color = '#000000'; // Set text color to black for no selection, yellow, or black
             } else {
                 selectElement.style.color = '#FFFFFF'; // Set text color to white for other colors
@@ -202,7 +192,7 @@
             const initialColor = initialSelectedOption.getAttribute('data-color');
             selectElement.style.backgroundColor = initialColor;
 
-            if (!initialColor || initialColor === '#FFFF00' || initialColor === '#000000') {
+            if (!initialColor || initialColor === '#FFFF00') {
                 selectElement.style.color = '#000000'; // Set initial text color to black for no selection, yellow, or black
             } else {
                 selectElement.style.color = '#FFFFFF'; // Set initial text color to white for other colors

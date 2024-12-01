@@ -84,11 +84,11 @@
                             <tr>
                                 <th>No</th>
                                 <th>Class</th>
+                                 <th>Subject</th>
                                 <th>Teacher</th>
-                                <th>Subject</th>
                                 <th>Date</th>
                                 <th>Submission Date</th>
-                                <th>Status</th>
+                                <th>Submission Status</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -96,9 +96,9 @@
                             @foreach($homeworks as $homework)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $homework->medium->medium_name }} - {{ $homework->standard->standard_name }} ({{ $homework->class->class_name }})</td>
-                                    <td>{{ $homework->teacher->first_name }} {{ $homework->teacher->last_name }}</td>
+                                    <td>{{ $homework->medium->medium_name }} - {{ $homework->standard->standard_name }} (class: {{ $homework->class->class_name }})</td>
                                     <td>{{ $homework->subject->subject }}</td>
+                                    <td>{{ $homework->teacher->first_name }} {{ $homework->teacher->last_name }}</td>
                                     <td>{{ $homework->date }}</td>
                                     <td>{{ $homework->submition_status == 'pending' ? '-' : $homework->submition_date }}</td>
                                     <td>{{ $homework->submition_status }}</td>

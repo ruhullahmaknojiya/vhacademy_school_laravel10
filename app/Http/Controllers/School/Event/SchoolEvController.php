@@ -16,8 +16,15 @@ class SchoolEvController extends Controller
 
     public function index(Request $request)
     {
-        $user=Auth::user();
-        $school = School::where('user_id', $user->id)->first();
+         if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Session expired, please log in again.');
+        }
+         $authUser = Auth::user();
+        $school = School::where('user_id', $authUser->id)->first();
+
+        if (!$school) {
+        return redirect()->route('login')->with('error', 'Authenticated user is not associated with any school.');
+        }
 
         $eventsQuery = Event::where('school_id', $school->id);
 
@@ -89,7 +96,6 @@ class SchoolEvController extends Controller
         $save_event=new Event();
         $save_event->event_title = $request->event_title;
         $save_event->start_date = $request->start_date;
-        $save_event->event_video = $request->event_video;
         $save_event->end_date = $request->end_date;
         $save_event->color = $request->color;
          if($request->repeated=='on'){
@@ -104,10 +110,10 @@ class SchoolEvController extends Controller
 
         if ($request->hasFile("event_pdf")) {
             $img = $request->file("event_pdf");
-            if (Storage::exists('public/pdf/school/event/' . $save_event->event_pdf)) {
-                Storage::delete('public/pdf/school/event/' . $save_event->event_pdf);
+            if (Storage::exists('public/school/event/' . $save_event->event_pdf)) {
+                Storage::delete('public/school/event/' . $save_event->event_pdf);
             }
-            $img->store('public/pdf/school/event/');
+            $img->store('public/school/event/');
             $save_event['event_pdf'] = $img->hashName();
 
 
@@ -156,22 +162,13 @@ class SchoolEvController extends Controller
 
 
         $input = $request->all();
-        if ($request->hasFile("event_image")) {
-            $img = $request->file("event_image");
-            if (Storage::exists('public/images/admin/event/' . $update_event->event_image)) {
-                Storage::delete('public/images/admin/event/' . $update_event->event_image);
-            }
-            $img->store('public/images/admin/event/');
-            $input['event_image'] = $img->hashName();
-            $update_event->update($input);
-
-        }
+    
         if ($request->hasFile("event_pdf")) {
             $img = $request->file("event_pdf");
-            if (Storage::exists('public/images/admin/event/' . $update_event->event_pdf)) {
-                Storage::delete('public/images/admin/event/' . $update_event->event_pdf);
+            if (Storage::exists('public/school/event/' . $update_event->event_pdf)) {
+                Storage::delete('public/school/event/' . $update_event->event_pdf);
             }
-            $img->store('public/images/admin/event/');
+            $img->store('public/school/event/');
             $input['event_pdf'] = $img->hashName();
             $update_event->update($input);
 

@@ -37,6 +37,10 @@
         .user-role span {
             font-size: 1.2em;
         }
+       .holiday-background {
+    background-color: yellow !important;
+    color: black !important;
+}
     </style>
 
 @stop
@@ -107,70 +111,115 @@
                 <div class="modal-body">
                   <h4 id="modalEventTitle"></h4>
                   <p id="modalEventDescription"></p>
-                  <div id="modalEventLinks">
-                    <a href="#" id="modalEventPDF" class="btn btn-primary disabled" target="_blank" disabled>Open PDF</a>
-                    <a href="#" id="modalEventVideo" class="btn btn-secondary disabled" target="_blank" disabled>Open Video</a>
+                  <div id="modalEventLinks" style="display: none;">
+                    <a href="#" id="modalEventPDF" class="btn btn-primary" target="_blank">Open PDF</a>
+                   
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="modal fade" id="videoPlayerModal" tabindex="-1" role="dialog" aria-labelledby="videoPlayerModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="videoPlayerModalLabel">Video Player</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <video id="videoPlayer" controls style="width: 100%;">
-                    Your browser does not support the video tag.
-                  </video>
-                </div>
-              </div>
-            </div>
-          </div>
+         
     </section>
 @stop
 
+@php
+    $sundays = [];
+    $date = \Carbon\Carbon::now()->startOfYear();
+    while ($date->lessThanOrEqualTo(\Carbon\Carbon::now()->endOfYear())) {
+        if ($date->isSunday()) {
+            $sundays[] = $date->format('Y-m-d');
+        }
+        $date->addDay();
+    }
+@endphp
+
 @push('js')
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar1');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            plugins: ['dayGrid', 'interaction'],
-            editable: true,
-            selectable: true,
-            height: 480,
-            contentHeight: 490,
-            events: [
-                @foreach($events as $event)
-                {
-                    title: '{{ $event->event_title }}',
-                    start: '{{ $event->start_date }}',
-                    end: '{{ $event->end_date }}',
-                    backgroundColor: '{{ $event->color }}',
-                    borderColor: '{{ $event->color }}',
-                    description: '{{ $event->short_Description }}',
-                    pdfLink: '{{ $event->event_pdf }}', // Update to use event_pdf
-                    videoLink: '{{ $event->event_video }}'
-                },
-                @endforeach
-            ],
-             eventClick: function(info) {
-                // Set modal title and description
-                document.getElementById('modalEventTitle').textContent = info.event.title;
-                document.getElementById('modalEventDescription').textContent = info.event.extendedProps.description;
+ document.addEventListener('DOMContentLoaded', function () {
+    var calendarEl = document.getElementById('calendar1');
+    var sundays = @json($sundays); // Pass PHP array of Sundays to JavaScript
 
-                // Set links for PDF and video
-                var pdfLink = info.event.extendedProps.pdfLink ? '/pdf/subtopic/' + info.event.extendedProps.pdfLink : null;
-                var videoLink = info.event.extendedProps.videoLink;
+    // Collect holiday dates into an array
+    var holidays = [
+        @foreach($holidays as $holiday)
+            '{{ $holiday->start_date }}',
+        @endforeach
+        // Add Sundays as holidays
+        ...@json($sundays)
+    ];
 
-                var pdfButton = document.getElementById('modalEventPDF');
-                var videoButton = document.getElementById('modalEventVideo');
+    var events = [
+        @foreach($events as $event)
+        {
+            title: '{{ $event->event_title }}',
+            start: '{{ $event->start_date }}',
+            end: '{{ $event->end_date }}',
+            backgroundColor: '{{ $event->color }}',
+            borderColor: '{{ $event->color }}',
+            description: '{{ $event->short_Description }}',
+            pdfLink: '{{ $event->event_pdf }}',
+            videoLink: '{{ $event->event_video }}'
+        },
+        @endforeach
+        // Add holidays to the events array to enable event click and display
+        @foreach($holidays as $holiday)
+        {
+            title: '{{ $holiday->holiday_name }}',
+            start: '{{ $holiday->start_date }}',
+            end: '{{ $holiday->end_date }}',
+            backgroundColor: 'yellow',
+            borderColor: 'yellow',
+            textColor: 'black',
+            type: 'Holiday',
+            description: '{{ $holiday->description }}'
+        },
+        @endforeach
+    ];
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        plugins: ['dayGrid', 'interaction'],
+        editable: true,
+        selectable: true,
+        height: 480,
+        contentHeight: 490,
+        events: events,
+
+        // Callback to style specific day cells (holidays)
+        dayCellDidMount: function (info) {
+            // Convert the date to 'YYYY-MM-DD' format
+            var dateStr = info.date.toISOString().split('T')[0];
+
+            // Check if the current date is a holiday
+            if (holidays.includes(dateStr)) {
+                info.el.style.backgroundColor = 'yellow'; // Set cell background color to yellow
+                info.el.style.color = 'black'; // Set text color to black for better visibility
+            }
+        },
+
+        eventDidMount: function (info) {
+            // This callback allows for custom styling of events if needed
+            if (info.event.extendedProps.type === 'Holiday') {
+                // Ensure the event itself does not override the cell's yellow background
+                info.el.style.backgroundColor = 'transparent';
+                info.el.style.color = 'black';
+            }
+        },
+
+        eventClick: function (info) {
+            // Set modal title and description
+            document.getElementById('modalEventTitle').textContent = info.event.title;
+            document.getElementById('modalEventDescription').textContent = info.event.extendedProps.description;
+
+            var pdfButton = document.getElementById('modalEventPDF');
+            var modalEventLinks = document.getElementById('modalEventLinks');
+
+            // If it's a holiday, hide the PDF button
+            if (info.event.extendedProps.type === 'Holiday') {
+                modalEventLinks.style.display = 'none';
+            } else {
+                var pdfLink = info.event.extendedProps.pdfLink ? '/storage/app/public/school/event/' + encodeURIComponent(info.event.extendedProps.pdfLink) : null;
 
                 if (pdfLink) {
                     pdfButton.href = pdfLink;
@@ -182,33 +231,17 @@
                     pdfButton.setAttribute('disabled', 'disabled');
                 }
 
-                if (videoLink) {
-                    videoButton.href = '#';
-                    videoButton.classList.remove('disabled');
-                    videoButton.removeAttribute('disabled');
-                    videoButton.setAttribute('data-video', videoLink);
-                } else {
-                    videoButton.href = '#';
-                    videoButton.classList.add('disabled');
-                    videoButton.setAttribute('disabled', 'disabled');
-                }
-
-                // Show the modal
-                $('#eventModal').modal('show');
+                modalEventLinks.style.display = 'block';
             }
-        });
-        calendar.render();
 
-        // Handle video button click to open video in video player
-        document.getElementById('modalEventVideo').addEventListener('click', function(event) {
-            var videoLink = event.currentTarget.getAttribute('data-video');
-            if (videoLink) {
-                var videoPlayerModal = new bootstrap.Modal(document.getElementById('videoPlayerModal'));
-                var videoPlayer = document.getElementById('videoPlayer');
-                videoPlayer.src = videoLink;
-                videoPlayerModal.show();
-            }
-        });
+            // Show the modal
+            $('#eventModal').modal('show');
+        }
     });
+
+    calendar.render();
+});
+
+
 </script>
 @endpush

@@ -18,6 +18,9 @@ class HomeworkController extends Controller
 {
     public function index(Request $request)
     {
+         if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Session expired, please log in again.');
+        }
 
         $user = Auth::user();
         $school = School::where('user_id', $user->id)->first();

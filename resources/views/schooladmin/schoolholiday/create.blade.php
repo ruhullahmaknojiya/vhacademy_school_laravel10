@@ -63,14 +63,7 @@
 
                                 </div>
                             </div>
-                            <div class="col-12 col-sm-4">
-                                <div class="form-group local-forms">
-                                    <label>Holiday Image</label>
-                                    <input type="file" name="holiday_image" class="form-control">
-                                    <span style="color: red">{{$errors->first('holiday_image')}}</span>
-
-                                </div>
-                            </div>
+                           
 
                             <div class="col-12">
                                 <div class="student-submit">

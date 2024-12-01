@@ -10,12 +10,16 @@ use App\Models\Teacher;
 use App\Models\ClassTeacherAssignment;
 use App\Models\Medium;
 use Illuminate\Support\Facades\DB; // Add this line
+use Illuminate\Support\Facades\Auth;
 
 
 class ClassTeacherAssignmentController extends Controller
 {
     public function index()
 {
+     if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Session expired, please log in again.');
+        }
     // Fetch all necessary data
     $mediums = Medium::all();
     $classes = ClassModel::all();
@@ -68,7 +72,7 @@ class ClassTeacherAssignmentController extends Controller
                          ->with('danger', 'Class Teacher Assignment deleted successfully.');
     }
 
-    public function getStandards($medium_id)
+    public function getClassStandards($medium_id)
     {
 
          $standards = Standard::where('medium_id', $medium_id)->get();

@@ -24,37 +24,38 @@ class GetDataController extends Controller
         }
     }
 
+   
     public function get_standards_by_medium(Request $request)
     {
-        try {
-            $medium_id=$request->medium_id;
-            // Find the medium by ID and load its standards
-            $medium = Medium::with('standards')->find($medium_id);
+    // Validate the request input
+    $request->validate([
+        'medium_id' => 'required|integer|exists:mediums,id',
+    ]);
 
-            if (!$medium) {
-                return response()->json(['error' => 'Medium not found.'], 404);
-            }
+    try {
+        // Find the medium by ID and load its standards using eager loading
+        $medium = Medium::with('standards')->findOrFail($request->medium_id);
 
-            // Return the standards data as a JSON response
-            return response()->json(['standards' => $medium->standards], 200);
-        } catch (\Exception $e) {
-            // Handle any errors
-            return response()->json(['error' => 'An error occurred while fetching standards data.', 'details' => $e->getMessage()], 500);
-        }
+        // Return the standards data as a JSON response
+        return response()->json(['standards' => $medium->standards], 200);
+    } catch (\Exception $e) {
+        // Handle any errors
+        return response()->json(['error' => 'An error occurred while fetching standards data.', 'details' => $e->getMessage()], 500);
+    }
     }
 
     public function get_all_classes()
     {
-        try {
-            // Retrieve all class data
-            $classes = ClassModel::all();
+    try {
+        // Retrieve all class data
+        $classes = ClassModel::all();
 
-            // Return the class data as a JSON response
-            return response()->json(['classes' => $classes], 200);
-        } catch (\Exception $e) {
-            // Handle any errors
-            return response()->json(['error' => 'An error occurred while fetching class data.', 'details' => $e->getMessage()], 500);
-        }
+        // Return the class data as a JSON response
+        return response()->json(['classes' => $classes], 200);
+    } catch (\Exception $e) {
+        // Handle any errors
+        return response()->json(['error' => 'An error occurred while fetching class data.', 'details' => $e->getMessage()], 500);
+    }
     }
 }
 

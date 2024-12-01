@@ -19,9 +19,7 @@
                                 <h3 class="page-title">School Timetable</h3>
                             </div>
                             <div class="col-auto text-end float-end ms-auto download-grp">
-
-                                <a href="{{route('teacher_timetable')}}" class="btn btn-primary"><i
-                                        class="fas fa-plus"></i></a>
+                                <a href="{{route('teacher_timetable')}}" class="btn btn-primary"><i class="fas fa-plus"></i></a>
                             </div>
                         </div>
                     </div>
@@ -31,64 +29,27 @@
                             <table class="table table-striped table-bordered" id="teacherTable">
                             <thead class="">
                             <tr>
-
                                 <th>No</th>
                                 <th>Teacher Name</th>
-                                <th>Medium name</th>
-                                <th>Standerd Name</th>
-                                <th>Class</th>
-                                <th>Day</th>
-                                <th>Subject</th>
-
-                                <th>Start Time</th>
-                                <th>End Time</th>
-
-
-
-                                <th class="text-end">Action</th>
+                                <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($timetables as $timetable)
-
+                            @foreach($teachers as $teacher)
                                 <tr>
-
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{$timetable->teacher->first_name}} {{$timetable->teacher->last_name}}</td>
-                                     <td>{{$timetable->medium->medium_name}}</td>
-                                    <td>{{ $timetable->standerd->standard_name}}</td>
-
-                                    <td>{{$timetable->classmodel->class_name}}</td>
-                                    <td>{{$timetable->day}}</td>
-                                    <td>{{$timetable->subject->subject}}</td>
-
-                                    <td>{{$timetable->start_time}}</td>
-                                    <td>{{$timetable->end_time}}</td>
-
-
-
+                                    <td>{{ $teacher->first_name }} {{ $teacher->last_name }}</td>
+                                     
                                     <td class="text-end">
-                                        <div class="btn-group">
-                                            <a href="{{route('teacher_timetable_edit',$timetable->id)}}"
-                                               class="btn btn-sm btn-info me-2">
-                                                <i class="fa fa-edit"></i>
-                                            </a>&nbsp;
-                                            <form action="{{route('teacher_timetable_delete',$timetable->id)}}" method="POST">
-
-
-
-                                                @csrf
-                                                @method('DELETE')
-
-                                                <button type="submit" onclick="return confirm('Are you sure you want to delete this item?');"  class="btn btn-sm btn-danger me-2"><i class="fa fa-trash"></i></button>
-
-                                            </form>
-
-                                        </div>
+                                         <a href="{{ route('teacher_timetable_show', $teacher->id) }}" class="btn btn-sm btn-info me-2">
+                                            <i class="fa fa-edit"></i> Edit
+                                        </a>
+                                        <a href="{{ route('teacher_timetable_edit', $teacher->id) }}" class="btn btn-sm btn-info me-2">
+                                            <i class="fa fa-eye"></i> View Timetable
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach
-
                             </tbody>
                         </table>
                     </div>
@@ -111,10 +72,8 @@
                 "responsive": true,
                 order: true,
                 "scrollX": false,
-                "buttons": ["copy", "csv", "excel", "pdf", ]
+                "buttons": ["copy", "csv", "excel", "pdf"]
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
         });
     </script>
-
-
 @endpush

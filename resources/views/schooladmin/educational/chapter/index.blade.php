@@ -21,7 +21,7 @@
                             <div class="card-header">
 
                                 <form method="GET" action="{{ route('topics') }}" class="form-inline" style="margin-left: 10px;">
-                                    <div class="row w-100">
+                                    <div class="row">
                                         <div class="col-md-2 mb-2">
                                             <select class="form-control filter-dropdown" name="medium_id" id="mediums">
                                                 <option value="">Select Medium</option>
@@ -61,7 +61,7 @@
                                             <button type="submit" class="btn btn-primary">Filter</button>
                                         </div>
                                         <div class="col-md-2 mb-2">
-                                            <a href="{{ route('Subject') }}" class="btn btn-danger">Reset</a>
+                                            <a href="{{ route('schooladmin.educational.chapter.index') }}" class="btn btn-danger">Reset</a>
                                         </div>
                                     </div>
                                 </form>

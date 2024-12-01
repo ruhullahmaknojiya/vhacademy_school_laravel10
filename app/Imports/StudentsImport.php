@@ -13,11 +13,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Log;
-
-
-
+use Carbon\Carbon;
 
 class StudentsImport implements ToModel, WithHeadingRow
 {
@@ -36,9 +33,6 @@ class StudentsImport implements ToModel, WithHeadingRow
 
     public function model(array $row)
     {
-
-        Log::info('Starting to process row', ['row' => $row]);
-
         Log::info('Starting to process row', ['row' => $row]);
 
         // Check if the row is completely empty
@@ -48,22 +42,25 @@ class StudentsImport implements ToModel, WithHeadingRow
             return null;
         }
 
+        $validatedData = null;
 
+        // Preprocess date fields to ensure correct format
+        $row['date_of_birth'] = $this->transformDate($row['date_of_birth']);
+        $row['admission_date'] = $this->transformDate($row['admission_date']);
 
         try {
             $validatedData = Validator::make($row, [
-                'admission_no' => 'required|unique:students,admission_no|max:255',
                 'roll_number' => 'required|numeric',
                 'first_name' => 'required|max:255',
                 'last_name' => 'required|max:255',
                 'gender' => 'required',
-                'date_of_birth' => 'required|date',
+                'date_of_birth' => 'required|date_format:Y-m-d',
                 'category' => 'required',
                 'religion' => 'nullable|max:255',
                 'caste' => 'nullable|max:255',
                 'mobile_number' => 'required|numeric|digits:10',
                 'email' => 'required|email|max:255|unique:students,email',
-                'admission_date' => 'required|date',
+                'admission_date' => 'required|date_format:Y-m-d',
                 'blood_group' => 'nullable|max:5',
                 'house' => 'nullable|max:255',
                 'height' => 'nullable|numeric',
@@ -96,6 +93,9 @@ class StudentsImport implements ToModel, WithHeadingRow
             Log::info('Validation passed', ['validatedData' => $validatedData]);
 
             DB::beginTransaction();
+
+            // Generate admission number if not provided
+            $validatedData['admission_no'] = $validatedData['admission_no'] ?? $this->generateUniqueAdmissionNumber();
 
             $authUser = Auth::user();
             $school = School::where('user_id', $authUser->id)->first();
@@ -188,11 +188,9 @@ class StudentsImport implements ToModel, WithHeadingRow
             $student->save();
 
             Log::info('Created student entry', ['student_id' => $student->id]);
-            // Log::info('Result student entry', ['student' => $student->result()]);
-
 
             DB::commit();
-            Log::info('Created student', ['teacher_id' => $student->id]);
+            Log::info('Created student', ['student_id' => $student->id]);
 
             $this->results[] = [
                 'row' => $validatedData,
@@ -203,17 +201,45 @@ class StudentsImport implements ToModel, WithHeadingRow
             return $student;
         } catch (\Exception $e) {
             DB::rollback();
+
+            $errorData = $validatedData ?? $row; // Fallback to $row if $validatedData is undefined
             Log::error('Error importing student', [
+                'row' => $errorData,
                 'error' => $e->getMessage(),
                 'stack' => $e->getTraceAsString()  // Logging the stack trace for better debugging
             ]);
 
             $this->results[] = [
-                'row' => $validatedData,
+                'row' => $errorData,
                 'status' => 'failed',
                 'errors' => $e->getMessage()
             ];
 
+            return null;
+        }
+    }
+
+    private function generateUniqueAdmissionNumber()
+    {
+        $lastStudent = Student::orderBy('admission_no', 'desc')->first();
+        $nextAdmissionNo = $lastStudent ? intval($lastStudent->admission_no) + 1 : 1001;
+
+        // Ensure the admission number is unique
+        while (Student::where('admission_no', $nextAdmissionNo)->exists()) {
+            $nextAdmissionNo++;
+        }
+
+        return strval($nextAdmissionNo);
+    }
+
+    private function transformDate($value)
+    {
+        try {
+            // Attempt to parse the date using multiple possible formats
+            $date = Carbon::parse($value);
+            return $date->format('Y-m-d');
+        } catch (\Exception $e) {
+            Log::error('Error parsing date', ['value' => $value, 'error' => $e->getMessage()]);
             return null;
         }
     }

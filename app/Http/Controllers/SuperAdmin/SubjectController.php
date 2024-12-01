@@ -77,15 +77,15 @@ class SubjectController extends Controller
         'standard_id' => 'required',
         'subject' => 'required',
         'description' => 'required',
-        'sub_pdf' => 'required|file|mimes:pdf|max:2048',
+        // 'sub_pdf' => 'required|file|mimes:pdf|max:2048',
     ], [
         'medium_id.required' => 'The Medium is required.',
         'standard_id.required' => 'The Standard is required.',
         'subject.required' => 'The Subject Name is required.',
         'description.required' => 'The Description is required.',
-        'sub_pdf.required' => 'The File is required.',
-        'sub_pdf.mimes' => 'The file must be a PDF.',
-        'sub_pdf.max' => 'The file size must not exceed 2MB.'
+        // 'sub_pdf.required' => 'The File is required.',
+        // 'sub_pdf.mimes' => 'The file must be a PDF.',
+        // 'sub_pdf.max' => 'The file size must not exceed 2MB.'
     ]);
 
     // Retrieve medium and standard
@@ -106,14 +106,14 @@ class SubjectController extends Controller
     $save_subject->description = $request->description;
     $save_subject->std_id = $request->standard_id;
 
-    // Handle file upload
-    if ($request->hasFile('sub_pdf')) {
-        $pdfFile = $request->file('sub_pdf');
+    // // Handle file upload
+    // if ($request->hasFile('sub_pdf')) {
+    //     $pdfFile = $request->file('sub_pdf');
 
-        // Store the new PDF file
-        $pdfFile->storeAs('public/pdf/subject', $pdfFile->hashName());
-        $save_subject->sub_pdf = $pdfFile->hashName();
-    }
+    //     // Store the new PDF file
+    //     $pdfFile->storeAs('public/pdf/subject', $pdfFile->hashName());
+    //     $save_subject->sub_pdf = $pdfFile->hashName();
+    // }
 
     // Save the Subject
     $save_subject->save();
@@ -142,10 +142,10 @@ class SubjectController extends Controller
      */
     public function edit($id)
     {
-        $edit_subject = Subject::find($id);
-        $standars = Standard::all();
-        $mediums = Medium::all();
-        return view('superadmin.subjects.edit', compact('edit_subject', 'standars', 'mediums'));
+        $edit_subject=Subject::find($id);
+        $standars=Standard::all();
+        $mediums=Medium::all();
+        return view('superadmin.subjects.edit',compact('edit_subject','standars','mediums'));
     }
 
     /**
@@ -157,11 +157,32 @@ class SubjectController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $update_subject = Subject::find($id);
-        $input = $request->all();
+        $update_subject=Subject::find($id);
 
+
+        $input = $request->all();
+        // if ($request->hasFile("sub_image")) {
+        //     $img = $request->file("sub_image");
+        //     if (Storage::exists('public/images/school/subject/' . $update_subject->sub_image)) {
+        //         Storage::delete('public/images/school/subject/' . $update_subject->sub_image);
+        //     }
+        //     $img->store('public/images/school/subject');
+        //     $input['sub_image'] = $img->hashName();
+        //     $update_subject->update($input);
+
+        // }
+        // if ($request->hasFile("subject_banner")) {
+        //     $img = $request->file("subject_banner");
+        //     if (Storage::exists('public/images/school/subject/' . $update_subject->subject_banner)) {
+        //         Storage::delete('public/images/school/subject/' . $update_subject->subject_banner);
+        //     }
+        //     $img->store('public/images/school/subject');
+        //     $update_subject['subject_banner'] = $img->hashName();
+
+
+        // }
         $update_subject->update($input);
-        return redirect()->route('subjects')->with('info', 'Subject Update Successfully');
+        return redirect()->route('subjects')->with('info','Subject Update Successfully');
     }
 
     /**
@@ -182,7 +203,9 @@ class SubjectController extends Controller
     public function getStandards($medium_id)
     {
         try {
-            $standards = Standard::where('medium_id', $medium_id)->get(['id', 'standard_name']);
+
+        $standards = Standard::where('medium_id', $medium_id)->get(['id', 'standard_name']);
+
             return response()->json($standards);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);

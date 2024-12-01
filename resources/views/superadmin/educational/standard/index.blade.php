@@ -53,7 +53,7 @@
                 <tbody>
                     @foreach ($standards as $standard)
                     <tr>
-                        <td>{{ $standard->id }}</td>
+                        <td>{{ $loop->iteration }}</td>
                         <td>{{ $standard->medium->medium_name }}</td>
                         <td>{{ $standard->standard_name }}</td>
                         <td>{{ $standard->status ? 'Active' : 'Deactive' }}</td>
@@ -61,21 +61,13 @@
                             <a href="{{ route('superadmin.standard.edit', $standard->id) }}" class="btn btn-primary btn-sm mr-1">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <form action="{{ route('superadmin.standard.destroy', $standard->id) }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </form>
+                          
                         </td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
-            <div class="pagination justify-content-center">
-                {{ $standards->links() }}
-            </div>
+            
         </div>
     </div>
 </div>

@@ -42,7 +42,7 @@
                 <tbody>
                     @foreach ($standards as $standard)
                     <tr>
-                        <td>{{ $standard->id }}</td>
+                        <td>{{ $loop->iteration }}</td>
                         <td>{{ $standard->medium->medium_name }}</td>
                         <td>{{ $standard->standard_name }}</td>
                         <td>
@@ -56,9 +56,7 @@
                     @endforeach
                 </tbody>
             </table>
-            <div class="pagination justify-content-center">
-                {{ $standards->links() }}
-            </div>
+          
         </div>
     </div>
 </div>

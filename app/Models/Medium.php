@@ -14,15 +14,18 @@ class Medium extends Model
         'status',
     ];
 
-    public function standards()
+    public function standard()
     {
         return $this->hasMany(Standard::class);
     }
-
-
-
+    
     public function classTeacherAssignments()
     {
         return $this->hasMany(ClassTeacherAssignment::class);
+    }
+    
+    public function teachers()
+    {
+        return $this->belongsToMany(Teacher::class, 'teacher_subject_assigns');
     }
 }

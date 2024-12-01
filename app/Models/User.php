@@ -49,6 +49,11 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id');
     }
+    
+    public function roleView()
+    {
+     return $this->belongsToMany(Role::class);
+     }
 
     public function role()
     {
@@ -82,7 +87,14 @@ class User extends Authenticatable
     {
         return $this->hasOne(Teacher::class);
     }
+    
 
+   
+
+    public function notificationViews()
+    {
+        return $this->hasMany(NotificationView::class);
+    }
 
     /**
      * The attributes that should be cast.

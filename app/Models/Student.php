@@ -82,24 +82,21 @@ class Student extends Model
         return $this->belongsTo(Subject::class,'subject_id');
     }
 
+    public function class()
+    {
+        return $this->belongsTo(ClassModel::class,'section_id');
+    }
     // public function parent()
     // {
     //     return $this->belongsTo(ParentModel::class);
     // }
 
-
-
-    public function class()
+   public function users()
     {
-        return $this->belongsTo(ClassModel::class);
+        return $this->hasMany(User::class,'id');
     }
-
-
-    public function attendance()
-    {
-        return $this->hasMany(Attendance::class);
-    }
-
+    
+    
     public function user()
     {
         return $this->morphOne(User::class, 'userable');
@@ -118,5 +115,7 @@ class Student extends Model
         ->whereColumn('medium', 'students.medium')
         ->whereColumn('standard', 'students.standard');
      }
+     
+    
 
 }

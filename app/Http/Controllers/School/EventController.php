@@ -13,13 +13,19 @@ class EventController extends Controller
 {
     public function index(Request $request)
     {
+         if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Session expired, please log in again.');
+        }
 
         //
-        $user = Auth::user(); // Assuming you're using Laravel's built-in Auth
+         $authUser = Auth::user();
+         $school = School::where('user_id', $authUser->id)->first();
 
-        $schoolId = $user->role_id;
+        if (!$school) {
+         return redirect()->route('login')->with('error', 'Authenticated user is not associated with any school.');
+        }
 
-        $schoolevents = Event::where('school_id', $schoolId)->get();
+        $schoolevents = Event::where('school_id', $school->id)->get();
         return view('schooladmin.schoolevent.index',compact('schoolevents'));
     }
 

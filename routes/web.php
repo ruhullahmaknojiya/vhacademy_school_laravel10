@@ -31,11 +31,14 @@ use App\Http\Controllers\School\LmsContent\TopicLmsController;
 use App\Http\Controllers\SuperAdmin\HomeSubjectController;
 use App\Http\Controllers\SuperAdmin\EventNewImportController;
 use App\Http\Controllers\School\EventImportSchlController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\School\TeacherAssign\ClassTeacherAssignmentController;
 use App\Http\Controllers\School\Attendence\AttendenceController;
-use App\Http\Controllers\School\PaymentGetway\PaymentConfigurationController;
-use App\Http\Controllers\SuperAdmin\PaymentGetway\ProvidersController;
 use App\Http\Controllers\School\TeacherSubjectAssign\TeacherSubjectAssignController;
+use App\Http\Controllers\School\Notice\NoticeController;
+use App\Http\Controllers\School\TeacherLeave\TeacherLeaveController;
+
+use App\Http\Controllers\School\Fees\FeeManagementController;
 
 
 /*
@@ -50,7 +53,7 @@ use App\Http\Controllers\School\TeacherSubjectAssign\TeacherSubjectAssignControl
 */
 // Authentication Routes
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 // Auth::routes();
 Route::get('/logout', function () {
@@ -169,13 +172,6 @@ Route::group(['middlware'=> ['auth','role:SuperAdmin']], function () {
     Route::post('superadmin.homesubject/update/{id}',[HomeSubjectController::class,'update'])->name('superadmin.homesubject.update');
     Route::delete('superadmin.homesubject/delete/{id}',[HomeSubjectController::class,'destroy'])->name('superadmin.homesubject.destroy');
 
-    // Route::resource('superadmin/providers', SuperAdminProviderController::class);
-    Route::get('superadmin/providers', [ProvidersController::class, 'index'])->name('superadmin.providers.index');
-    Route::get('superadmin/providers/create', [ProvidersController::class, 'create'])->name('superadmin.providers.create');
-    Route::post('superadmin.providers/store',[ProvidersController::class,'store'])->name('superadmin.providers.store');
-    Route::get('superadmin.providers/edit',[ProvidersController::class,'edit'])->name('superadmin.providers.edit');
-    Route::post('superadmin.providers/update/{id}',[ProvidersController::class,'update'])->name('superadmin.providers.update');
-    Route::delete('superadmin.providers/delete/{id}',[ProvidersController::class,'destroy'])->name('superadmin.providers.destroy');
 
 });
 
@@ -195,7 +191,7 @@ Route::group(['middlware'=> ['auth','role:SchoolAdmin']], function () {
     Route::get('SchoolAdmin/teachers', [TeacherController::class, 'index'])->name('schooladmin.teachers.index');
     Route::get('SchoolAdmin/teachers/create', [TeacherController::class, 'create'])->name('schooladmin.teachers.create');
     Route::post('SchoolAdmin/teachers', [TeacherController::class, 'store'])->name('schooladmin.teachers.store');
-    Route::post('SchoolAdmin/teachers/{id}', [TeacherController::class, 'show'])->name('schooladmin.teachers.show');
+    Route::get('SchoolAdmin/teachers/{id}', [TeacherController::class, 'show'])->name('schooladmin.teachers.show');
 
 
 
@@ -204,47 +200,27 @@ Route::group(['middlware'=> ['auth','role:SchoolAdmin']], function () {
     Route::get('SchoolAdmin/Teacher/Create-Timetable',[TeacherTimeController::class,'create'])->name('teacher_timetable');
     Route::post('SchoolAdmin/Teacher/Save-Timetable',[TeacherTimeController::class,'store'])->name('teacher_timetable_insert');
     Route::get('SchoolAdmin/Teacher/Edit-Timetable/{id}',[TeacherTimeController::class,'edit'])->name('teacher_timetable_edit');
+    Route::get('SchoolAdmin/Teacher/Show-Timetable/{id}',[TeacherTimeController::class,'show'])->name('teacher_timetable_show');
+
     Route::post('SchoolAdmin/Teacher/Update-Timetable/{id}',[TeacherTimeController::class,'update'])->name('teacher_timetable_update');
     Route::delete('SchoolAdmin/Teacher/Delete-Timetable/{id}',[TeacherTimeController::class,'destroy'])->name('teacher_timetable_delete');
     Route::get('standards/{mediumId}', [TeacherTimeController::class,'standards'])->name('teacher_standard');
     Route::get('/subjects/{standardId}', [TeacherTimeController::class,'subjects'])->name('teacher_subjects');
+    Route::get('teacher/timetable/{id}/pdf', 'TeacherTimetableController@generatePDF')->name('teacher.timetable.pdf');
 
     //** Fee Collection Route ***
-    // Fee Type
-    Route::get('SchoolAdmin/feetype', [FeeTypeController::class, 'index'])->name('schooladmin.feecollection.feetype.index');
-    Route::get('SchoolAdmin/feetype/create', [FeeTypeController::class, 'create'])->name('schooladmin.feecollection.feetype.create');
-    Route::post('SchoolAdmin/feetype', [FeeTypeController::class, 'store'])->name('schooladmin.feecollection.feetype.store');
-    Route::post('SchoolAdmin/feetype/{id}', [FeeTypeController::class, 'show'])->name('schooladmin.feecollection.feetype.show');
-    Route::get('SchoolAdmin/feetype/{id}/edit', [FeeTypeController::class, 'editClass'])->name('schooladmin.feecollection.feetype.edit');
+   // Combined route for creating and listing master fee categories
+    Route::get('SchoolAdmin/fee-management/master-fee-categories', [FeeManagementController::class, 'manageMasterFeeCategories'])
+    ->name('feemanagement.manageMasterFeeCategories');
 
-    // Fee Group
-    Route::get('SchoolAdmin/feegroup', [FeeGroupController::class, 'index'])->name('schooladmin.feecollection.feegroup.index');
-    Route::get('SchoolAdmin/feegroup/create', [FeeGroupController::class, 'create'])->name('schooladmin.feecollection.feegroup.create');
-    Route::post('SchoolAdmin/feegroup', [FeeGroupController::class, 'store'])->name('schooladmin.feecollection.feegroup.store');
-    Route::post('SchoolAdmin/feegroup/{id}', [FeeGroupController::class, 'show'])->name('schooladmin.feecollection.feegroup.show');
-    Route::get('SchoolAdmin/feegroup/{id}/edit', [FeeGroupController::class, 'editClass'])->name('schooladmin.feecollection.feegroup.edit');
+    Route::post('SchoolAdmin/fee-management/master-fee-categories/store', [FeeManagementController::class, 'storeMasterFeeCategory'])
+    ->name('feemanagement.storeMasterFeeCategory');
 
-    // Fee Master
-    Route::get('SchoolAdmin/feesmaster', [FeesMasterController::class, 'index'])->name('schooladmin.feecollection.feesmaster.index');
-    Route::get('SchoolAdmin/feesmaster/create', [FeesMasterController::class, 'create'])->name('schooladmin.feecollection.feesmaster.create');
-    Route::post('SchoolAdmin/feesmaster', [FeesMasterController::class, 'store'])->name('schooladmin.feecollection.feesmaster.store');
-    Route::post('SchoolAdmin/feesmaster/{id}', [FeesMasterController::class, 'show'])->name('schooladmin.feecollection.feesmaster.show');
-    Route::get('SchoolAdmin/feesmaster/{id}/edit', [FeesMasterController::class, 'editClass'])->name('schooladmin.feecollection.feesmaster.edit');
-
-    // Fee Assign to Class wise Student
-    Route::get('SchoolAdmin/feesassign', [FeeAssignmentController::class, 'index'])->name('schooladmin.feecollection.feesassign.index');
-    Route::get('SchoolAdmin/feesassign/create', [FeeAssignmentController::class, 'create'])->name('schooladmin.feecollection.feesassign.create');
-    Route::post('SchoolAdmin/feesassign', [FeeAssignmentController::class, 'store'])->name('schooladmin.feecollection.feesassign.store');
-    Route::post('SchoolAdmin/feesassign/{id}', [FeeAssignmentController::class, 'show'])->name('schooladmin.feecollection.feesassign.show');
-    Route::get('SchoolAdmin/feesassign/{id}/edit', [FeeAssignmentController::class, 'editClass'])->name('schooladmin.feecollection.feesassign.edit');
-
-    // Fee Collect And Fee Payment to Class wise Student
-    Route::get('SchoolAdmin/feepayment', [FeePaymentController::class, 'index'])->name('schooladmin.feecollection.feepayment.index');
-    Route::get('SchoolAdmin/feepayment/dueFees', [FeePaymentController::class, 'dueFees'])->name('schooladmin.feecollection.feepayment.dueFees');
-    Route::get('SchoolAdmin/feepayment/create', [FeePaymentController::class, 'create'])->name('schooladmin.feecollection.feepayment.create');
-    Route::post('SchoolAdmin/feepayment', [FeePaymentController::class, 'store'])->name('schooladmin.feecollection.feepayment.store');
-    Route::post('SchoolAdmin/feepayment/{id}', [FeePaymentController::class, 'show'])->name('schooladmin.feecollection.feepayment.show');
-    Route::get('SchoolAdmin/feepayment/{id}/edit', [FeePaymentController::class, 'editClass'])->name('schooladmin.feecollection.feepayment.edit');
+    Route::get('fee-categories', [FeeManagementController::class, 'manageFeeCategories'])->name('manageFeeCategories');
+    Route::post('fee-categories/store', [FeeManagementController::class, 'storeFeeCategory'])->name('storeFeeCategory');
+    Route::get('get-classes/{mediumId}', [FeeManagementController::class, 'getClassesByMedium'])->name('getClassesByMedium');
+    Route::get('/schooladmin/fees', [FeeManagementController::class, 'showFeeCategories'])->name('feemanagement.index');
+    Route::get('/get-class-fees/{classId}', [FeeManagementController::class, 'getClassFees'])->name('getClassFees');
 
     //HomeWork Route
     Route::get('SchoolAdmin/homework', [HomeworkController::class, 'index'])->name('schooladmin.homework.index');
@@ -285,12 +261,12 @@ Route::group(['middlware'=> ['auth','role:SchoolAdmin']], function () {
 
 
      //Holiday modual
-    Route::get('schoolAdmin/holiday',[SchoolHolidayController::class,'index'])->name('schooladmin.holiday.index');
-    Route::get('schoolAdmin/holiday/create',[SchoolHolidayController::class,'create'])->name('schooladmin.holiday.create');
-    Route::post('schoolAdmin/holiday/store',[SchoolHolidayController::class,'store'])->name('schooladmin.holiday.store');
-    Route::get('schoolAdmin/holiday/edit/{id}',[SchoolHolidayController::class,'edit'])->name('schooladmin.holiday.edit');
-    Route::post('schoolAdmin/holiday/update/{id}',[SchoolHolidayController::class,'update'])->name('schooladmin.holiday.update');
-    Route::delete('schoolAdmin/holiday/delete/{id}',[SchoolHolidayController::class,'destroy'])->name('schooladmin.holiday.delete');
+      Route::get('schoolAdmin/holiday',[SchoolHolidayController::class,'index'])->name('schooladmin.holiday.index');
+      Route::get('schoolAdmin/holiday/create',[SchoolHolidayController::class,'create'])->name('schooladmin.holiday.create');
+      Route::post('schoolAdmin/holiday/store',[SchoolHolidayController::class,'store'])->name('schooladmin.holiday.store');
+      Route::get('schoolAdmin/holiday/edit/{id}',[SchoolHolidayController::class,'edit'])->name('schooladmin.holiday.edit');
+      Route::post('schoolAdmin/holiday/update/{id}',[SchoolHolidayController::class,'update'])->name('schooladmin.holiday.update');
+      Route::delete('schoolAdmin/holiday/delete/{id}',[SchoolHolidayController::class,'destroy'])->name('schooladmin.holiday.delete');
 
 
     Route::get('/import-form', [StudentController::class, 'showImportForm'])->name('import-form');
@@ -299,22 +275,38 @@ Route::group(['middlware'=> ['auth','role:SchoolAdmin']], function () {
     Route::get('/teacher.import-form', [TeacherController::class, 'showImportForm'])->name('teacher.import-form');
     Route::post('/teacher.import', [TeacherController::class, 'import'])->name('teacher.import');
 
-    // Route:: Classteacher Assign
     Route::resource('classteacherassignments', ClassTeacherAssignmentController::class);
-    Route::delete('/delete-teacher/{id}', [ClassTeacherAssignmentController::class, 'destroy'])->name('classteacherassignments.destroy');
-    Route::get('/get-standards/{medium_id}', [ClassTeacherAssignmentController::class, 'getStandards']);
+    Route::delete('/delete-class-teacher/{id}', [ClassTeacherAssignmentController::class, 'destroy'])->name('classteacherassignments.destroy');
+    Route::get('/get-class-standards/{medium_id}', [ClassTeacherAssignmentController::class, 'getClassStandards']);
+    Route::get('attendance_report', [AttendenceController::class, 'attendanceReport'])->name('schooladmin.attendance_report.index');
 
-     // Route:: SubjectTeacher Assign
+      // Route:: SubjectTeacher Assign
     Route::resource('subjectteacherassignments', TeacherSubjectAssignController::class);
-    Route::delete('/delete-teacher/{id}', [TeacherSubjectAssignController::class, 'destroy'])->name('classteacherassignments.destroy');
+    Route::delete('/delete-subject-teacher/{id}', [TeacherSubjectAssignController::class, 'destroy'])->name('teachersubjectassign.destroy');
     Route::get('/get-standards/{medium_id}', [TeacherSubjectAssignController::class, 'getStandards']);
     Route::get('/get-teacher-subjects/{standard_id}', [TeacherSubjectAssignController::class, 'getTeacherSubjects']);
 
-    // Route:: Attendace Report
-    Route::get('attendance_report', [AttendenceController::class, 'attendanceReport'])->name('schooladmin.attendance_report.index');
+    Route::get('/admin/notices', [NoticeController::class, 'index'])->name('schooladmin.notices.index');
+    // Route to display the form for creating a new notice
+    Route::get('/schoolAdmin/notices/create', [NoticeController::class, 'create'])->name('schooladmin.notices.create');
 
-    // Route::resource('schooladmin/provider_configurations', SchoolAdminProviderConfigurationController::class);
-    Route::get('schooladmin/provider_configurations', [PaymentConfigurationController::class, 'index'])->name('schooladmin.providerconfigurations.index');
+    // Route to store the newly created notice
+    Route::post('/schoolAdmin/notices', [NoticeController::class, 'store'])->name('schooladmin.notices.store');
+
+    // Route to display a list of all notices with counters for views
+    Route::get('/schoolAdmin/notices', [NoticeController::class, 'index'])->name('schooladmin.notices.index');
+
+    // Route to display the report of how many users viewed a specific notice
+    Route::get('/schoolAdmin/notices/{id}/report', [NoticeController::class, 'report'])->name('schooladmin.notices.report');
+
+    Route::delete('/schooladmin/notices/{id}', [NoticeController::class, 'destroy'])->name('schooladmin.notices.destroy');
+
+    Route::get('/attendance-report/{student_id}', [AttendenceController::class, 'show'])->name('schooladmin.attendance_report.show');
+
+    Route::get('teacher_leaves', [TeacherLeaveController::class, 'index'])->name('schooladmin.teacher_leaves.index');
+    //Route::get('teacher_leaves/{id}/edit', [TeacherLeaveController::class, 'edit'])->name('schooladmin.teacher_leaves.edit');
+    Route::post('/schooladmin/teacher_leaves/update/{id}', [TeacherLeaveController::class, 'update'])->name('schooladmin.teacher_leaves.update');
+
 
 });
 

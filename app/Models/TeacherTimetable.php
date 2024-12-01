@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Day;
 // use App\Models\TeacherTimetable;
-use App\Models\Stander;
+use App\Models\Standard;
 use App\Models\Subject;
 use App\Models\Medium;
 use App\Models\Classs;
@@ -26,9 +26,10 @@ class TeacherTimetable extends Model
         return $this->belongsTo(Medium::class,'medium_id');
     }
 
-    public function standerd(){
-
-        return $this->belongsTo(Standard::class,'standard_id');
+    // Define the relationship with the Standard model
+    public function standard()
+    {
+        return $this->belongsTo(Standard::class, 'standard_id');
     }
 
     public function classmodel(){
@@ -44,4 +45,12 @@ class TeacherTimetable extends Model
 
         return $this->belongsTo(Subject::class,'subject_id');
     }
+    
+  
+
+public function timetables()
+{
+    return $this->hasMany(TeacherTimetable::class, 'teacher_id', 'teacher_id');
+}
+    
 }
