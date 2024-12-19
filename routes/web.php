@@ -165,12 +165,12 @@ Route::group(['middlware'=> ['auth','role:SuperAdmin']], function () {
 
      //home_course
     //School_subject modual
-    Route::get('superadmin.homesubject',[HomeSubjectController::class,'index'])->name('superadmin.homesubject.index');
-    Route::get('superadmin.homesubject/create',[HomeSubjectController::class,'create'])->name('superadmin.homesubject.create');
-    Route::post('superadmin.homesubject/store',[HomeSubjectController::class,'store'])->name('superadmin.homesubject.store');
-    Route::get('superadmin.homesubject/edit/{id}',[HomeSubjectController::class,'edit'])->name('superadmin.homesubject.edit');
-    Route::post('superadmin.homesubject/update/{id}',[HomeSubjectController::class,'update'])->name('superadmin.homesubject.update');
-    Route::delete('superadmin.homesubject/delete/{id}',[HomeSubjectController::class,'destroy'])->name('superadmin.homesubject.destroy');
+    Route::get('superadmin/homesubject',[HomeSubjectController::class,'index'])->name('superadmin.homesubject.index');
+    Route::get('superadmin/homesubject/create',[HomeSubjectController::class,'create'])->name('superadmin.homesubject.create');
+    Route::post('superadmin/homesubject/store',[HomeSubjectController::class,'store'])->name('superadmin.homesubject.store');
+    Route::get('superadmin/homesubject/edit/{id}',[HomeSubjectController::class,'edit'])->name('superadmin.homesubject.edit');
+    Route::post('superadmin/homesubject/update/{id}',[HomeSubjectController::class,'update'])->name('superadmin.homesubject.update');
+    Route::delete('superadmin/homesubject/delete/{id}',[HomeSubjectController::class,'destroy'])->name('superadmin.homesubject.destroy');
 
 
 });

@@ -113,14 +113,14 @@
                   <p id="modalEventDescription"></p>
                   <div id="modalEventLinks" style="display: none;">
                     <a href="#" id="modalEventPDF" class="btn btn-primary" target="_blank">Open PDF</a>
-                   
+
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-         
+
     </section>
 @stop
 

@@ -1,5 +1,7 @@
-<footer class="main-footer">
-   <center> <strong>Copyright &copy; 2024 <a href="#">VHM Academy</a>.</strong>
+<footer class="text-center main-footer">
+    <strong>
+        Copyright &copy; {{ date('d-M-Y') }}
+        <a href="#">VHM Academy</a>.
+    </strong>
     All rights reserved.
-   </center>
 </footer>

@@ -4,6 +4,7 @@
 @endsection
 
                     @section('content')
+                    
                     @include('flash-message')
                     <section class="content-header">
                         <div class="container-fluid">
@@ -22,7 +23,7 @@
 
                                 <form method="GET" action="{{ route('topics') }}" class="form-inline" style="margin-left: 10px;">
                                     <div class="row">
-                                        <div class="col-md-2 mb-2">
+                                        <div class="mb-2 col-md-2">
                                             <select class="form-control filter-dropdown" name="medium_id" id="mediums">
                                                 <option value="">Select Medium</option>
                                                 @foreach ($mediums as $medium)
@@ -33,7 +34,7 @@
                                             </select>
                                         </div>
 
-                                        <div class="col-md-2 mb-2">
+                                        <div class="mb-2 col-md-2">
                                             <select class="form-control filter-dropdown" name="standard_id" id="standards">
                                                 <option value="">Select Standard</option>
                                                 @if(request()->medium_id || isset($defaultMedium))
@@ -46,7 +47,7 @@
                                             </select>
                                         </div>
 
-                                        <div class="col-md-2 mb-2">
+                                        <div class="mb-2 col-md-2">
                                             <select class="form-control filter-dropdown" name="subject_id" id="subjects">
                                                 <option value="">Select Subject</option>
                                                 @foreach ($subjects as $subject)
@@ -57,10 +58,10 @@
                                             </select>
                                         </div>
 
-                                        <div class="col-md-2 mb-2">
+                                        <div class="mb-2 col-md-2">
                                             <button type="submit" class="btn btn-primary">Filter</button>
                                         </div>
-                                        <div class="col-md-2 mb-2">
+                                        <div class="mb-2 col-md-2">
                                             <a href="{{ route('schooladmin.educational.chapter.index') }}" class="btn btn-danger">Reset</a>
                                         </div>
                                     </div>

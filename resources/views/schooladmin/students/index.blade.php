@@ -3,6 +3,8 @@
   Students
 @endsection
 @section('content')
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     @include('flash-message')
     <section class="content">
         <br>
@@ -14,12 +16,12 @@
                     <div class="col-md-8">
                         <h1 class="card-title">Students</h1>
                     </div>
-                    <div class="col-md-2 text-right">
+                    <div class="text-right col-md-2">
                         <a href="{{ route('import-form') }}" class="btn btn-primary">
                             <i class="fas fa-plus-circle"></i> Import Student
                         </a>
                     </div>
-                    <div class="col-md-2 text-right">
+                    <div class="text-right col-md-2">
                         <a href="{{ route('schooladmin.students.create') }}" class="btn btn-primary">
                             <i class="fas fa-plus-circle"></i> Add Student
                         </a>
@@ -102,20 +104,20 @@
                                     <td>{{ $student->parent->father_name }}</td>
                                     <td>{{ $student->parent->father_phone }}</td>
                                     <td class="d-flex">
-                                        <a href="{{ route('schooladmin.students.show', $student->id) }}" class="btn btn-info btn-sm mr-1">
+                                        <a href="{{ route('schooladmin.students.show', $student->id) }}" class="mr-1 btn btn-info btn-sm" style="padding:12px;">
                                             <i class="fas fa-eye"></i>
                                         </a>
-                                      
+
                                         <a href="{{ route('schooladmin.attendance_report.show', ['student_id' => $student->id]) }}" class="btn btn-primary btn-sm">
                                         <i class="fa fa-user-check"></i> Attendance
                                         </a>
-                                    
+
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
-                    
+
                 </div>
             </div>
         </div>

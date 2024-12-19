@@ -2,9 +2,12 @@
 @extends('layouts.superadmin')
 
 @section('content')
-    <section class="content-header">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+@include('flash-message')
+<section class="content-header">
         <div class="container-fluid">
-            <div class="row mb-2">
+            <div class="mb-2 row">
                 <div class="col-sm-6">
                     <h1>Class List</h1>
                 </div>
@@ -14,7 +17,7 @@
             </div>
         </div><!-- /.container-fluid -->
     </section>
-<div class="container">
+<div class="container-fluid">
 
     <div class="card">
         <div class="card-header">
@@ -22,7 +25,7 @@
                 <div class="col-md-6">
                     <h3 class="card-title">Class List</h3>
                 </div>
-                <div class="col-md-6 text-right">
+                <div class="text-right col-md-6">
                     <a href="{{ route('superadmin.class.create') }}" class="btn btn-primary">
                         <i class="fas fa-plus-circle" ></i> Add Class
                     </a>
@@ -44,7 +47,7 @@
                         <td>{{ $class->id }}</td>
                         <td>{{ $class->class_name }}</td>
                         <td class="d-flex">
-                            <a href="{{ route('superadmin.class.edit', $class->id) }}" class="btn btn-primary btn-sm mr-1">
+                            <a href="{{ route('superadmin.class.edit', $class->id) }}" class="mr-1 btn btn-primary btn-sm">
                                 <i class="fas fa-edit"></i>
                             </a>
                             <!--<form action="{{ route('superadmin.class.destroy', $class->id) }}" method="POST" style="display:inline;">-->

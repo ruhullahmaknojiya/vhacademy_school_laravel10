@@ -2,9 +2,9 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <!-- Sidebar user panel (optional) -->
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="pb-3 mt-3 mb-3 user-panel d-flex">
             <div class="image">
-                <img src="{{ asset('public/images/logo.png') }}" class="img-circle elevation-2" alt="User Image">
+                <img src="{{ asset('images/logo.png') }}" class="img-circle elevation-2" alt="User Image">
             </div>
              @if (Auth::check())
             <div class="info">
@@ -146,7 +146,7 @@
                 </li>
                 <li class="nav-header">EDUCATION MANAGEMENT</li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link ">
+                    <a href="#" class="nav-link">
                     <i class="nav-icon fas fa-money-check-alt"></i>
                     <p>
                         LMS CONTENT

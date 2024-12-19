@@ -3,6 +3,7 @@
     Subject
 @endsection
 @section('content')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     @include('flash-message')
     <section class="content-header">
         <h2 class="content-title">Subjects</h2>
@@ -12,7 +13,7 @@
             <div class="card-header d-flex justify-content-between align-items-end">
                 <form method="GET" action="{{ route('schooladmin.educational.subject.index') }}" class="form-inline w-75">
                     <div class="row w-100">
-                        <div class="col-md-2 mb-2">
+                        <div class="mb-2 col-md-2">
                             <div class="form-group">
                                 <label for="medium" class="mr-2">Medium</label>
                                 <select class="form-control filter-dropdown" name="medium_id" id="mediums">
@@ -23,7 +24,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-2 mb-2">
+                        <div class="mb-2 col-md-2">
                             <div class="form-group">
                                 <label for="standard" class="mr-2">Standard</label>
                                 <select class="form-control filter-dropdown" name="standard_id" id="standards">
@@ -36,9 +37,9 @@
                                 </select>
                             </div>
                         </div>
-                        
-                        <div class="col-md-3 mb-2 d-flex align-items-end">
-                            <div class="form-group mr-2">
+
+                        <div class="mb-2 col-md-3 d-flex align-items-end">
+                            <div class="mr-2 form-group">
                                 <button type="submit" class="btn btn-primary">Filter</button>
                             </div>
                             <div class="form-group">

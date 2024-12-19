@@ -10,9 +10,6 @@ class CheckRole
 {
     public function handle($request, Closure $next, $role)
     {
-
-        
-         
          // Check if the user is authenticated
         if (!Auth::check()) {
             return redirect('/login')->with('message', 'Your session has expired. Please login again.');

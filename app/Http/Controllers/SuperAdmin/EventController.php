@@ -161,7 +161,7 @@ class EventController extends Controller
 
 
         $input = $request->all();
-   
+
         if ($request->hasFile("event_pdf")) {
             $img = $request->file("event_pdf");
             if (Storage::exists('public/admin/event/' . $update_event->event_pdf)) {

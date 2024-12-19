@@ -3,6 +3,7 @@
     Subject
 @endsection
 @section('content')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     @include('flash-message')
     <section class="content-header">
         <div class="container-fluid">
@@ -19,11 +20,11 @@
                     <div class="col-md-6">
                         <h3 class="card-title">Subject Details</h3>
                     </div>
-                    <div class="col-md-6 text-right">
+                    <div class="text-right col-md-6">
                         <a href="{{ route('create_Subject') }}" class="btn btn-primary"><i class="fas fa-plus-circle"></i> Add Subject</a>
                     </div>
                 </div>
-                <form method="GET" action="{{ route('subjects') }}" class="form-inline mt-2">
+                <form method="GET" action="{{ route('subjects') }}" class="mt-2 form-inline">
                     <div class="row align-items-end">
                         <div class="col-md-4">
                             <select class="form-control filter-dropdown" name="medium_id" id="mediums">

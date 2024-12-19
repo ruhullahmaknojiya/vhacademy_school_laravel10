@@ -235,6 +235,7 @@
 </style>
 <body>
 <img class="wave" src="https://raw.githubusercontent.com/sefyudem/Responsive-Login-Form/master/img/wave.png">
+@include('flash-message')
 <div class="container">
     <div class="img">
         <img src="https://raw.githubusercontent.com/sefyudem/Responsive-Login-Form/master/img/bg.svg">

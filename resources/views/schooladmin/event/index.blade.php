@@ -3,11 +3,12 @@
     EVENT LIST
 @endsection
 @section('content')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     @include('flash-message')
 
     <section class="content-header">
         <div class="container-fluid">
-            <div class="row mb-2">
+            <div class="mb-2 row">
                 <div class="col-sm-6">
                     <h1>Event</h1>
                 </div>
@@ -24,9 +25,9 @@
                     <div class="card">
                         <div class="card-header">
                             <div>
-                                <h3 class="card-title float-left">List Events</h3>
+                                <h3 class="float-left card-title">List Events</h3>
                             </div>
-                            
+
                             <div class="card-tools">
                                 <a href="{{route('schooladmin.events.create')}}" class="btn btn-primary"><i class="fas fa-plus"> Create Event</i></a>
                             </div>
@@ -36,7 +37,7 @@
                         </div>
                         <div class="card-body">
                             <form method="GET" action="{{ route('schooladmin.events.index') }}">
-                                <div class="row mb-4">
+                                <div class="mb-4 row">
                                     <div class="col-md-3">
                                         <select name="month" class="form-control">
                                             <option value="">Select Month</option>

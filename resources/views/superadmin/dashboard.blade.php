@@ -57,7 +57,7 @@
                     ['bg-secondary', 'fas fa-user-friends', 'Parents', $parentsCount]
                 ] as [$bg, $icon, $text, $number])
                     <div class="col-12 col-sm-6 col-md-2">
-                        <div class="info-box mb-3">
+                        <div class="mb-3 info-box">
                             <span class="info-box-icon {{ $bg }} elevation-1"><i class="{{ $icon }}"></i></span>
                             <div class="info-box-content">
                                 <span class="info-box-text">{{ $text }}</span>
@@ -84,7 +84,7 @@
                         ['bg-navy', 'fas fa-layer-group', 'Chapter', $chapterCount],
                         ['bg-lime', 'fas fa-list', 'Topic', $topicCount]
                     ] as [$bg, $icon, $text, $number])
-                        <div class="info-box mb-2">
+                        <div class="mb-2 info-box">
                             <span class="info-box-icon {{ $bg }} elevation-1"><i class="{{ $icon }}"></i></span>
                             <div class="info-box-content">
                                 <span class="info-box-text">{{ $text }}</span>

@@ -1,41 +1,41 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Sidebar -->
     <div class="sidebar">
-        <!-- Sidebar user panel (optional) -->
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <!-- Sidebar user panel -->
+        <div class="pb-3 mt-3 mb-3 user-panel d-flex">
             <div class="image">
-                <img src="{{ asset('public/images/logo.png') }}" class="img-circle elevation-2" alt="User Image">
+                <img src="{{ asset('images/logo.png') }}" class="img-circle elevation-2" alt="User Image">
             </div>
-            @if (Auth::check())
             <div class="info">
-                <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+                @if (Auth::check())
+                    <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+                @else
+                    <a href="{{ route('login') }}" class="d-block">Login</a>
+                @endif
             </div>
-            @else
-            <div class="info">
-                <a href="{{ route('login') }}" class="d-block">Login</a>
-            </div>
-            @endif
-           
         </div>
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <!-- Dashboard -->
                 <li class="nav-item">
                     <a href="{{ route('superadmin.dashboard') }}" class="nav-link {{ request()->routeIs('superadmin.dashboard') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
-                <li class="nav-item ">
-                    <a href="#" class="nav-link ">
+
+                <!-- User Management -->
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-user"></i>
                         <p>
                             User Management
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview ">
+                    <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="{{ route('school.list') }}" class="nav-link {{ request()->routeIs('school.list') ? 'active' : '' }}">
                                 <i class="fas fa-school nav-icon"></i>
@@ -60,10 +60,10 @@
                                 <p>Students</p>
                             </a>
                         </li>
-
-
                     </ul>
                 </li>
+
+                <!-- Academic Management -->
                 <li class="nav-header">ACADEMIC MANAGEMENT</li>
                 <li class="nav-item">
                     <a href="{{ route('superadmin.events.index') }}" class="nav-link {{ request()->routeIs('superadmin.events.index') ? 'active' : '' }}">
@@ -71,8 +71,9 @@
                         <p>Events</p>
                     </a>
                 </li>
-               
-                <li class="nav-header">EDUCATIONAL MANAGEMENT ( LMS ) </li>
+
+                <!-- Educational Management -->
+                <li class="nav-header">EDUCATIONAL MANAGEMENT (LMS)</li>
                 <li class="nav-item">
                     <a href="{{ route('superadmin.homesubject.index') }}" class="nav-link {{ request()->routeIs('superadmin.homesubject.index') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-language"></i>
@@ -98,19 +99,19 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('subjects') }}" class="nav-link {{ request()->routeIs('Subject') ? 'active' : '' }}">
+                    <a href="{{ route('subjects') }}" class="nav-link {{ request()->routeIs('subjects') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-book"></i>
                         <p>Subjects</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('topics') }}" class="nav-link {{ request()->routeIs('Topics') ? 'active' : '' }}">
+                    <a href="{{ route('topics') }}" class="nav-link {{ request()->routeIs('topics') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-book-open"></i>
                         <p>Chapter</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('subtopics.index') }}" class="nav-link {{ request()->routeIs('SubTopics.index') ? 'active' : '' }}">
+                    <a href="{{ route('subtopics.index') }}" class="nav-link {{ request()->routeIs('subtopics.index') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-book-reader"></i>
                         <p>Topic</p>
                     </a>

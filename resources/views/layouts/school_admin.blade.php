@@ -142,14 +142,11 @@
 <script src="{{ asset('public/js/custom.js') }}"></script> <!-- Add your custom JS here -->
 <!-- Additional AdminLTE Plugins JS -->
 {{-- <script src="{{ asset('public/vendor/chart.js/Chart.min.js') }}"></script> <!-- Chart.js --> --}}
- {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script> --}}
 {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script> --}}
 <!-- Additional JS if needed -->
 @include('layouts.school_partials.datatables_js')
-
-<!-- FullCalendar JS -->
- <!-- FullCalendar JS -->
  <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/core/main.min.js'></script>
  <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/interaction/main.min.js'></script>
  <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/daygrid/main.min.js'></script>

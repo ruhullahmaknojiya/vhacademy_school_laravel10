@@ -3,6 +3,7 @@
     SubTopics
 @endsection
 @section('content')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     @include('flash-message')
     <section class="content-header">
         <h3 class="content-title">SubTopics</h3>
@@ -12,47 +13,47 @@
             <div class="card-header">
                 <form method="GET" action="{{ route('subtopics.index') }}" class="form-inline w-75">
                     <div class="row w-100 align-items-end">
-                        <div class="col-md-2 mb-2">
+                        <div class="mb-2 col-md-2">
                             <label for="medium" class="mr-3">Medium</label>
-                            <select class="form-control filter-dropdown mr-1" name="medium_id" id="mediums">
+                            <select class="mr-1 form-control filter-dropdown" name="medium_id" id="mediums">
                                 <option value="">Select Medium</option>
                                 @foreach ($mediums as $medium)
                                     <option value="{{ $medium->id }}" {{ request()->medium_id == $medium->id ? 'selected' : '' }}>{{ $medium->medium_name }}</option>
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-2 mb-2 ml-4">
+                        <div class="mb-2 ml-4 col-md-2">
                             <label for="standard" class="mr-3">Standard</label>
-                            <select class="form-control filter-dropdown mr-1" name="standard_id" id="standards">
+                            <select class="mr-1 form-control filter-dropdown" name="standard_id" id="standards">
                                 <option value="">Select Standard</option>
                                 @foreach ($standards as $standard)
                                     <option value="{{ $standard->id }}" {{ request()->standard_id == $standard->id ? 'selected' : '' }}>{{ $standard->standard_name }}</option>
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-2 mb-2 ml-3">
+                        <div class="mb-2 ml-3 col-md-2">
                             <label for="subject" class="mr-3">Subject</label>
-                            <select class="form-control filter-dropdown mr-1" name="subject_id" id="subjects">
+                            <select class="mr-1 form-control filter-dropdown" name="subject_id" id="subjects">
                                 <option value="">Select Subject</option>
                                 @foreach ($subjects as $subject)
                                     <option value="{{ $subject->id }}" {{ request()->subject_id == $subject->id ? 'selected' : '' }}>{{ $subject->subject }}</option>
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-2 mb-2 ml-2">
+                        <div class="mb-2 ml-2 col-md-2">
                             <label for="topic" class="mr-3">Topic</label>
-                            <select class="form-control filter-dropdown mr-1" name="topic_id" id="topics">
+                            <select class="mr-1 form-control filter-dropdown" name="topic_id" id="topics">
                                 <option value="">Select Topic</option>
                                 @foreach ($topics as $topic)
                                     <option value="{{ $topic->id }}" {{ request()->topic_id == $topic->id ? 'selected' : '' }}>{{ $topic->topic }}</option>
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-3 mb-2 d-flex">
-                            <div class="form-group mr-1">
+                        <div class="mb-2 col-md-3 d-flex">
+                            <div class="mr-1 form-group">
                                 <button type="submit" class="btn btn-primary">Filter</button>
                             </div>
-                            <div class="form-group mr-1">
+                            <div class="mr-1 form-group">
                                 <a href="{{ route('schooladmin.educational.topic.index') }}" class="btn btn-danger">Reset</a>
                             </div>
                         </div>

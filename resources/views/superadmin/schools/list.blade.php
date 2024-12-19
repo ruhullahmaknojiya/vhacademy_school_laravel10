@@ -1,15 +1,26 @@
 @extends('layouts.superadmin')
 
 @section('content')
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <section class="content-header">
         <div class="container-fluid">
-            <div class="row mb-2">
+            <div class="mb-2 row">
                 <div class="col-sm-6">
                     <h1>Schools List</h1>
                 </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                      <li class="breadcrumb-item"><a href="#">Home</a></li>
+                      <li class="breadcrumb-item active">Schools List</li>
+                    </ol>
+                  </div>
             </div>
         </div><!-- /.container-fluid -->
     </section>
+
+
 
 <section class="content">
     <div class="container-fluid">
@@ -19,7 +30,7 @@
                 <div class="col-md-6">
                     <h3 class="card-title">School Details</h3>
                 </div>
-                <div class="col-md-6 text-right">
+                <div class="text-right col-md-6">
                     <a href="{{ route('school.register.form') }}" class="btn btn-primary" >
                         <i class="fas fa-plus-circle" ></i> Add School
                     </a>
@@ -49,10 +60,10 @@
                             <td>{{ $school->user->name }}</td>
                             <td>{{ $school->user->email }}</td>
                             <td class="d-flex">
-                                <a href="{{ route('schools.show', $school->id) }}" class="btn btn-info btn-sm mr-1">
+                                <a href="{{ route('schools.show', $school->id) }}" class="mr-1 btn btn-info btn-sm">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                                <a href="javascript:void(0);" class="btn btn-primary btn-sm mr-1">
+                                <a href="javascript:void(0);" class="mr-1 btn btn-primary btn-sm">
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 <form action="javascript:void(0);" method="POST" style="display:inline;">

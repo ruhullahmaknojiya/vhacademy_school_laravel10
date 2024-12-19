@@ -5,6 +5,7 @@
 @endsection
 
 @section('content')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     @include('flash-message')
     <section class="content-header">
         <h2 class="content-title">Topics</h2>
@@ -14,7 +15,7 @@
             <div class="card-header">
                 <form method="GET" action="{{ route('subtopics.index') }}" class="form-inline w-100">
                     <div class="row w-100">
-                        <div class="col-md-2 mb-2">
+                        <div class="mb-2 col-md-2">
                             <label for="medium" class="form-label">Medium</label>
                             <select class="form-control filter-dropdown" name="medium_id" id="mediums">
                                 <option value="">Select Medium</option>
@@ -23,7 +24,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-2 mb-2">
+                        <div class="mb-2 col-md-2">
                             <label for="standard" class="form-label">Standard</label>
                             <select class="form-control filter-dropdown" name="standard_id" id="standards">
                                 <option value="">Select Standard</option>
@@ -32,7 +33,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-2 mb-2">
+                        <div class="mb-2 col-md-2">
                             <label for="subject" class="form-label">Subject</label>
                             <select class="form-control filter-dropdown" name="subject_id" id="subjects">
                                 <option value="">Select Subject</option>
@@ -41,7 +42,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-2 mb-2">
+                        <div class="mb-2 col-md-2">
                             <label for="topic" class="form-label">Topic</label>
                             <select class="form-control filter-dropdown" name="topic_id" id="topics">
                                 <option value="">Select Topic</option>
@@ -50,12 +51,12 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-2 mb-2 d-flex align-items-end">
-                            <button type="submit" class="btn btn-primary mr-2">Filter</button>
+                        <div class="mb-2 col-md-2 d-flex align-items-end">
+                            <button type="submit" class="mr-2 btn btn-primary">Filter</button>
                             <a href="{{ route('subtopics.index') }}" class="btn btn-danger">Reset</a>
                         </div>
-                        <div class="col-md-2 text-right d-flex align-items-center">
-                            <a href="{{ route('create_subtopics') }}" class="btn btn-success mt-2">
+                        <div class="text-right col-md-2 d-flex align-items-center">
+                            <a href="{{ route('create_subtopics') }}" class="mt-2 btn btn-success">
                                 <i class="fas fa-plus-circle"></i> Create SubTopic
                             </a>
                         </div>

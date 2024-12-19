@@ -1,6 +1,7 @@
 @extends('layouts.superadmin')
 
 @section('content')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <div class="container">
     <h2 class="mb-4">School Details</h2>
     <div class="card">
@@ -30,7 +31,7 @@
                     <td>{{ $school->user->email }}</td>
                 </tr>
             </table>
-            <a href="{{ route('school.list') }}" class="btn btn-secondary mt-3">Back to List</a>
+            <a href="{{ route('school.list') }}" class="mt-3 btn btn-secondary">Back to List</a>
         </div>
     </div>
 </div>
