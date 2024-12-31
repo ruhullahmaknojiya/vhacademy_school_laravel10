@@ -1,11 +1,11 @@
 @extends('layouts.school_admin')
 
 @section('content')
-<div class="container">
-    <div class="row">
+<div class="mt-3 container-fluid">
+    <div class="mt-3 row">
         <!-- Left Section: Medium and Class Listing -->
         <div class="col-md-3">
-            <div class="card mb-4">
+            <div class="mb-4 card">
                 <div class="card-header">
                     <h4 class="mb-0">EMS Classes</h4>
                 </div>
@@ -16,11 +16,12 @@
                                 {{ $class->standard_name }} (EMS)
                             </a>
                         </li>
+
                     @endforeach
                 </ul>
             </div>
 
-            <div class="card mb-4">
+            <div class="mb-4 card">
                 <div class="card-header">
                     <h4 class="mb-0">GMS Classes</h4>
                 </div>
@@ -79,12 +80,12 @@
                 success: function(data) {
                     $('#fee-details').empty();
 
-                    var feeContent = '<div class="d-flex justify-content-between align-items-center mb-3">';
+                    var feeContent = '<div class="mb-3 d-flex justify-content-between align-items-center">';
                     feeContent += '<h4>Fees for ' + data.class_name + '</h4>';
                     feeContent += '<a href="/fee-categories" class="btn btn-primary">+ Create Fees</a>';
                     feeContent += '</div>';
                     feeContent += '<p><strong>Due Date:</strong> ' + data.due_date + '</p>';
-                    feeContent += '<table class="table table-bordered mt-3">';
+                    feeContent += '<table class="table mt-3 table-bordered">';
                     feeContent += '<thead><tr><th>Category</th><th>Amount</th><th>Description</th></tr></thead>';
                     feeContent += '<tbody>';
 

@@ -15,40 +15,42 @@
             </div>
         </div><!-- /.container-fluid -->
     </section>
-<div class="container">
+    <section class="content">
+        <div class="container-fluid">
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-bordered table-hover" id="mytables">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($classes as $class)
+                            <tr>
+                                <td>{{ $class->id }}</td>
+                                <td>{{ $class->class_name }}</td>
+                                <td>
+                                    <div class="btn-group">
+                                            <span class="badge badge-success">ACTIVE</span>
 
-    <div class="card">
-
-        <div class="card-body">
-            <table class="table table-bordered table-hover" id="mytables">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($classes as $class)
-                    <tr>
-                        <td>{{ $class->id }}</td>
-                        <td>{{ $class->class_name }}</td>
-                        <td>
-                            <div class="btn-group">
-                                    <span class="badge badge-success">ACTIVE</span>
-
-                            </div>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-            <div class="pagination justify-content-center">
-                {{ $classes->links() }}
+                                    </div>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    <div class="pagination justify-content-center">
+                        {{ $classes->links() }}
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
+
+    </section>
+
 @endsection
 
 @push('js')

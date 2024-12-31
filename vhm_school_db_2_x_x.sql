@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 19, 2024 at 12:04 PM
+-- Generation Time: Dec 28, 2024 at 01:55 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -271,7 +271,8 @@ INSERT INTO `events` (`id`, `event_title`, `event_image`, `start_date`, `end_dat
 (130, 'RAKSHABANDHAN CELEBRATION', NULL, '2024-08-17 13:38:00', '2024-08-17 13:38:00', 'Parents are invited ( 08 - 30 am to 10 - 30 am )', '2024-07-25 08:12:33', '2024-07-31 09:37:34', 1, '#800080', NULL, 'kjNEqwhyRmCwbewwQjzN9TXMT8ApOjTevyve5mxN.pdf', 'false'),
 (131, 'Annual Function', NULL, '2024-07-26 13:42:00', '2024-07-27 13:42:00', 'Annual function in school', '2024-07-25 08:13:24', '2024-07-25 08:13:24', 2, '#800080', NULL, 'ThJsgQXpe0hiFAOUJmMoWUueauIFSd8EOaNIZeO1.pdf', 'true'),
 (132, 'NAGPANCHAMI & JANMASHTAMI CELEBRATION', NULL, '2024-08-24 13:41:00', '2024-08-24 13:41:00', 'Parents are invited ( 08 - 30 am to 10 - 30 am )', '2024-07-25 08:23:59', '2024-07-31 09:37:53', 1, '#800080', NULL, 'JsuIu8nw3FiJTnHVUTKQmTYbdr4VVob34B1Vv2om.pdf', 'false'),
-(133, 'TEACHER S DAY CELEBRATION', NULL, '2024-09-05 08:10:00', '2024-09-05 22:32:00', 'Parents are invited ( 08 - 30 am to 10 - 30 am )', '2024-07-31 10:04:27', '2024-07-31 10:06:17', 1, '#800080', NULL, 'a9HVT47cbx3iOYpgZdYW1zPy3BbeGZsLVszFNpSB.pdf', 'true');
+(133, 'TEACHER S DAY CELEBRATION', NULL, '2024-09-05 08:10:00', '2024-09-05 22:32:00', 'Parents are invited ( 08 - 30 am to 10 - 30 am )', '2024-07-31 10:04:27', '2024-07-31 10:06:17', 1, '#800080', NULL, 'a9HVT47cbx3iOYpgZdYW1zPy3BbeGZsLVszFNpSB.pdf', 'true'),
+(135, 'test', NULL, '2024-12-19 16:59:00', '2024-12-20 16:59:00', 'this is demo', '2024-12-19 05:59:35', '2024-12-19 05:59:35', 1, '#800080', NULL, 'iZGbOJTOktC9TenlTUqajyQhA0N9LuNbBEOdALl9.pdf', 'true');
 
 -- --------------------------------------------------------
 
@@ -317,7 +318,9 @@ INSERT INTO `fee_categories` (`id`, `master_category_id`, `class_id`, `medium_id
 (20, 3, 22, 3, 'Registration or Enrollment Fees', 'Registration or Enrollment Fees', 250.00, '2024-10-23 10:27:54', '2024-10-23 04:57:54', '2024-10-23 04:57:54'),
 (21, 3, 22, 3, 'Examination Fees', 'Examination Fees', 250.00, '2024-10-23 10:27:54', '2024-10-23 04:57:54', '2024-10-23 04:57:54'),
 (22, 3, 22, 3, 'Transportation Fees', 'Transportation Fees', 900.00, '2024-10-23 10:27:54', '2024-10-23 04:57:54', '2024-10-23 04:57:54'),
-(23, 3, 22, 3, 'Extracurricular Activity Fees', 'Extracurricular Activity Fees', 150.00, '2024-10-23 10:27:54', '2024-10-23 04:57:54', '2024-10-23 04:57:54');
+(23, 3, 22, 3, 'Extracurricular Activity Fees', 'Extracurricular Activity Fees', 150.00, '2024-12-25 12:21:25', '2024-10-23 04:57:54', '2024-10-23 04:57:54'),
+(35, 4, 22, 3, 'Registration Fees For School', 'Registration Fees For School', 1500.00, '2024-12-25 12:21:25', '2024-10-23 04:57:54', '2024-10-23 04:57:54'),
+(36, 4, 22, 3, 'picnic Fees For School', 'picnic Fees For School', 7500.00, '2024-12-25 12:21:25', '2024-10-23 04:57:54', '2024-10-23 04:57:54');
 
 -- --------------------------------------------------------
 
@@ -408,7 +411,8 @@ INSERT INTO `home_subjects` (`id`, `subject_title`, `subject_code`, `description
 (9, 'Rasoi', 'Cooking', 'Free & Paid Courses', NULL, 'paid', NULL, '2024-07-29 05:11:15', '2024-07-29 05:11:15'),
 (10, 'NEP - 2020', 'NEP', 'Free & Paid Courses', NULL, 'free', NULL, '2024-07-29 05:11:43', '2024-07-29 05:11:43'),
 (11, 'Carier Guidence', 'CG', 'Free & Paid Courses', NULL, 'free', NULL, '2024-07-29 05:12:18', '2024-07-29 05:12:18'),
-(12, 'English-Grammer1', '5252551', 'this is description1', NULL, 'paid', NULL, '2024-12-19 03:39:01', '2024-12-19 03:39:30');
+(12, 'English-Grammer1', '5252551', 'this is description1', NULL, 'paid', NULL, '2024-12-19 03:39:01', '2024-12-19 03:39:30'),
+(13, 'English-Grammer', 'ssss', 'sssss', NULL, 'free', NULL, '2024-12-20 00:52:44', '2024-12-20 00:52:44');
 
 -- --------------------------------------------------------
 
@@ -551,7 +555,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (55, '2024_08_18_033132_create_notices_table', 13),
 (56, '2024_08_18_033138_create_notification_views_table', 14),
 (57, '2024_08_20_040108_create_teacher_leaves_table', 15),
-(59, '2024_10_20_084711_create_fee_categories_table', 16);
+(59, '2024_10_20_084711_create_fee_categories_table', 16),
+(60, '2024_12_23_103757_create_payments_table', 17),
+(61, '2024_12_28_111233_alter_payments_table', 18);
 
 -- --------------------------------------------------------
 
@@ -929,6 +935,32 @@ CREATE TABLE `password_resets` (
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `password_resets`
+--
+
+INSERT INTO `password_resets` (`email`, `token`, `created_at`) VALUES
+('admin@gmail.com', '$2y$10$ThphQbAXT.5tusdiyhxu.eQWG30sCQwTtwf6I1Ks6UrKBWc4CqiZu', '2024-12-22 23:41:49');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payments`
+--
+
+CREATE TABLE `payments` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `student_name` varchar(255) NOT NULL,
+  `class_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `student_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `fee_category_id` bigint(20) UNSIGNED NOT NULL,
+  `total_fees` decimal(10,2) NOT NULL,
+  `paid_amount` decimal(10,2) NOT NULL,
+  `due_amount` decimal(10,2) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- --------------------------------------------------------
 
 --
@@ -1064,7 +1096,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('krsV8rVazpCTPNTJsVb3o5gr16IRSB4SzJpoNeEl', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoic2FMUk5LN3loUVRiWkxrY0daRjNjZThUckdZNDBvUTUydVNHWGtHOSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDI6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9TY2hvb2xBZG1pbi9zdHVkZW50cyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjI7fQ==', 1734606182);
+('DfY5ia2sfYppJcbTMPQbhtk7MqIYf8UVoyKcBdXI', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoibW1YRVlDTXAyZ0FFY0JmdkFBSjBVWlREeUU3djVHQ1dBd0NTWUlFbCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NTc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9zY2hvb2xhZG1pbi9zaG93U3R1ZGVudHMtY2xhc3Mtd2lzZSI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjI7fQ==', 1735390449);
 
 -- --------------------------------------------------------
 
@@ -3548,7 +3580,7 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `tw
 (1, 'VHM SUPPER ADMIN', 'admin@gmail.com', NULL, '$2y$10$0XCpXccyG8YbkIk9mLrgl.hZAiA4B2p7cjFEla/pWxFTtCe608plO', NULL, NULL, NULL, NULL, NULL, NULL, '2024-07-21 00:51:21', '2024-07-21 00:51:21', 1, NULL),
 (2, 'KESAR SCHOOL', 'hasmukhmodi1959@gmail.com', NULL, '$2y$10$bQi.BoNf36pjrd1i/yP0Qe.zutNSn5.8ZlKu3U2KCMfrVWdKR07uC', NULL, NULL, NULL, NULL, NULL, NULL, '2024-07-20 19:27:01', '2024-07-20 19:27:01', 2, NULL),
 (3, 'VHM SCHOOL', 'dipakdarji8347@gmail.com', NULL, '$2y$10$cqdq/74UduA7bJoDnBQ56.1ASKVHGNhzsGlsp9ZQpHgzaJrKfDJ0S', NULL, NULL, NULL, NULL, NULL, NULL, '2024-07-20 19:41:28', '2024-07-20 19:41:28', 2, NULL),
-(4, 'VHM987654324120050430', 'guardian2@example.com', NULL, '$2y$10$2glqBzmM/hgmxlG67ujzguO91rDdIeEQJVpUaNodLnNOrhfZSAigq', NULL, NULL, NULL, NULL, NULL, NULL, '2024-07-20 19:50:34', '2024-07-20 19:50:34', 4, NULL),
+(4, 'VHM987654324120050430', 'guardian2@example.com', NULL, '$2y$10$0XCpXccyG8YbkIk9mLrgl.hZAiA4B2p7cjFEla/pWxFTtCe608plO', NULL, NULL, NULL, NULL, NULL, NULL, '2024-07-20 19:50:34', '2024-07-20 19:50:34', 4, NULL),
 (5, 'VHM120050430', 'emilydavis@example.com', NULL, '$2y$10$cfvvldqIGFuqv8CcQskW3e7EHOTnKFsTwKNh0AnWRed41ouMF4M5m', NULL, NULL, NULL, NULL, NULL, NULL, '2024-07-20 19:50:34', '2024-07-20 19:50:34', 5, NULL),
 (6, 'KES100119960316', 'khushijoshi1712@gmail.com', NULL, '$2y$10$fHhusKmRosTAGszf1FnrBecD/XtBpsDkQTg4Qa907WbcYrB33qsDm', NULL, NULL, NULL, NULL, NULL, NULL, '2024-07-21 04:12:48', '2024-07-21 04:12:48', 3, NULL),
 (7, 'KES100220000518', 'nileshvaghela94292@gmail.com', NULL, '$2y$10$3OxBYwlgjaVR5XBrZJfsquVUshS6h3OT7xwzBjf.2klV5esS.d.kO', NULL, NULL, NULL, NULL, NULL, NULL, '2024-07-21 04:12:48', '2024-07-21 04:12:48', 3, NULL),
@@ -3793,6 +3825,14 @@ ALTER TABLE `password_resets`
   ADD PRIMARY KEY (`email`);
 
 --
+-- Indexes for table `payments`
+--
+ALTER TABLE `payments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `payments_class_id_foreign` (`class_id`),
+  ADD KEY `payments_student_id_foreign` (`student_id`);
+
+--
 -- Indexes for table `permissions`
 --
 ALTER TABLE `permissions`
@@ -3977,7 +4017,7 @@ ALTER TABLE `documents`
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=135;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=136;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -3989,7 +4029,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `fee_categories`
 --
 ALTER TABLE `fee_categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `holidays`
@@ -4001,7 +4041,7 @@ ALTER TABLE `holidays`
 -- AUTO_INCREMENT for table `home_subjects`
 --
 ALTER TABLE `home_subjects`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `home_works`
@@ -4013,7 +4053,7 @@ ALTER TABLE `home_works`
 -- AUTO_INCREMENT for table `master_fee_categories`
 --
 ALTER TABLE `master_fee_categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `mediums`
@@ -4025,7 +4065,7 @@ ALTER TABLE `mediums`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT for table `notices`
@@ -4056,6 +4096,12 @@ ALTER TABLE `oauth_personal_access_clients`
 --
 ALTER TABLE `parents`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+
+--
+-- AUTO_INCREMENT for table `payments`
+--
+ALTER TABLE `payments`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `permissions`
@@ -4208,6 +4254,13 @@ ALTER TABLE `notification_views`
 --
 ALTER TABLE `parents`
   ADD CONSTRAINT `parents_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `payments`
+--
+ALTER TABLE `payments`
+  ADD CONSTRAINT `payments_class_id_foreign` FOREIGN KEY (`class_id`) REFERENCES `standards` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `payments_student_id_foreign` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `permission_role`

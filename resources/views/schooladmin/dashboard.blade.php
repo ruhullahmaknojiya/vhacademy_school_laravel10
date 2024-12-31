@@ -46,7 +46,7 @@
 @stop
 
 @section('content')
-    <div class="content" style="height: 5pt"></div>
+    <div class="content" style="height:5pt"></div>
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
@@ -61,7 +61,7 @@
                     ['bg-secondary', 'fas fa-user-friends', 'Parents', $parentsCount]
                 ] as [$bg, $icon, $text, $number])
                     <div class="col-12 col-sm-6 col-md-2">
-                        <div class="info-box mb-3">
+                        <div class="mb-3 info-box">
                             <span class="info-box-icon {{ $bg }} elevation-1"><i class="{{ $icon }}"></i></span>
                             <div class="info-box-content">
                                 <span class="info-box-text">{{ $text }}</span>
@@ -79,7 +79,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-sm-6 col-md-2">
+                <div class="col-2 col-sm-6 col-md-2">
                     @foreach([
                         ['bg-purple', 'fas fa-book', 'Medium', $mediumCount],
                         ['bg-teal', 'fas fa-school', 'Standard', $standardCount],
@@ -88,7 +88,7 @@
                         ['bg-navy', 'fas fa-layer-group', 'Chapter', $chapterCount],
                         ['bg-lime', 'fas fa-list', 'Topic', $topicCount]
                     ] as [$bg, $icon, $text, $number])
-                        <div class="info-box mb-2">
+                        <div class="mb-2 info-box">
                             <span class="info-box-icon {{ $bg }} elevation-1"><i class="{{ $icon }}"></i></span>
                             <div class="info-box-content">
                                 <span class="info-box-text">{{ $text }}</span>

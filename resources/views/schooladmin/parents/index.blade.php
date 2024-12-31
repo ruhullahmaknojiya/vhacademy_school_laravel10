@@ -2,15 +2,30 @@
 @section('title', 'Parents')
 
 @section('content')
-<div class="content">
-<br>
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="mb-2 row">
+            <div class="col-sm-6">
+                <h1 class="m-0">Parent Details</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Parent Details</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<section class="content">
+    <div class="container-fluid">
     <div class="card">
         <div class="card-header">
             <div class="row">
                 <div class="col-md-6">
                     <h3 class="card-title">Parent Details</h3>
                 </div>
-                <div class="col-md-6 text-right">
+                <div class="text-right col-md-6">
 
                 </div>
             </div>
@@ -38,10 +53,10 @@
                             <td>{{ $parent->guardian_email }}</td>
                             <td>{{ $parent->students->count() }}</td> <!-- Display number of students -->
                             <td class="d-flex">
-                                <a href="{{ route('schooladmin.parents.show', $parent->id) }}" class="btn btn-info btn-sm mr-1">
+                                <a href="{{ route('schooladmin.parents.show', $parent->id) }}" class="mr-1 btn btn-info btn-sm">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                                <!--<a href="" class="btn btn-primary btn-sm mr-1">-->
+                                <!--<a href="" class="mr-1 btn btn-primary btn-sm">-->
                                 <!--    <i class="fas fa-edit"></i>-->
                                 <!--</a>-->
                                 <!--<form action="" method="POST" style="display:inline;">-->
@@ -56,7 +71,6 @@
                     @endforeach
                 </tbody>
             </table>
-        
         </div>
     </div>
 </div>

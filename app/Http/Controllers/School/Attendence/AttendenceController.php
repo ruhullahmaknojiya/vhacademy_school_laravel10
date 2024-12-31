@@ -20,7 +20,7 @@ class AttendenceController extends Controller
 {
     $authUser = auth()->user()->id;
     $school = School::where('user_id', $authUser)->first();
-    
+
     // Get the start and end of the current month
     $startOfMonth = now()->startOfMonth()->format('Y-m-d');
     $endOfMonth = now()->endOfMonth()->format('Y-m-d');
@@ -117,10 +117,10 @@ public function show(Request $request, $student_id)
     $totalPresent = 0;
     $totalAbsent = 0;
     $totalHolidays = 0;
-    
+
     $authUser = auth()->user()->id;
     $school = School::where('user_id', $authUser)->first();
-    
+
     // Get the start and end of the selected month (default to current month)
     $selectedMonth = $request->input('month', now()->format('Y-m'));
     $startOfMonth = \Carbon\Carbon::createFromFormat('Y-m', $selectedMonth)->startOfMonth()->format('Y-m-d');
@@ -128,7 +128,7 @@ public function show(Request $request, $student_id)
 
     // Get the student's details along with medium and standard
     $student = Student::with(['medium', 'standard', 'class'])->find($student_id);
-    
+
     // Get all holidays in the selected month
     $holidays = Holiday::where('school_id', $school->id)
                         ->where(function ($query) use ($startOfMonth, $endOfMonth) {

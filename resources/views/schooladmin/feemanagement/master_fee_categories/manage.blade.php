@@ -1,13 +1,31 @@
 @extends('layouts.school_admin')
 
 @section('content')
-<div class="container">
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="mb-2 row">
+            <div class="col-sm-6">
+                <h1>Create Master Fee Category</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Create Master Fee Category</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+
+<section class="content">
+<div class="container-fluid">
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
     <!-- Card for Create Form -->
-    <div class="card mb-4">
+    <div class="mt-3 card">
         <div class="card-header">
             <h2>Create Master Fee Category</h2>
         </div>
@@ -15,11 +33,11 @@
             <form action="{{ route('feemanagement.storeMasterFeeCategory') }}" method="POST">
                 @csrf
                 <div class="form-row">
-                    <div class="col-md-6 mb-3">
+                    <div class="mb-3 col-md-6">
                         <label for="category_name">Category Name</label>
                         <input type="text" name="category_name" id="category_name" class="form-control" required>
                     </div>
-                    <div class="col-md-6 mb-3">
+                    <div class="mb-3 col-md-6">
                         <label for="payment_type">Payment Type</label>
                         <select name="payment_type" id="payment_type" class="form-control" required>
                             <option value="full">Full</option>
@@ -29,11 +47,11 @@
                 </div>
 
                 <div class="form-row">
-                    <div class="col-md-6 mb-3">
+                    <div class="mb-3 col-md-6">
                         <label for="installments">Number of Installments (If EMI)</label>
                         <input type="number" name="installments" id="installments" class="form-control">
                     </div>
-                    <div class="col-md-6 mb-3">
+                    <div class="mb-3 col-md-6">
                         <label for="installment_amount">Installment Amount (If EMI)</label>
                         <input type="number" name="installment_amount" id="installment_amount" class="form-control">
                     </div>
@@ -78,4 +96,5 @@
         </div>
     </div>
 </div>
+</section>
 @endsection

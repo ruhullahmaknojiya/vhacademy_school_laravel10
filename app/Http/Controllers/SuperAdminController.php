@@ -31,38 +31,46 @@ class SuperAdminController extends Controller
 
     public function dashboard()
     {
-         if (!Auth::check()) {
+        if (!Auth::check()) {
             return redirect()->route('login')->with('error', 'Session expired, please log in again.');
         }
 
-         // $totalFee = $this->getTotalFee();
-         $events = Event::where('school_id',null)->paginate(200);
-      
-         $schools = School::count();
-         $studentsCount = Student::count();
-         $teachersCount = Teacher::count();
-         $parentsCount = User::where('role_id', 4)->count(); // Assuming there's a role field to identify parents
-         $mediumCount = Medium::count();
-         $standardCount = Standard::count();
-         $classCount = ClassModel::count();
-         $subjectCount = Subject::count();
-         $topicCount = SubTopic::count(); // Assuming chapters are represented by SubTopic model
-         $chapterCount  = Topic::count();
-         $totalBoys = Student::whereIn('gender', ['male', 'Male', 'm', 'M'])->count();
-         $totalGirls = Student::whereIn('gender', ['female', 'Female', 'f', 'F'])->count();
-         return view('superadmin.dashboard', compact(
-             'schools','studentsCount',
-             'teachersCount', 'parentsCount', 'mediumCount',
-             'standardCount', 'classCount', 'subjectCount',
-             'chapterCount', 'topicCount','totalBoys','totalGirls',
-             'events'
-         ));
+        // $totalFee = $this->getTotalFee();
+        $events = Event::where('school_id', null)->paginate(200);
+
+        $schools = School::count();
+        $studentsCount = Student::count();
+        $teachersCount = Teacher::count();
+        $parentsCount = User::where('role_id', 4)->count(); // Assuming there's a role field to identify parents
+        $mediumCount = Medium::count();
+        $standardCount = Standard::count();
+        $classCount = ClassModel::count();
+        $subjectCount = Subject::count();
+        $topicCount = SubTopic::count(); // Assuming chapters are represented by SubTopic model
+        $chapterCount  = Topic::count();
+        $totalBoys = Student::whereIn('gender', ['male', 'Male', 'm', 'M'])->count();
+        $totalGirls = Student::whereIn('gender', ['female', 'Female', 'f', 'F'])->count();
+        return view('superadmin.dashboard', compact(
+            'schools',
+            'studentsCount',
+            'teachersCount',
+            'parentsCount',
+            'mediumCount',
+            'standardCount',
+            'classCount',
+            'subjectCount',
+            'chapterCount',
+            'topicCount',
+            'totalBoys',
+            'totalGirls',
+            'events'
+        ));
 
         return view('superadmin.dashboard');
     }
-    
-    
-     public function updateEventDate(Request $request)
+
+
+    public function updateEventDate(Request $request)
     {
         Log::info('Update Event Date Request: ', $request->all());
 
@@ -92,11 +100,11 @@ class SuperAdminController extends Controller
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }
-    
-    
-    
-    
-    
+
+
+
+
+
     public function profile()
     {
         return view('superadmin.profile');
@@ -107,52 +115,50 @@ class SuperAdminController extends Controller
         return view('superadmin.settings');
     }
 
-     // Add this method to display the school registration form
-     public function registerSchoolForm()
-     {
-         return view('superadmin.schools.register');
-     }
+    // Add this method to display the school registration form
+    public function registerSchoolForm()
+    {
+        return view('superadmin.schools.register');
+    }
 
-     public function registerSchool(Request $request)
-     {
-         $validatedData = $request->validate([
-             'name' => 'required|string|max:255',
-             'email' => 'required|string|email|max:255|unique:users',
-             'password' => 'required|string|min:8|confirmed',
-             'school_name' => 'required|string|max:255',
-             'address' => 'required|string|max:255',
-             'phone' => 'required|string|max:15',
-         ]);
+    public function registerSchool(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            'school_name' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'phone' => 'required|string|max:15',
+        ]);
 
-         $user = User::create([
-             'name' => $validatedData['name'],
-             'email' => $validatedData['email'],
-             'password' => bcrypt($validatedData['password']),
-         ]);
+        $user = User::create([
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'password' => bcrypt($validatedData['password']),
+        ]);
 
-         $school = School::create([
-             'user_id' => $user->id,
-             'name' => $validatedData['school_name'],
-             'address' => $validatedData['address'],
-             'phone' => $validatedData['phone'],
-         ]);
+        $school = School::create([
+            'user_id' => $user->id,
+            'name' => $validatedData['school_name'],
+            'address' => $validatedData['address'],
+            'phone' => $validatedData['phone'],
+        ]);
 
-         $role = Role::where('name', 'SchoolAdmin')->first();
-         $user->role_id = $role->id;
+        $role = Role::where('name', 'SchoolAdmin')->first();
+        $user->role_id = $role->id;
         $user->save();
         $user->roles()->attach($role->id, ['created_at' => now(), 'updated_at' => now()]);
 
         //  $user->roles()->attach($role);
 
-         return redirect()->route('school.list')->with('success', 'School registered successfully');
-     }
+        return redirect()->route('school.list')->with('success', 'School registered successfully');
+    }
 
     public function listSchools()
     {
         $schools = School::paginate(10); // Adjust the number as needed
         return view('superadmin.schools.list', compact('schools'));
-
-
     }
 
 
@@ -170,9 +176,14 @@ class SuperAdminController extends Controller
     }
 
     public function show($id)
-{
-    $school = School::findOrFail($id);
-    return view('superadmin.schools.show', compact('school'));
-}
+    {
+        $school = School::findOrFail($id);
+        return view('superadmin.schools.show', compact('school'));
+    }
 
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        return redirect()->route('login')->with('error', 'User Logout Successfully.');
+    }
 }

@@ -92,12 +92,12 @@
         transition: 0.3s;
     }
 
-    .input-div > div {
+    .input-div>div {
         position: relative;
         height: 45px;
     }
 
-    .input-div > div > h5 {
+    .input-div>div>h5 {
         position: absolute;
         left: 10px;
         top: 50%;
@@ -131,16 +131,16 @@
         width: 50%;
     }
 
-    .input-div.focus > div > h5 {
+    .input-div.focus>div>h5 {
         top: -5px;
         font-size: 15px;
     }
 
-    .input-div.focus > .i > i {
+    .input-div.focus>.i>i {
         color: #38d39f;
     }
 
-    .input-div > div > input {
+    .input-div>div>input {
         position: absolute;
         left: 0;
         top: 0;
@@ -189,6 +189,7 @@
         cursor: pointer;
         transition: 0.5s;
     }
+
     .btn:hover {
         background-position: right;
     }
@@ -234,70 +235,78 @@
 
 </style>
 <body>
-<img class="wave" src="https://raw.githubusercontent.com/sefyudem/Responsive-Login-Form/master/img/wave.png">
-@include('flash-message')
-<div class="container">
-    <div class="img">
-        <img src="https://raw.githubusercontent.com/sefyudem/Responsive-Login-Form/master/img/bg.svg">
-    </div>
-    <div class="login-content">
-        <form action="{{ route('login') }}" method="POST">
-            @csrf
-            <img src="{{asset('public/images/logo.png')}}">
-            <h2 class="title">Welcome</h2>
-            <div class="input-div one">
-                <div class="i">
-                    <i class="fas fa-user"></i>
-                </div>
-                <div class="div">
-                    <h5>Username<span class="login-danger " style="color: red;">*</span></h5>
+    <img class="wave" src="https://raw.githubusercontent.com/sefyudem/Responsive-Login-Form/master/img/wave.png">
+    {{-- @include('flash-message') --}}
+    <div class="container">
 
-                    <input type="email" class="form-control input" name="email"  value="{{ old('email') }}" required autocomplete="email" autofocus >
 
-                    @error('email')
-                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                    @enderror
-                </div>
+
+        <div class="img">
+            <img src="https://raw.githubusercontent.com/sefyudem/Responsive-Login-Form/master/img/bg.svg">
+        </div>
+
+        <div class="login-content">
+            @if(Session::has('error'))
+            <div class="alert alert-danger">
+                {{ Session::get('error') }}
             </div>
-            <div class="input-div pass">
-                <div class="i">
-                    <i class="fas fa-lock"></i>
+            @endif
+            <form action="{{ route('login') }}" method="POST">
+                @csrf
+                <img src="{{asset('images/logo.png')}}">
+                <h2 class="title">Welcome</h2>
+                <div class="input-div one">
+                    <div class="i">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="div">
+                        <h5>Username<span class="login-danger " style="color: red;">*</span></h5>
+
+                        <input type="email" class="form-control input" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+
+                        @error('email')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
                 </div>
-                <div class="div">
-                    <h5>Password<span class="login-danger " style="color: red;">*</span></h5>
-                    <input type="password" class="form-control pass-input input" name="password"  required autocomplete="current-password">
+                <div class="input-div pass">
+                    <div class="i">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <div class="div">
+                        <h5>Password<span class="login-danger " style="color: red;">*</span></h5>
+                        <input type="password" class="form-control pass-input input" name="password" required autocomplete="current-password">
+                    </div>
                 </div>
-            </div>
-            <a href="{{ route('password.request') }}">Forgot Password?</a>
-            <input type="submit" class="btn" value="Login">
-        </form>
+                <a href="{{ route('password.request') }}">Forgot Password?</a>
+                <input type="submit" class="btn" value="Login">
+            </form>
+        </div>
     </div>
-</div>
-<script>
-    const inputs = document.querySelectorAll(".input");
+    <script>
+        const inputs = document.querySelectorAll(".input");
 
-    function addcl() {
-        let parent = this.parentNode.parentNode;
-        parent.classList.add("focus");
-    }
-
-    function remcl() {
-        let parent = this.parentNode.parentNode;
-        if (this.value == "") {
-            parent.classList.remove("focus");
+        function addcl() {
+            let parent = this.parentNode.parentNode;
+            parent.classList.add("focus");
         }
-    }
 
-    inputs.forEach((input) => {
-        input.addEventListener("focus", addcl);
-        input.addEventListener("blur", remcl);
-    });
+        function remcl() {
+            let parent = this.parentNode.parentNode;
+            if (this.value == "") {
+                parent.classList.remove("focus");
+            }
+        }
 
-    //Source :- https://github.com/sefyudem/Responsive-Login-Form/blob/master/img/avatar.svg
+        inputs.forEach((input) => {
+            input.addEventListener("focus", addcl);
+            input.addEventListener("blur", remcl);
+        });
 
-</script>
+        //Source :- https://github.com/sefyudem/Responsive-Login-Form/blob/master/img/avatar.svg
+
+    </script>
 </body>
 </html>
-

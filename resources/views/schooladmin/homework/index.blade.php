@@ -1,15 +1,28 @@
 @extends('layouts.school_admin')
 
 @section('title')
-  Homeworks
+Homeworks
 @endsection
 
 @section('content')
-    @include('flash-message')
-    <section class="content">
-        <br>
-    </section>
-    <div class="content">
+@include('flash-message')
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="mb-2 row">
+            <div class="col-sm-6">
+                <h1 class="m-0">Homework</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Homework</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<section class="content">
+    <div class="container-fluid">
         <div class="card">
             <div class="card-header">
                 <div class="row">
@@ -25,7 +38,7 @@
                                 <select name="medium_id" class="form-control" id="medium">
                                     <option value="">Select Medium</option>
                                     @foreach($mediums as $medium)
-                                        <option value="{{ $medium->id }}">{{ $medium->medium_name }}</option>
+                                    <option value="{{ $medium->id }}">{{ $medium->medium_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -36,7 +49,7 @@
                                 <select name="standard_id" class="form-control" id="standard">
                                     <option value="">Select Standard</option>
                                     @foreach($standards as $standard)
-                                        <option value="{{ $standard->id }}">{{ $standard->standard_name }}</option>
+                                    <option value="{{ $standard->id }}">{{ $standard->standard_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -47,7 +60,7 @@
                                 <select name="class_id" class="form-control" id="class">
                                     <option value="">Select Class</option>
                                     @foreach($classes as $class)
-                                        <option value="{{ $class->id }}">{{ $class->class_name }}</option>
+                                    <option value="{{ $class->id }}">{{ $class->class_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -58,7 +71,7 @@
                                 <select name="subject_id" class="form-control" id="subject">
                                     <option value="">Select Subject</option>
                                     @foreach($subjects as $subject)
-                                        <option value="{{ $subject->id }}">{{ $subject->subject }}</option>
+                                    <option value="{{ $subject->id }}">{{ $subject->subject }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -84,7 +97,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Class</th>
-                                 <th>Subject</th>
+                                <th>Subject</th>
                                 <th>Teacher</th>
                                 <th>Date</th>
                                 <th>Submission Date</th>
@@ -94,20 +107,20 @@
                         </thead>
                         <tbody>
                             @foreach($homeworks as $homework)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $homework->medium->medium_name }} - {{ $homework->standard->standard_name }} (class: {{ $homework->class->class_name }})</td>
-                                    <td>{{ $homework->subject->subject }}</td>
-                                    <td>{{ $homework->teacher->first_name }} {{ $homework->teacher->last_name }}</td>
-                                    <td>{{ $homework->date }}</td>
-                                    <td>{{ $homework->submition_status == 'pending' ? '-' : $homework->submition_date }}</td>
-                                    <td>{{ $homework->submition_status }}</td>
-                                    <td>
-                                        <a href="{{ route('schooladmin.homework.show', $homework->id) }}" class="btn btn-info btn-sm">
-                                            <i class="fas fa-eye"></i> View
-                                        </a>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $homework->medium->medium_name }} - {{ $homework->standard->standard_name }} (class: {{ $homework->class->class_name }})</td>
+                                <td>{{ $homework->subject->subject }}</td>
+                                <td>{{ $homework->teacher->first_name }} {{ $homework->teacher->last_name }}</td>
+                                <td>{{ $homework->date }}</td>
+                                <td>{{ $homework->submition_status == 'pending' ? '-' : $homework->submition_date }}</td>
+                                <td>{{ $homework->submition_status }}</td>
+                                <td>
+                                    <a href="{{ route('schooladmin.homework.show', $homework->id) }}" class="btn btn-info btn-sm">
+                                        <i class="fas fa-eye"></i> View
+                                    </a>
+                                </td>
+                            </tr>
                             @endforeach
                         </tbody>
                     </table>
@@ -118,18 +131,20 @@
             </div>
         </div>
     </div>
+</section>
 @endsection
 
 @push('js')
-    <script>
-        $(function() {
-            $("#homeworkTable").DataTable({
-                "responsive": true,
-                "lengthChange": true,
-                "autoWidth": false,
-                "order": true,
-                "buttons": ["copy", "csv", "excel", "pdf"]
-            }).buttons().container().appendTo('#homeworkTable_wrapper .col-md-6:eq(0)');
-        });
-    </script>
+<script>
+    $(function() {
+        $("#homeworkTable").DataTable({
+            "responsive": true
+            , "lengthChange": true
+            , "autoWidth": false
+            , "order": true
+            , "buttons": ["copy", "csv", "excel", "pdf"]
+        }).buttons().container().appendTo('#homeworkTable_wrapper .col-md-6:eq(0)');
+    });
+
+</script>
 @endpush

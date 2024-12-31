@@ -20,8 +20,13 @@ class FeeCategory extends Model
 
     public function masterFeeCategory()
     {
-        return $this->belongsTo(MasterFeeCategory::class, 'master_category_id');
+        return $this->belongsTo(MasterFeeCategory::class, 'master_category_id', 'id');
     }
+    public function masterCategory()
+    {
+        return $this->belongsTo(MasterFeeCategory::class, 'master_category_id', 'id');
+    }
+
 
     public function class()
     {

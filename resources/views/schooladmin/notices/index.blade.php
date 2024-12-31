@@ -1,49 +1,77 @@
 @extends('layouts.school_admin')
 
 @section('content')
-<div class="container">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2>Notices</h2>
-        <a href="{{ route('schooladmin.notices.create') }}" class="btn btn-primary">Create Notice</a>
-    </div>
+<div class="content-header">
+    <div class="container-fluid">
+      <div class="mb-2 row">
+        <div class="col-sm-6">
+          <h1 class="m-0">Notices</h1>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active">Notices</li>
+          </ol>
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+<section class="content">
+    <div class="container-fluid">
 
-    @if (session('success'))
+
+        @if (session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
         </div>
-    @endif
+        @endif
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Date</th>
-                <th>Teachers Seen</th>
-                <th>Parents Seen</th>
-                <th>Total Seen</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-              
-    @foreach($notices as $notice)
-    <tr>
-        <td>{{ $notice->title }}</td>
-        <td>{{ \Carbon\Carbon::parse($notice->date)->format('d-m-Y') }}</td>
-        <td>{{ $notice->teacher_views }} Teachers</td>
-        <td>{{ $notice->parent_views }} Parents</td>
-        <td>{{ $notice->total_views }} Total Views</td>
-        <td class="d-flex">
-            <a href="{{ route('schooladmin.notices.report', $notice->id) }}" class="btn btn-info btn-sm mr-1">View Report</a>
-            <form action="{{ route('schooladmin.notices.destroy', $notice->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this notice?');">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-            </form>
-        </td>
-    </tr>
-   @endforeach
-        </tbody>
-    </table>
-</div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card" style="border-radius: 5px;">
+                    <div class="card-header d-flex justify-content-between">
+                        <h4>Notices</h4>
+                        <a href="{{ route('schooladmin.notices.create') }}" class="btn btn-primary ms-auto">Create Notice</a>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Date</th>
+                                    <th>Teachers Seen</th>
+                                    <th>Parents Seen</th>
+                                    <th>Total Seen</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach($notices as $notice)
+                                <tr>
+                                    <td>{{ $notice->title }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($notice->date)->format('d-m-Y') }}</td>
+                                    <td>{{ $notice->teacher_views }} Teachers</td>
+                                    <td>{{ $notice->parent_views }} Parents</td>
+                                    <td>{{ $notice->total_views }} Total Views</td>
+                                    <td class="d-flex">
+                                        <a href="{{ route('schooladmin.notices.report', $notice->id) }}" class="mr-1 btn btn-info btn-sm">View Report</a>
+                                        <form action="{{ route('schooladmin.notices.destroy', $notice->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this notice?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
 @endsection

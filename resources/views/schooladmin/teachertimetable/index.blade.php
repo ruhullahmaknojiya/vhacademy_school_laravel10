@@ -10,36 +10,31 @@ School Timetable
 
 <div class="content-header">
     <div class="container-fluid">
-      <div class="mb-2 row">
-        <div class="col-sm-6">
-          <h1 class="m-0">School Timetable</h1>
-        </div><!-- /.col -->
-        <div class="col-sm-6">
-          <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active">School Timetable</li>
-          </ol>
-        </div><!-- /.col -->
-      </div><!-- /.row -->
+        <div class="mb-2 row">
+            <div class="col-sm-6">
+                <h1 class="m-0">School Timetable</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">School Timetable</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
     </div><!-- /.container-fluid -->
-  </div>
+</div>
 
 <div class="content">
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12">
-                <div class="card card-table">
-                    <div class="card-body">
+                <di class="card card-table">
 
-                        <div class="page-header">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <h3 class="page-title">School Timetable</h3>
-                                </div>
-                                <div class="col-auto text-end float-end ms-auto download-grp">
-                                    <a href="{{route('teacher_timetable')}}" class="btn btn-primary"><i class="fas fa-plus"></i></a>
-                                </div>
-                            </div>
+                        <div class="card-header d-flex justify-content-between">
+                            <h4 class="page-title">School Timetable</h4>
+                            <a href="{{route('teacher_timetable')}}" class="btn btn-primary ms-auto">
+                                <i class="fas fa-plus"></i>
+                            </a>
                         </div>
 
                         <div class="card-body">
@@ -72,7 +67,7 @@ School Timetable
                                 </table>
                             </div>
                         </div>
-                    </div>
+
                 </div>
             </div>
         </div>

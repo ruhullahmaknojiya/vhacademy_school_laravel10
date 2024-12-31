@@ -27,7 +27,7 @@ class StudentController extends Controller
 
     public function index(Request $request)
     {
-        
+
          if (!Auth::check()) {
             return redirect()->route('login')->with('error', 'Session expired, please log in again.');
         }
@@ -37,8 +37,8 @@ class StudentController extends Controller
         $mediums = Medium::all();
         $standards = Standard::all();
         $classes = ClassModel::all();
-        
-        
+
+
          // Build the query to retrieve students
         $query = Student::query()->where('school_id', $school->id);
 

@@ -124,7 +124,7 @@ class TeacherTimeController extends Controller
 
     return view('schooladmin.teachertimetable.edit', compact('teacher', 'timetables', 'daysOfWeek'));
 }
-    
+
     public function show($teacherId) {
         $userby = Auth::user();
         $School = School::where('user_id', $userby->id)->first();
@@ -150,7 +150,7 @@ class TeacherTimeController extends Controller
 
             return view('schooladmin.teachertimetable.show', compact('teacher', 'timetables'));
         }
-    
+
     public function update(Request $request,$id){
                 //  dd($request->all());
                 $validate = $request->validate([
@@ -211,7 +211,7 @@ class TeacherTimeController extends Controller
         // $delete_timetable->delete();
         // return redirect()->route('teacher.timetable.index')->with('danger','Teacher Timetable Delete Successfully');
     }
-    
+
     public function generatePDF($id) {
     $userby = Auth::user();
     $School = School::where('user_id', $userby->id)->first();
@@ -232,9 +232,9 @@ class TeacherTimeController extends Controller
     $pdf = PDF::loadView('schooladmin.teachertimetable.pdf', compact('teacher', 'timetables', 'daysOfWeek'));
     return $pdf->download('timetable.pdf');
 }
-    
-    
-    
+
+
+
     public function standards($mediumId)
     {
         $standards = Standard::where('medium_id', $mediumId)->pluck('standard_name', 'id');

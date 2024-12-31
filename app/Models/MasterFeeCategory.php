@@ -17,8 +17,12 @@ class MasterFeeCategory extends Model
         'installment_amount',
     ];
 
+    // public function feeCategories()
+    // {
+    //     return $this->hasMany(FeeCategory::class, 'master_category_id');
+    // }
     public function feeCategories()
     {
-        return $this->hasMany(FeeCategory::class, 'master_category_id');
+        return $this->hasMany(Payment::class, 'fee_category_id');
     }
 }

@@ -95,8 +95,8 @@ class Student extends Model
     {
         return $this->hasMany(User::class,'id');
     }
-    
-    
+
+
     public function user()
     {
         return $this->morphOne(User::class, 'userable');
@@ -115,7 +115,8 @@ class Student extends Model
         ->whereColumn('medium', 'students.medium')
         ->whereColumn('standard', 'students.standard');
      }
-     
-    
+
+
+
 
 }

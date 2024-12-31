@@ -3,25 +3,35 @@
 @section('title', 'Teacher')
 
 @section('content')
-    <section class="content-header">
-        <div class="container-fluid">
-
-        </div>
-    </section>
-
-    <div class="content">
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="mb-2 row">
+            <div class="col-sm-6">
+                <h1 class="m-0">Teachers</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Teachers</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<section class="content">
+    <div class="container-fluid">
         <div class="card">
             <div class="card-header">
                 <div class="row">
                     <div class="col-md-8">
                         <h3 class="card-title">Teacher List</h3>
                     </div>
-                    <div class="col-md-2 text-right">
+                    <div class="text-right col-md-2">
                         <a href="{{ route('teacher.import-form') }}" class="btn btn-primary">
                             <i class="fas fa-plus-circle"></i> Import Teacher
                         </a>
                     </div>
-                    <div class="col-md-2 text-right">
+                    <div class="text-right col-md-2">
                         <a href="{{ route('schooladmin.teachers.create') }}" class="btn btn-primary">
                             <i class="fas fa-plus-circle"></i> Add Teacher
                         </a>
@@ -53,10 +63,10 @@
                                 <td>{{ $teacher->department }}</td>
                                 <td>{{ $teacher->phone }}</td>
                                 <td class="d-flex">
-                                    <a href="{{ route('schooladmin.teachers.show', $teacher->id) }}" class="btn btn-info btn-sm mr-1">
+                                    <a href="{{ route('schooladmin.teachers.show', $teacher->id) }}" class="mr-1 btn btn-info btn-sm">
                                         <i class="fas fa-eye"></i>
                                     </a>
-                                    <!--<a href="" class="btn btn-primary btn-sm mr-1">-->
+                                    <!--<a href="" class="mr-1 btn btn-primary btn-sm">-->
                                     <!--    <i class="fas fa-edit"></i>-->
                                     <!--</a>-->
                                     <!--<form action="" method="POST" style="display:inline;">-->
@@ -74,6 +84,7 @@
             </div>
         </div>
     </div>
+</section>
 @endsection
 
 @push('js')

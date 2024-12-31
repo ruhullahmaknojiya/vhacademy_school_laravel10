@@ -1,14 +1,31 @@
 @extends('layouts.school_admin')
 
 @section('content')
-<div class="container">
+
+<div class="content-header">
+    <div class="container-fluid">
+      <div class="mb-2 row">
+        <div class="col-sm-6">
+          <h1 class="m-0">FeeCategories</h1>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active">Create Fees</li>
+          </ol>
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+  <section class="content">
+<div class="mt-3 container-fluid">
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
     <!-- Card for Create Fees Form -->
-    <div class="card shadow mb-4">
-        <div class="card-header bg-white text-white">
+    <div class="mb-4 shadow card">
+        <div class="text-white bg-white card-header">
             <h4 class="mb-0">Create Fees</h4>
         </div>
         <div class="card-body">
@@ -23,7 +40,7 @@
                 @csrf
                 <!-- Section for Master Category, Medium, Standard, Fee Due Date -->
                 <h5 class="mb-3">General Information</h5>
-                <div class="form-row mb-4">
+                <div class="mb-4 form-row">
                     <div class="col-md-3">
                         <label for="master_category_id">Master Category</label>
                         <select name="master_category_id" id="master_category_id" class="form-control" required>
@@ -61,7 +78,7 @@
                 <h5 class="mb-3">Fee Categories</h5>
                 <div id="fee-category-fields">
                     <div class="fee-category-group">
-                        <div class="form-row mb-3">
+                        <div class="mb-3 form-row">
                             <div class="col-md-3">
                                 <label for="category_name">Category Name</label>
                                 <input type="text" name="category_name[]" id="category_name" class="form-control" required>
@@ -76,17 +93,18 @@
                             </div>
                             <div class="col-md-2 d-flex align-items-end">
                                 <button type="button" class="btn btn-success add-more">+</button>
-                                <button type="button" class="btn btn-danger remove-row ml-2">-</button>
+                                <button type="button" class="ml-2 btn btn-danger remove-row">-</button>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary mt-4">Create Fee Categories</button>
+                <button type="submit" class="mt-4 btn btn-primary">Create Fee Categories</button>
             </form>
         </div>
     </div>
 </div>
+  </section>
 
 @push('js')
 <script>

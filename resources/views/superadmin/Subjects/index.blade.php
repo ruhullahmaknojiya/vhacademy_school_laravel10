@@ -12,8 +12,8 @@
             </div>
         </div><!-- /.container-fluid -->
     </section>
-
-    <div class="content">
+<section class="content">
+    <div class="container-fluid">
         <div class="card">
             <div class="card-header">
                 <div class="row">
@@ -99,6 +99,9 @@
             </div>
         </div>
     </div>
+
+</section>
+
 @endsection
 
 @push('js')

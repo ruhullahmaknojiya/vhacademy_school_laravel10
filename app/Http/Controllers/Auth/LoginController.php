@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
@@ -14,7 +15,7 @@ class LoginController extends Controller
     {
         return redirect()->route('home');
     }
-    
+
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
@@ -29,10 +30,9 @@ class LoginController extends Controller
     {
 
         $credentials = $request->only('email', 'password');
-
         if (Auth::attempt($credentials)) {
 
-            return redirect()->intended('superadmin.dashboard');
+            return  redirect()->route('superadmin.dashboard')->with('success', 'User logged in.');
         }
 
         return redirect('login')->withErrors([
@@ -40,9 +40,10 @@ class LoginController extends Controller
         ]);
     }
 
-    public function logout(Request $request)
+    public function logout()
     {
+        Session::flush();
         Auth::logout();
-        return redirect('login');
+        return Redirect()->route('login')->with('error', 'User Logout Successfully');
     }
 }

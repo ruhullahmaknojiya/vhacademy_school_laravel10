@@ -12,7 +12,6 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="{{asset('css/app.v1.css')}}" type="text/css" />
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <!-- Styles -->
     @livewireStyles
@@ -44,11 +43,6 @@
     @livewireScripts
     <script src="{{asset('js/app.v1.js')}}"></script>
     <script src="{{asset('js/app.plugin.js')}}"></script>
-    <script>
-        $(document).ready(function() {
-            $('[data-widget="pushmenu"]').PushMenu();
-        });
 
-    </script>
 </body>
 </html>

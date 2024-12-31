@@ -1,16 +1,25 @@
 @extends('layouts.superadmin')
 
 @section('title')
-    Topics
+Topics
 @endsection
 
 @section('content')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    @include('flash-message')
-    <section class="content-header">
-        <h2 class="content-title">Topics</h2>
-    </section>
-    <div class="content">
+@include('flash-message')
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="mb-2 row">
+            <div class="col-sm-6">
+                <h1 class="m-0">Topics</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="content">
+    <div class="container-fluid">
+
+
         <div class="card">
             <div class="card-header">
                 <form method="GET" action="{{ route('subtopics.index') }}" class="form-inline w-100">
@@ -20,7 +29,7 @@
                             <select class="form-control filter-dropdown" name="medium_id" id="mediums">
                                 <option value="">Select Medium</option>
                                 @foreach ($mediums as $medium)
-                                    <option value="{{ $medium->id }}" {{ request()->medium_id == $medium->id ? 'selected' : '' }}>{{ $medium->medium_name }}</option>
+                                <option value="{{ $medium->id }}" {{ request()->medium_id == $medium->id ? 'selected' : '' }}>{{ $medium->medium_name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -29,7 +38,7 @@
                             <select class="form-control filter-dropdown" name="standard_id" id="standards">
                                 <option value="">Select Standard</option>
                                 @foreach ($standards as $standard)
-                                    <option value="{{ $standard->id }}" {{ request()->standard_id == $standard->id ? 'selected' : '' }}>{{ $standard->standard_name }}</option>
+                                <option value="{{ $standard->id }}" {{ request()->standard_id == $standard->id ? 'selected' : '' }}>{{ $standard->standard_name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -38,7 +47,7 @@
                             <select class="form-control filter-dropdown" name="subject_id" id="subjects">
                                 <option value="">Select Subject</option>
                                 @foreach ($subjects as $subject)
-                                    <option value="{{ $subject->id }}" {{ request()->subject_id == $subject->id ? 'selected' : '' }}>{{ Str::limit($subject->subject, 20) }}</option>
+                                <option value="{{ $subject->id }}" {{ request()->subject_id == $subject->id ? 'selected' : '' }}>{{ Str::limit($subject->subject, 20) }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -47,7 +56,7 @@
                             <select class="form-control filter-dropdown" name="topic_id" id="topics">
                                 <option value="">Select Topic</option>
                                 @foreach ($topics as $topic)
-                                    <option value="{{ $topic->id }}" {{ request()->topic_id == $topic->id ? 'selected' : '' }}>{{ $topic->topic }}</option>
+                                <option value="{{ $topic->id }}" {{ request()->topic_id == $topic->id ? 'selected' : '' }}>{{ $topic->topic }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -78,114 +87,126 @@
                         </thead>
                         <tbody>
                             @foreach($subtopics as $subtopic)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $subtopic->topic->subject->standard->standard_name ?? 'N/A' }} ({{ $subtopic->topic->subject->standard->medium->medium_name ?? 'N/A' }})</td>
-                                    <td>{{ $subtopic->topic->subject->subject ?? 'N/A' }}</td>
-                                    <td>{{ $subtopic->topic->topic ?? 'N/A' }}</td>
-                                    <td>{{ $subtopic->sub_topic }}</td>
-                                    <td class="text-end">
-                                        <span class="badge badge-{{ 'success' }}">{{'Active' }}</span>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $subtopic->topic->subject->standard->standard_name ?? 'N/A' }} ({{ $subtopic->topic->subject->standard->medium->medium_name ?? 'N/A' }})</td>
+                                <td>{{ $subtopic->topic->subject->subject ?? 'N/A' }}</td>
+                                <td>{{ $subtopic->topic->topic ?? 'N/A' }}</td>
+                                <td>{{ $subtopic->sub_topic }}</td>
+                                <td class="text-end">
+                                    <span class="badge badge-{{ 'success' }}">{{'Active' }}</span>
+                                </td>
+                            </tr>
                             @endforeach
                         </tbody>
                     </table>
                     {{-- <div class="pagination justify-content-center">
                         {{ $subtopics->links() }}
-                    </div> --}}
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>
+    </div>
+</section>
 @endsection
 
 @push('css')
-    <style>
-        .form-label {
-            display: block;
-            margin-bottom: .5rem;
-        }
-        .form-group {
-            margin-bottom: 0;
-        }
-        .filter-dropdown {
-            width: 100%;
-            max-width: 100%;
-        }
-    </style>
+<style>
+    .form-label {
+        display: block;
+        margin-bottom: .5rem;
+    }
+
+    .form-group {
+        margin-bottom: 0;
+    }
+
+    .filter-dropdown {
+        width: 100%;
+        max-width: 100%;
+    }
+
+</style>
 @endpush
 
 @push('js')
-    <script>
-        $(document).ready(function() {
-            $('#mediums').change(function() {
-                var mediumId = $(this).val();
-                if (mediumId) {
-                    $.ajax({
-                        url: '{{ route("get-newstandards") }}',
-                        type: 'GET',
-                        data: { medium_id: mediumId },
-                        success: function(data) {
-                            $('#standards').empty().append('<option value="">Select Standard</option>');
-                            $.each(data, function(key, value) {
-                                $('#standards').append('<option value="' + value.id + '">' + value.standard_name + '</option>');
-                            });
-                        }
-                    });
-                } else {
-                    $('#standards').empty().append('<option value="">Select Standard</option>');
-                }
-            });
-
-            $('#standards').change(function() {
-                var standardId = $(this).val();
-                if (standardId) {
-                    $.ajax({
-                        url: '{{ route("get-newsubjects") }}',
-                        type: 'GET',
-                        data: { standard_id: standardId },
-                        success: function(data) {
-                            $('#subjects').empty().append('<option value="">Select Subject</option>');
-                            $.each(data, function(key, value) {
-                                $('#subjects').append('<option value="' + value.id + '">' + value.subject + '</option>');
-                            });
-                        }
-                    });
-                } else {
-                    $('#subjects').empty().append('<option value="">Select Subject</option>');
-                }
-            });
-
-            $('#subjects').change(function() {
-                var subjectId = $(this).val();
-                if (subjectId) {
-                    $.ajax({
-                        url: '{{ route("get-newtopics") }}',
-                        type: 'GET',
-                        data: { subject_id: subjectId },
-                        success: function(data) {
-                            $('#topics').empty().append('<option value="">Select Topic</option>');
-                            $.each(data, function(key, value) {
-                                $('#topics').append('<option value="' + value.id + '">' + value.topic_name + '</option>');
-                            });
-                        }
-                    });
-                } else {
-                    $('#topics').empty().append('<option value="">Select Topic</option>');
-                }
-            });
+<script>
+    $(document).ready(function() {
+        $('#mediums').change(function() {
+            var mediumId = $(this).val();
+            if (mediumId) {
+                $.ajax({
+                    url: '{{ route("get-newstandards") }}'
+                    , type: 'GET'
+                    , data: {
+                        medium_id: mediumId
+                    }
+                    , success: function(data) {
+                        $('#standards').empty().append('<option value="">Select Standard</option>');
+                        $.each(data, function(key, value) {
+                            $('#standards').append('<option value="' + value.id + '">' + value.standard_name + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#standards').empty().append('<option value="">Select Standard</option>');
+            }
         });
-    </script>
-    <script>
-        $(function() {
-            $("#subtopicTable").DataTable({
-                "responsive": true,
-                "lengthChange": true,
-                "autoWidth": false,
-                "order": true,
-                "buttons": ["copy", "csv", "excel", "pdf"]
-            }).buttons().container().appendTo('#subtopicTable_wrapper .col-md-6:eq(0)');
+
+        $('#standards').change(function() {
+            var standardId = $(this).val();
+            if (standardId) {
+                $.ajax({
+                    url: '{{ route("get-newsubjects") }}'
+                    , type: 'GET'
+                    , data: {
+                        standard_id: standardId
+                    }
+                    , success: function(data) {
+                        $('#subjects').empty().append('<option value="">Select Subject</option>');
+                        $.each(data, function(key, value) {
+                            $('#subjects').append('<option value="' + value.id + '">' + value.subject + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#subjects').empty().append('<option value="">Select Subject</option>');
+            }
         });
-    </script>
+
+        $('#subjects').change(function() {
+            var subjectId = $(this).val();
+            if (subjectId) {
+                $.ajax({
+                    url: '{{ route("get-newtopics") }}'
+                    , type: 'GET'
+                    , data: {
+                        subject_id: subjectId
+                    }
+                    , success: function(data) {
+                        $('#topics').empty().append('<option value="">Select Topic</option>');
+                        $.each(data, function(key, value) {
+                            $('#topics').append('<option value="' + value.id + '">' + value.topic_name + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#topics').empty().append('<option value="">Select Topic</option>');
+            }
+        });
+    });
+
+</script>
+<script>
+    $(function() {
+        $("#subtopicTable").DataTable({
+            "responsive": true
+            , "lengthChange": true
+            , "autoWidth": false
+            , "order": true
+            , "buttons": ["copy", "csv", "excel", "pdf"]
+        }).buttons().container().appendTo('#subtopicTable_wrapper .col-md-6:eq(0)');
+    });
+
+</script>
 @endpush
