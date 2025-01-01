@@ -139,11 +139,11 @@ Route::group(['middlware' => ['auth', 'role:SuperAdmin']], function () {
     Route::post('superadmin/save-SubTopics', [SubTopicsController::class, 'store'])->name('save_subtopics');
     Route::get('superadmin/edit-SubTopics/{id}', [SubTopicsController::class, 'edit'])->name('edit_subtopics');
     Route::post('superadmin/update-SubTopics/{id}', [SubTopicsController::class, 'update'])->name('update_subtopics');
-    Route::delete('superadmin/delete-SubTopics/{id}', [SubTopicsController::class, 'destroy'])->name('delete_subtopics');
+    Route::delete('superadmin/delete-SubTopics/{subTopicId}', [SubTopicsController::class, 'destroy'])->name('delete_subtopics');
     Route::get('get_standards/{mediumId}', [SubTopicsController::class, 'getStandards'])->name('get_standards');
     Route::get('get_subjects/{standardId}', [SubTopicsController::class, 'getSubjects'])->name('get_subjects');
     Route::get('get_topics/{subjectId}', [SubTopicsController::class, 'getTopics'])->name('get_topics');
-    Route::get('get_subtopics/{topictId}', [SubTopicsController::class, 'getSubTopics'])->name('get_subtopics');
+    Route::get('get_subtopics/{topicId}', [SubTopicsController::class, 'getSubTopics'])->name('get_subtopics');
     // Route::get('get-newstandards', [SubjectController::class, 'getNewStandards'])->name('get-newstandards');
     // Route to get new standards based on the selected medium
     Route::get('/get-newstandards', 'SubTopicsController@getNewStandards')->name('get-newstandards');

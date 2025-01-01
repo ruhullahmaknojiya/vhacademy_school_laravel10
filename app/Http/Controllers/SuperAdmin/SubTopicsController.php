@@ -53,26 +53,26 @@ class SubTopicsController extends Controller
 
         $subtopics = $query->get();
 
-        return view('superadmin.subtopics.index',compact('mediums', 'standards', 'subjects','topics' ,'subtopics'));
+        return view('superadmin.subtopics.index', compact('mediums', 'standards', 'subjects', 'topics', 'subtopics'));
     }
 
 
     public function getNewStandards(Request $request)
     {
-    $standards = Standard::where('medium_id', $request->medium_id)->get();
-    return response()->json($standards);
+        $standards = Standard::where('medium_id', $request->medium_id)->get();
+        return response()->json($standards);
     }
 
     public function getNewSubjects(Request $request)
     {
-    $subjects = Subject::where('standard_id', $request->standard_id)->get();
-    return response()->json($subjects);
+        $subjects = Subject::where('standard_id', $request->standard_id)->get();
+        return response()->json($subjects);
     }
 
     public function getNewTopics(Request $request)
     {
-    $topics = Topic::where('subject_id', $request->subject_id)->get();
-    return response()->json($topics);
+        $topics = Topic::where('subject_id', $request->subject_id)->get();
+        return response()->json($topics);
     }
 
     /**
@@ -83,9 +83,9 @@ class SubTopicsController extends Controller
     public function create()
     {
         //
-//        $subjects=Subject::all();
-        $mediums=Medium::all();
-        return view('superadmin.subtopics.create',compact('mediums'));
+        //        $subjects=Subject::all();
+        $mediums = Medium::all();
+        return view('superadmin.subtopics.create', compact('mediums'));
     }
 
     /**
@@ -96,20 +96,20 @@ class SubTopicsController extends Controller
      */
     public function store(Request $request)
     {
-        $validate=$request->validate([
-            'sub_topic'=>'required',
-            'type'=>'required',
-            'description'=>'required',
-            'video_link'=>'required',
-            'topic_id'=>'required',
-            'std_id'=>'nullable',
-
-            'vhm_start_title'=>'required',
-            'vhm_end_title'=>'required',
-            'vhm_start_url'=>'required',
-            'vhm_end_url'=>'required',
-            'file_path'=>'required',
-        ],[
+        // dd($request->all());
+        $validate = $request->validate([
+            'sub_topic' => 'required',
+            'type' => 'required',
+            'description' => 'required',
+            'video_link' => 'required',
+            'topic_id' => 'required',
+            'std_id' => 'nullable',
+            'vhm_start_title' => 'required',
+            'vhm_end_title' => 'required',
+            'vhm_start_url' => 'required',
+            'vhm_end_url' => 'required',
+            'file_path' => 'required',
+        ], [
             'sub_topic.required' => 'The Subtopic Name  is required.',
             'type.required' => 'The Type  is required.',
             'description.required' => 'The Description  is required.',
@@ -120,26 +120,25 @@ class SubTopicsController extends Controller
             'vhm_start_url.required' => 'The Vhm Start url  is required.',
             'vhm_end_url.required' => 'The Vhm End url  is required.',
             'file_path.required' => 'The File  is required.',
-
-
         ]);
 
-        // Create a new Subtopic instance
-        $save_subtopics=new SubTopic();
-        $save_subtopics->sub_topic=$request->sub_topic;
-        $save_subtopics->type=$request->type;
-        $save_subtopics->description=$request->description;
-        $save_subtopics->video_link=$request->video_link;
-        $save_subtopics->topic_id=$request->topic_id;
-        $save_subtopics->vhm_start_title=$request->vhm_start_title;
-        $save_subtopics->vhm_end_title=$request->vhm_end_title;
-        $save_subtopics->vhm_start_url=$request->vhm_start_url;
-        $save_subtopics->vhm_end_url=$request->vhm_end_url;
-
+        $save_subtopics = new SubTopic();
+        $save_subtopics->medium_id = $request->medium_id;
+        $save_subtopics->standard_id = $request->std_id;
+        $save_subtopics->subject_id = $request->sub_id;
+        $save_subtopics->sub_topic = $request->sub_topic;
+        $save_subtopics->type = $request->type;
+        $save_subtopics->description = $request->description;
+        $save_subtopics->video_link = $request->video_link;
+        $save_subtopics->topic_id = $request->topic_id;
+        $save_subtopics->vhm_start_title = $request->vhm_start_title;
+        $save_subtopics->vhm_end_title = $request->vhm_end_title;
+        $save_subtopics->vhm_start_url = $request->vhm_start_url;
+        $save_subtopics->vhm_end_url = $request->vhm_end_url;
 
         // Handle PDF file upload
-        if ($request->hasFile("file_path")) {
-            $pdfFile = $request->file("file_path");
+        if ($request->hasFile('file_path')) {
+            $pdfFile = $request->file('file_path');
 
             // Delete existing PDF file if it exists
             if (Storage::exists('public/pdf/subtopic/' . $save_subtopics->file_path)) {
@@ -152,71 +151,7 @@ class SubTopicsController extends Controller
         }
 
         $save_subtopics->save();
-
-
-
-//        // Handle Subtopic Help Data
-//        $helpData = $request->input('helpdetails');
-//
-//        foreach ($helpData as $index => $help) {
-//            if (!empty($help['std_id']) &&!empty($help['sub_id']) &&!empty($help['topic_id']) &&!empty($help['sub_topic']) ) {
-//            $subtopicHelp = new SubTopicHelp([
-//                'std_id' => $help['std_id'],
-//                'sub_id' => $help['sub_id'],
-//                'topic_id' => $help['topic_id'],
-//                'subtopic_id' => $save_subtopics->id, // Assign the main subtopic id
-//                'sub_topic' => $help['sub_topic'],
-//            ]);
-//
-//            // Handle file upload for help PDF
-////            if ($request->hasFile("helpdetails.{$index}.help_pdf")) {
-////                $pdfFile = $request->file("helpdetails.{$index}.help_pdf");
-////
-////                // Store the new PDF file
-////                $pdfFile->storeAs('public/pdf/subtopic/help/', $pdfFile->hashName());
-////                $subtopicHelp->help_pdf = $pdfFile->hashName();
-////            }
-//
-//            $subtopicHelp->save();
-//        }
-//    }
-//
-//
-//        // Handle Subtopic Reference Data
-//        $referenceData = $request->input('reference_details');
-//        foreach ($referenceData as $index => $reference) {
-//            if (!empty($reference['std_id']) &&!empty($reference['sub_id']) &&!empty($reference['topic_id']) &&!empty($reference['sub_topic']) ) {
-//                $subtopicReference = new SubTopicReference([
-//
-//                'std_id' => $help['std_id'],
-//                'sub_id' => $help['sub_id'],
-//                'topic_id' => $help['topic_id'],
-//                'sub_topic' => $help['sub_topic'],
-//                'subtopic_id' => $save_subtopics->id, // Assign the main subtopic id
-//
-////                'refference_video_link' => $reference['refference_video_link'],
-//
-//            ]);
-//
-////            if ($request->hasFile("reference_details.{$index}.refference_pdf")) {
-////                $pdfFile = $request->file("reference_details.{$index}.refference_pdf");
-////
-////
-////                // Store the new PDF file
-////                $pdfFile->storeAs('public/pdf/subtopic/reference/', $pdfFile->hashName());
-////                $subtopicReference->refference_pdf = $pdfFile->hashName();
-////            }
-//
-//
-//
-//            $subtopicReference->save();
-//        }
-//    }
-
-
-
-
-        return redirect()->route('subtopics.index')->with('success','SubTopic Add Scuccessfully');
+        return redirect()->route('subtopics.index')->with('success', 'SubTopic Add Scuccessfully');
     }
 
     /**
@@ -238,14 +173,17 @@ class SubTopicsController extends Controller
      */
     public function edit($id)
     {
-        $edit_subtopics=SubTopic::find($id);
+        $edit_subtopics = SubTopic::find($id);
+        if (!$edit_subtopics) {
+            return redirect()->route('subtopics.index')->with('error', 'SubTopic Records Not Found');
+        }
 
-        $mediums=Medium::all();
-        $standard=Standard::all();
-        $subjects=Subject::all();
-        $topics=Topic::all();
-        $subtopics=SubTopic::all();
-        return view('superadmin.subtopics.edit',compact('edit_subtopics','subtopics','topics','standard','subjects','mediums'));
+        $mediums = Medium::all(['id', 'medium_name']);
+        $standards = Standard::all(['id', 'standard_name']);
+        $subjects = Subject::all(['id', 'subject']);
+        $topics = Topic::all();
+        $subtopics = SubTopic::all();
+        return view('superadmin.subtopics.edit', compact('edit_subtopics', 'subtopics', 'topics', 'standards', 'subjects', 'mediums'));
     }
 
     /**
@@ -258,19 +196,31 @@ class SubTopicsController extends Controller
     public function update(Request $request, $id)
     {
 
-        // Find the Subtopic to update
+        // dd($request->all());
+
+
+        $validate = $request->validate([
+            'sub_topic' => 'required',
+            'type' => 'required',
+            'description' => 'required',
+            'video_link' => 'required|url',
+            'topic_id' => 'required',
+            'vhm_start_title' => 'required',
+            'vhm_end_title' => 'required',
+            'vhm_start_url' => 'required|url',
+            'vhm_end_url' => 'required|url',
+            // 'file_path' => 'required|file'
+
+        ]);
+
+
         $updateSubtopic = SubTopic::findOrFail($id);
 
-        // Update Subtopic fields
-        $updateSubtopic->sub_topic = $request->sub_topic;
-        $updateSubtopic->type = $request->type;
-        $updateSubtopic->description = $request->description;
-        $updateSubtopic->video_link = $request->video_link;
-        $updateSubtopic->topic_id = $request->topic_id;
-        $updateSubtopic->vhm_start_title=$request->vhm_start_title;
-        $updateSubtopic->vhm_end_title=$request->vhm_end_title;
-        $updateSubtopic->vhm_start_url=$request->vhm_start_url;
-        $updateSubtopic->vhm_end_url=$request->vhm_end_url;
+
+
+        if (!$updateSubtopic) {
+            return redirect()->route('subtopics.index')->with('error', 'SubTopic not found.');
+        }
 
         // Handle image upload
         if ($request->hasFile("stopic_image")) {
@@ -282,6 +232,23 @@ class SubTopicsController extends Controller
             $img->store('public/images/school/subject/subtopics');
             $updateSubtopic->stopic_image = $img->hashName();
         }
+
+        $updateSubtopic->update([
+            'sub_topic' => $request->sub_topic,
+            'type' => $request->type,
+            // 'stopic_image' => $request->stopic_image,  // Make sure to handle this field if needed
+            'vhm_start_title' => $request->vhm_start_title,
+            'vhm_end_title' => $request->vhm_end_title,
+            'vhm_start_url' => $request->vhm_start_url,
+            'vhm_end_url' => $request->vhm_end_url,
+            'description' => $request->description,
+            // 'file_path' => $request->file_path,  // Handle the file upload if applicable
+            'video_link' => $request->video_link,
+            'topic_id' => $request->topic_id,
+            'medium_id' => $request->medium_id,
+            'standard_id' => $request->standard_id,
+            'subject_id' => $request->subject_id,
+        ]);
 
         // Handle PDF file upload
         if ($request->hasFile("file_path")) {
@@ -295,78 +262,13 @@ class SubTopicsController extends Controller
             $updateSubtopic->file_path = $pdfFile->hashName();
         }
 
+
+
         // Save the Subtopic updates
         $updateSubtopic->save();
 
-        // Handle Subtopic Help Data update
-//if($request->input('helpdetails')){
-////        $helpData = $request->input('helpdetails');
-////
-////        foreach ($helpData as $index => $help) {
-////
-////            // Check if the help ID is present
-////            if (!is_null($help['id'])) {
-////                $subtopicHelp = SubTopicHelp::findOrFail($help['id']);
-////            } else {
-////                // Create a new instance if ID is null
-////                $subtopicHelp = new SubTopicHelp();
-////            }
-////
-////            // Update or create Subtopic Help fields
-////            $subtopicHelp->std_id = $help['std_id'];
-////            $subtopicHelp->sub_id = $help['sub_id'];
-////            $subtopicHelp->topic_id = $help['topic_id'];
-////            $subtopicHelp->sub_topic = $help['sub_topic'];
-////            $subtopicHelp->subtopic_id = $updateSubtopic->id;
-//////            $subtopicHelp->help_video_link = $help['help_video_link'];
-////
-////            // Handle file upload for help PDF
-//////            if ($request->hasFile("helpdetails.{$index}.help_pdf")) {
-//////                $pdfFile = $request->file("helpdetails.{$index}.help_pdf");
-//////                // Store the new PDF file
-//////                $pdfFile->storeAs('public/pdf/subtopic/help/', $pdfFile->hashName());
-//////                $subtopicHelp->help_pdf = $pdfFile->hashName();
-//////            }
-////
-////            $subtopicHelp->save();
-////        }
-////    }
-////
-////
-////    if($request->input('reference_details')){
-////        // Handle Subtopic Reference Data update
-////        $referenceData = $request->input('reference_details');
-////        foreach ($referenceData as $index => $reference) {
-////
-////            // Check if the reference ID is present
-////            if (!is_null($reference['id'])) {
-////                $subtopicReference = SubTopicReference::findOrFail($reference['id']);
-////            } else {
-////                // Create a new instance if ID is null
-////                $subtopicReference = new SubTopicReference();
-////            }
-////
-////            // Update or create Subtopic Reference fields
-////            $subtopicReference->std_id = $reference['std_id'];
-////            $subtopicReference->sub_id = $reference['sub_id'];
-////            $subtopicReference->topic_id = $reference['topic_id'];
-////            $subtopicReference->sub_topic = $reference['sub_topic'];
-////            $subtopicReference->subtopic_id = $updateSubtopic->id;
-//////            $subtopicReference->refference_video_link = $reference['refference_video_link'];
-////
-////            // Handle file upload for reference PDF
-//////            if ($request->hasFile("reference_details.{$index}.refference_pdf")) {
-//////                $pdfFile = $request->file("reference_details.{$index}.refference_pdf");
-//////                // Store the new PDF file
-//////                $pdfFile->storeAs('public/pdf/subtopic/reference/', $pdfFile->hashName());
-//////                $subtopicReference->refference_pdf = $pdfFile->hashName();
-//////            }
-////
-////            $subtopicReference->save();
-////        }
-////    }
 
-        return redirect()->route('subtopics')->with('info', 'SubTopic updated successfully');
+        return redirect()->route('subtopics.index')->with('info', 'SubTopic Records Updated successfully');
     }
 
 
@@ -376,11 +278,14 @@ class SubTopicsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($subTopicId)
     {
-        $delete_subtopics=SubTopic::find($id);
+        $delete_subtopics = SubTopic::find($subTopicId);
+        if (!$delete_subtopics) {
+            return redirect()->route('subtopics.index')->with('success', 'SubTopic Not Found');
+        }
         $delete_subtopics->delete();
-        return redirect()->route('subtopics')->with('danger','SubTopic Delete Successfully');
+        return redirect()->route('subtopics.index')->with('danger', 'SubTopic Delete Successfully');
     }
 
 
@@ -401,11 +306,9 @@ class SubTopicsController extends Controller
         $topics = Topic::where('sub_id', $subjectId)->pluck('topic', 'id');
         return response()->json($topics);
     }
-    public function getSubTopics($topictId)
+    public function getSubTopics($topicId)
     {
-        $subtopics = SubTopic::where('topic_id', $topictId)->pluck('sub_topic', 'id');
+        $subtopics = SubTopic::where('topic_id', $topicId)->pluck('sub_topic', 'id');
         return response()->json($subtopics);
     }
-
-
 }

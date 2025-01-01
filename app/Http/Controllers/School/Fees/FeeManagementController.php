@@ -406,6 +406,21 @@ class FeeManagementController extends Controller
             ->groupBy('fee_categories.master_category_id', 'master_fee_categories.category_name')
             ->get();
 
+
+            $fee_categories = DB::table('fee_categories')
+            ->join('master_fee_categories', 'fee_categories.master_category_id', '=', 'master_fee_categories.id')
+            ->select(
+                'master_fee_categories.category_name',
+                'fee_categories.master_category_id',
+                DB::raw('SUM(fee_categories.amount) as total_amount'),
+                DB::raw('COUNT(fee_categories.id) as category_count')
+            )
+            ->groupBy('fee_categories.master_category_id', 'master_fee_categories.category_name')
+            ->get();
+
+
+
+
         $totalFees = FeeCategory::sum('amount');
 
 
@@ -448,7 +463,9 @@ class FeeManagementController extends Controller
         if ($schoolFeeCategory) {
 
             $totalSchoolFee = FeeCategory::where('master_category_id', $schoolFeeCategory->id)->sum('amount');
+
             $schoolFeesPaid = Payment::where('fee_category_id', $schoolFeeCategory->id)->sum('paid_amount');
+
             $schoolFeeDue = $totalSchoolFee - $schoolFeesPaid;
         } else {
             dd("Category 'School Fee' not found.");
@@ -484,7 +501,8 @@ class FeeManagementController extends Controller
             'schoolFeesPaid',
             'totalDueAmount',
             'mandalFeeDue',
-            'schoolFeeDue'
+            'schoolFeeDue',
+            'fee_categories'
         ));
     }
 

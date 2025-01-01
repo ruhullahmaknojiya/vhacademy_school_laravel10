@@ -23,7 +23,7 @@ class ChapterLmsController extends Controller
         $mediums = Medium::all();
         $standards = collect();
         $subjects = collect();
-        $topics = collect();  // Changed from $subtopics to $topics for clarity
+        $topics = collect();
 
         $defaultMedium = Medium::first();
         $defaultStandard = $defaultMedium ? Standard::where('medium_id', $defaultMedium->id)->first() : null;

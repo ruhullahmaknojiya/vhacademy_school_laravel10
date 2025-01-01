@@ -18,13 +18,13 @@
                     </div>
                 </div>
             </div>
-            @foreach ($sumByMasterCategory as $category)
+            @foreach ($fee_categories as $category)
             <div class="col-12 col-sm-6 col-md-2">
                 <div class="mb-3 info-box">
                     <span class="info-box-icon bg-success elevation-1"><i class="fas fa-check-circle"></i></span>
                     <div class="info-box-content">
                         <span class="info-box-text">{{ $category->category_name }}</span>
-                        <span class="info-box-number">{{ $category->total_amount }}</span>
+                        <span class="info-box-number">₹{{ number_format($category->total_amount, 2) }}</span>
                     </div>
                 </div>
             </div>

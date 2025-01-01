@@ -83,6 +83,7 @@ Topics
                                 <th>Chapter</th>
                                 <th>Topic</th>
                                 <th class="text-end">Status</th>
+                                <th class="text-end">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -96,11 +97,17 @@ Topics
                                 <td class="text-end">
                                     <span class="badge badge-{{ 'success' }}">{{'Active' }}</span>
                                 </td>
+                                <td class="d-flex">
+                                    <a href="{{ route('edit_subtopics',$subtopic->id) }}" class="btn btn-primary btn-sm">Edit</a>
+                                    <a href="{{ route('delete_subtopics', $subtopic->id) }}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this subtopic?')">
+                                        Delete
+                                    </a>
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
-                    {{-- <div class="pagination justify-content-center">
+                    {{-- <div class="float-end">
                         {{ $subtopics->links() }}
                 </div> --}}
             </div>
@@ -209,4 +216,5 @@ Topics
     });
 
 </script>
+
 @endpush

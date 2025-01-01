@@ -1,156 +1,173 @@
 @extends('layouts.school_admin')
 
 @section('content')
-
-<div class="container-fluid">
-    <br>
-    <div class="row">
-
-        <!-- Form Card -->
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Assign Subjects to Teachers</h3>
-                </div>
-                <div class="card-body">
-                    @if ($message = Session::get('success'))
-                        <div class="alert alert-success " id="success-message">
-                            <p>{{ $message }}</p>
-                        </div>
-                    @endif
-
-                    @if ($message = Session::get('danger'))
-                    <div class="alert alert-danger" id="success-message">
-                        <p>{{ $message }}</p>
-                    </div>
-                    @endif
-
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-
-                    <form action="{{ route('subjectteacherassignments.store') }}" method="POST">
-                        @csrf
-                        <div class="form-group">
-                            <label for="medium_id">Medium:</label>
-                            <select name="medium_id" id="medium_id" class="form-control">
-                                <option value="">Select Medium</option>
-                                @foreach ($mediums as $medium)
-                                    <option value="{{ $medium->id }}">{{ $medium->medium_name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="standard_id">Standard:</label>
-                            <select name="standard_id" id="standard_id" class="form-control" disabled>
-                                <option value="">Select Standard</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="subjects">Subjects:</label>
-                            <select name="subjects[]" id="subjects" class="form-control" multiple disabled>
-                                <option value="">Select Subjects</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="teacher_id">Teacher:</label>
-                            <select name="teacher_id" id="teacher_id" class="form-control select2">
-                                <option value="">Select Teacher</option>
-                                @foreach ($teachers as $teacher)
-                                    <option value="{{ $teacher->id }}">{{ $teacher->first_name }} {{ $teacher->last_name }} ({{ $teacher->phone }})</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <input type="hidden" name="school_id" value="{{ $school->id }}">
-                        <button type="submit" class="btn btn-primary">Save</button>
-                    </form>
-                </div>
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="mb-2 row">
+            <div class="col-sm-6">
+                <h1 class="m-0">Assign Subjects to Teachers</h1>
             </div>
-        </div>
-
-        <!-- List Card -->
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Assigned Subjects With Teachers</h3>
-                </div>
-                <div class="card-body">
-                    <div class="row mb-3">
-                        <div class="col-md-4">
-                            <select id="filter_medium" class="form-control">
-                                <option value="">Filter by Medium</option>
-                                @foreach ($mediums as $medium)
-                                    <option value="{{ $medium->id }}">{{ $medium->medium_name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-4">
-                            <select id="filter_standard" class="form-control">
-                                <option value="">Filter by Standard</option>
-                                @foreach ($standards as $standard)
-                                    <option value="{{ $standard->id }}">{{ $standard->standard_name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-4">
-                            <select id="filter_subject" class="form-control">
-                                <option value="">Filter by Subject</option>
-                                @foreach ($subjects as $subject)
-                                    <option value="{{ $subject->id }}">{{ $subject->subject }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <button id="download_excel" class="btn btn-success">Download Excel</button>
-                    </div>
-                    <table class="table table-bordered" id="assignment_table">
-                        <thead>
-                            <tr>
-                                <th>Class</th>
-                                <th>Subject</th>
-                                <th>Teachers</th>
-                            </tr>
-                        </thead>
-                        <tbody id="assignment_table_body">
-                            @foreach ($assignments as $mediumId => $standards)
-                                @foreach ($standards as $standardId => $subjects)
-                                    @foreach ($subjects as $subjectId => $groupedAssignments)
-                                        <tr data-medium-id="{{ $mediumId }}" data-standard-id="{{ $standardId }}" data-subject-id="{{ $subjectId }}">
-                                            <td>{{ $groupedAssignments->first()->medium->medium_name }} - {{ $groupedAssignments->first()->standard->standard_name }}</td>
-                                            <td>{{ $groupedAssignments->first()->subject->subject }}</td>
-                                            <td>
-                                                @foreach ($groupedAssignments as $assignment)
-                                                    <div style="display: flex; align-items: center; justify-content: space-between;">
-                                                        <span>{{ $assignment->teacher->first_name }} {{ $assignment->teacher->last_name }} ({{ $assignment->teacher->phone }})</span>
-                                                        <form action="{{ route('subjectteacherassignments.destroy', $assignment->id) }}" method="POST" style="margin-left: 10px;" onsubmit="return confirm('Are you sure you want to remove this teacher?');">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="btn btn-danger btn-sm">Remove</button>
-                                                        </form>
-                                                    </div>
-                                                    @if (!$loop->last)
-                                                        <hr>
-                                                    @endif
-                                                @endforeach
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                @endforeach
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Assign Subjects to Teachers</li>
+                </ol>
             </div>
         </div>
     </div>
 </div>
+<section class="content">
+    <div class="container-fluid">
+
+        <div class="row">
+
+            <!-- Form Card -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Assign Subjects to Teachers</h3>
+                    </div>
+                    <div class="card-body">
+                        @if ($message = Session::get('success'))
+                        <div class="alert alert-success " id="success-message">
+                            <p>{{ $message }}</p>
+                        </div>
+                        @endif
+
+                        @if ($message = Session::get('danger'))
+                        <div class="alert alert-danger" id="success-message">
+                            <p>{{ $message }}</p>
+                        </div>
+                        @endif
+
+                        @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @endif
+
+                        <form action="{{ route('subjectteacherassignments.store') }}" method="POST">
+                            @csrf
+                            <div class="form-group">
+                                <label for="medium_id">Medium:</label>
+                                <select name="medium_id" id="medium_id" class="form-control">
+                                    <option value="">Select Medium</option>
+                                    @foreach ($mediums as $medium)
+                                    <option value="{{ $medium->id }}">{{ $medium->medium_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="standard_id">Standard:</label>
+                                <select name="standard_id" id="standard_id" class="form-control" disabled>
+                                    <option value="">Select Standard</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="subjects">Subjects:</label>
+                                <select name="subjects[]" id="subjects" class="form-control" multiple disabled>
+                                    <option value="">Select Subjects</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="teacher_id">Teacher:</label>
+                                <select name="teacher_id" id="teacher_id" class="form-control select2">
+                                    <option value="">Select Teacher</option>
+                                    @foreach ($teachers as $teacher)
+                                    <option value="{{ $teacher->id }}">{{ $teacher->first_name }} {{ $teacher->last_name }} ({{ $teacher->phone }})</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <input type="hidden" name="school_id" value="{{ $school->id }}">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- List Card -->
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Assigned Subjects With Teachers</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3 row">
+                            <div class="col-md-4">
+                                <select id="filter_medium" class="form-control">
+                                    <option value="">Filter by Medium</option>
+                                    @foreach ($mediums as $medium)
+                                    <option value="{{ $medium->id }}">{{ $medium->medium_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <select id="filter_standard" class="form-control">
+                                    <option value="">Filter by Standard</option>
+                                    @foreach ($standards as $standard)
+                                    <option value="{{ $standard->id }}">{{ $standard->standard_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <select id="filter_subject" class="form-control">
+                                    <option value="">Filter by Subject</option>
+                                    @foreach ($subjects as $subject)
+                                    <option value="{{ $subject->id }}">{{ $subject->subject }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <button id="download_excel" class="btn btn-success">Download Excel</button>
+                        </div>
+                        <table class="table table-bordered" id="assignment_table">
+                            <thead>
+                                <tr>
+                                    <th>Class</th>
+                                    <th>Subject</th>
+                                    <th>Teachers</th>
+                                </tr>
+                            </thead>
+                            <tbody id="assignment_table_body">
+                                @foreach ($assignments as $mediumId => $standards)
+                                @foreach ($standards as $standardId => $subjects)
+                                @foreach ($subjects as $subjectId => $groupedAssignments)
+                                <tr data-medium-id="{{ $mediumId }}" data-standard-id="{{ $standardId }}" data-subject-id="{{ $subjectId }}">
+                                    <td>{{ $groupedAssignments->first()->medium->medium_name }} - {{ $groupedAssignments->first()->standard->standard_name }}</td>
+                                    <td>{{ $groupedAssignments->first()->subject->subject }}</td>
+                                    <td>
+                                        @foreach ($groupedAssignments as $assignment)
+                                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                                            <span>{{ $assignment->teacher->first_name }} {{ $assignment->teacher->last_name }} ({{ $assignment->teacher->phone }})</span>
+                                            <form action="{{ route('subjectteacherassignments.destroy', $assignment->id) }}" method="POST" style="margin-left: 10px;" onsubmit="return confirm('Are you sure you want to remove this teacher?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                                            </form>
+                                        </div>
+                                        @if (!$loop->last)
+                                        <hr>
+                                        @endif
+                                        @endforeach
+                                    </td>
+                                </tr>
+                                @endforeach
+                                @endforeach
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 @endsection
 
 @push('css')
@@ -172,9 +189,9 @@
 
         // Initialize DataTable
         $('#assignment_table').DataTable({
-            paging: true,
-            searching: true,
-            ordering: true
+            paging: true
+            , searching: true
+            , ordering: true
         });
 
         // Filter table rows based on selected criteria
@@ -218,12 +235,12 @@
             $('#subjects').prop('disabled', true);
             if (mediumId) {
                 $.ajax({
-                    url: '/get-standards/' + mediumId,
-                    type: 'GET',
-                    success: function(data) {
+                    url: '/get-standards/' + mediumId
+                    , type: 'GET'
+                    , success: function(data) {
                         $('#standard_id').prop('disabled', false).html('<option value="">Select Standard</option>');
                         $.each(data, function(index, standard) {
-                            $('#standard_id').append('<option value="'+standard.id+'">'+standard.standard_name+'</option>');
+                            $('#standard_id').append('<option value="' + standard.id + '">' + standard.standard_name + '</option>');
                         });
                     }
                 });
@@ -238,12 +255,12 @@
             $('#subjects').prop('disabled', true);
             if (standardId) {
                 $.ajax({
-                    url: '/get-teacher-subjects/' + standardId,
-                    type: 'GET',
-                    success: function(data) {
+                    url: '/get-teacher-subjects/' + standardId
+                    , type: 'GET'
+                    , success: function(data) {
                         $('#subjects').prop('disabled', false).html('<option value="">Select Subjects</option>');
                         $.each(data, function(index, subject) {
-                            $('#subjects').append('<option value="'+subject.id+'">'+subject.subject+'</option>');
+                            $('#subjects').append('<option value="' + subject.id + '">' + subject.subject + '</option>');
                         });
                     }
                 });
@@ -255,7 +272,9 @@
         // Download Excel
         $('#download_excel').click(function() {
             const wb = XLSX.utils.book_new();
-            const ws_data = [['Class', 'Subject', 'Teachers']];
+            const ws_data = [
+                ['Class', 'Subject', 'Teachers']
+            ];
             $('#assignment_table tbody tr').each(function() {
                 const row = [];
                 $(this).find('td').each(function(index) {
@@ -280,5 +299,6 @@
             $('#success-message').fadeOut('slow');
         }, 1000);
     });
+
 </script>
 @endpush
