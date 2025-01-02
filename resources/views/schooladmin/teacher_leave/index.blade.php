@@ -22,7 +22,7 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-header">
-                <h1 class="card-title">Teacher Leaves</h1>
+                <h4>Teacher Leaves</h4>
             </div>
             <div class="card-body">
                 <div class="table-responsive">

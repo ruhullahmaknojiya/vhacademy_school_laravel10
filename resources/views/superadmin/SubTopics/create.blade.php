@@ -350,7 +350,6 @@ Add Topics
     $(document).ready(function() {
         $('.medium').on('change', function() {
             var mediumId = $(this).val();
-
             $.ajax({
                 url: "{{route('get_standards','')}}/" + mediumId
                 , type: 'GET'

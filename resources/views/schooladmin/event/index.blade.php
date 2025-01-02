@@ -20,7 +20,10 @@ EVENT LIST
                 <h1>Event</h1>
             </div>
             <div class="col-sm-6">
-
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Event</li>
+                </ol>
             </div>
         </div>
     </div><!-- /.container-fluid -->
@@ -30,23 +33,15 @@ EVENT LIST
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">
-
-                        <h3 class="mb-0 card-title">List Events</h3>
-
-                        <!-- Buttons aligned to the right -->
-                        <div class="d-flex justify-content-between align-items-center">
-                            <a href="{{route('schooladmin.events.create')}}" class="btn btn-primary" style="margin-left: 754px;">
-                                <i class="fa fa-plus"></i> Create Event
-                            </a>
-
-                            <a href="{{ route('schooladmin.import') }}" class="btn btn-success">
-                                <i class="fa fa-plus"></i> Import Events
-                            </a>
-                        </div>
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h4>List Events</h4>
+                        <a href="{{route('schooladmin.events.create')}}" class="btn btn-primary ms-auto">
+                            <i class="fa fa-plus"></i> Create Event
+                        </a>
+                        <a href="{{ route('schooladmin.import') }}" class="mx-3 btn btn-success">
+                            <i class="fa fa-plus"></i> Import Events
+                        </a>
                     </div>
-
-
 
                     <div class="card-body">
                         <form method="GET" action="{{ route('schooladmin.events.index') }}">
@@ -68,7 +63,7 @@ EVENT LIST
                                     </select>
                                 </div>
                                 <div class="col-md-2">
-                                    <button type="submit" class="btn btn-primary">Filter</button>
+                                    <button type="submit" class="btn btn-primary ms-auto">Filter</button>
                                 </div>
                             </div>
                         </form>

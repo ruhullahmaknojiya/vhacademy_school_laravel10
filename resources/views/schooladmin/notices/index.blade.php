@@ -34,7 +34,7 @@
                         <a href="{{ route('schooladmin.notices.create') }}" class="btn btn-primary ms-auto">Create Notice</a>
                     </div>
                     <div class="card-body">
-                        <table class="table table-striped">
+                        <table class="table table-bordered">
                             <thead>
                                 <tr>
                                     <th>Title</th>
@@ -46,27 +46,35 @@
                                 </tr>
                             </thead>
                             <tbody>
-
-                                @foreach($notices as $notice)
-                                <tr>
-                                    <td>{{ $notice->title }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($notice->date)->format('d-m-Y') }}</td>
-                                    <td>{{ $notice->teacher_views }} Teachers</td>
-                                    <td>{{ $notice->parent_views }} Parents</td>
-                                    <td>{{ $notice->total_views }} Total Views</td>
-                                    <td class="d-flex">
-                                        <a href="{{ route('schooladmin.notices.report', $notice->id) }}" class="mr-1 btn btn-info btn-sm">View Report</a>
-                                        <form action="{{ route('schooladmin.notices.destroy', $notice->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this notice?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                                @endforeach
+                                @if($notices->isNotEmpty())
+                                    @foreach($notices as $notice)
+                                        <tr>
+                                            <td>{{ $notice->title }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($notice->date)->format('d-m-Y') }}</td>
+                                            <td>{{ $notice->teacher_views }} Teachers</td>
+                                            <td>{{ $notice->parent_views }} Parents</td>
+                                            <td>{{ $notice->total_views }} Total Views</td>
+                                            <td>
+                                                <a href="{{ route('schooladmin.notices.report', $notice->id) }}" class="mr-1 btn btn-info btn-sm">View Report</a>
+                                                <form action="{{ route('schooladmin.notices.destroy', $notice->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this notice?');" class="d-inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @else
+                                    <tr>
+                                        <td colspan="6" style="text-align: center;">
+                                            No Records Found
+                                        </td>
+                                    </tr>
+                                @endif
                             </tbody>
                         </table>
                     </div>
+
                 </div>
             </div>
         </div>

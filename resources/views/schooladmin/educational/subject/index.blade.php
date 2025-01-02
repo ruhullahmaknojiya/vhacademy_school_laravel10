@@ -37,7 +37,7 @@ Subject
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
+                        </div>&nbsp;&nbsp;
                         <div class="mb-2 col-md-2">
                             <div class="form-group">
                                 <label for="standard" class="mr-2">Standard</label>

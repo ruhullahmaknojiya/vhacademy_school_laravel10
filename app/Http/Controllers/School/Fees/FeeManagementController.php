@@ -47,14 +47,14 @@ class FeeManagementController extends Controller
 
     public function showFeeCategories()
     {
-        // Fetch all EMS and GMS classes separately based on their medium
-        // $emsClasses = Standard::where('medium_id', 3)->get();
 
-        // // Assuming '1' is for EMS medium
-        // $gmsClasses = Standard::where('medium_id', 4)->get(); // Assuming '2' is for GMS medium
+        $emsClasses = Standard::where('medium_id', 3)->get();
 
-        // // Pass the data to the view
-        // return view('schooladmin.feemanagement.fee_categories.index', compact('emsClasses', 'gmsClasses'));
+
+        $gmsClasses = Standard::where('medium_id', 4)->get();
+
+        // Pass the data to the view
+        return view('schooladmin.feemanagement.fee_categories.index', compact('emsClasses', 'gmsClasses'));
 
 
     }

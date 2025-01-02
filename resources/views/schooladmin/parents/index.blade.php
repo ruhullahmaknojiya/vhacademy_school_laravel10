@@ -23,15 +23,13 @@
         <div class="card-header">
             <div class="row">
                 <div class="col-md-6">
-                    <h3 class="card-title">Parent Details</h3>
+                    <h4>Parent Details</h4>
                 </div>
-                <div class="text-right col-md-6">
 
-                </div>
             </div>
         </div>
         <div class="card-body">
-            <table class="table table-bordered table-striped" id="parentsTable">
+            <table class="table table-bordered" id="parentsTable">
                 <thead>
                     <tr>
                         <th>#</th>

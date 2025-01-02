@@ -52,7 +52,7 @@
                                         <td>{{ $payment->id }}</td>
                                         <td>{{ $payment->student_name }}</td>
                                         <td>{{ $payment->standard ? $payment->standard->standard_name : 'N/A' }}</td>
-                                        <td>{{ $payment->medium->medium_name }}</td>
+                                        {{-- <td>{{ $payment->medium->medium_name }}</td> --}}
                                         <td>{{ $payment->feeCategory->category_name }}</td>
                                         <td>{{ $payment->total_fees }}</td>
                                         <td>{{ $payment->due_amount }}</td>

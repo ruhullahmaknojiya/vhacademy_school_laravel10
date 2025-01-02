@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\SuperAdmin;
 
 use App\Http\Controllers\Controller;
-
+use App\Models\ClassModel;
 use App\Models\Medium;
 use App\Models\Standard;
 use App\Models\Stander;
@@ -309,6 +309,12 @@ class SubTopicsController extends Controller
     public function getSubTopics($topicId)
     {
         $subtopics = SubTopic::where('topic_id', $topicId)->pluck('sub_topic', 'id');
+        return response()->json($subtopics);
+    }
+
+    public function get_classes($topicId)
+    {
+        $subtopics = ClassModel::where('id', $topicId)->pluck('class_name', 'id');
         return response()->json($subtopics);
     }
 }

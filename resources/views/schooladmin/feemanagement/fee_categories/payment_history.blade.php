@@ -140,7 +140,7 @@
 
                                     <td>{{ $fees_payment_history->id }}</td>
                                     <td>{{ $fees_payment_history->student_name }}</td>
-                                    <td>{{ $fees_payment_history->medium->medium_name}}</td>
+                                    {{-- <td>{{ $fees_payment_history->medium->medium_name}}</td> --}}
                                     <td>{{ $fees_payment_history->standard ? $fees_payment_history->standard->standard_name : 'N/A' }}</td>
                                     <td>{{ $fees_payment_history->feeCategory->category_name }}</td>
                                     <td>{{ $fees_payment_history->total_fees }}</td>

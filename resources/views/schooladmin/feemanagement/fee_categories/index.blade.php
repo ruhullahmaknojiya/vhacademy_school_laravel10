@@ -1,53 +1,73 @@
 @extends('layouts.school_admin')
 
 @section('content')
-<div class="mt-3 container-fluid">
-    <div class="mt-3 row">
-        <!-- Left Section: Medium and Class Listing -->
-        <div class="col-md-3">
-            <div class="mb-4 card">
-                <div class="card-header">
-                    <h4 class="mb-0">EMS Classes</h4>
-                </div>
-                <ul class="list-group list-group-flush">
-                    @foreach($emsClasses as $class)
-                        <li class="list-group-item">
-                            <a href="#" class="class-link {{ $loop->first ? 'active' : '' }}" data-class-id="{{ $class->id }}">
-                                {{ $class->standard_name }} (EMS)
-                            </a>
-                        </li>
 
-                    @endforeach
-                </ul>
-            </div>
 
-            <div class="mb-4 card">
-                <div class="card-header">
-                    <h4 class="mb-0">GMS Classes</h4>
-                </div>
-                <ul class="list-group list-group-flush">
-                    @foreach($gmsClasses as $class)
-                        <li class="list-group-item">
-                            <a href="#" class="class-link {{ $emsClasses->isEmpty() && $loop->first ? 'active' : '' }}" data-class-id="{{ $class->id }}">
-                                {{ $class->standard_name }} (GMS)
-                            </a>
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
+<div class="content-header">
+    <div class="container-fluid">
+      <div class="mb-2 row">
+        <div class="col-sm-6">
+          <h1 class="m-0">SchoolFee</h1>
         </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active">SchoolFee</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+  <section class="content">
+    <div class="container-fluid">
+        <div class="mt-3 row">
+            <!-- Left Section: Medium and Class Listing -->
+            <div class="col-md-3">
+                <div class="mb-4 card">
+                    <div class="card-header">
+                        <h4 class="mb-0">EMS Classes</h4>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        @foreach($emsClasses as $class)
+                            <li class="list-group-item">
+                                <a href="#" class="class-link {{ $loop->first ? 'active' : '' }}" data-class-id="{{ $class->id }}">
+                                    {{ $class->standard_name }} (EMS)
+                                </a>
+                            </li>
 
-        <!-- Right Section: Fee Details -->
-        <div class="col-md-9">
-            <div class="card">
-                <div class="card-body" id="fee-details">
-                    <!-- Placeholder for fee details; populated on load with first class -->
-                    <p>Select a class from the list to view its fee details.</p>
+                        @endforeach
+                    </ul>
+                </div>
+
+                <div class="mb-4 card">
+                    <div class="card-header">
+                        <h4 class="mb-0">GMS Classes</h4>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        @foreach($gmsClasses as $class)
+                            <li class="list-group-item">
+                                <a href="#" class="class-link {{ $emsClasses->isEmpty() && $loop->first ? 'active' : '' }}" data-class-id="{{ $class->id }}">
+                                    {{ $class->standard_name }} (GMS)
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Right Section: Fee Details -->
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-body" id="fee-details">
+                        <!-- Placeholder for fee details; populated on load with first class -->
+                        <p>Select a class from the list to view its fee details.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+  </section>
+
 
 @push('js')
 <script>

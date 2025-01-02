@@ -39,7 +39,7 @@ class Payment extends Model
 
     public function medium()
     {
-        return $this->belongsTo(Medium::class);
+        return $this->belongsTo(Medium::class,'medium_id');
     }
 
     public function class()

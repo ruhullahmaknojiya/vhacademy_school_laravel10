@@ -20,7 +20,6 @@ class SchoolHolidayController extends Controller
      */
     public function index(Request $request)
     {
-        //
         $user=Auth::user();
         $school = School::where('user_id', $user->id)->first();
 
@@ -73,7 +72,7 @@ class SchoolHolidayController extends Controller
         $save_event->description=$request->description;
         $save_event->school_id=$school->id;
 
-    
+
 
         $save_event->save();
 
@@ -117,7 +116,7 @@ class SchoolHolidayController extends Controller
 
 
         $input = $request->all();
-    
+
         $update_holiday->update($input);
         return redirect()->route('schooladmin.holiday.index')->with('info','School Holiday Update Successfully');
     }
