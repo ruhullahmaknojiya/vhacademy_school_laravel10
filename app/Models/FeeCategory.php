@@ -37,4 +37,8 @@ class FeeCategory extends Model
     {
         return $this->belongsTo(Medium::class, 'medium_id');
     }
+
+    protected $casts = [
+        'subcategories' => 'array',
+    ];
 }

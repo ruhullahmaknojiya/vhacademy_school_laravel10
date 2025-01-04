@@ -55,8 +55,6 @@ class FeeManagementController extends Controller
 
         // Pass the data to the view
         return view('schooladmin.feemanagement.fee_categories.index', compact('emsClasses', 'gmsClasses'));
-
-
     }
 
     public function fetchStandards(Request $request)
@@ -407,7 +405,7 @@ class FeeManagementController extends Controller
             ->get();
 
 
-            $fee_categories = DB::table('fee_categories')
+        $fee_categories = DB::table('fee_categories')
             ->join('master_fee_categories', 'fee_categories.master_category_id', '=', 'master_fee_categories.id')
             ->select(
                 'master_fee_categories.category_name',
@@ -417,6 +415,9 @@ class FeeManagementController extends Controller
             )
             ->groupBy('fee_categories.master_category_id', 'master_fee_categories.category_name')
             ->get();
+
+
+
 
 
 
@@ -527,12 +528,229 @@ class FeeManagementController extends Controller
     }
 
 
+    // public function showFeeDetails($studentId)
+    // {
+
+
+    //     $studentPayments = Payment::where('student_id', $studentId)
+    //         ->orderBy('created_at', 'desc')
+    //         ->with('feeCategory')
+    //         ->get();
+    //         // dd($studentPayments);
+
+
+
+    //     if ($studentPayments->isEmpty()) {
+    //         return redirect()->route('fees-payment-history')->with('error', 'Fees Payment Records Not Found for this student.');
+    //     }
+
+    //     $sumPaidAmount = $studentPayments->sum('paid_amount');
+
+    //     foreach ($studentPayments as $payment) {
+    //         // Calculate the due amount as the difference between total fees and paid amount
+    //         $payment->due_amount = $payment->total_fees - $payment->paid_amount;
+    //     }
+
+
+    //     $paid_amount = Payment::sum('paid_amount');
+
+    //     $feeCategoryId = $studentPayments->pluck('fee_category_id')->unique();
+    //     $feeCategories = Payment::with('feeCategory')
+    //         ->get()
+    //         ->pluck('feeCategory.category_name')
+    //         ->unique()
+    //         ->values();
+
+
+    //         $schoolFee = FeeCategory::where('master_category_id',$feeCategoryId)->sum('amount');
+
+
+    //       $fee_categories_name = MasterFeeCategory::all(['category_name']);
+
+
+
+
+
+    //     $studentName = $studentPayments->first()->student_name;
+
+
+    //     return view('schooladmin/feemanagement/fee_categories/fee_details', [
+    //         'studentPayments' => $studentPayments,
+    //         'studentName' => $studentName,
+    //         'feeCategories' => $feeCategories,
+    //         'schoolFee'=>$schoolFee,
+    //         'paid_amount' => $paid_amount,
+    //         'sumPaidAmount'=>$sumPaidAmount,
+    //         'fee_categories_name'=>$fee_categories_name
+    //     ]);
+    // }
+
+
+
+    // public function showFeeDetails($studentId)
+    // {
+    //     // Fetch student payments along with associated fee categories
+    //     $studentPayments = Payment::where('student_id', $studentId)
+    //         ->orderBy('created_at', 'desc')
+    //         ->with('feeCategory') // Eager load the fee category
+    //         ->get();
+
+    //     // If no payments are found for the student, redirect to the fee payment history page
+    //     if ($studentPayments->isEmpty()) {
+    //         return redirect()->route('fees-payment-history')->with('error', 'Fees Payment Records Not Found for this student.');
+    //     }
+
+    //     // Get the sum of paid amounts for the student
+    //     $sumPaidAmount = $studentPayments->sum('paid_amount');
+
+    //     // Calculate the total fees and due amount for the student
+    //     $totalFees = FeeCategory::sum('amount');
+    //     $paidAmount = Payment::sum('paid_amount');
+    //     $dueAmount = $totalFees - $paidAmount;
+
+    //     // Get all categories from MasterFeeCategory
+    //     $feeCategories = MasterFeeCategory::all(['id', 'category_name']);
+
+    //     // Prepare an array to hold the total fee for each category along with category names
+    //     $categoryFeeDetails = [];
+
+    //     // Loop through each category and calculate the total fee
+    //     foreach ($feeCategories as $category) {
+
+
+    //         // Calculate the total fee amount for each category
+    //         $categoryTotalFee = FeeCategory::where('master_category_id', $category->id)->sum('amount');
+    //         $masterCategoryName = FeeCategory::where('master_category_id', $category->id)->pluck('category_name')->toArray();
+
+    //         $categoryFeeDetails[] = [
+    //             'category_name' => $category->category_name,
+    //             'total_fee' => $categoryTotalFee,
+    //             'masterCategoryName' => $masterCategoryName
+    //         ];
+    //     }
+
+    //     // Pass all data to the view
+    //     return view('schooladmin/feemanagement/fee_categories/fee_details', [
+    //         'studentPayments' => $studentPayments,
+    //         'sumPaidAmount' => $sumPaidAmount,
+    //         'totalFees' => $totalFees,
+    //         'dueAmount' => $dueAmount,
+    //         'categoryFeeDetails' => $categoryFeeDetails, // Passing the category fee details
+    //     ]);
+    // }
+
+
+
     public function showFeeDetails($studentId)
     {
         $studentPayments = Payment::where('student_id', $studentId)
             ->orderBy('created_at', 'desc')
+            ->with('feeCategory') // Eager load the fee category
             ->get();
 
-        return view('schooladmin/feemanagement/fee_categories/fee_details', compact('studentPayments'));
+
+        // dd($studentPayments);
+
+
+
+
+
+
+        $fees_payment_histories = Payment::latest()->get();
+
+        $fees_payments = Payment::where('student_id', $studentId)->first();
+
+
+
+
+
+
+        // If no payments are found for the student, redirect to the fee payment history page
+        if ($studentPayments->isEmpty()) {
+            return redirect()->route('fees-payment-history')->with('error', 'Fees Payment Records Not Found for this student.');
+        }
+
+        // Get the sum of paid amounts for the student
+        $sumPaidAmount = $studentPayments->sum('paid_amount');
+
+        // Calculate the total fees and due amount for the student
+        $totalFees = FeeCategory::sum('amount');
+        $paidAmount = Payment::sum('paid_amount');
+        $dueAmount = $totalFees - $paidAmount;
+
+        // Get all categories from MasterFeeCategory
+        $feeCategories = MasterFeeCategory::all(['id', 'category_name']);
+
+        // Prepare an array to hold the total fee for each category along with subcategories and amounts
+        $categoryFeeDetails = [];
+
+        // Loop through each category and calculate the total fee
+        foreach ($feeCategories as $category) {
+            // Get subcategories for each category
+            $subCategories = FeeCategory::where('master_category_id', $category->id)->get();
+
+            // Calculate the total fee amount for each subcategory
+            $subCategoryDetails = [];
+            foreach ($subCategories as $subCategory) {
+                $subCategoryTotalAmount = FeeCategory::where('master_category_id', $category->id)
+                    ->where('category_name', $subCategory->category_name)
+                    ->sum('amount');
+
+                // Store subcategory name and total fee
+                $subCategoryDetails[] = [
+                    'subcategory_name' => $subCategory->category_name,
+                    'total_amount' => $subCategoryTotalAmount
+                ];
+            }
+
+            // Store category name, total fee, and subcategories with their amounts
+            $categoryFeeDetails[] = [
+                'id' => $category->id,
+                'category_name' => $category->category_name,
+                'total_fee' => $subCategories->sum('amount'),
+                'subcategories' => $subCategoryDetails
+            ];
+        }
+
+        // Pass all data to the view
+        return view('schooladmin/feemanagement/fee_categories/fee_details', [
+            'studentPayments' => $studentPayments,
+            'sumPaidAmount' => $sumPaidAmount,
+            'totalFees' => $totalFees,
+            'dueAmount' => $dueAmount,
+            'fees_payment_histories' => $fees_payment_histories,
+            'categoryFeeDetails' => $categoryFeeDetails,
+            'fees_payments' => $fees_payments,
+
+        ]);
+    }
+
+
+
+    public function showSubcategoryDetails($categoryId)
+{
+    // Fetch category details
+    $category = MasterFeeCategory::find($categoryId);
+
+    // If category exists, fetch related subcategories
+    if ($category) {
+        $subCategories = FeeCategory::where('master_category_id', $category->id)->get();
+
+        return view('schooladmin/feemanagement/fee_categories/feeCategory-SubCategory', [
+            'category' => $category,
+            'subCategories' => $subCategories,
+        ]);
+    }
+
+    return redirect()->route('fees-payment-history')->with('error', 'Category not found');
+}
+
+
+    public function viewPayment($id)
+    {
+        $payment = Payment::with(['standard', 'medium', 'feeCategory'])->findOrFail($id);
+
+        // Return the view and pass the payment data
+        return view('schooladmin/feemanagement/fee_categories/View_fees_payment', compact('payment'));
     }
 }

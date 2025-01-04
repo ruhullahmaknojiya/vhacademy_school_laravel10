@@ -4,16 +4,12 @@
 
 <section class="content-header">
     <div class="container-fluid">
-
-
-
         <div class="row">
-
             <div class="col-12 col-sm-6 col-md-2">
                 <div class="mb-3 info-box">
                     <span class="info-box-icon bg-info elevation-1"><i class="fas fa-user-graduate"></i></span>
                     <div class="info-box-content">
-                        <span class="info-box-text">totalFees</span>
+                        <span class="info-box-text">Total Fees</span>
                         <span class="info-box-number">{{ $totalFees }}</span>
                     </div>
                 </div>
@@ -98,6 +94,12 @@
 
         <div class="row">
             <div class="col-md-12">
+                @if(Session::has('error'))
+                <div class="alert alert-danger">
+                    {{ Session::get('error') }}
+                </div>
+
+                @endif
                 @include('flash-message')
                 <div class="mt-3 card" style="margin-top: -191px;">
                     <div class="card-header d-flex justify-content-between">
@@ -140,7 +142,7 @@
 
                                     <td>{{ $fees_payment_history->id }}</td>
                                     <td>{{ $fees_payment_history->student_name }}</td>
-                                    {{-- <td>{{ $fees_payment_history->medium->medium_name}}</td> --}}
+                                    <td>{{ $fees_payment_history->medium->medium_name}}</td>
                                     <td>{{ $fees_payment_history->standard ? $fees_payment_history->standard->standard_name : 'N/A' }}</td>
                                     <td>{{ $fees_payment_history->feeCategory->category_name }}</td>
                                     <td>{{ $fees_payment_history->total_fees }}</td>
