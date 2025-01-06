@@ -236,7 +236,7 @@ Route::group(['middlware' => ['auth', 'role:SchoolAdmin']], function () {
     Route::get('/fetch-students/{standardId}', [FeeManagementController::class, 'fetchStudents'])->name('fetch.students');
 
     Route::get('/schooladmin/fees-payment-history', [FeeManagementController::class, 'fees_payment_history'])->name('fees-payment-history');
-    Route::get('/fees-payment/{id}', [FeeManagementController::class, 'viewPayment'])->name('fees-payment-view');
+    Route::get('/fees-payment/{studentId}', [FeeManagementController::class, 'viewPayment'])->name('fees-payment-view');
 
 
     Route::get('/get-master-fee-categories/{student_id}/{standard_id}', [FeeManagementController::class, 'getMasterFeeCategories'])->name('getMasterFeeCategories');
@@ -245,7 +245,7 @@ Route::group(['middlware' => ['auth', 'role:SchoolAdmin']], function () {
 
     Route::get('/generate-invoice-pdf/{studentId}/{classId}/{categoryName}', [InvoiceController::class, 'generateInvoicePDF'])
         ->name('generateInvoicePDF');
-        Route::get('/student-school-fee.details/{student_id}', [FeeManagementController::class, 'showFeeDetails'])->name('student-school-fee.details');
+        Route::get('/student-school-fee-details/{student_id}', [FeeManagementController::class, 'showFeeDetails'])->name('student-school-fee.details');
 
         Route::get('sub-category-fee/{categoryId}', [FeeManagementController::class, 'showSubcategoryDetails'])->name('subCategoryFee');
 

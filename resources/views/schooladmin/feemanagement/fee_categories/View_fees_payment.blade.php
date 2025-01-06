@@ -24,7 +24,7 @@
                 <div class="card">
                     <div class="card-header d-flex justify-content-between">
                         <h5>Fees Payment Details for {{ $payment->student_name }}</h5>
-                        <a href="{{ route('fees-payment-history') }}" class="btn btn-secondary ms-auto">Back</a>
+                        <a href="{{ route('student-school-fee.details',$payment->student_id) }}" class="btn btn-secondary ms-auto">Back</a>
                     </div>
                     <div class="card-body">
                         <table class="table table-bordered">
@@ -34,11 +34,12 @@
                             </tr>
                             <tr>
                                 <th>Student Name</th>
-                                <td>{{ $payment->student_name }}</td>
+                                <td>{{ $payment->student_name }} ({{ $payment->student_id }})</td>
+
                             </tr>
                             <tr>
                                 <th>Standard Name</th>
-                                <td>{{ $payment->standard ? $payment->standard->standard_name : 'N/A' }}</td>
+                                <td>{{$payment->standard->standard_name  }}</td>
                             </tr>
                             <tr>
                                 <th>Medium Name</th>
@@ -54,11 +55,22 @@
                             </tr>
                             <tr>
                                 <th>Due Amount</th>
-                                <td>{{ $payment->due_amount }}</td>
+                                <td>{{ $dueAmount }}</td>
                             </tr>
                             <tr>
                                 <th>Paid Amount</th>
-                                <td>{{ $payment->paid_amount }}</td>
+                                <td>{{ $paidAmount }}</td>
+                            </tr>
+                            <tr>
+                                <th>Status</th>
+                                <td>
+                                    @if ($dueAmount == 0)
+                                        <span class="badge bg-success">Paid</span>
+                                    @else
+                                        <span class="badge bg-danger">Unpaid</span>
+                                    @endif
+                                </td>
+
                             </tr>
                             <tr>
                                 <th>Paid Date</th>

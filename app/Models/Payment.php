@@ -15,6 +15,7 @@ class Payment extends Model
         'student_name',
         'class_id',
         'medium_id',
+        'roll_number',
         'student_id',
         'total_fees',
         'fee_category_id',

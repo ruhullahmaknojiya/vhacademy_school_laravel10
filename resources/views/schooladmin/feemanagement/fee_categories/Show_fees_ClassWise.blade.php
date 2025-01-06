@@ -360,6 +360,10 @@
                                     <input type="text" class="form-control" id="mediumId" name="medium_id" readonly>
                                 </div>
 
+                                <div class="mb-3">
+                                    <label for="class_id" class="form-label">Roll Number</label>
+                                    <input type="number" class="form-control" id="roll_number" name="roll_number" readonly>
+                                </div>
 
 
                                 <div class="mb-3">
@@ -491,9 +495,11 @@
                         data-student-name="${student.first_name} ${student.last_name}"
                        data-total-fees="${response.totalFeesClassWise}"
                         data-standard-name="${student.standard ? student.standard.standard_name : ''}"
-                       ${response.totalFeesClassWise === paidAmount ? 'disabled' : ''}>
-                        ${response.totalFeesClassWise === paidAmount ? 'Paid' : 'Fees Paid Details'}
+                       data-roll-number="${student.roll_number}"
+                        ${response.totalFeesClassWise === paidAmount ? 'disabled' : ''}>
+                        ${response.totalFeesClassWise === paidAmount ? 'Paid' : 'Payments'}
                       </button>
+                     <a href="/student-school-fee-details/${student.id}" class="btn btn-info">Fees Details</a>
                             </td>
                         </tr>
                     `);
@@ -506,134 +512,7 @@
                 }
             });
 
-
-
-
-
-
-
-
-
-
-//             $(document).ready(function() {
-
-// let defaultMediumId = $('#mediumDropdown').val();
-// if (!defaultMediumId) {
-//     $('#mediumDropdown').val(defaultMediumId);
-//     defaultMediumId = $('#mediumDropdown').val();
-// }
-
-// // Load standards for the default medium
-// loadStandards(defaultMediumId);
-
-// // Trigger loadStandards when medium dropdown value changes
-// $('#mediumDropdown').change(function() {
-//     const mediumId = $(this).val();
-//     loadStandards(mediumId);
-// });
-
-// // Function to load standards based on medium selection
-// function loadStandards(mediumId) {
-//     if (!mediumId) {
-//         $('#standardsContainer').hide();
-//         $('#studentsTableContainer').hide();
-//         return; // Exit if no medium is selected
-//     }
-
-//     $.ajax({
-//         url: '/fetch-standards',  // Endpoint to fetch standards for the selected medium
-//         method: 'GET',
-//         data: {
-//             medium_id: mediumId
-//         },
-//         success: function(response) {
-//             const standards = response.standards;
-//             $('#standardsContainer').show();
-//             $('#standardsList').empty();
-
-//             // Populate standards in the list
-//             standards.forEach((standard, index) => {
-//                 $('#standardsList').append(`
-//                     <li class="text-center list-group-item standard-item" style="min-width: 100px; border: 1px solid #ddd; padding: 10px; cursor: pointer;" data-standard-id="${standard.id}">
-//                         ${standard.standard_name}
-//                     </li>
-//                 `);
-//             });
-
-//             // Automatically load students for the first standard after standards are loaded
-//             const firstStandardId = standards[0].id;
-//             loadStudents(firstStandardId);
-
-//             // Highlight the first standard in the list
-//             $('#standardsList li:first-child').addClass('active');
-//         }
-//     });
-// }
-
-// // Event handler when a standard is clicked
-// $(document).on('click', '.standard-item', function() {
-//     const standardId = $(this).data('standard-id');
-//     loadStudents(standardId);
-//     $('.standard-item').removeClass('active');
-//     $(this).addClass('active');
-//     $('#studentsTableBody').empty();
-//     $('#studentsTableContainer').show();
-// });
-
-// // Function to load students based on the selected standard ID
-// function loadStudents(standardId) {
-//     $.ajax({
-//         url: `/fetch-students/${standardId}`,  // Endpoint to fetch students for the selected standard
-//         method: 'GET',
-//         success: function(response) {
-//             $('#studentsTableBody').empty();  // Clear existing students
-
-//             if (response.students.length > 0) {
-//                 // Populate students in the table
-//                 response.students.forEach(student => {
-//                     const dueAmount = student.due_amount;
-//                     const paidAmount = student.paid_amount;
-
-//                     $('#studentsTableBody').append(`
-//                         <tr>
-//                             <td>${student.id}</td>
-//                             <td>${student.first_name} ${student.last_name}</td>
-//                             <td>${student.standard ? student.standard.standard_name : 'N/A'}</td>
-//                             <td>${student.medium ? student.medium.medium_name : 'N/A'}</td>
-//                             <td>${student.roll_number}</td>
-//                             <td>${response.totalFeesClassWise}</td>
-//                             <td class="due-amount" data-student-id="${student.id}">${dueAmount}</td>
-//                             <td class="paid-amount" data-student-id="${student.id}">${paidAmount}</td>
-//                             <td>
-//                                 <button type="button" class="btn btn-primary fees-paid-btn" data-toggle="modal" data-target="#modal-default"
-//                                 data-student-id="${student.id}" data-medium-id="${student.medium ? student.medium.medium_name : ''}"
-//                                 data-student-name="${student.first_name} ${student.last_name}" data-total-fees="${response.totalFeesClassWise}"
-//                                 data-standard-name="${student.standard ? student.standard.standard_name : ''}">
-//                                     Fees Paid Details
-//                                 </button>
-//                             </td>
-//                         </tr>
-//                     `);
-//                 });
-//             } else {
-//                 $('#studentsTableBody').append('<tr><td colspan="9" class="text-center">No students found</td></tr>');
-//             }
-//         }
-//     });
-// }
-// });
-
-
         </script>
-
-
-
-
-
-
-
-
-
         <script>
             $(document).ready(function() {
 
@@ -663,11 +542,16 @@
                 e.preventDefault();
 
 
+
+
                 // $("button[type=submit]").attr("disabled", true);
 
                 const studentId = $(this).data('student-id');
                 const classId = $('#class_id').val();
                 const mediumId = $('#mediumId').val();
+                const roll_number = $('#roll_number').val();
+
+
 
                 const studentName = $('#studentName').val();
                 const totalFees = $('#totalFees').val();
@@ -683,6 +567,7 @@
                         , student_id: studentId
                         , class_id: classId
                         , medium_id: mediumId
+                        , roll_number: roll_number
                         , total_fees: totalFees
                         , paid_amount: paidAmount
                         , dueAmount: dueAmount
@@ -706,7 +591,7 @@
                                 , showConfirmButton: true
                             , }).then((result) => {
                                 if (result.isConfirmed) {
-                                    window.location.href = '/schooladmin/fees-payment-history'; // Laravel route or your specific URL
+                                    window.location.href = `/student-school-fee-details/${studentId}`;
                                 }
                             });
                         } else {
@@ -733,6 +618,8 @@
             $(document).on('click', '.fees-paid-btn', function() {
                 const studentId = $(this).data('student-id');
                 const mediumId = $(this).data('medium-id');
+                const roll_number = $(this).data('roll-number');
+
                 const studentName = $(this).data('student-name');
                 const totalFees = $(this).data('total-fees');
                 const standardName = $(this).data('standard-name');
@@ -742,6 +629,7 @@
                 $('#totalFees').val(totalFees);
                 $('#class_id').val(standardName);
                 $('#mediumId').val(mediumId);
+                $('#roll_number').val(roll_number);
 
                 // Attach the student ID to the form data
                 $('#feesForm').data('student-id', studentId);

@@ -303,6 +303,7 @@ class FeeManagementController extends Controller
             'fee_category_id' => 'required|exists:master_fee_categories,id',
             'class_id' => 'required',
             'medium_id' => 'required',
+            'roll_number' => 'required',
             'total_fees' => 'required|numeric|min:0',
             'paid_amount' => 'required|numeric|min:1',
         ]);
@@ -365,6 +366,7 @@ class FeeManagementController extends Controller
 
         $payment = Payment::where('student_id', $student_id)->orderBy('created_at', 'desc')->first();
         $totalFees = $request->total_fees;
+        $roll_number = $request->roll_number;
         $paidAmount = $request->paid_amount;
         $currentDueAmount = $payment ? $payment->due_amount : $totalFees;
         $newDueAmount = $currentDueAmount - $paidAmount;
@@ -374,6 +376,7 @@ class FeeManagementController extends Controller
             'student_name' => $request->student_name,
             'student_id' => $student_id,
             'medium_id' => $medium->id,
+            'roll_number' => $roll_number,
             'class_id' => $standard->id,
             'total_fees' => $totalFees,
             'paid_amount' => $paidAmount,
@@ -386,127 +389,6 @@ class FeeManagementController extends Controller
             'message' => 'Fees Paid successfully'
         ]);
     }
-
-
-    public function fees_payment_history(Request $request)
-    {
-        $fees_payment_histories = Payment::with('standard', 'medium', 'student')->latest()->get();
-
-
-        $fees_payment_histories = Payment::orderBy('id', 'desc')->paginate(5);
-
-        $fee_categories_name = MasterFeeCategory::all(['category_name']);
-
-
-        $sumByMasterCategory = DB::table('fee_categories')
-            ->join('master_fee_categories', 'fee_categories.master_category_id', '=', 'master_fee_categories.id')
-            ->select('master_fee_categories.category_name', 'fee_categories.master_category_id', DB::raw('SUM(fee_categories.amount) as total_amount'))
-            ->groupBy('fee_categories.master_category_id', 'master_fee_categories.category_name')
-            ->get();
-
-
-        $fee_categories = DB::table('fee_categories')
-            ->join('master_fee_categories', 'fee_categories.master_category_id', '=', 'master_fee_categories.id')
-            ->select(
-                'master_fee_categories.category_name',
-                'fee_categories.master_category_id',
-                DB::raw('SUM(fee_categories.amount) as total_amount'),
-                DB::raw('COUNT(fee_categories.id) as category_count')
-            )
-            ->groupBy('fee_categories.master_category_id', 'master_fee_categories.category_name')
-            ->get();
-
-
-
-
-
-
-
-        $totalFees = FeeCategory::sum('amount');
-
-
-
-        $totalFeesPaid = Payment::sum('paid_amount');
-        $categories = MasterFeeCategory::all();
-
-        $totalPaidAmountByCategory = 0;
-
-
-        foreach ($categories as $category) {
-            $paidAmount = Payment::where('fee_category_id', $category->id)->sum('paid_amount');
-            $totalPaidAmountByCategory += $paidAmount;
-        }
-
-
-
-        $schoolFeeCategory = MasterFeeCategory::where('category_name', 'School Fee')->first();
-
-        if ($schoolFeeCategory) {
-            $schoolFeesPaid = Payment::where('fee_category_id', $schoolFeeCategory->id)->sum('paid_amount');
-        } else {
-            dd("Category 'School Fee' not found.");
-        }
-
-
-        $MandalFeeCategory = MasterFeeCategory::where('category_name', 'Mandal Fee')->first();
-
-        $mandalFeesPaid = 0;
-
-        if ($MandalFeeCategory) {
-
-            $mandalFeesPaid = Payment::where('fee_category_id', $MandalFeeCategory->id)->sum('paid_amount');
-        }
-
-        // $totalDueAmount = Payment::orderBy('id', 'desc')->first();
-
-        $schoolFeeCategory = MasterFeeCategory::where('category_name', 'School Fee')->first();
-
-        if ($schoolFeeCategory) {
-
-            $totalSchoolFee = FeeCategory::where('master_category_id', $schoolFeeCategory->id)->sum('amount');
-
-            $schoolFeesPaid = Payment::where('fee_category_id', $schoolFeeCategory->id)->sum('paid_amount');
-
-            $schoolFeeDue = $totalSchoolFee - $schoolFeesPaid;
-        } else {
-            dd("Category 'School Fee' not found.");
-        }
-
-
-
-
-        $mandalFeeCategory = MasterFeeCategory::where('category_name', 'Mandal Fee')->first();
-
-
-        if ($mandalFeeCategory) {
-            $totalMandalFee = FeeCategory::where('master_category_id', $mandalFeeCategory->id)->sum('amount');
-            $mandalFeesPaid = Payment::where('fee_category_id', $mandalFeeCategory->id)->sum('paid_amount');
-            $mandalFeeDue = $totalMandalFee - $mandalFeesPaid;
-        } else {
-            $totalMandalFee = 0;
-            $mandalFeeDue = 0;
-            $mandalFeesPaid = 0;
-        }
-
-        $totalDueAmount = $schoolFeeDue + $mandalFeeDue;
-
-
-        return view('schooladmin/feemanagement/fee_categories/payment_history', compact(
-            'fees_payment_histories',
-            'totalFees',
-            'fee_categories_name',
-            'sumByMasterCategory',
-            'totalFeesPaid',
-            'totalPaidAmountByCategory',
-            'mandalFeesPaid',
-            'schoolFeesPaid',
-            'totalDueAmount',
-            'mandalFeeDue',
-            'schoolFeeDue',
-            'fee_categories'
-        ));
-    }
-
 
 
     public function getMasterFeeCategories($student_id, $class_id)
@@ -528,119 +410,6 @@ class FeeManagementController extends Controller
     }
 
 
-    // public function showFeeDetails($studentId)
-    // {
-
-
-    //     $studentPayments = Payment::where('student_id', $studentId)
-    //         ->orderBy('created_at', 'desc')
-    //         ->with('feeCategory')
-    //         ->get();
-    //         // dd($studentPayments);
-
-
-
-    //     if ($studentPayments->isEmpty()) {
-    //         return redirect()->route('fees-payment-history')->with('error', 'Fees Payment Records Not Found for this student.');
-    //     }
-
-    //     $sumPaidAmount = $studentPayments->sum('paid_amount');
-
-    //     foreach ($studentPayments as $payment) {
-    //         // Calculate the due amount as the difference between total fees and paid amount
-    //         $payment->due_amount = $payment->total_fees - $payment->paid_amount;
-    //     }
-
-
-    //     $paid_amount = Payment::sum('paid_amount');
-
-    //     $feeCategoryId = $studentPayments->pluck('fee_category_id')->unique();
-    //     $feeCategories = Payment::with('feeCategory')
-    //         ->get()
-    //         ->pluck('feeCategory.category_name')
-    //         ->unique()
-    //         ->values();
-
-
-    //         $schoolFee = FeeCategory::where('master_category_id',$feeCategoryId)->sum('amount');
-
-
-    //       $fee_categories_name = MasterFeeCategory::all(['category_name']);
-
-
-
-
-
-    //     $studentName = $studentPayments->first()->student_name;
-
-
-    //     return view('schooladmin/feemanagement/fee_categories/fee_details', [
-    //         'studentPayments' => $studentPayments,
-    //         'studentName' => $studentName,
-    //         'feeCategories' => $feeCategories,
-    //         'schoolFee'=>$schoolFee,
-    //         'paid_amount' => $paid_amount,
-    //         'sumPaidAmount'=>$sumPaidAmount,
-    //         'fee_categories_name'=>$fee_categories_name
-    //     ]);
-    // }
-
-
-
-    // public function showFeeDetails($studentId)
-    // {
-    //     // Fetch student payments along with associated fee categories
-    //     $studentPayments = Payment::where('student_id', $studentId)
-    //         ->orderBy('created_at', 'desc')
-    //         ->with('feeCategory') // Eager load the fee category
-    //         ->get();
-
-    //     // If no payments are found for the student, redirect to the fee payment history page
-    //     if ($studentPayments->isEmpty()) {
-    //         return redirect()->route('fees-payment-history')->with('error', 'Fees Payment Records Not Found for this student.');
-    //     }
-
-    //     // Get the sum of paid amounts for the student
-    //     $sumPaidAmount = $studentPayments->sum('paid_amount');
-
-    //     // Calculate the total fees and due amount for the student
-    //     $totalFees = FeeCategory::sum('amount');
-    //     $paidAmount = Payment::sum('paid_amount');
-    //     $dueAmount = $totalFees - $paidAmount;
-
-    //     // Get all categories from MasterFeeCategory
-    //     $feeCategories = MasterFeeCategory::all(['id', 'category_name']);
-
-    //     // Prepare an array to hold the total fee for each category along with category names
-    //     $categoryFeeDetails = [];
-
-    //     // Loop through each category and calculate the total fee
-    //     foreach ($feeCategories as $category) {
-
-
-    //         // Calculate the total fee amount for each category
-    //         $categoryTotalFee = FeeCategory::where('master_category_id', $category->id)->sum('amount');
-    //         $masterCategoryName = FeeCategory::where('master_category_id', $category->id)->pluck('category_name')->toArray();
-
-    //         $categoryFeeDetails[] = [
-    //             'category_name' => $category->category_name,
-    //             'total_fee' => $categoryTotalFee,
-    //             'masterCategoryName' => $masterCategoryName
-    //         ];
-    //     }
-
-    //     // Pass all data to the view
-    //     return view('schooladmin/feemanagement/fee_categories/fee_details', [
-    //         'studentPayments' => $studentPayments,
-    //         'sumPaidAmount' => $sumPaidAmount,
-    //         'totalFees' => $totalFees,
-    //         'dueAmount' => $dueAmount,
-    //         'categoryFeeDetails' => $categoryFeeDetails, // Passing the category fee details
-    //     ]);
-    // }
-
-
-
     public function showFeeDetails($studentId)
     {
         $studentPayments = Payment::where('student_id', $studentId)
@@ -648,22 +417,47 @@ class FeeManagementController extends Controller
             ->with('feeCategory') // Eager load the fee category
             ->get();
 
-
-        // dd($studentPayments);
-
-
+        $dueAmountsFee = Payment::where('student_id', $studentId)
+            ->first();
 
 
 
+        $student_fees_payment_histories = Payment::where('student_id', $studentId)->get();
+        $fee_categories = DB::table('fee_categories')
+            ->join('master_fee_categories', 'fee_categories.master_category_id', '=', 'master_fee_categories.id')
+            ->select(
+                'master_fee_categories.category_name',
+                'fee_categories.master_category_id',
+                DB::raw('SUM(fee_categories.amount) as total_amount'),
+                DB::raw('COUNT(fee_categories.id) as category_count')
+            )
+            ->groupBy('fee_categories.master_category_id', 'master_fee_categories.category_name')
+            ->get();
+
+        $feesCategoryStudentWise = Payment::with('feeCategory')
+            ->where('student_id', $studentId)
+            ->groupBy('fee_category_id')
+            ->selectRaw('fee_category_id, SUM(paid_amount) as total_paid')
+            ->pluck('total_paid', 'fee_category_id');
+
+        $categoryFeeDueDetails = [];
+        foreach ($fee_categories as $category) {
+            $totalAmount = $category->total_amount;
+            $paidAmount = $feesCategoryStudentWise[$category->master_category_id] ?? 0;
+            $dueAmount = $totalAmount - $paidAmount;
+
+            $categoryFeeDueDetails[] = [
+                'category_name' => $category->category_name,
+                'total_amount' => $totalAmount,
+                'paid_amount' => $paidAmount,
+                'due_amount' => $dueAmount,
+                'categoryFeeDueDetails' => $categoryFeeDueDetails,
+            ];
+        }
 
         $fees_payment_histories = Payment::latest()->get();
 
-        $fees_payments = Payment::where('student_id', $studentId)->first();
-
-
-
-
-
+        $due_fees_payments = Payment::where('student_id', $studentId)->first();
 
         // If no payments are found for the student, redirect to the fee payment history page
         if ($studentPayments->isEmpty()) {
@@ -672,26 +466,39 @@ class FeeManagementController extends Controller
 
         // Get the sum of paid amounts for the student
         $sumPaidAmount = $studentPayments->sum('paid_amount');
+        // $sumPaidAmount = $studentPayments->where('feeCategory.master_category_id', $schoolFeeCategory->id)->sum('paid_amount');
 
         // Calculate the total fees and due amount for the student
         $totalFees = FeeCategory::sum('amount');
+
         $paidAmount = Payment::sum('paid_amount');
         $dueAmount = $totalFees - $paidAmount;
 
+
+
         // Get all categories from MasterFeeCategory
         $feeCategories = MasterFeeCategory::all(['id', 'category_name']);
+        $categoryWiseFees = Payment::selectRaw('fee_category_id, SUM(paid_amount) as total_paid')
+            ->groupBy('fee_category_id')
+            ->pluck('total_paid', 'fee_category_id');
 
-        // Prepare an array to hold the total fee for each category along with subcategories and amounts
+
+
+
+
         $categoryFeeDetails = [];
 
-        // Loop through each category and calculate the total fee
+
         foreach ($feeCategories as $category) {
             // Get subcategories for each category
             $subCategories = FeeCategory::where('master_category_id', $category->id)->get();
 
+
+
             // Calculate the total fee amount for each subcategory
             $subCategoryDetails = [];
             foreach ($subCategories as $subCategory) {
+
                 $subCategoryTotalAmount = FeeCategory::where('master_category_id', $category->id)
                     ->where('category_name', $subCategory->category_name)
                     ->sum('amount');
@@ -718,9 +525,15 @@ class FeeManagementController extends Controller
             'sumPaidAmount' => $sumPaidAmount,
             'totalFees' => $totalFees,
             'dueAmount' => $dueAmount,
+            'dueAmountsFee' => $dueAmountsFee,
+            'student_fees_payment_histories' => $student_fees_payment_histories,
             'fees_payment_histories' => $fees_payment_histories,
             'categoryFeeDetails' => $categoryFeeDetails,
-            'fees_payments' => $fees_payments,
+            'due_fees_payments' => $due_fees_payments,
+            'fee_categories' => $fee_categories,
+            'categoryWiseFees' => $categoryWiseFees,
+            'feesCategoryStudentWise' => $feesCategoryStudentWise,
+            'categoryFeeDueDetails' => $categoryFeeDueDetails
 
         ]);
     }
@@ -728,29 +541,37 @@ class FeeManagementController extends Controller
 
 
     public function showSubcategoryDetails($categoryId)
-{
-    // Fetch category details
-    $category = MasterFeeCategory::find($categoryId);
+    {
+        // Fetch category details
+        $category = MasterFeeCategory::find($categoryId);
 
-    // If category exists, fetch related subcategories
-    if ($category) {
-        $subCategories = FeeCategory::where('master_category_id', $category->id)->get();
+        // If category exists, fetch related subcategories
+        if ($category) {
+            $subCategories = FeeCategory::where('master_category_id', $category->id)->get();
 
-        return view('schooladmin/feemanagement/fee_categories/feeCategory-SubCategory', [
-            'category' => $category,
-            'subCategories' => $subCategories,
-        ]);
+            return view('schooladmin/feemanagement/fee_categories/feeCategory-SubCategory', [
+                'category' => $category,
+                'subCategories' => $subCategories,
+            ]);
+        }
+
+        return redirect()->route('fees-payment-history')->with('error', 'Category not found');
     }
 
-    return redirect()->route('fees-payment-history')->with('error', 'Category not found');
-}
 
-
-    public function viewPayment($id)
+    public function viewPayment($studentId)
     {
-        $payment = Payment::with(['standard', 'medium', 'feeCategory'])->findOrFail($id);
+        $payment = Payment::with(['standard', 'medium', 'feeCategory'])->where('student_id', $studentId)->first();
+
+        $totalFees = FeeCategory::sum('amount');
+
+        $paidAmount = Payment::where('student_id',$studentId)->sum('paid_amount');
+
+        $dueAmount = $totalFees - $paidAmount;
+
+
 
         // Return the view and pass the payment data
-        return view('schooladmin/feemanagement/fee_categories/View_fees_payment', compact('payment'));
+        return view('schooladmin/feemanagement/fee_categories/View_fees_payment', compact('payment','totalFees','paidAmount','dueAmount'));
     }
 }

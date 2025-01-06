@@ -81,9 +81,10 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('fees-payment-history') }}" class="nav-link {{ request()->routeIs('fees-payment-history') ? 'active' : '' }}">
+
+                            <a href="" class="nav-link {{ request()->routeIs('fees-payment-history') ? 'active' : '' }}">
                                 <i class="fas fa-chalkboard-teacher nav-icon"></i> <!-- Icon for Fee Assign by Class -->
-                                <p>Fees Payment History</p>
+                                <p>Fees Details Page</p>
                             </a>
                         </li>
                         <li class="nav-item">

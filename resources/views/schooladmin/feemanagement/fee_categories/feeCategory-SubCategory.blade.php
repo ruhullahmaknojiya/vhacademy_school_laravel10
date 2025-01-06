@@ -12,7 +12,7 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('fees-payment-history') }}">Fees Payment History</a></li>
+                    <li class="breadcrumb-item"><a href="#">Fees Payment History</a></li>
                     <li class="breadcrumb-item active">Category SubCategory Records</li>
                 </ol>
             </div>
@@ -29,7 +29,7 @@
                     <!-- Card Header -->
                     <div class="text-white card-header bg-info d-flex justify-content-between">
                         <h5>{{ $category->category_name }} - SubCategory Records</h5>
-                        <a href="{{ route('fees-payment-history') }}" class="btn btn-primary ms-auto">Back</a>
+
                     </div>
 
                     <!-- Card Body -->
@@ -39,7 +39,7 @@
                             <thead class="thead-dark">
                                 <tr>
                                     <th style="width: 50%;">Category Name</th>
-                                    <th>Details</th>
+                                    <th>Sub Category Fee Details</th>
                                 </tr>
                             </thead>
                             <tbody>
