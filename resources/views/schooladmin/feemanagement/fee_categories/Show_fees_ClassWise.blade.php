@@ -291,6 +291,9 @@
                 </div>
 
 
+                @include('flash-message')
+
+
                 <div class="container-fluid" id="studentsTableContainer" style="display: none;">
                     <div class="row">
                         <div class="col-md-12">
@@ -314,7 +317,6 @@
                                             </tr>
                                         </thead>
                                         <tbody id="studentsTableBody">
-
                                         </tbody>
                                     </table>
                                 </div>
@@ -353,8 +355,6 @@
                                     <input type="text" class="form-control" id="class_id" name="class_id" readonly>
                                 </div>
 
-
-
                                 <div class="mb-3">
                                     <label for="class_id" class="form-label">Medium Name</label>
                                     <input type="text" class="form-control" id="mediumId" name="medium_id" readonly>
@@ -363,6 +363,7 @@
                                 <div class="mb-3">
                                     <label for="class_id" class="form-label">Roll Number</label>
                                     <input type="number" class="form-control" id="roll_number" name="roll_number" readonly>
+                                    <span class="text-danger" id="roll_number"></span>
                                 </div>
 
 
@@ -371,13 +372,13 @@
                                     <select name="fee_category_id" id="fee_category_id" class="form-control">
                                         <option value="">Select a Master Category</option>
                                     </select>
-                                    <span class="text-danger" id="FeeCategoryError"></span> <!-- Error message for fee category -->
+                                    <span class="text-danger" id="FeeCategoryError"></span>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="paidAmount" class="form-label">Enter Paid Amount</label>
                                     <input type="number" class="form-control" id="paidAmount" name="paid_amount" placeholder="Enter Your Paid Amount">
-                                    <span class="text-danger" id="paidAmountError"></span> <!-- Error message for paid amount -->
+                                    <span class="text-danger" id="paidAmountError"></span>
                                 </div>
 
                         </div>
@@ -541,10 +542,7 @@
             $(document).on('submit', '#feesForm', function(e) {
                 e.preventDefault();
 
-
-
-
-                // $("button[type=submit]").attr("disabled", true);
+                $("button[type=submit]").attr("disabled", true);
 
                 const studentId = $(this).data('student-id');
                 const classId = $('#class_id').val();
@@ -575,7 +573,9 @@
                         , _token: $('meta[name="csrf-token"]').attr('content')
                     }
                     , success: function(response) {
-                        // $("button[type=submit]").attr("disabled", false);
+                        $("button[type=submit]").attr("disabled", false);
+
+                        alert(responseJSON);
                         if (response.status == true) {
 
                             $('#feesForm')[0].reset();

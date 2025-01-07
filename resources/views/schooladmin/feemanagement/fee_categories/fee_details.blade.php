@@ -3,7 +3,7 @@
 @section('content')
 
 <section class="content">
-    <div class="container-fluid mt-3">
+    <div class="mt-3 container-fluid">
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
@@ -11,16 +11,16 @@
                         <!-- Nav Tabs -->
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link active" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Profile</a>
+                                <a class="nav-link active" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Student Info</a>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link active" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Academic info</a>
+                                <a class="nav-link active" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Academic Info</a>
                             </li>
 
                         </ul>
 
                         <!-- Tab Content -->
-                        <div class="tab-content mt-3" id="myTabContent">
+                        <div class="mt-3 tab-content" id="myTabContent">
                             <!-- Profile Tab -->
                             <div class="tab-pane fade active show" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                                 <div class="row">
@@ -69,9 +69,9 @@
             </div>
         </div>
 
-        <div class="row">
+        {{-- <div class="row">
             <!-- Fees Summary Card -->
-            <div class="col-md-12 mt-3">
+            <div class="mt-3 col-md-12">
                 <div class="card">
                     <div class="text-white card-header bg-primary">
                         <h5>{{ $studentPayments->first()->student_name }} Fee Details : </h5>
@@ -89,13 +89,13 @@
                             <li>{{ $payment->feeCategory->category_name }}</li>
                         @endforeach --}}
                         {{-- </ul> --}}
-                        <p><strong>Total Fees:</strong> ₹{{ $totalFees }}</p>
+                        {{-- <p><strong>Total Fees:</strong> ₹{{ $totalFees }}</p>
                         <p><strong>Paid Fees:</strong> ₹ {{ $sumPaidAmount }}</p>
 
                         <p><strong>Due Amount:</strong> ₹ {{ $studentPayments->first()->due_amount }}</p>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
             <div class="row">
                 <div class="col-12 col-sm-6 col-md-3">

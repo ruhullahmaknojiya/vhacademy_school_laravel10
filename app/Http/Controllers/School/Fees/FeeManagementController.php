@@ -461,7 +461,7 @@ class FeeManagementController extends Controller
 
         // If no payments are found for the student, redirect to the fee payment history page
         if ($studentPayments->isEmpty()) {
-            return redirect()->route('fees-payment-history')->with('error', 'Fees Payment Records Not Found for this student.');
+            return redirect()->route('showStudentsByClassWise')->with('danger', 'Fees Payment Records Not Found for this student.');
         }
 
         // Get the sum of paid amounts for the student
