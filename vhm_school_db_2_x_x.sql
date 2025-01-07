@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 28, 2024 at 01:55 PM
+-- Generation Time: Jan 07, 2025 at 01:42 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -346,7 +346,7 @@ CREATE TABLE `holidays` (
 
 INSERT INTO `holidays` (`id`, `school_id`, `holiday_name`, `start_date`, `end_date`, `description`, `holiday_pdf`, `created_at`, `updated_at`) VALUES
 (1, 2, 'School Funtion Rest', '2024-07-21', '2024-07-21', 'thr', NULL, '2024-07-20 20:05:15', '2024-07-20 20:05:15'),
-(2, 1, 'ID UL ZUHA ( BAKARI IDD )', '2024-06-17', '2024-06-17', 'Bakari IDD', NULL, '2024-07-25 04:53:20', '2024-07-25 04:53:20'),
+(2, 1, 'ID UL ZUHA ( BAKARI IDD )', '2024-06-17', '2024-06-17', 'Bakari IDD', NULL, '2024-07-25 04:53:20', '2025-01-06 00:52:45'),
 (3, 1, 'MUHARRAM', '2024-07-17', '2024-07-17', 'MUHARRAM - Shahadat Month', NULL, '2024-07-25 04:54:41', '2024-07-25 04:54:41'),
 (4, 1, '78TH INDEPENDENCE DAY', '2024-08-15', '2024-08-15', 'National Fastival', NULL, '2024-07-25 05:17:32', '2024-07-25 05:17:32'),
 (5, 1, 'PARASI NEW NEW YEAR  / NAVROJ / PATETI', '2024-08-15', '2024-08-15', 'Pateti', NULL, '2024-07-25 05:32:00', '2024-07-25 05:32:00'),
@@ -472,7 +472,8 @@ CREATE TABLE `master_fee_categories` (
 
 INSERT INTO `master_fee_categories` (`id`, `category_name`, `description`, `payment_type`, `installments`, `installment_amount`, `payment_gateway_id`, `payment_link`, `created_at`, `updated_at`) VALUES
 (3, 'School Fee', NULL, 'full', 2, NULL, NULL, NULL, '2024-10-22 03:39:13', '2024-10-22 03:39:13'),
-(4, 'Mandal Fee', NULL, 'emi', 2, NULL, NULL, NULL, '2024-10-22 03:58:28', '2024-10-22 03:58:28');
+(4, 'Mandal Fee', NULL, 'emi', 2, NULL, NULL, NULL, '2024-10-22 03:58:28', '2024-10-22 03:58:28'),
+(6, 'Result Fee', 'Exam Result Fee', 'full', 1, 5000.00, NULL, NULL, '2024-12-31 23:23:32', '2024-12-31 23:23:32');
 
 -- --------------------------------------------------------
 
@@ -557,7 +558,12 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (57, '2024_08_20_040108_create_teacher_leaves_table', 15),
 (59, '2024_10_20_084711_create_fee_categories_table', 16),
 (60, '2024_12_23_103757_create_payments_table', 17),
-(61, '2024_12_28_111233_alter_payments_table', 18);
+(61, '2024_12_28_111233_alter_payments_table', 18),
+(62, '2024_12_30_050747_alter_payments_table', 19),
+(63, '2025_01_01_085219_alter_sub_topics_table', 20),
+(64, '2025_01_01_090644_drop_columns_from_sub_topics_table', 21),
+(65, '2025_01_01_090250_alter_sub_topics_table', 22),
+(66, '2025_01_06_054452_alter_payments_table', 23);
 
 -- --------------------------------------------------------
 
@@ -940,7 +946,7 @@ CREATE TABLE `password_resets` (
 --
 
 INSERT INTO `password_resets` (`email`, `token`, `created_at`) VALUES
-('admin@gmail.com', '$2y$10$ThphQbAXT.5tusdiyhxu.eQWG30sCQwTtwf6I1Ks6UrKBWc4CqiZu', '2024-12-22 23:41:49');
+('admin@gmail.com', '$2y$10$NH7riC2n4odqmpzfOZZDbO3uX5GwA7fowK7ibv/YoYQass6DE274m', '2025-01-01 23:43:10');
 
 -- --------------------------------------------------------
 
@@ -951,8 +957,10 @@ INSERT INTO `password_resets` (`email`, `token`, `created_at`) VALUES
 CREATE TABLE `payments` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `student_name` varchar(255) NOT NULL,
-  `class_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `student_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `class_id` bigint(20) UNSIGNED NOT NULL,
+  `student_id` bigint(20) UNSIGNED NOT NULL,
+  `medium_id` bigint(20) UNSIGNED NOT NULL,
+  `roll_number` int(11) NOT NULL,
   `fee_category_id` bigint(20) UNSIGNED NOT NULL,
   `total_fees` decimal(10,2) NOT NULL,
   `paid_amount` decimal(10,2) NOT NULL,
@@ -960,6 +968,16 @@ CREATE TABLE `payments` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `payments`
+--
+
+INSERT INTO `payments` (`id`, `student_name`, `class_id`, `student_id`, `medium_id`, `roll_number`, `fee_category_id`, `total_fees`, `paid_amount`, `due_amount`, `created_at`, `updated_at`) VALUES
+(162, 'HRITHIK  PADHIYAR', 22, 14, 3, 1, 3, 11700.00, 2700.00, 9000.00, '2025-01-07 05:53:06', '2025-01-07 05:53:06'),
+(163, 'HRITHIK  PADHIYAR', 22, 14, 3, 1, 4, 11700.00, 1000.00, 8000.00, '2025-01-07 05:54:21', '2025-01-07 05:54:21'),
+(164, 'HRITHIK  PADHIYAR', 22, 14, 3, 1, 4, 11700.00, 1000.00, 7000.00, '2025-01-07 05:54:39', '2025-01-07 05:54:39'),
+(165, 'HRITHIK  PADHIYAR', 22, 14, 3, 1, 4, 11700.00, 1000.00, 6000.00, '2025-01-07 06:08:44', '2025-01-07 06:08:44');
 
 -- --------------------------------------------------------
 
@@ -1096,7 +1114,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('DfY5ia2sfYppJcbTMPQbhtk7MqIYf8UVoyKcBdXI', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoibW1YRVlDTXAyZ0FFY0JmdkFBSjBVWlREeUU3djVHQ1dBd0NTWUlFbCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NTc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9zY2hvb2xhZG1pbi9zaG93U3R1ZGVudHMtY2xhc3Mtd2lzZSI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjI7fQ==', 1735390449);
+('V2NmM69XLkJgA3GDtyCjfZpMeLqr6yXD28EZRXmf', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiZFZNUEhkdWM3RTRLeXBzc0VGaUZHOElnWXl2SkJmY1V2WE1EbTVvOSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NTc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9zY2hvb2xhZG1pbi9zaG93U3R1ZGVudHMtY2xhc3Mtd2lzZSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjI7fQ==', 1736253459);
 
 -- --------------------------------------------------------
 
@@ -1823,6 +1841,9 @@ INSERT INTO `subjects` (`id`, `std_id`, `subject`, `subject_code`, `description`
 
 CREATE TABLE `sub_topics` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `medium_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `standard_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `subject_id` bigint(20) UNSIGNED DEFAULT NULL,
   `topic_id` bigint(20) UNSIGNED NOT NULL,
   `sub_topic` varchar(255) NOT NULL,
   `type` varchar(255) NOT NULL,
@@ -1837,6 +1858,14 @@ CREATE TABLE `sub_topics` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `sub_topics`
+--
+
+INSERT INTO `sub_topics` (`id`, `medium_id`, `standard_id`, `subject_id`, `topic_id`, `sub_topic`, `type`, `stopic_image`, `description`, `file_path`, `video_link`, `vhm_start_title`, `vhm_end_title`, `vhm_start_url`, `vhm_end_url`, `created_at`, `updated_at`) VALUES
+(4, 3, 17, 101, 2, 'testing1', 'free', NULL, 'games', NULL, 'http://commondatastorage.googleapis.com', 'demo', 'demo', 'http://commondatastorage.googleapis.com', 'http://commondatastorage.googleapis.com', '2025-01-01 05:07:01', '2025-01-01 07:29:38'),
+(5, 3, 17, 101, 2, 'introduction to computer1', 'free', NULL, 'introduction to computer description', 'ytkAqM1QN9EcEXvCKGYfCuv0uZrhSiAgc5VT2eg4.pdf', 'http://commondatastorage.googleapis.com', 'introduction to computer', 'introduction to computer', 'http://commondatastorage.googleapis.com', 'http://commondatastorage.googleapis.com', '2025-01-01 23:32:45', '2025-01-01 23:33:25');
 
 -- --------------------------------------------------------
 
@@ -3546,7 +3575,8 @@ CREATE TABLE `topics` (
 --
 
 INSERT INTO `topics` (`id`, `sub_id`, `topic`, `topic_image`, `type`, `description`, `file_path`, `video_link`, `topic_banner`, `created_at`, `updated_at`) VALUES
-(1, 498, '2', NULL, 'free', 'games', NULL, NULL, NULL, '2024-12-19 03:52:34', '2024-12-19 03:52:34');
+(1, 498, '2', NULL, 'free', 'games', NULL, NULL, NULL, '2024-12-19 03:52:34', '2024-12-19 03:52:34'),
+(2, 101, '1', NULL, 'free', 'games', NULL, NULL, NULL, '2025-01-01 00:41:34', '2025-01-01 00:41:34');
 
 -- --------------------------------------------------------
 
@@ -4029,7 +4059,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `fee_categories`
 --
 ALTER TABLE `fee_categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `holidays`
@@ -4053,7 +4083,7 @@ ALTER TABLE `home_works`
 -- AUTO_INCREMENT for table `master_fee_categories`
 --
 ALTER TABLE `master_fee_categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `mediums`
@@ -4065,7 +4095,7 @@ ALTER TABLE `mediums`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT for table `notices`
@@ -4101,7 +4131,7 @@ ALTER TABLE `parents`
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=166;
 
 --
 -- AUTO_INCREMENT for table `permissions`
@@ -4161,7 +4191,7 @@ ALTER TABLE `subjects`
 -- AUTO_INCREMENT for table `sub_topics`
 --
 ALTER TABLE `sub_topics`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `teachers`
@@ -4191,7 +4221,7 @@ ALTER TABLE `teacher_timetables`
 -- AUTO_INCREMENT for table `topics`
 --
 ALTER TABLE `topics`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`
