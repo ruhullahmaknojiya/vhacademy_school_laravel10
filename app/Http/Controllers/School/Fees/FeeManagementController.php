@@ -296,8 +296,6 @@ class FeeManagementController extends Controller
     public function submitStudentFeesPayment(Request $request, $student_id)
     {
 
-
-
         $validator = Validator::make($request->all(), [
             'student_name' => 'required|string|max:255',
             'fee_category_id' => 'required|exists:master_fee_categories,id',
@@ -307,6 +305,8 @@ class FeeManagementController extends Controller
             'total_fees' => 'required|numeric|min:0',
             'paid_amount' => 'required|numeric|min:1',
         ]);
+
+
 
         if ($validator->fails()) {
             return response()->json([
@@ -332,14 +332,18 @@ class FeeManagementController extends Controller
             ->where('student_id', $student_id)
             ->sum('paid_amount');
 
+        //
+
 
         $remainingDueAmount = $totalCategoryAmount - $totalPaidAmount;
-        // dd($remainingDueAmount);
+
+
+
         if ($request->paid_amount > $remainingDueAmount) {
             return response()->json([
                 'status' => false,
                 'message' => 'Paid amount exceeds the remaining due amount for the selected category. Remaining due amount: ' . $remainingDueAmount,
-            ]);
+            ],422);
         }
 
         $medium = Medium::where('medium_name', $request->input('medium_id'))->first();
@@ -565,13 +569,13 @@ class FeeManagementController extends Controller
 
         $totalFees = FeeCategory::sum('amount');
 
-        $paidAmount = Payment::where('student_id',$studentId)->sum('paid_amount');
+        $paidAmount = Payment::where('student_id', $studentId)->sum('paid_amount');
 
         $dueAmount = $totalFees - $paidAmount;
 
 
 
         // Return the view and pass the payment data
-        return view('schooladmin/feemanagement/fee_categories/View_fees_payment', compact('payment','totalFees','paidAmount','dueAmount'));
+        return view('schooladmin/feemanagement/fee_categories/View_fees_payment', compact('payment', 'totalFees', 'paidAmount', 'dueAmount'));
     }
 }

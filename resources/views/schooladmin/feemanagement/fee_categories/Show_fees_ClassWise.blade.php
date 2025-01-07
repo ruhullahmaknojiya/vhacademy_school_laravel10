@@ -344,20 +344,24 @@
                                 <div class="mb-3">
                                     <label for="studentName" class="form-label">Student Name</label>
                                     <input type="text" class="form-control" id="studentName" name="student_name" readonly>
+                                    <span class="text-danger" id="studentName"></span>
                                 </div>
                                 <div class="mb-3">
                                     <label for="totalFees" class="form-label">Total Fees</label>
                                     <input type="text" class="form-control" id="totalFees" name="total_fees" readonly>
+                                    <span class="text-danger" id="totalFees"></span>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="class_id" class="form-label">Standard Name</label>
                                     <input type="text" class="form-control" id="class_id" name="class_id" readonly>
+                                    <span class="text-danger" id="class_id"></span>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="class_id" class="form-label">Medium Name</label>
                                     <input type="text" class="form-control" id="mediumId" name="medium_id" readonly>
+                                    <span class="text-danger" id="mediumId"></span>
                                 </div>
 
                                 <div class="mb-3">
@@ -372,13 +376,16 @@
                                     <select name="fee_category_id" id="fee_category_id" class="form-control">
                                         <option value="">Select a Master Category</option>
                                     </select>
-                                    <span class="text-danger" id="FeeCategoryError"></span>
+                                    <span id="feeCategoryError" class="error-message text-danger"></span>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="paidAmount" class="form-label">Enter Paid Amount</label>
                                     <input type="number" class="form-control" id="paidAmount" name="paid_amount" placeholder="Enter Your Paid Amount">
-                                    <span class="text-danger" id="paidAmountError"></span>
+                                    <span id="paidAmountError" class="error-message text-danger paidAmountError"></span>
+                                    <span id="paidAmountErrorMessage" class="text-danger">
+
+                                    </span>
                                 </div>
 
                         </div>
@@ -393,8 +400,8 @@
         </section>
 
         @push('js')
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+        {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script> --}}
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <script>
@@ -542,20 +549,18 @@
             $(document).on('submit', '#feesForm', function(e) {
                 e.preventDefault();
 
-                $("button[type=submit]").attr("disabled", true);
-
                 const studentId = $(this).data('student-id');
                 const classId = $('#class_id').val();
                 const mediumId = $('#mediumId').val();
                 const roll_number = $('#roll_number').val();
-
-
-
                 const studentName = $('#studentName').val();
                 const totalFees = $('#totalFees').val();
                 const paidAmount = $('#paidAmount').val();
                 const dueAmount = $('#dueAmount').val();
                 const fee_category_id = $('#fee_category_id').val();
+
+                // Clear previous error messages
+                $('.error-message').text('');
 
                 $.ajax({
                     url: `/submit-fees-payment/${studentId}`
@@ -573,46 +578,68 @@
                         , _token: $('meta[name="csrf-token"]').attr('content')
                     }
                     , success: function(response) {
-                        $("button[type=submit]").attr("disabled", false);
-
-                        alert(responseJSON);
-                        if (response.status == true) {
-
+                        if (response.status === true) {
                             $('#feesForm')[0].reset();
                             $('#modal-default').modal('hide');
 
+                            // Update the table with new data
                             $(`#studentsTableBody tr td.due-amount[data-student-id="${studentId}"]`).text(response.new_due_amount);
                             $(`#studentsTableBody tr td.paid-amount[data-student-id="${studentId}"]`).text(response.paid_amount);
 
-                            swal.fire({
+                            // Show success message
+                            Swal.fire({
                                 icon: 'success'
                                 , title: 'Success!'
                                 , text: response.message
                                 , showConfirmButton: true
-                            , }).then((result) => {
+                            }).then((result) => {
                                 if (result.isConfirmed) {
                                     window.location.href = `/student-school-fee-details/${studentId}`;
                                 }
                             });
-                        } else {
-
-                            if (err.status === 422) {
-                                const errors = err.responseJSON.errors;
+                        }
+                    }
+                    , error: function(err) {
+                        if (err.status === 422) {
+                            const responseJSON = err.responseJSON;
+                            if (responseJSON.errors) {
+                                const errors = responseJSON.errors;
+                                if (errors.fee_category_id) {
+                                    $('#feeCategoryError').text(errors.fee_category_id[0]);
+                                }
+                                if (errors.student_name) {
+                                    $('#studentName').text(errors.student_name[0]);
+                                }
+                                if (errors.roll_number) {
+                                    $('#studentName').text(errors.roll_number[0]);
+                                }
+                                if (errors.total_fees) {
+                                    $('#totalFees').text(errors.total_fees[0]);
+                                }
+                                if (errors.class_id) {
+                                    $('#class_id').text(errors.class_id[0]);
+                                }
+                                if (errors.medium_id) {
+                                    $('#mediumId').text(errors.medium_id[0]);
+                                }
                                 if (errors.paid_amount) {
                                     $('#paidAmountError').text(errors.paid_amount[0]);
                                 }
-                                if (errors.fee_category_id) {
-                                    $('#FeeCategoryError').text(errors.fee_category_id[0]);
-                                }
-                            } else {
-                                console.error('An error occurred:', err);
                             }
+
+                            if (responseJSON.message) {
+                                $('#paidAmountErrorMessage').text(responseJSON.message);
+                            }
+                        } else {
+                            console.error('An unexpected error occurred:', err);
                         }
                     }
-                , });
+
+                });
             });
 
         </script>
+
 
         <script>
             $(document).on('click', '.fees-paid-btn', function() {
