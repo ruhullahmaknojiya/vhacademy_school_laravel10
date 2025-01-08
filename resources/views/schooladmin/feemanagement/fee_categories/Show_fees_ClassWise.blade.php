@@ -293,7 +293,6 @@
 
                 @include('flash-message')
 
-
                 <div class="container-fluid" id="studentsTableContainer" style="display: none;">
                     <div class="row">
                         <div class="col-md-12">
@@ -338,39 +337,28 @@
                             </button>
                         </div>
                         <div class="modal-body">
-
                             <form id="feesForm" method="POST">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <div class="mb-3">
                                     <label for="studentName" class="form-label">Student Name</label>
                                     <input type="text" class="form-control" id="studentName" name="student_name" readonly>
-                                    <span class="text-danger" id="studentName"></span>
                                 </div>
                                 <div class="mb-3">
                                     <label for="totalFees" class="form-label">Total Fees</label>
                                     <input type="text" class="form-control" id="totalFees" name="total_fees" readonly>
-                                    <span class="text-danger" id="totalFees"></span>
                                 </div>
-
                                 <div class="mb-3">
                                     <label for="class_id" class="form-label">Standard Name</label>
                                     <input type="text" class="form-control" id="class_id" name="class_id" readonly>
-                                    <span class="text-danger" id="class_id"></span>
                                 </div>
-
                                 <div class="mb-3">
                                     <label for="class_id" class="form-label">Medium Name</label>
                                     <input type="text" class="form-control" id="mediumId" name="medium_id" readonly>
-                                    <span class="text-danger" id="mediumId"></span>
                                 </div>
-
                                 <div class="mb-3">
                                     <label for="class_id" class="form-label">Roll Number</label>
                                     <input type="number" class="form-control" id="roll_number" name="roll_number" readonly>
-                                    <span class="text-danger" id="roll_number"></span>
                                 </div>
-
-
                                 <div class="mb-3">
                                     <label for="fee_category" class="form-label">Master Category Fee</label>
                                     <select name="fee_category_id" id="fee_category_id" class="form-control">
@@ -384,10 +372,8 @@
                                     <input type="number" class="form-control" id="paidAmount" name="paid_amount" placeholder="Enter Your Paid Amount">
                                     <span id="paidAmountError" class="error-message text-danger paidAmountError"></span>
                                     <span id="paidAmountErrorMessage" class="text-danger">
-
                                     </span>
                                 </div>
-
                         </div>
                         <div class="modal-footer justify-content-between">
                             <button type="submit" class="btn btn-primary">Submit Payment</button>
@@ -400,20 +386,130 @@
         </section>
 
         @push('js')
-        {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script> --}}
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <script>
+            // $(document).ready(function() {
+
+            //     let defaultMediumId = $('#mediumDropdown').val();
+            //     if (!defaultMediumId) {
+            //         $('#mediumDropdown').val(defaultMediumId);
+            //         defaultMediumId = $('#mediumDropdown').val();
+            //     }
+
+
+            //     loadStandards(defaultMediumId);
+
+            //     // Trigger loadStandards when medium dropdown value changes
+            //     $('#mediumDropdown').change(function() {
+            //         const mediumId = $(this).val();
+            //         loadStandards(mediumId);
+            //     });
+
+            //     // Function to load standards based on medium selection
+            //     function loadStandards(mediumId) {
+            //         if (!mediumId) {
+            //             $('#standardsContainer').hide();
+            //             $('#studentsTableContainer').hide();
+            //             return; // Exit if no medium is selected
+            //         }
+
+            //         $.ajax({
+            //             url: '/fetch-standards', // Endpoint to fetch standards for the selected medium
+            //             method: 'GET'
+            //             , data: {
+            //                 medium_id: mediumId
+            //             }
+            //             , success: function(response) {
+            //                 const standards = response.standards;
+            //                 $('#standardsContainer').show();
+            //                 $('#standardsList').empty();
+
+            //                 // Populate standards in the list
+            //                 standards.forEach((standard) => {
+            //                     $('#standardsList').append(`
+            //         <li class="text-center list-group-item standard-item" style="min-width: 100px; border: 1px solid #ddd; padding: 10px; cursor: pointer;" data-standard-id="${standard.id}">
+            //             ${standard.standard_name}
+            //         </li>
+            //     `);
+            //                 });
+
+            //                 // Automatically load students for the first standard after standards are loaded
+            //                 const firstStandardId = standards[0].id;
+            //                 loadStudents(firstStandardId);
+
+
+            //                 // Highlight the first standard in the list
+            //                 $('#standardsList li:first-child').addClass('active');
+            //             }
+            //         });
+            //     }
+
+            //     // Handle standard click event
+            //     $(document).on('click', '.standard-item', function() {
+            //         const standardId = $(this).data('standard-id');
+            //         loadStudents(standardId);
+            //         $('.standard-item').removeClass('active');
+            //         $(this).addClass('active');
+            //         $('#studentsTableBody').empty();
+            //         $('#studentsTableContainer').show();
+            //     });
+
+
+            //     function loadStudents(standardId) {
+            //         $.ajax({
+            //             url: `/fetch-students/${standardId}`, // Endpoint to fetch students for the selected standard
+            //             method: 'GET'
+            //             , success: function(response) {
+            //                 $('#studentsTableBody').empty();
+
+            //                 if (response.students.length > 0) {
+            //                     response.students.forEach(student => {
+            //                         const dueAmount = student.due_amount;
+            //                         const paidAmount = student.paid_amount;
+
+            //                         $('#studentsTableBody').append(`
+            //             <tr>
+            //                 <td>${student.id}</td>
+            //                 <td>${student.first_name} ${student.last_name}</td>
+            //                 <td>${student.standard ? student.standard.standard_name : 'N/A'}</td>
+            //                 <td>${student.medium ? student.medium.medium_name : 'N/A'}</td>
+            //                 <td>${student.roll_number}</td>
+            //                 <td>${response.totalFeesClassWise}</td>
+            //                 <td class="due-amount" data-student-id="${student.id}">${dueAmount}</td>
+            //                 <td class="paid-amount" data-student-id="${student.id}">${paidAmount}</td>
+            //                 <td>
+            //                    <button type="button" class="btn ${response.totalFeesClassWise === paidAmount ? 'btn-success' : 'btn-primary'} fees-paid-btn"
+            //         data-toggle="modal"
+            //         data-target="#modal-default"
+            //            data-student-id="${student.id}"
+            //             data-medium-id="${student.medium ? student.medium.medium_name : ''}"
+            //             data-student-name="${student.first_name} ${student.last_name}"
+            //            data-total-fees="${response.totalFeesClassWise}"
+            //             data-standard-name="${student.standard ? student.standard.standard_name : ''}"
+            //            data-roll-number="${student.roll_number}"
+            //             ${response.totalFeesClassWise === paidAmount ? 'disabled' : ''}>
+            //             ${response.totalFeesClassWise === paidAmount ? 'Paid' : 'Payments'}
+            //           </button>
+            //          <a href="/student-school-fee-details/${student.id}" class="btn btn-info">Fees Details</a>
+            //                 </td>
+            //             </tr>
+            //         `);
+            //                     });
+            //                 } else {
+            //                     $('#studentsTableBody').append('<tr><td colspan="9" class="text-center">No students found.</td></tr>');
+            //                 }
+            //             }
+            //         });
+            //     }
+            // });
+
             $(document).ready(function() {
-
-                let defaultMediumId = $('#mediumDropdown').val();
-                if (!defaultMediumId) {
-                    $('#mediumDropdown').val(defaultMediumId);
-                    defaultMediumId = $('#mediumDropdown').val();
-                }
-
                 // Load standards for the default medium
+                let defaultMediumId = $('#mediumDropdown').val();
                 loadStandards(defaultMediumId);
 
                 // Trigger loadStandards when medium dropdown value changes
@@ -422,7 +518,7 @@
                     loadStandards(mediumId);
                 });
 
-                // Function to load standards based on medium selection
+                // Function to load standards based on selected medium
                 function loadStandards(mediumId) {
                     if (!mediumId) {
                         $('#standardsContainer').hide();
@@ -431,8 +527,8 @@
                     }
 
                     $.ajax({
-                        url: '/fetch-standards', // Endpoint to fetch standards for the selected medium
-                        method: 'GET'
+                        url: '/fetch-standards'
+                        , method: 'GET'
                         , data: {
                             medium_id: mediumId
                         }
@@ -444,77 +540,90 @@
                             // Populate standards in the list
                             standards.forEach((standard) => {
                                 $('#standardsList').append(`
-                    <li class="text-center list-group-item standard-item" style="min-width: 100px; border: 1px solid #ddd; padding: 10px; cursor: pointer;" data-standard-id="${standard.id}">
-                        ${standard.standard_name}
-                    </li>
-                `);
+                        <li class="text-center list-group-item standard-item"
+                            style="min-width: 100px; border: 1px solid #ddd; padding: 10px; cursor: pointer;"
+                            data-standard-id="${standard.id}">
+                            ${standard.standard_name}
+                        </li>
+                    `);
                             });
 
-                            // Automatically load students for the first standard after standards are loaded
-                            const firstStandardId = standards[0].id;
-                            loadStudents(firstStandardId);
+                            // Automatically load students for the first standard
+                            if (standards.length > 0) {
+                                const firstStandardId = standards[0].id;
+                                loadStudents(firstStandardId);
 
-
-                            // Highlight the first standard in the list
-                            $('#standardsList li:first-child').addClass('active');
+                                // Highlight the first standard
+                                $('#standardsList li:first-child').addClass('active');
+                            }
+                        }
+                        , error: function(err) {
+                            console.error('Error loading standards:', err);
                         }
                     });
                 }
 
-                // Handle standard click event
+                // Handle standard click event to load students
                 $(document).on('click', '.standard-item', function() {
                     const standardId = $(this).data('standard-id');
                     loadStudents(standardId);
                     $('.standard-item').removeClass('active');
                     $(this).addClass('active');
-                    $('#studentsTableBody').empty();
-                    $('#studentsTableContainer').show();
                 });
 
-
+                // Function to load students for a given standard
                 function loadStudents(standardId) {
+                    $('#studentsTableBody').empty(); // Clear previous data
+                    $('#studentsTableContainer').show();
+
                     $.ajax({
-                        url: `/fetch-students/${standardId}`, // Endpoint to fetch students for the selected standard
-                        method: 'GET'
+                        url: `/fetch-students/${standardId}`
+                        , method: 'GET'
                         , success: function(response) {
                             $('#studentsTableBody').empty();
+                            const totalFeesClassWise = response.totalFeesClassWise || 0;
+                            const students = response.students;
 
-                            if (response.students.length > 0) {
-                                response.students.forEach(student => {
-                                    const dueAmount = student.due_amount;
-                                    const paidAmount = student.paid_amount;
+                            if (students.length > 0) {
+                                students.forEach(student => {
+                                    const paidAmount = student.paid_amount || 0;
+                                    const dueAmount = totalFeesClassWise - paidAmount;
+                                    const isPaid = paidAmount === totalFeesClassWise;
 
                                     $('#studentsTableBody').append(`
-                        <tr>
-                            <td>${student.id}</td>
-                            <td>${student.first_name} ${student.last_name}</td>
-                            <td>${student.standard ? student.standard.standard_name : 'N/A'}</td>
-                            <td>${student.medium ? student.medium.medium_name : 'N/A'}</td>
-                            <td>${student.roll_number}</td>
-                            <td>${response.totalFeesClassWise}</td>
-                            <td class="due-amount" data-student-id="${student.id}">${dueAmount}</td>
-                            <td class="paid-amount" data-student-id="${student.id}">${paidAmount}</td>
-                            <td>
-                               <button type="button" class="btn ${response.totalFeesClassWise === paidAmount ? 'btn-success' : 'btn-primary'} fees-paid-btn"
-                    data-toggle="modal"
-                    data-target="#modal-default"
-                       data-student-id="${student.id}"
-                        data-medium-id="${student.medium ? student.medium.medium_name : ''}"
-                        data-student-name="${student.first_name} ${student.last_name}"
-                       data-total-fees="${response.totalFeesClassWise}"
-                        data-standard-name="${student.standard ? student.standard.standard_name : ''}"
-                       data-roll-number="${student.roll_number}"
-                        ${response.totalFeesClassWise === paidAmount ? 'disabled' : ''}>
-                        ${response.totalFeesClassWise === paidAmount ? 'Paid' : 'Payments'}
-                      </button>
-                     <a href="/student-school-fee-details/${student.id}" class="btn btn-info">Fees Details</a>
-                            </td>
-                        </tr>
-                    `);
+                            <tr>
+                                <td>${student.id}</td>
+                                <td>${student.first_name} ${student.last_name}</td>
+                                <td>${student.standard ? student.standard.standard_name : 'N/A'}</td>
+                                <td>${student.medium ? student.medium.medium_name : 'N/A'}</td>
+                                <td>${student.roll_number}</td>
+                                <td>${response.totalFeesClassWise}</td>
+                                <td class="due-amount" data-student-id="${student.id}">${student.due_amount}</td>
+                                <td class="paid-amount" data-student-id="${student.id}">${student.paid_amount}</td>
+                                <td>
+                                    <button type="button" class="btn ${isPaid ? 'btn-success' : 'btn-primary'} fees-paid-btn"
+                                    data-toggle="modal"
+                                    data-target="#modal-default"
+                                    data-student-id="${student.id}"
+                                    data-medium-id="${student.medium ? student.medium.medium_name : ''}"
+                                    data-student-name="${student.first_name} ${student.last_name}"
+                                    data-total-fees="${totalFeesClassWise}"
+                                    data-standard-name="${student.standard ? student.standard.standard_name : ''}"
+                                    data-roll-number="${student.roll_number}"
+                                    ${isPaid ? 'disabled' : ''}>
+                                    ${isPaid ? 'Paid' : 'Payments'}
+                                </button>
+                                    <a href="/student-school-fee-details/${student.id}" class="btn btn-info">Fees Details</a>
+                                </td>
+                            </tr>
+                        `);
                                 });
                             } else {
                                 $('#studentsTableBody').append('<tr><td colspan="9" class="text-center">No students found.</td></tr>');
                             }
+                        }
+                        , error: function(err) {
+                            console.error('Error loading students:', err);
                         }
                     });
                 }
@@ -549,17 +658,20 @@
             $(document).on('submit', '#feesForm', function(e) {
                 e.preventDefault();
 
+
+
                 const studentId = $(this).data('student-id');
                 const classId = $('#class_id').val();
                 const mediumId = $('#mediumId').val();
-                const roll_number = $('#roll_number').val();
+                const rollNumber = $('#roll_number').val();
+
                 const studentName = $('#studentName').val();
                 const totalFees = $('#totalFees').val();
                 const paidAmount = $('#paidAmount').val();
                 const dueAmount = $('#dueAmount').val();
                 const fee_category_id = $('#fee_category_id').val();
 
-                // Clear previous error messages
+
                 $('.error-message').text('');
 
                 $.ajax({
@@ -570,7 +682,7 @@
                         , student_id: studentId
                         , class_id: classId
                         , medium_id: mediumId
-                        , roll_number: roll_number
+                        , roll_number: rollNumber
                         , total_fees: totalFees
                         , paid_amount: paidAmount
                         , dueAmount: dueAmount
@@ -597,6 +709,12 @@
                                     window.location.href = `/student-school-fee-details/${studentId}`;
                                 }
                             });
+                        } else {
+                            Swal.fire({
+                                icon: 'error'
+                                , title: 'Error'
+                                , text: 'Something went wrong!'
+                            , });
                         }
                     }
                     , error: function(err) {
@@ -606,21 +724,6 @@
                                 const errors = responseJSON.errors;
                                 if (errors.fee_category_id) {
                                     $('#feeCategoryError').text(errors.fee_category_id[0]);
-                                }
-                                if (errors.student_name) {
-                                    $('#studentName').text(errors.student_name[0]);
-                                }
-                                if (errors.roll_number) {
-                                    $('#studentName').text(errors.roll_number[0]);
-                                }
-                                if (errors.total_fees) {
-                                    $('#totalFees').text(errors.total_fees[0]);
-                                }
-                                if (errors.class_id) {
-                                    $('#class_id').text(errors.class_id[0]);
-                                }
-                                if (errors.medium_id) {
-                                    $('#mediumId').text(errors.medium_id[0]);
                                 }
                                 if (errors.paid_amount) {
                                     $('#paidAmountError').text(errors.paid_amount[0]);

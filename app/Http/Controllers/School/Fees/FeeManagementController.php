@@ -61,11 +61,16 @@ class FeeManagementController extends Controller
     {
         $mediumId = $request->input('medium_id');
 
+        $request->validate([
+            'medium_id' => 'required|exists:mediums,id',
+        ]);
+
 
         $standards = Standard::where('medium_id', $mediumId)->get();
 
 
         return response()->json([
+            'status' => true,
             'standards' => $standards
         ]);
     }
@@ -73,55 +78,105 @@ class FeeManagementController extends Controller
 
 
 
+    // public function fetchStudents($standardId)
+    // {
+    //     // Get all students for the given standard (class_id)
+    //     $students = Student::with('standard', 'medium')->where('class_id', $standardId)->get();
+
+
+
+    //     $master_fee_categories = MasterFeeCategory::all(['category_name']);
+
+
+    //     // Get the total fees for the class
+    //     $totalFeesClassWise = FeeCategory::where('class_id', $standardId)->sum('amount') ?: 0;
+
+    //     // Initialize paid_amount and due_amount arrays for each student
+    //     $studentsWithFees = $students->map(function ($student) use ($totalFeesClassWise) {
+    //         // Get the total paid amount for this specific student
+    //         $paidAmount = Payment::where('student_id', $student->id)->sum('paid_amount');
+
+    //         // Calculate due amount based on total fees minus paid amount
+    //         $dueAmount = $totalFeesClassWise - $paidAmount;
+
+    //         // Add the calculated due_amount and paid_amount to the student data
+    //         $student->paid_amount = $paidAmount;
+    //         $student->due_amount = $dueAmount;
+
+    //         return $student;
+    //     });
+
+    //     // Get the total paid amount for all students (if you need it for other purposes)
+    //     $totalPaidAmount = Payment::where('class_id', $standardId)
+    //         ->sum('paid_amount');
+
+    //     // dd($totalPaidAmount);
+
+    //     // Calculate the total due amount for all students (class-wide)
+    //     $totalDueAmount = $totalFeesClassWise - $totalPaidAmount;
+
+
+
+    //     return response()->json([
+    //         'status' => true,
+    //         'message' => 'Student Records Fetched Successfully',
+    //         'students' => $studentsWithFees,
+    //         'totalFeesClassWise' => $totalFeesClassWise,
+    //         'totalPaidAmount' => $totalPaidAmount,
+    //         'totalDueAmount' => $totalDueAmount,
+    //         'master_fee_categories' => $master_fee_categories
+    //     ]);
+    // }
+
+
+
     public function fetchStudents($standardId)
     {
-        // Get all students for the given standard (class_id)
-        $students = Student::with('standard', 'medium')->where('class_id', $standardId)->get();
+        // Validate that the standard exists
+        if (!Standard::find($standardId)) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Invalid standard ID.'
+            ], 404);
+        }
 
+        // Fetch students with relationships
+        $students = Student::with('standard', 'medium')
+            ->where('class_id', $standardId)
+            ->get();
 
+        // Get master fee categories
+        $masterFeeCategories = MasterFeeCategory::all(['id', 'category_name']);
 
-        $master_fee_categories = MasterFeeCategory::all(['category_name']);
+        // Calculate total fees for the class
+        $totalFeesClassWise = FeeCategory::where('class_id', $standardId)->sum('amount');
 
-
-        // Get the total fees for the class
-        $totalFeesClassWise = FeeCategory::where('class_id', $standardId)->sum('amount') ?: 0;
-
-        // Initialize paid_amount and due_amount arrays for each student
+        // Calculate paid and due amounts for each student
         $studentsWithFees = $students->map(function ($student) use ($totalFeesClassWise) {
-            // Get the total paid amount for this specific student
             $paidAmount = Payment::where('student_id', $student->id)->sum('paid_amount');
-
-            // Calculate due amount based on total fees minus paid amount
             $dueAmount = $totalFeesClassWise - $paidAmount;
 
-            // Add the calculated due_amount and paid_amount to the student data
             $student->paid_amount = $paidAmount;
             $student->due_amount = $dueAmount;
 
             return $student;
         });
 
-        // Get the total paid amount for all students (if you need it for other purposes)
-        $totalPaidAmount = Payment::where('class_id', $standardId)
-            ->sum('paid_amount');
-
-        // dd($totalPaidAmount);
-
-        // Calculate the total due amount for all students (class-wide)
+        // Calculate total paid and due amounts class-wide
+        $totalPaidAmount = Payment::where('class_id', $standardId)->sum('paid_amount');
         $totalDueAmount = $totalFeesClassWise - $totalPaidAmount;
-
-
 
         return response()->json([
             'status' => true,
-            'message' => 'Student Records Fetched Successfully',
+            'message' => 'Student records fetched successfully.',
             'students' => $studentsWithFees,
             'totalFeesClassWise' => $totalFeesClassWise,
             'totalPaidAmount' => $totalPaidAmount,
             'totalDueAmount' => $totalDueAmount,
-            'master_fee_categories' => $master_fee_categories
+            'master_fee_categories' => $masterFeeCategories
         ]);
     }
+
 
 
     public function manageFeeCategories()
@@ -343,7 +398,7 @@ class FeeManagementController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Paid amount exceeds the remaining due amount for the selected category. Remaining due amount: ' . $remainingDueAmount,
-            ],422);
+            ], 422);
         }
 
         $medium = Medium::where('medium_name', $request->input('medium_id'))->first();
