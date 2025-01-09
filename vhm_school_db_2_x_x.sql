@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 07, 2025 at 01:42 PM
+-- Generation Time: Jan 09, 2025 at 01:32 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -563,7 +563,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (63, '2025_01_01_085219_alter_sub_topics_table', 20),
 (64, '2025_01_01_090644_drop_columns_from_sub_topics_table', 21),
 (65, '2025_01_01_090250_alter_sub_topics_table', 22),
-(66, '2025_01_06_054452_alter_payments_table', 23);
+(66, '2025_01_06_054452_alter_payments_table', 23),
+(67, '2025_01_08_120548_create_standards_wise_live_telecast_table', 24);
 
 -- --------------------------------------------------------
 
@@ -969,16 +970,6 @@ CREATE TABLE `payments` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `payments`
---
-
-INSERT INTO `payments` (`id`, `student_name`, `class_id`, `student_id`, `medium_id`, `roll_number`, `fee_category_id`, `total_fees`, `paid_amount`, `due_amount`, `created_at`, `updated_at`) VALUES
-(162, 'HRITHIK  PADHIYAR', 22, 14, 3, 1, 3, 11700.00, 2700.00, 9000.00, '2025-01-07 05:53:06', '2025-01-07 05:53:06'),
-(163, 'HRITHIK  PADHIYAR', 22, 14, 3, 1, 4, 11700.00, 1000.00, 8000.00, '2025-01-07 05:54:21', '2025-01-07 05:54:21'),
-(164, 'HRITHIK  PADHIYAR', 22, 14, 3, 1, 4, 11700.00, 1000.00, 7000.00, '2025-01-07 05:54:39', '2025-01-07 05:54:39'),
-(165, 'HRITHIK  PADHIYAR', 22, 14, 3, 1, 4, 11700.00, 1000.00, 6000.00, '2025-01-07 06:08:44', '2025-01-07 06:08:44');
-
 -- --------------------------------------------------------
 
 --
@@ -1114,7 +1105,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('V2NmM69XLkJgA3GDtyCjfZpMeLqr6yXD28EZRXmf', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiZFZNUEhkdWM3RTRLeXBzc0VGaUZHOElnWXl2SkJmY1V2WE1EbTVvOSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NTc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9zY2hvb2xhZG1pbi9zaG93U3R1ZGVudHMtY2xhc3Mtd2lzZSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjI7fQ==', 1736253459);
+('6kSKskhDZiy01bUBzlQGOmd3dGuUddC5U8Jf3Wm1', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoidjVhQnlRUGVJVGNxeWwybVdheDVac1R2VGR0SkFnSEF6ZzR6S1p5WCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NTk6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9zY2hvb2wvU3RhbmRhcmRfV0lzZV9icm9hZENhc3RpbmctVXJsIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6Mjt9', 1736424388);
 
 -- --------------------------------------------------------
 
@@ -1172,6 +1163,32 @@ INSERT INTO `standards` (`id`, `standard_name`, `medium_id`, `status`, `created_
 (52, 'Std. 12 Sci.', 4, 1, '2024-07-15 04:36:33', '2024-07-15 04:36:33'),
 (53, 'B.com', 3, 1, '2024-12-19 03:40:24', '2024-12-19 03:40:24'),
 (54, 'BBA', 4, 1, '2024-12-19 03:46:13', '2024-12-19 03:46:13');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `standards_wise_live_telecast`
+--
+
+CREATE TABLE `standards_wise_live_telecast` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `medium_id` bigint(20) UNSIGNED NOT NULL,
+  `class_id` bigint(20) UNSIGNED NOT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
+  `live_telecast_url` varchar(255) NOT NULL,
+  `live_telecast_id` varchar(200) DEFAULT NULL,
+  `status` enum('yes','no') NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `standards_wise_live_telecast`
+--
+
+INSERT INTO `standards_wise_live_telecast` (`id`, `medium_id`, `class_id`, `start_date`, `end_date`, `live_telecast_url`, `live_telecast_id`, `status`, `created_at`, `updated_at`) VALUES
+(5, 3, 17, '2025-01-09', '2025-01-30', 'https://www.justwatch.com/us/tv-show/live-telecast', 'std - 5', 'yes', '2025-01-09 05:51:48', '2025-01-09 05:58:12');
 
 -- --------------------------------------------------------
 
@@ -3921,6 +3938,12 @@ ALTER TABLE `standards`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `standards_wise_live_telecast`
+--
+ALTER TABLE `standards_wise_live_telecast`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `students`
 --
 ALTER TABLE `students`
@@ -4095,7 +4118,7 @@ ALTER TABLE `mediums`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT for table `notices`
@@ -4131,7 +4154,7 @@ ALTER TABLE `parents`
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=166;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=186;
 
 --
 -- AUTO_INCREMENT for table `permissions`
@@ -4168,6 +4191,12 @@ ALTER TABLE `schools`
 --
 ALTER TABLE `standards`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+
+--
+-- AUTO_INCREMENT for table `standards_wise_live_telecast`
+--
+ALTER TABLE `standards_wise_live_telecast`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `students`
