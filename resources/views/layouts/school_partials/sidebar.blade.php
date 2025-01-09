@@ -88,6 +88,12 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="{{ route('live-standardsWise-telecast-url-list') }}" class="nav-link {{ request()->routeIs('live-standardsWise-telecast-url-list') ? 'active' : '' }}">
+                                <i class="fas fa-chalkboard-teacher nav-icon"></i>
+                                <p>Live broad Telecast</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{ route('manageFeeCategories') }}" class="nav-link {{ request()->routeIs('manageFeeCategories') ? 'active' : '' }}">
                                 <i class="fas fa-list-alt nav-icon"></i> <!-- Icon for Fee Categories -->
                                 <p>Fee Categories</p>

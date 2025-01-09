@@ -471,9 +471,10 @@ class FeeManagementController extends Controller
 
     public function showFeeDetails($studentId)
     {
+        $student = Student::findOrFail($studentId);
         $studentPayments = Payment::where('student_id', $studentId)
             ->orderBy('created_at', 'desc')
-            ->with('feeCategory') // Eager load the fee category
+            ->with('feeCategory','student') // Eager load the fee category
             ->get();
 
         $dueAmountsFee = Payment::where('student_id', $studentId)
@@ -519,9 +520,9 @@ class FeeManagementController extends Controller
         $due_fees_payments = Payment::where('student_id', $studentId)->first();
 
         // If no payments are found for the student, redirect to the fee payment history page
-        if ($studentPayments->isEmpty()) {
-            return redirect()->route('showStudentsByClassWise')->with('danger', 'Fees Payment Records Not Found for this student.');
-        }
+        // if ($studentPayments->isEmpty()) {
+        //     return redirect()->route()->with('danger', 'Fees Payment Records Not Found for this student.');
+        // }
 
         // Get the sum of paid amounts for the student
         $sumPaidAmount = $studentPayments->sum('paid_amount');
@@ -582,6 +583,7 @@ class FeeManagementController extends Controller
         return view('schooladmin/feemanagement/fee_categories/fee_details', [
             'studentPayments' => $studentPayments,
             'sumPaidAmount' => $sumPaidAmount,
+            'student'=>$student,
             'totalFees' => $totalFees,
             'dueAmount' => $dueAmount,
             'dueAmountsFee' => $dueAmountsFee,
@@ -596,6 +598,51 @@ class FeeManagementController extends Controller
 
         ]);
     }
+
+
+    // public function showFeeDetails($studentId)
+    // {
+    //     // Fetch payments for the student
+    //     $studentPayments = Payment::where('student_id', $studentId)
+    //         ->orderBy('created_at', 'desc')
+    //         ->with('feeCategory') // Eager load the fee category
+    //         ->get();
+
+    //     // Fetch additional student data
+    //     $student = Student::with('standard', 'medium')->find($studentId);
+
+    //     // If no student is found, return a "Not Found" error
+    //     if (!$student) {
+    //         return redirect()->route('empty_card_fees_details')->with('danger', 'Student not found.');
+    //     }
+
+    //     // If no payments are found, pass empty data to the view
+    //     if ($studentPayments->isEmpty()) {
+    //         return view('schooladmin/feemanagement/fee_categories/fee_details', [
+    //             'student' => $student,
+    //             'studentPayments' => [], // Pass empty payments
+    //             'sumPaidAmount' => 0,
+    //             'totalFees' => 0,
+    //             'dueAmount' => 0,
+    //             'message' => 'No payment records found for this student.'
+    //         ]);
+    //     }
+
+    //     // Other calculations (same as before)
+    //     $sumPaidAmount = $studentPayments->sum('paid_amount');
+    //     $totalFees = FeeCategory::sum('amount');
+    //     $dueAmount = $totalFees - $sumPaidAmount;
+
+    //     // Pass all data to the view
+    //     return view('schooladmin/feemanagement/fee_categories/fee_details', [
+    //         'student' => $student,
+    //         'studentPayments' => $studentPayments,
+    //         'sumPaidAmount' => $sumPaidAmount,
+    //         'totalFees' => $totalFees,
+    //         'dueAmount' => $dueAmount,
+    //     ]);
+    // }
+
 
 
 
@@ -633,4 +680,7 @@ class FeeManagementController extends Controller
         // Return the view and pass the payment data
         return view('schooladmin/feemanagement/fee_categories/View_fees_payment', compact('payment', 'totalFees', 'paidAmount', 'dueAmount'));
     }
+
+
+
 }

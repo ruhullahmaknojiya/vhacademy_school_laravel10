@@ -41,7 +41,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\School\Fees\InvoiceController;
 
 use App\Http\Controllers\School\Fees\FeeManagementController;
-
+use App\Http\Controllers\School\StandardsWiseLiveTelecast\StandardsWiseLiveTelecastController;
 
 /*
 |--------------------------------------------------------------------------
@@ -249,6 +249,27 @@ Route::group(['middlware' => ['auth', 'role:SchoolAdmin']], function () {
 
     Route::get('sub-category-fee/{categoryId}', [FeeManagementController::class, 'showSubcategoryDetails'])->name('subCategoryFee');
     Route::get('/fees-payment-history/invoice/{id}', [InvoiceController::class, 'generateInvoicePdfSingleRecords'])->name('fees.invoice.pdf');
+
+
+
+
+// Standard WIse broadCasting  //
+
+Route::get('/school/Standard_WIse_broadCasting-Url', [StandardsWiseLiveTelecastController::class, 'StandardsWiseLiveTelecastIndexPage'])->name('live-standardsWise-telecast-url-list');
+Route::post('/school/Standard_WIse_broadCasting-store', [StandardsWiseLiveTelecastController::class, 'store'])->name('StandardsWise-telecast-store');
+
+Route::get('/school/Standard_WIse_broadCasting-Url-edit/{telecastId}', [StandardsWiseLiveTelecastController::class, 'edit'])->name('standardsWise-telecast-url-edit');
+Route::post('/school/Standard_WIse_broadCasting-Url-update/{telecastId}', [StandardsWiseLiveTelecastController::class, 'update'])->name('standardsWise-telecast-url-update');
+
+Route::get('/school/Standard_WIse_broadCasting-Url-delete/{telecastId}', [StandardsWiseLiveTelecastController::class, 'destroy'])->name('standardsWise-telecast-url-delete');
+Route::post('/update-status', [StandardsWiseLiveTelecastController::class, 'updateStatus']);
+
+
+
+
+
+
+
 
     //HomeWork Route
     Route::get('SchoolAdmin/homework', [HomeworkController::class, 'index'])->name('schooladmin.homework.index');

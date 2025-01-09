@@ -264,122 +264,126 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <section class="content">
-            <div class="row">
+            <div class="container-fluid">
 
-                <!-- Medium Dropdown -->
-                <div class="mt-3 col-2">
-                    <select id="mediumDropdown" name="medium" class="form-control" style="border-radius: 5px;">
-                        <option value="">Select Medium</option>
-                        @foreach ($mediums as $medium)
-                        <option value="{{ $medium->id }}" @if($medium->medium_name == 'English Medium') selected @endif>
-                            {{ $medium->medium_name }}
-                        </option>
-                        @endforeach
-                    </select>
-                </div>
 
-                <!-- Horizontal Standards List -->
-                <div class="mt-3 col-10" id="standardsContainer" style="display: none;">
-                    <!-- Initially hidden -->
-                    <div class="card">
-                        <div class="card-header">
-                            <ul id="standardsList" class="overflow-auto list-group list-group-horizontal" style="display: flex; gap: 10px;">
+                <div class="row">
 
-                            </ul>
+                    <!-- Medium Dropdown -->
+                    <div class="mt-3 col-2">
+                        <select id="mediumDropdown" name="medium" class="form-control" style="border-radius: 5px;">
+                            <option value="">Select Medium</option>
+                            @foreach ($mediums as $medium)
+                            <option value="{{ $medium->id }}" @if($medium->medium_name == 'English Medium') selected @endif>
+                                {{ $medium->medium_name }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Horizontal Standards List -->
+                    <div class="mt-3 col-10" id="standardsContainer" style="display: none;">
+                        <!-- Initially hidden -->
+                        <div class="card">
+                            <div class="card-header">
+                                <ul id="standardsList" class="overflow-auto list-group list-group-horizontal" style="display: flex; gap: 10px;">
+
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
 
 
-                @include('flash-message')
+                    @include('flash-message')
 
-                <div class="container-fluid" id="studentsTableContainer" style="display: none;">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="mt-3 card">
-                                <div class="card-header">
-                                    <h4>StandardWise List</h4>
-                                </div>
-                                <div class="card-body">
-                                    <table class="table table-bordered table-striped" style="margin-top: -7px;">
-                                        <thead>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Student Name</th>
-                                                <th>ClassName</th>
-                                                <th>Medium Name</th>
-                                                <th>Role Number</th>
-                                                <th>Total Fees ClassWise</th>
-                                                <th>Due Amount</th>
-                                                <th>Paid Amount</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="studentsTableBody">
-                                        </tbody>
-                                    </table>
+                    <div class="container-fluid" id="studentsTableContainer" style="display: none;">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="mt-3 card">
+                                    <div class="card-header">
+                                        <h4>StandardWise List</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <table class="table table-bordered table-striped" style="margin-top: -7px;">
+                                            <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Student Name</th>
+                                                    <th>ClassName</th>
+                                                    <th>Medium Name</th>
+                                                    <th>Role Number</th>
+                                                    <th>Total Fees ClassWise</th>
+                                                    <th>Due Amount</th>
+                                                    <th>Paid Amount</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="studentsTableBody">
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
 
-            </div>
 
+                <div class="modal fade" id="modal-default">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="StandardName">Students Fees Amount Paid By Class</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="feesForm" method="POST">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <div class="mb-3">
+                                        <label for="studentName" class="form-label">Student Name</label>
+                                        <input type="text" class="form-control" id="studentName" name="student_name" readonly>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="totalFees" class="form-label">Total Fees</label>
+                                        <input type="text" class="form-control" id="totalFees" name="total_fees" readonly>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="class_id" class="form-label">Standard Name</label>
+                                        <input type="text" class="form-control" id="class_id" name="class_id" readonly>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="class_id" class="form-label">Medium Name</label>
+                                        <input type="text" class="form-control" id="mediumId" name="medium_id" readonly>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="class_id" class="form-label">Roll Number</label>
+                                        <input type="number" class="form-control" id="roll_number" name="roll_number" readonly>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="fee_category" class="form-label">Master Category Fee</label>
+                                        <select name="fee_category_id" id="fee_category_id" class="form-control">
+                                            <option value="">Select a Master Category</option>
+                                        </select>
+                                        <span id="feeCategoryError" class="error-message text-danger"></span>
+                                    </div>
 
-            <div class="modal fade" id="modal-default">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="StandardName">Students Fees Amount Paid By Class</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                                    <div class="mb-3">
+                                        <label for="paidAmount" class="form-label">Enter Paid Amount</label>
+                                        <input type="number" class="form-control" id="paidAmount" name="paid_amount" placeholder="Enter Your Paid Amount">
+                                        <span id="paidAmountError" class="error-message text-danger paidAmountError"></span>
+                                        <span id="paidAmountErrorMessage" class="text-danger">
+                                        </span>
+                                    </div>
+                            </div>
+                            <div class="modal-footer justify-content-between">
+                                <button type="submit" class="btn btn-primary">Submit Payment</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                            </form>
                         </div>
-                        <div class="modal-body">
-                            <form id="feesForm" method="POST">
-                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                <div class="mb-3">
-                                    <label for="studentName" class="form-label">Student Name</label>
-                                    <input type="text" class="form-control" id="studentName" name="student_name" readonly>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="totalFees" class="form-label">Total Fees</label>
-                                    <input type="text" class="form-control" id="totalFees" name="total_fees" readonly>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="class_id" class="form-label">Standard Name</label>
-                                    <input type="text" class="form-control" id="class_id" name="class_id" readonly>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="class_id" class="form-label">Medium Name</label>
-                                    <input type="text" class="form-control" id="mediumId" name="medium_id" readonly>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="class_id" class="form-label">Roll Number</label>
-                                    <input type="number" class="form-control" id="roll_number" name="roll_number" readonly>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="fee_category" class="form-label">Master Category Fee</label>
-                                    <select name="fee_category_id" id="fee_category_id" class="form-control">
-                                        <option value="">Select a Master Category</option>
-                                    </select>
-                                    <span id="feeCategoryError" class="error-message text-danger"></span>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="paidAmount" class="form-label">Enter Paid Amount</label>
-                                    <input type="number" class="form-control" id="paidAmount" name="paid_amount" placeholder="Enter Your Paid Amount">
-                                    <span id="paidAmountError" class="error-message text-danger paidAmountError"></span>
-                                    <span id="paidAmountErrorMessage" class="text-danger">
-                                    </span>
-                                </div>
-                        </div>
-                        <div class="modal-footer justify-content-between">
-                            <button type="submit" class="btn btn-primary">Submit Payment</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
-                        </form>
                     </div>
                 </div>
             </div>
