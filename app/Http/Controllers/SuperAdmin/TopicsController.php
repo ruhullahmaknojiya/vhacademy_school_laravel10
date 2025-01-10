@@ -3,14 +3,16 @@
 namespace App\Http\Controllers\SuperAdmin;
 
 use App\Http\Controllers\Controller;
-
-
+use App\Imports\UnitImport;
 use App\Models\Medium;
 use App\Models\Standard;
 use App\Models\Subject;
 use App\Models\Topic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Log;
 
 class TopicsController extends Controller
 {
@@ -45,9 +47,9 @@ class TopicsController extends Controller
         }
 
         if ($request->has('subject_id') && $request->subject_id != '') {
-             $topics = Topic::where('sub_id', $request->subject_id)->get();
+            $topics = Topic::where('sub_id', $request->subject_id)->get();
         } else if ($defaultSubject) {
-             $topics = Topic::where('sub_id', $defaultSubject->id)->get();
+            $topics = Topic::where('sub_id', $defaultSubject->id)->get();
             $request->subject_id = $defaultSubject->id;
         }
 
@@ -55,7 +57,7 @@ class TopicsController extends Controller
         $topics = $topics->isEmpty() ? Topic::with(['subject'])->get() : $topics;
 
         return view('superadmin.Topics.index', compact('mediums', 'standards', 'subjects', 'topics'));
-      }
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -65,9 +67,9 @@ class TopicsController extends Controller
     public function create()
     {
         //
-        $subjects=Subject::all();
-        $mediums=Medium::all();
-        return view('superadmin.Topics.create',compact('mediums'));
+        $subjects = Subject::all();
+        $mediums = Medium::all();
+        return view('superadmin.Topics.create', compact('mediums'));
     }
 
     /**
@@ -111,7 +113,7 @@ class TopicsController extends Controller
 
         $save_Topic->save();
 
-        return redirect()->route('topics')->with('success','Topic Add Scuccessfully');
+        return redirect()->route('topics')->with('success', 'Topic Add Scuccessfully');
     }
 
     /**
@@ -133,9 +135,9 @@ class TopicsController extends Controller
      */
     public function edit($id)
     {
-        $edit_topic=Topic::find($id);
-        $subjects=Subject::all();
-        return view('superadmin.Topics.edit',compact('edit_topic','subjects'));
+        $edit_topic = Topic::find($id);
+        $subjects = Subject::all();
+        return view('superadmin.Topics.edit', compact('edit_topic', 'subjects'));
     }
 
     /**
@@ -147,7 +149,7 @@ class TopicsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $update_topic=Topic::find($id);
+        $update_topic = Topic::find($id);
 
 
         $input = $request->all();
@@ -159,7 +161,6 @@ class TopicsController extends Controller
             $img->store('public/images/school/subject/topics');
             $input['topic_image'] = $img->hashName();
             $update_topic->update($input);
-
         }
         if ($request->hasFile("topic_banner")) {
             $img = $request->file("topic_banner");
@@ -169,7 +170,6 @@ class TopicsController extends Controller
             $img->store('public/images/school/subject/topics');
             $input['topic_banner'] = $img->hashName();
             $update_topic->update($input);
-
         }
         // Handle PDF file upload
         if ($request->hasFile("file_path")) {
@@ -185,7 +185,7 @@ class TopicsController extends Controller
             $update_topic->file_path = $pdfFile->hashName();
         }
         $update_topic->update($input);
-        return redirect()->route('topics')->with('info','Topic Update Successfully');
+        return redirect()->route('topics')->with('info', 'Topic Update Successfully');
     }
 
     /**
@@ -196,9 +196,9 @@ class TopicsController extends Controller
      */
     public function destroy($id)
     {
-        $delete_topic=Topic::find($id);
+        $delete_topic = Topic::find($id);
         $delete_topic->delete();
-        return redirect()->route('topics')->with('danger','Topic Delete Successfully');
+        return redirect()->route('topics')->with('danger', 'Topic Delete Successfully');
     }
     public function getStandards($mediumId)
     {
@@ -211,4 +211,110 @@ class TopicsController extends Controller
         $subjects = Subject::where('std_id', $standardId)->pluck('standard_name', 'id');
         return response()->json($subjects);
     }
+
+
+    public function createBulk()
+    {
+
+        $subjects = Subject::all();
+        $mediums = Medium::all();
+        return view('superadmin.Topics.bulk_uploads.create-index', compact('subjects', 'mediums'));
+    }
+
+    // public function uploadExcel(Request $request)
+    // {
+
+    //     dd($request->all());
+    //     $request->validate([
+    //         'sub_id' => 'required',
+    //         'file_path' => 'required|mimes:xlsx,xls|max:2048',
+    //     ]);
+
+    //     try {
+
+    //         $subId = $request->input('sub_id');
+    //         $path = $request->file('file_path')->store('temp');
+    //         $filePath = storage_path('app/' . $path);
+
+    //         $import = new UnitImport($subId);
+    //         dd($import);
+
+    //         Excel::import($import, $filePath);
+
+
+
+    //         // Check if processing was stopped
+    //         // if ($import->stopProcessing) {
+    //         //     Log::info('Import stopped due to blank row.');
+    //         //     return view('superadmin/Topics/bulk_uploads/create-index', [
+    //         //         'results' => $import->results,
+    //         //         'message' => 'Import stopped due to blank row.',
+    //         //     ]);
+    //         // }
+
+    //         if ($import->stopProcessing) {
+    //             Log::info('Import stopped due to blank row.');
+    //             return back()->with('error', 'Import stopped due to blank rows in the Excel file.');
+    //         }
+
+    //         Log::info('Import successful');
+    //         return view('superadmin/Topics/bulk_uploads/create-index', ['results' => $import->results]);
+    //     } catch (\Exception $e) {
+
+    //         Log::error('Error in import controller', [
+    //             'error' => $e->getMessage(),
+    //             'stack' => $e->getTraceAsString(),
+    //         ]);
+
+
+    //         return back()->with('error', 'There was an error importing the data.');
+    //     }
+    // }
+
+
+    public function index_page(){
+        $topics = Topic::all();
+        $mediums = Medium::all();
+        return view('superadmin.Topics.bulk_uploads.create-index', compact('topics','mediums'));
+    }
+
+
+    public function uploadExcel(Request $request)
+    {
+        // Validate the request
+        $request->validate([
+            'sub_id' => 'required|exists:subjects,id',
+            'file_path' => 'required|mimes:xlsx,xls|max:2048',
+        ]);
+
+        try {
+            // Retrieve the subject ID
+            $subId = $request->input('sub_id');
+
+            // Store the uploaded file temporarily
+            $path = $request->file('file_path')->store('temp');
+            $filePath = storage_path('app/' . $path);
+
+            // Import the Excel file
+            $import = new UnitImport($subId);
+            Excel::import($import, $filePath);
+
+            // Check if processing was stopped due to invalid rows
+            if ($import->stopProcessing) {
+                return back()->with('error', 'Import stopped due to invalid rows in the Excel file.');
+            }
+
+            return back()->with('success', 'Excel file imported successfully!');
+        } catch (\Exception $e) {
+            // Log the error for debugging
+            Log::error('Error importing Excel file', [
+                'error' => $e->getMessage(),
+                'stack' => $e->getTraceAsString(),
+            ]);
+
+            return back()->with('error', 'An error occurred while importing the Excel file.');
+        }
+    }
+
+
 }

@@ -58,7 +58,6 @@ class TeacherSubjectAssignController extends Controller
     public function getStandards($medium_id)
     {
         $standards = Standard::where('medium_id', $medium_id)->get();
-
         return response()->json($standards);
     }
 

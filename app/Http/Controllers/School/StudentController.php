@@ -28,7 +28,7 @@ class StudentController extends Controller
     public function index(Request $request)
     {
 
-         if (!Auth::check()) {
+        if (!Auth::check()) {
             return redirect()->route('login')->with('error', 'Session expired, please log in again.');
         }
         $authUser = Auth::user();
@@ -39,7 +39,7 @@ class StudentController extends Controller
         $classes = ClassModel::all();
 
 
-         // Build the query to retrieve students
+        // Build the query to retrieve students
         $query = Student::query()->where('school_id', $school->id);
 
         if ($request->has('medium') && $request->medium) {
@@ -59,7 +59,7 @@ class StudentController extends Controller
         }
 
         $students = $query->get();
-        return view('schooladmin.students.index', compact('mediums', 'standards', 'classes','students'));
+        return view('schooladmin.students.index', compact('mediums', 'standards', 'classes', 'students'));
     }
 
 
@@ -68,7 +68,7 @@ class StudentController extends Controller
         $mediums = Medium::all();
         $standard = Standard::all(); // Use the actual model name for the class
         $classes = ClassModel::all();
-        return view('schooladmin.students.create',compact('mediums', 'standard', 'classes'));
+        return view('schooladmin.students.create', compact('mediums', 'standard', 'classes'));
     }
 
     public function store(Request $request)
@@ -124,7 +124,7 @@ class StudentController extends Controller
         ])->validate();
 
         DB::beginTransaction();
-    //  dd( $validatedData);
+        //  dd( $validatedData);
         try {
             $authUser = Auth::user();
             $school = School::where('user_id', $authUser->id)->first();
@@ -135,7 +135,7 @@ class StudentController extends Controller
             $user = new User();
             $user->name = $schoolNamePrefix . $validatedData['father_phone'] . date('Ymd', strtotime($validatedData['date_of_birth']));
             $user->email = $validatedData['guardian_email'];
-            $user->password = Hash::make($validatedData['father_phone'] .'@'. $validatedData['date_of_birth']);
+            $user->password = Hash::make($validatedData['father_phone'] . '@' . $validatedData['date_of_birth']);
             $user->role_id = Role::where('name', 'Parent')->first()->id;
             $user->fcm_token = $request->input('fcm_token');
             $user->save();
@@ -173,7 +173,7 @@ class StudentController extends Controller
             // Create the student entry
             $student = new Student();
             $student->user_id = $userStudent->id; // Set the user_id in student table $school
-            $student->school_id =$school->id; // Set the user_id in student table medium_id,class_id,section_id
+            $student->school_id = $school->id; // Set the user_id in student table medium_id,class_id,section_id
             $student->parent_id = $parent->id;
             $student->uid = $validatedData['uid'];
             $student->admission_no = $validatedData['admission_no'];
@@ -240,35 +240,35 @@ class StudentController extends Controller
 
 
 
-  public function import(Request $request)
-{
-    $request->validate([
-        'file' => 'required|mimes:xlsx,xls,csv',
-        'medium_id' => 'required|exists:mediums,id',
-        'class_id' => 'required|exists:standards,id',
-        'section_id' => 'required|exists:classes,id',
-    ]);
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls,csv',
+            'medium_id' => 'required|exists:mediums,id',
+            'class_id' => 'required|exists:standards,id',
+            'section_id' => 'required|exists:classes,id',
+        ]);
 
-    try {
-        $medium_id = $request->input('medium_id');
-        $class_id = $request->input('class_id');
-        $section_id = $request->input('section_id');
+        try {
+            $medium_id = $request->input('medium_id');
+            $class_id = $request->input('class_id');
+            $section_id = $request->input('section_id');
 
-        $import = new StudentsImport($medium_id, $class_id, $section_id);
-        Excel::import($import, $request->file('file'));
+            $import = new StudentsImport($medium_id, $class_id, $section_id);
+            Excel::import($import, $request->file('file'));
 
-        if ($import->stopProcessing) {
-            Log::info('Import stopped due to blank row.');
-            return view('schooladmin.students.importexcel.import-results', ['results' => $import->results, 'message' => 'Import stopped due to blank row.']);
+            if ($import->stopProcessing) {
+                Log::info('Import stopped due to blank row.');
+                return view('schooladmin.students.importexcel.import-results', ['results' => $import->results, 'message' => 'Import stopped due to blank row.']);
+            }
+
+            Log::info('Import successful');
+            return view('schooladmin.students.importexcel.import-results', ['results' => $import->results]);
+        } catch (\Exception $e) {
+            Log::error('Error in import controller', ['error' => $e->getMessage(), 'stack' => $e->getTraceAsString()]);
+            return back()->with('error', 'There was an error importing the Student Data.');
         }
-
-        Log::info('Import successful');
-        return view('schooladmin.students.importexcel.import-results', ['results' => $import->results]);
-    } catch (\Exception $e) {
-        Log::error('Error in import controller', ['error' => $e->getMessage(), 'stack' => $e->getTraceAsString()]);
-        return back()->with('error', 'There was an error importing the Student Data.');
     }
-}
 
     public function showImportForm()
     {
@@ -279,5 +279,5 @@ class StudentController extends Controller
         return view('schooladmin.students.importexcel.import', compact('mediums', 'standards', 'classes'));
     }
 
+    
 }
-?>

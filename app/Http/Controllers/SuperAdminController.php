@@ -36,7 +36,7 @@ class SuperAdminController extends Controller
         }
 
         // $totalFee = $this->getTotalFee();
-        $events = Event::where('school_id', null)->paginate(200);
+        $events = Event::where('school_id', null)->paginate(450);
 
         $schools = School::count();
         $studentsCount = Student::count();

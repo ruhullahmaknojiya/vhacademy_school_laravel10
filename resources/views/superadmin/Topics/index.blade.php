@@ -1,6 +1,6 @@
 @extends('layouts.superadmin')
 @section('title')
-    Chapter
+    Unit
 @endsection
 
 @section('content')
@@ -10,12 +10,12 @@
         <div class="container-fluid">
           <div class="mb-2 row">
             <div class="col-sm-6">
-              <h1 class="m-0">Chapters</h1>
+              <h1 class="m-0">Unit</h1>
             </div>
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Chapters</li>
+                <li class="breadcrumb-item active">Unit</li>
               </ol>
             </div>
           </div>
@@ -28,10 +28,11 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-md-6">
-                        <h3 class="card-title">Chapter Details</h3>
+                        <h3 class="card-title">Unit Details</h3>
                     </div>
                     <div class="text-right col-md-6">
-                        <a href="{{ route('create_topic') }}" class="btn btn-primary"><i class="fas fa-plus-circle"></i> Add New Chapter</a>
+                        <a href="{{ route('createBulkUploads') }}" class="btn btn-info me-2"><i class="fas fa-plus-circle"></i> Bulk Upload</a>
+                        <a href="{{ route('create_topic') }}" class="btn btn-primary"><i class="fas fa-plus-circle"></i> Add New Unit</a>
                     </div>
                 </div>
                 <form method="GET" action="{{ route('topics') }}" class="mt-2 form-inline">
@@ -86,7 +87,7 @@
                                 <th>Medium</th>
                                 <th>Standard</th>
                                 <th>Subject</th>
-                                <th>Chapter</th>
+                                <th>Unit</th>
                                 <th>Description</th>
                                 <th>Type</th>
                                 <th class="text-end">Action</th>

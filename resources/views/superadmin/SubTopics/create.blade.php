@@ -1,6 +1,6 @@
 @extends('layouts.superadmin')
 @section('title')
-Add Topics
+Add Video
 @endsection
 @section('content')
 @include('flash-message')
@@ -8,12 +8,12 @@ Add Topics
     <div class="container-fluid">
         <div class="mb-2 row">
             <div class="col-sm-6">
-                <h1 class="m-0">Add SubTopics</h1>
+                <h1 class="m-0">Add Video</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Add SubTopics</li>
+                    <li class="breadcrumb-item active">Add Video</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -30,7 +30,7 @@ Add Topics
                             @csrf
                             <div class="row">
                                 <div class="col-12">
-                                    <h5 class="form-title"><span>Topics Information</span><a href="{{route('subtopics.index')}}"><i class="fas fa-arrow-left" style="float: right;"></i></a></h5>
+                                    <h5 class="form-title"><span>Video Information</span><a href="{{route('subtopics.index')}}"><i class="fas fa-arrow-left" style="float: right;"></i></a></h5>
                                 </div>
                                 <div class="col-12 col-sm-4">
                                     <div class="form-group local-forms">
@@ -116,7 +116,7 @@ Add Topics
 
                                 {{-- <div class="col-12 col-sm-4">
                                     <div class="form-group local-forms">
-                                        <label>SubTopic Image<span class="text-danger">*</span></label>
+                                        <label>Video Image<span class="text-danger">*</span></label>
                                         <input type="file" name="stopic_image" class="form-control">
                                         @error('stopic_image')
                                         <span class="error text-danger">{{ $message }}</span>
@@ -126,7 +126,7 @@ Add Topics
 
                     <div class="col-12 col-sm-4">
                         <div class="form-group local-forms">
-                            <label>SubTopic Pdf<span class="text-danger">*</span></label>
+                            <label>Video Pdf<span class="text-danger">*</span></label>
                             <input type="file" name="file_path" id="file_path" class="form-control">
                             @error('file_path')
                             <span class="error text-danger">{{ $message }}</span>
@@ -136,7 +136,7 @@ Add Topics
 
                     <div class="col-12 col-sm-4">
                         <div class="form-group local-forms">
-                            <label>SubTopic Video<span class="text-danger">*</span></label>
+                            <label>Video Link<span class="text-danger">*</span></label>
                             <input type="url" name="video_link" id="video_link" class="form-control">
                             @error('video_link')
                             <span class="error text-danger">{{ $message }}</span>

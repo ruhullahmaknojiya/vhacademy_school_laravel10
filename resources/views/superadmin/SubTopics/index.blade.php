@@ -11,12 +11,12 @@ Topics
     <div class="container-fluid">
         <div class="mb-2 row">
             <div class="col-sm-6">
-                <h1 class="m-0">Sub-Topics</h1>
+                <h1 class="m-0">Video</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                   <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item active">Sub-Topics</li>
+                  <li class="breadcrumb-item active">Video</li>
                 </ol>
               </div>
         </div>
@@ -70,7 +70,7 @@ Topics
                         </div>
                         <div class="text-right col-md-2 d-flex align-items-center">
                             <a href="{{ route('create_subtopics') }}" class="mt-2 btn btn-success">
-                                <i class="fas fa-plus-circle"></i> Create SubTopic
+                                <i class="fas fa-plus-circle"></i> Create Video
                             </a>
                         </div>
                     </div>

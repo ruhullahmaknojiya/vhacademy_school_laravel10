@@ -108,13 +108,13 @@
             <li class="nav-item">
                 <a href="{{ route('topics') }}" class="nav-link {{ request()->routeIs('topics') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-book-open"></i>
-                    <p>Chapter</p>
+                    <p>Unit</p>
                 </a>
             </li>
             <li class="nav-item">
                 <a href="{{ route('subtopics.index') }}" class="nav-link {{ request()->routeIs('subtopics.index') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-book-reader"></i>
-                    <p>Topic</p>
+                    <p>Video</p>
                 </a>
             </li>
         </ul>

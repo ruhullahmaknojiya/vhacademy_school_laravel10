@@ -67,7 +67,19 @@ class InvoiceController extends Controller
         ]);
     }
 
+    public function generateInvoiceAll()
+    {
+        $fees_payment_histories = Payment::with('feeCategory','medium','standard')
+            // ->where('paid_amount', '>', 0)
+            ->get();
+        if ($fees_payment_histories->isEmpty()) {
+            return redirect()->back()->with('error', 'No fee records available to generate invoice.');
+        }
 
+        $pdf = Pdf::loadView('pdf.invoice-all', ['fees_payment_histories' => $fees_payment_histories]);
+
+        return $pdf->download('all_students_fees_invoice.pdf');
+    }
 
     public function generateInvoicePdfSingleRecords($id)
     {

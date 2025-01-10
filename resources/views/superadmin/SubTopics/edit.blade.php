@@ -1,6 +1,6 @@
 @extends('layouts.superadmin')
 @section('title')
-Topics
+Video
 @endsection
 @section('content')
 
@@ -8,12 +8,12 @@ Topics
     <div class="container-fluid">
         <div class="mb-2 row">
             <div class="col-sm-6">
-                <h1 class="m-0">Edit Topics</h1>
+                <h1 class="m-0">Edit Video</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Edit Topics</li>
+                    <li class="breadcrumb-item active">Edit Video</li>
                 </ol>
             </div>
         </div>
@@ -75,9 +75,9 @@ Topics
                                 </div>
                                 <div class="col-12 col-sm-4">
                                     <div class="form-group local-forms">
-                                        <label>Topic <span class="login-danger">*</span></label>
+                                        <label>Unit <span class="login-danger">*</span></label>
                                         <select type="text" name="topic_id" id="topics" class="form-control topics">
-                                            <option>Select Topic</option>
+                                            <option>Select Unit</option>
                                             @foreach($topics as $topic)
                                             <option value="{{ $topic->id }}" {{ $edit_subtopics->topic_id == $topic->id ? 'selected' : '' }}>
                                                 {{ $topic->topic }}
@@ -89,13 +89,13 @@ Topics
                                 </div>
                                 <div class="col-12 col-sm-4">
                                     <div class="form-group local-forms">
-                                        <label>SubTopic <span class="login-danger">*</span></label>
+                                        <label>Video <span class="login-danger">*</span></label>
                                         <input type="text" name="sub_topic" id="sub_topic" value="{{$edit_subtopics->sub_topic}}" class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-4">
                                     <div class="form-group local-forms">
-                                        <label>SubTopic Type <span class="login-danger">*</span></label>
+                                        <label>Video Type <span class="login-danger">*</span></label>
                                         <select name="type" class="form-control" id="type">
                                             <option>Select Type</option>
                                             <option value="free" {{old('free')=="free" ? 'selected='.'"selected"' : '' }} @if(isset($edit_subtopics)) {{ ($edit_subtopics->type=="free")? "selected" : "" }} @endif>Free</option>
@@ -114,7 +114,7 @@ Topics
 
                                 <div class="col-12 col-sm-4">
                                     <div class="form-group local-forms">
-                                        <label>SubTopic Pdf<span class="login-danger">*</span></label>
+                                        <label>Video Pdf<span class="login-danger">*</span></label>
                                         <input type="file" name="file_path" id="file_path" class="form-control">
                                         <a href="{{ asset('public/storage/pdf/subtopic/' . $edit_subtopics->file_path) }}" target="_blank">
                                             <i class="fas fa-file-pdf"></i>
@@ -124,7 +124,7 @@ Topics
                                 </div>
                                 <div class="col-12 col-sm-4">
                                     <div class="form-group local-forms">
-                                        <label>SubTopic Video<span class="login-danger">*</span></label>
+                                        <label>Video Link<span class="login-danger">*</span></label>
                                         <input type="url" name="video_link" id="video_link" value="{{$edit_subtopics->video_link}}" class="form-control">
                                     </div>
                                 </div>

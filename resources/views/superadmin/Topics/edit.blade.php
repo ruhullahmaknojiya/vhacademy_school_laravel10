@@ -1,6 +1,6 @@
 @extends('layouts.superadmin')
 @section('title')
-    Edit Chapter
+    Edit Unit
 @endsection
 @section('content')
     @include('flash-message')
@@ -8,7 +8,7 @@
         <div class="container-fluid">
             <div class="row ">
                 <div class="col-sm-12">
-                    <h1>Edit Chapter</h1>
+                    <h1>Edit Unit</h1>
                 </div>
 
             </div>
@@ -25,7 +25,7 @@
                         @csrf
                         <div class="row">
                             <div class="col-12">
-                                <h5 class="form-title"><span>Chapter Information</span><a href="{{route('topics')}}"><i class="fas fa-arrow-left" style="float: right;"></i></a></h5>
+                                <h5 class="form-title"><span>Unit Information</span><a href="{{route('topics')}}"><i class="fas fa-arrow-left" style="float: right;"></i></a></h5>
                             </div>
                             <div class="col-12 col-sm-4">
                                 <div class="form-group local-forms">

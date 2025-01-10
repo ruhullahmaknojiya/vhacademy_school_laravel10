@@ -133,6 +133,17 @@ Route::group(['middlware' => ['auth', 'role:SuperAdmin']], function () {
     Route::get('/get-subjects/{standardId}', [TopicsController::class, 'getSubjects'])->name('get-subjects');
 
 
+   // bulk uploads
+
+   Route::get('/superadmin/create-bulk-uploads-file', [TopicsController::class, 'createBulk'])->name('createBulkUploads');
+
+   Route::post('/superadmin/uploadExcel', [TopicsController::class, 'uploadExcel'])->name('uploadExcel');
+
+   Route::get('/superadmin/create-bulk-uploads-file', [TopicsController::class, 'index_page'])->name('BulkResultIndex');
+
+
+
+
     //School_SubTopics modual
     Route::get('superadmin/SubTopics', [SubTopicsController::class, 'index'])->name('subtopics.index');
     Route::get('superadmin/create-SubTopics', [SubTopicsController::class, 'create'])->name('create_subtopics');
