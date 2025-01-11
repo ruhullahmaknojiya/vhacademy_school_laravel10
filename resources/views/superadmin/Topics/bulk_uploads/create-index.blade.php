@@ -29,7 +29,7 @@ Create Unit
         <div class="row">
             <div class="col-sm-12">
                 <div class="card">
-                    <form method="post" action="{{ route('uploadExcel') }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('uploadExcel') }}" enctype="multipart/form-data" id="ExcelUploadsForm">
                         @csrf
                         <div class="card-header">
                             <h5 class="form-title"><span>Create bulk-uploads</span>
@@ -42,41 +42,31 @@ Create Unit
                                     <div class="form-group local-forms">
                                         <label>Medium <span class="text-danger">*</span></label>
                                         <select name="medium_id" id="medium" class="form-control">
-                                            <option>Select Medium</option>
+                                            <option value="">Select Medium</option>
                                             @foreach($mediums as $medium)
-                                            <option value="{{ $medium->id }}" {{ old('medium_id') == $medium->id ? 'selected' : '' }}>
-                                                {{ $medium->medium_name }}
-                                            </option>
+                                            <option value="{{ $medium->id }}">{{ $medium->medium_name }}</option>
                                             @endforeach
                                         </select>
-                                        @error('medium_id')
-                                        <span class="error text-danger">{{ $message }}</span>
-                                        @enderror
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-4">
                                     <div class="form-group local-forms">
                                         <label>Standard <span class="text-danger">*</span></label>
                                         <select name="std_id" id="standard" class="form-control">
-                                            <option>Select Standard</option>
+                                            <option value="">Select Standard</option>
+                                            <!-- Populate dynamically -->
                                         </select>
-                                        @error('std_id')
-                                        <span class="error text-danger">{{ $message }}</span>
-                                        @enderror
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-4">
                                     <div class="form-group local-forms">
                                         <label>Subject <span class="text-danger">*</span></label>
                                         <select name="sub_id" id="subject" class="form-control">
-                                            <option>Select Subject</option>
+                                            <option value="">Select Subject</option>
+                                            <!-- Populate dynamically -->
                                         </select>
-                                        @error('sub_id')
-                                        <span class="error text-danger">{{ $message }}</span>
-                                        @enderror
                                     </div>
                                 </div>
-
                                 <div class="col-12 col-sm-4">
                                     <div class="form-group local-forms">
                                         <label>Excel Uploads <span class="text-danger">*</span></label>
@@ -84,14 +74,12 @@ Create Unit
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                         <div class="card-footer">
-                            <div class="col-12">
-                                <button type="submit" class="btn btn-outline-primary">Submit</button>
-                            </div>
+                            <button type="submit" class="btn btn-outline-primary">Submit</button>
                         </div>
                     </form>
+
                 </div>
             </div>
         </div>
@@ -121,7 +109,7 @@ Create Unit
                                     <td>{{ $topic->topic }}</td>
                                     <td>{{ $topic->type }}</td>
                                     <td>{{ $topic->description }}</td>
-                                    <td>
+                                    <td class="d-flex">
                                         <a href="" class="btn btn-primary btn-sm">Edit</a>
                                         <a href="" class="btn btn-danger btn-sm">Delete</a>
                                     </td>
@@ -130,6 +118,9 @@ Create Unit
 
                             </tbody>
                         </table>
+                        <div class="float-end">
+                            {{ $topics->links() }}
+                        </div>
 
                     </div>
                 </div>
@@ -210,31 +201,120 @@ Create Unit
 
 </script>
 
+{{-- <script>
+    // $(document).ready(function() {
+    //     $("#ExcelUploadsForm").submit(function(e) {
+    //         e.preventDefault();
+
+    //         Swal.fire({
+    //             title: 'Uploading...'
+    //             , text: 'Please wait while your file is being processed.'
+    //             , allowOutsideClick: false
+    //             , didOpen: () => {
+    //                 Swal.showLoading();
+    //             }
+    //         });
+
+    //         let formData = new FormData(this);
+
+    //         $.ajax({
+    //             url: "{{ route('uploadExcel') }}"
+// , method: "POST"
+// , data: formData
+// , contentType: false
+// , processData: false
+// , headers: {
+// 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+// }
+// , success: function(response) {
+// Swal.close(); // Close the loader
+// Swal.fire({
+// icon: 'success'
+// , title: 'Success'
+// , text: 'Excel file imported successfully!'
+// , });
+// }
+// , error: function(xhr, status, error) {
+// Swal.close(); // Close the loader
+// Swal.fire({
+// icon: 'error'
+// , title: 'Error'
+// , text: xhr.responseJSON ? .message || 'Something went wrong!'
+// , });
+// }
+// });
+// });
+// }); --}}
+
+
 <script>
+    $(document).ready(function() {
+        $("#ExcelUploadsForm").submit(function(e) {
+            e.preventDefault(); // Prevent default form submission
 
+            Swal.fire({
+                title: 'Uploading...'
+                , text: 'Please wait while your file is being processed.'
+                , allowOutsideClick: false
+                , didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
 
-$(document).ready(function () {
-    $("#ExcelUploadsForm").submit(function (e) {
-        e.preventDefault();
-        let formData = new FormData(this);
+            let formData = new FormData(this);
 
-        $.ajax({
-            url: "{{ route('uploadExcel') }}",
-            method: "POST",
-            data: formData,
-            contentType: false,
-            processData: false,
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            success: function (response) {
-                alert(response);
-            },
+            $.ajax({
+                url: "{{ route('uploadExcel') }}"
+                , method: "POST"
+                , data: formData
+                , processData: false
+                , contentType: false
+                , headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                , success: function(response) {
+                    Swal.close(); // Close the loader
+                    Swal.fire({
+                        icon: 'success'
+                        , title: 'Success'
+                        , text: response.message
+                    , });
+                }
+                , error: function(xhr) {
+                    Swal.close(); // Close the loader
+
+                    // Check for validation errors
+                    if (xhr.status === 422) {
+                        let errors = xhr.responseJSON.errors;
+                        let errorMessage = '';
+
+                        // Collect all error messages
+                        for (let field in errors) {
+                            errorMessage += errors[field][0] + '\n';
+                        }
+
+                        Swal.fire({
+                            icon: 'error'
+                            , title: 'Validation Error'
+                            , text: errorMessage.trim()
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error'
+                            , title: 'Error'
+                            , text: 'Something went wrong. Please try again.'
+                        });
+                    }
+                }
+            });
         });
     });
-});
 
 </script>
+
+
+
+{{-- </script> --}}
 
 
 @endpush

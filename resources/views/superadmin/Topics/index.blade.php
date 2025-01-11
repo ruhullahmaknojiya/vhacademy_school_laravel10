@@ -31,7 +31,7 @@
                         <h3 class="card-title">Unit Details</h3>
                     </div>
                     <div class="text-right col-md-6">
-                        <a href="{{ route('createBulkUploads') }}" class="btn btn-info me-2"><i class="fas fa-plus-circle"></i> Bulk Upload</a>
+                        <a href="{{ route('BulkResultIndex') }}" class="btn btn-info me-2"><i class="fas fa-plus-circle"></i> Bulk Upload</a>
                         <a href="{{ route('create_topic') }}" class="btn btn-primary"><i class="fas fa-plus-circle"></i> Add New Unit</a>
                     </div>
                 </div>

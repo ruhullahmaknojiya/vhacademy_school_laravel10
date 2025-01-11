@@ -20,11 +20,10 @@ class UnitImport implements ToModel, WithHeadingRow
     {
 
         if (empty($row['unit']) || empty($row['unit_type']) || empty($row['description'])) {
-            $this->stopProcessing = true; // Stop processing if any field is empty
+            $this->stopProcessing = true;
             return null;
         }
 
-        // dd($row['unit']);
 
         $topic = new  Topic([
             'sub_id' => $this->subId,
@@ -33,8 +32,7 @@ class UnitImport implements ToModel, WithHeadingRow
             'description' => $row['description'],
         ]);
 
-
-
+        dd($topic);
 
         return $topic;
     }

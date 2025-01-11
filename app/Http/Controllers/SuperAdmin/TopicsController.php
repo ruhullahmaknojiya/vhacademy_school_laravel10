@@ -208,74 +208,24 @@ class TopicsController extends Controller
 
     public function getSubjects($standardId)
     {
-        $subjects = Subject::where('std_id', $standardId)->pluck('standard_name', 'id');
-        return response()->json($subjects);
+        $subjects = Subject::where('std_id', $standardId)->get(['id', 'subject']);
+
+        return response()->json([
+            'status' => true,
+            'subjects' => $subjects
+        ]);
     }
 
 
-    public function createBulk()
+
+
+
+    public function index_page()
     {
+        $topics = Topic::orderBy('sub_id','desc')->paginate(20);
 
-        $subjects = Subject::all();
         $mediums = Medium::all();
-        return view('superadmin.Topics.bulk_uploads.create-index', compact('subjects', 'mediums'));
-    }
-
-    // public function uploadExcel(Request $request)
-    // {
-
-    //     dd($request->all());
-    //     $request->validate([
-    //         'sub_id' => 'required',
-    //         'file_path' => 'required|mimes:xlsx,xls|max:2048',
-    //     ]);
-
-    //     try {
-
-    //         $subId = $request->input('sub_id');
-    //         $path = $request->file('file_path')->store('temp');
-    //         $filePath = storage_path('app/' . $path);
-
-    //         $import = new UnitImport($subId);
-    //         dd($import);
-
-    //         Excel::import($import, $filePath);
-
-
-
-    //         // Check if processing was stopped
-    //         // if ($import->stopProcessing) {
-    //         //     Log::info('Import stopped due to blank row.');
-    //         //     return view('superadmin/Topics/bulk_uploads/create-index', [
-    //         //         'results' => $import->results,
-    //         //         'message' => 'Import stopped due to blank row.',
-    //         //     ]);
-    //         // }
-
-    //         if ($import->stopProcessing) {
-    //             Log::info('Import stopped due to blank row.');
-    //             return back()->with('error', 'Import stopped due to blank rows in the Excel file.');
-    //         }
-
-    //         Log::info('Import successful');
-    //         return view('superadmin/Topics/bulk_uploads/create-index', ['results' => $import->results]);
-    //     } catch (\Exception $e) {
-
-    //         Log::error('Error in import controller', [
-    //             'error' => $e->getMessage(),
-    //             'stack' => $e->getTraceAsString(),
-    //         ]);
-
-
-    //         return back()->with('error', 'There was an error importing the data.');
-    //     }
-    // }
-
-
-    public function index_page(){
-        $topics = Topic::all();
-        $mediums = Medium::all();
-        return view('superadmin.Topics.bulk_uploads.create-index', compact('topics','mediums'));
+        return view('superadmin.Topics.bulk_uploads.create-index', compact('topics', 'mediums'));
     }
 
 
@@ -306,7 +256,6 @@ class TopicsController extends Controller
 
             return back()->with('success', 'Excel file imported successfully!');
         } catch (\Exception $e) {
-            // Log the error for debugging
             Log::error('Error importing Excel file', [
                 'error' => $e->getMessage(),
                 'stack' => $e->getTraceAsString(),
@@ -315,6 +264,4 @@ class TopicsController extends Controller
             return back()->with('error', 'An error occurred while importing the Excel file.');
         }
     }
-
-
 }

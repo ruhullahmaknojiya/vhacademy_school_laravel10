@@ -135,11 +135,10 @@ Route::group(['middlware' => ['auth', 'role:SuperAdmin']], function () {
 
    // bulk uploads
 
-   Route::get('/superadmin/create-bulk-uploads-file', [TopicsController::class, 'createBulk'])->name('createBulkUploads');
 
    Route::post('/superadmin/uploadExcel', [TopicsController::class, 'uploadExcel'])->name('uploadExcel');
 
-   Route::get('/superadmin/create-bulk-uploads-file', [TopicsController::class, 'index_page'])->name('BulkResultIndex');
+   Route::get('/superadmin/index-bulk-uploads-file', [TopicsController::class, 'index_page'])->name('BulkResultIndex');
 
 
 
