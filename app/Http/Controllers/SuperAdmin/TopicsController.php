@@ -200,21 +200,33 @@ class TopicsController extends Controller
         $delete_topic->delete();
         return redirect()->route('topics')->with('danger', 'Topic Delete Successfully');
     }
+    // public function getStandards($mediumId)
+    // {
+    //     $standards = Standard::where('medium_id', $mediumId)->pluck('standard_name', 'id');
+    //     return response()->json($standards);
+    // }
+
     public function getStandards($mediumId)
     {
-        $standards = Standard::where('medium_id', $mediumId)->pluck('standard_name', 'id');
+        $standards = Standard::where('medium_id', $mediumId)->get(['id', 'standard_name']);
         return response()->json($standards);
     }
 
     public function getSubjects($standardId)
     {
         $subjects = Subject::where('std_id', $standardId)->get(['id', 'subject']);
-
-        return response()->json([
-            'status' => true,
-            'subjects' => $subjects
-        ]);
+        return response()->json($subjects);
     }
+
+    // public function getSubjects($standardId)
+    // {
+    //     $subjects = Subject::where('std_id', $standardId)->get(['id', 'subject']);
+
+    //     return response()->json([
+    //         'status' => true,
+    //         'subjects' => $subjects
+    //     ]);
+    // }
 
 
 
@@ -222,7 +234,7 @@ class TopicsController extends Controller
 
     public function index_page()
     {
-        $topics = Topic::orderBy('sub_id','desc')->paginate(20);
+        $topics = Topic::orderBy('sub_id', 'desc')->paginate(20);
 
         $mediums = Medium::all();
         return view('superadmin.Topics.bulk_uploads.create-index', compact('topics', 'mediums'));
