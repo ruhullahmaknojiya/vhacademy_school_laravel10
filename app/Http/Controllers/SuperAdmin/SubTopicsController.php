@@ -3,15 +3,17 @@
 namespace App\Http\Controllers\SuperAdmin;
 
 use App\Http\Controllers\Controller;
+use App\Imports\VideoSubTopicsImport;
 use App\Models\ClassModel;
 use App\Models\Medium;
 use App\Models\Standard;
-use App\Models\Stander;
 use App\Models\Subject;
 use App\Models\SubTopic;
 use App\Models\Topic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Log;
 
 class SubTopicsController extends Controller
 {
@@ -292,12 +294,18 @@ class SubTopicsController extends Controller
     public function getStandards($mediumId)
     {
         $standards = Standard::where('medium_id', $mediumId)->pluck('standard_name', 'id');
+        if ($standards->isEmpty()) {
+            return response()->json(['message' => 'No standards found for this medium.'], 404);
+        }
         return response()->json($standards);
     }
 
     public function getSubjects($standardId)
     {
         $subjects = Subject::where('std_id', $standardId)->pluck('subject', 'id');
+        if ($subjects->isEmpty()) {
+            return response()->json(['message' => 'No subjects found for this standard.'], 404);
+        }
         return response()->json($subjects);
     }
 
@@ -316,5 +324,58 @@ class SubTopicsController extends Controller
     {
         $subtopics = ClassModel::where('id', $topicId)->pluck('class_name', 'id');
         return response()->json($subtopics);
+    }
+
+
+    public function index_page()
+    {
+        $subTopics = SubTopic::with('medium', 'subjects', 'standards')->orderBy('id', 'desc')->paginate(20);
+        $mediums = Medium::all();
+        $standards = Standard::all();
+        $subjects = Subject::all();
+        $subTopics = SubTopic::all();
+        return view('superadmin.subtopics.video.video-index', compact('mediums', 'standards', 'subjects', 'subTopics'));
+    }
+
+    public function VideoUploadExcel(Request $request)
+    {
+
+
+        // Validate the request
+        $request->validate([
+            'sub_id' => 'required|exists:subjects,id',
+            'file_path' => 'required|mimes:xlsx,xls|max:2048',
+        ]);
+
+        try {
+            $subId = $request->input('sub_id');
+
+
+
+            // Store the uploaded file temporarily
+            $path = $request->file('file_path')->store('temp/video');
+
+            $file = storage_path('app/' . $path);
+
+
+
+            // Import the Excel file
+            $import = new VideoSubTopicsImport($subId);
+            // dd($import);
+
+            Excel::import($import, $file);
+
+
+
+
+            return back()->with('success', 'Video Excel file imported successfully!');
+        } catch (\Exception $e) {
+            Log::error('Error importing Video Excel file', [
+                'error' => $e->getMessage(),
+                'stack' => $e->getTraceAsString(),
+            ]);
+
+            return back()->with('error', 'An error occurred while importing the Video Excel file.');
+        }
     }
 }

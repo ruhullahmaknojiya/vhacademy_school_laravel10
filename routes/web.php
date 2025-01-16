@@ -39,7 +39,7 @@ use App\Http\Controllers\School\Notice\NoticeController;
 use App\Http\Controllers\School\TeacherLeave\TeacherLeaveController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\School\Fees\InvoiceController;
-
+use App\Http\Controllers\SuperAdmin\StudentController as StudentsController;
 use App\Http\Controllers\School\Fees\FeeManagementController;
 use App\Http\Controllers\School\StandardsWiseLiveTelecast\StandardsWiseLiveTelecastController;
 
@@ -78,6 +78,17 @@ Route::group(['middlware' => ['auth', 'role:SuperAdmin']], function () {
     Route::post('/update-event-date', [SuperAdminController::class, 'updateEventDate'])->name('update.event.date');
     Route::get('superadmin/profile', [SuperAdminController::class, 'profile'])->name('superadmin.profile');
     Route::get('superadmin/settings', [SuperAdminController::class, 'settings'])->name('superadmin.settings');
+
+    //user-Management List Students
+
+    Route::get('student-index', [App\Http\Controllers\SuperAdmin\StudentController::class, 'index'])->name('superAdmin-students-index');
+
+    Route::get('/get-mediums/{schoolId}', [App\Http\Controllers\SuperAdmin\StudentController::class, 'getMediums'])->name('getMediums');
+    Route::get('/get-standards/{mediumId}', [App\Http\Controllers\SuperAdmin\StudentController::class, 'getStandards'])->name('getStandards');
+    Route::get('/get-students/{standardId}', [App\Http\Controllers\SuperAdmin\StudentController::class, 'getStudents'])->name('getStudents');
+
+
+
 
     //routes for school registration and listing
     Route::get('schools/register', [SuperAdminController::class, 'registerSchoolForm'])->name('school.register.form');
@@ -133,14 +144,14 @@ Route::group(['middlware' => ['auth', 'role:SuperAdmin']], function () {
     Route::get('/get-subjects/{standardId}', [TopicsController::class, 'getSubjects'])->name('get-subjects');
 
 
-   // bulk uploads
+    // bulk uploads
+    Route::post('/superadmin/uploadExcel', [TopicsController::class, 'uploadExcel'])->name('uploadExcel');
+
+    Route::get('/superadmin/index-bulk-uploads-file', [TopicsController::class, 'index_page'])->name('BulkResultIndex');
 
 
-   Route::post('/superadmin/uploadExcel', [TopicsController::class, 'uploadExcel'])->name('uploadExcel');
-
-   Route::get('/superadmin/index-bulk-uploads-file', [TopicsController::class, 'index_page'])->name('BulkResultIndex');
-
-
+    Route::get('/superadmin/index-bulk-video-file-uploads', [SubTopicsController::class, 'index_page'])->name('VideoBulkUploadsIndex');
+    Route::post('/superadmin/video-uploadExcel', [SubTopicsController::class, 'VideoUploadExcel'])->name('VideoUploadExcel');
 
 
     //School_SubTopics modual
@@ -263,16 +274,16 @@ Route::group(['middlware' => ['auth', 'role:SchoolAdmin']], function () {
 
 
 
-// Standard WIse broadCasting  //
+    // Standard WIse broadCasting  //
 
-Route::get('/school/Standard_WIse_broadCasting-Url', [StandardsWiseLiveTelecastController::class, 'StandardsWiseLiveTelecastIndexPage'])->name('live-standardsWise-telecast-url-list');
-Route::post('/school/Standard_WIse_broadCasting-store', [StandardsWiseLiveTelecastController::class, 'store'])->name('StandardsWise-telecast-store');
+    Route::get('/school/Standard_WIse_broadCasting-Url', [StandardsWiseLiveTelecastController::class, 'StandardsWiseLiveTelecastIndexPage'])->name('live-standardsWise-telecast-url-list');
+    Route::post('/school/Standard_WIse_broadCasting-store', [StandardsWiseLiveTelecastController::class, 'store'])->name('StandardsWise-telecast-store');
 
-Route::get('/school/Standard_WIse_broadCasting-Url-edit/{telecastId}', [StandardsWiseLiveTelecastController::class, 'edit'])->name('standardsWise-telecast-url-edit');
-Route::post('/school/Standard_WIse_broadCasting-Url-update/{telecastId}', [StandardsWiseLiveTelecastController::class, 'update'])->name('standardsWise-telecast-url-update');
+    Route::get('/school/Standard_WIse_broadCasting-Url-edit/{telecastId}', [StandardsWiseLiveTelecastController::class, 'edit'])->name('standardsWise-telecast-url-edit');
+    Route::post('/school/Standard_WIse_broadCasting-Url-update/{telecastId}', [StandardsWiseLiveTelecastController::class, 'update'])->name('standardsWise-telecast-url-update');
 
-Route::get('/school/Standard_WIse_broadCasting-Url-delete/{telecastId}', [StandardsWiseLiveTelecastController::class, 'destroy'])->name('standardsWise-telecast-url-delete');
-Route::post('/update-status', [StandardsWiseLiveTelecastController::class, 'updateStatus']);
+    Route::get('/school/Standard_WIse_broadCasting-Url-delete/{telecastId}', [StandardsWiseLiveTelecastController::class, 'destroy'])->name('standardsWise-telecast-url-delete');
+    Route::post('/update-status', [StandardsWiseLiveTelecastController::class, 'updateStatus']);
 
 
 

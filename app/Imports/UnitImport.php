@@ -32,7 +32,7 @@ class UnitImport implements ToModel, WithHeadingRow
             'description' => $row['description'],
         ]);
 
-        dd($topic);
+
 
         return $topic;
     }
