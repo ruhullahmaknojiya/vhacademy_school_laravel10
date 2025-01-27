@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Teacher extends Model
 {
     use HasFactory;
-    
-    
+
+
 
     protected $fillable = [
         'user_id',
@@ -65,23 +65,23 @@ class Teacher extends Model
     {
         return $this->morphMany(Document::class, 'documentable');
     }
-    
+
     public function subjects()
     {
         return $this->belongsToMany(Subject::class, 'teacher_subject_assigns');
     }
-    
+
     public function classTeacherAssignments()
     {
         return $this->hasMany(ClassTeacherAssignment::class);
     }
-    
-     public function teacherSubjectAssigns()
+
+    public function teacherSubjectAssigns()
     {
         return $this->hasMany(TeacherSubjectAssign::class);
     }
-    
-     public function standards()
+
+    public function standards()
     {
         return $this->belongsToMany(Standard::class, 'teacher_subject_assigns');
     }
@@ -89,5 +89,16 @@ class Teacher extends Model
     public function mediums()
     {
         return $this->belongsToMany(Medium::class, 'teacher_subject_assigns');
+    }
+
+
+    public function school()
+    {
+        return $this->belongsTo(School::class);
+    }
+
+    public function medium()
+    {
+        return $this->belongsTo(Medium::class);
     }
 }

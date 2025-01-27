@@ -31,7 +31,7 @@ Unit
                         <h5>Unit Details</h5>
                     </div>
                     <div class="text-right col-md-6">
-                        <a href="{{ route('BulkResultIndex') }}" class="btn btn-info me-2"><i class="fas fa-plus-circle"></i> Bulk Upload</a>
+                        <a href="{{ route('BulkResultIndex') }}" class="btn btn-info me-2"><i class="fas fa-upload"></i> Bulk Upload</a>
                         <a href="{{ route('create_topic') }}" class="btn btn-primary"><i class="fas fa-plus-circle"></i> Add New Unit</a>
                     </div>
                 </div>
@@ -44,9 +44,9 @@ Unit
                             <select class="form-control filter-dropdown" name="medium_id" id="mediums">
                                 <option value="">Select Medium</option>
                                 @foreach ($mediums as $medium)
-                                <option value="{{ $medium->id }}" {{ request('medium_id') == $medium->id ? 'selected' : '' }}>
-                                    {{ $medium->medium_name }}
-                                </option>
+                                    <option value="{{ $medium->id }}" {{ request('medium_id') == $medium->id ? 'selected' : '' }}>
+                                        {{ $medium->medium_name }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
@@ -54,22 +54,12 @@ Unit
                         <div class="col-md-3">
                             <select class="form-control filter-dropdown" name="standard_id" id="standards">
                                 <option value="">Select Standard</option>
-                                @foreach ($standards as $standard)
-                                <option value="{{ $standard->id }}" {{ request('standard_id') == $standard->id ? 'selected' : '' }}>
-                                    {{ $standard->standard_name }}
-                                </option>
-                                @endforeach
                             </select>
                         </div>
 
                         <div class="col-md-3">
-                            <select class="form-control" name="subject_id" id="subjects" style="width:140px; ">
+                            <select class="form-control" name="subject_id" id="subjects" style="width:140px;">
                                 <option value="">Select Subject</option>
-                                @foreach ($subjects as $subject)
-                                <option value="{{ $subject->id }}" {{ request('subject_id') == $subject->id ? 'selected' : '' }}>
-                                    {{ $subject->subject }}
-                                </option>
-                                @endforeach
                             </select>
                         </div>
 
@@ -135,53 +125,50 @@ Unit
 @push('js')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-$(document).ready(function() {
-    $('#mediums').change(function() {
-        var mediumId = $(this).val();
-        if (mediumId === "") {
-            // Reset to default options when "Select Medium" is chosen
-            $('#standards').empty().append('<option value="">Select Standard</option>');
-            $('#subjects').empty().append('<option value="">Select Subject</option>');
-        } else {
-            $.ajax({
-                url: "{{ route('get-standards', '') }}/" + mediumId,
-                type: 'GET',
-                dataType: 'json',
-                success: function(data) {
-                    $('#standards').empty().append('<option value="">Select Standard</option>');
-                    $.each(data, function(index, standard) {
-                        $('#standards').append('<option value="' + standard.id + '">' + standard.standard_name + '</option>');
-                    });
-                    // Reset subjects dropdown
-                    $('#subjects').empty().append('<option value="">Select Subject</option>');
-                }
-            });
-        }
+    $(document).ready(function() {
+        // Handle Medium selection to fetch Standards
+        $('#mediums').change(function() {
+            const mediumId = $(this).val();
+            $('#standards').html('<option value="">Select Standard</option>'); // Reset Standards
+            $('#subjects').html('<option value="">Select Subject</option>'); // Reset Subjects
+
+            if (mediumId) {
+                $.get(`/get-standards/${mediumId}`, function(data) {
+                    if (data.length > 0) {
+                        data.forEach(standard => {
+                            $('#standards').append(`<option value="${standard.id}">${standard.standard_name}</option>`);
+                        });
+                    } else {
+                        $('#standards').html('<option value="">No Standards Available</option>');
+                    }
+                }).fail(function() {
+                    alert('Failed to fetch standards. Please try again.');
+                });
+            }
+        });
+
+        // Handle Standard selection to fetch Subjects
+        $('#standards').change(function() {
+            const standardId = $(this).val();
+            $('#subjects').html('<option value="">Select Subject</option>'); // Reset Subjects
+
+            if (standardId) {
+                $.get(`/get-subjects/${standardId}`, function(data) {
+                    if (data.length > 0) {
+                        data.forEach(subject => {
+                            $('#subjects').append(`<option value="${subject.id}">${subject.subject}</option>`);
+                        });
+                    } else {
+                        $('#subjects').html('<option value="">No Subjects Available</option>');
+                    }
+                }).fail(function() {
+                    alert('Failed to fetch subjects. Please try again.');
+                });
+            }
+        });
     });
-
-    $('#standards').change(function() {
-        var standardId = $(this).val();
-        if (standardId === "") {
-
-            $('#subjects').empty().append('<option value="">Select Subject</option>');
-        } else {
-            $.ajax({
-                url: "{{ route('get-subjects', '') }}/" + standardId,
-                type: 'GET',
-                dataType: 'json',
-                success: function(data) {
-                    $('#subjects').empty().append('<option value="">Select Subject</option>');
-                    $.each(data, function(index, subject) {
-                        $('#subjects').append('<option value="' + subject.id + '">' + subject.subject + '</option>');
-                    });
-                }
-            });
-        }
-    });
-});
-
-
 </script>
+
 <script>
     $(function() {
         $("#mytable").DataTable({

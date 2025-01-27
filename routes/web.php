@@ -81,11 +81,13 @@ Route::group(['middlware' => ['auth', 'role:SuperAdmin']], function () {
 
     //user-Management List Students
 
-    Route::get('student-index', [App\Http\Controllers\SuperAdmin\StudentController::class, 'index'])->name('superAdmin-students-index');
+    Route::get('superadmin/student-index', [App\Http\Controllers\SuperAdmin\StudentController::class, 'index'])->name('superAdmin-students-index');
+    Route::get('superadmin/teachers-index', [App\Http\Controllers\SuperAdmin\TeacherController::class, 'index'])->name('superAdmin-teachers-index');
 
     Route::get('/get-mediums/{schoolId}', [App\Http\Controllers\SuperAdmin\StudentController::class, 'getMediums'])->name('getMediums');
     Route::get('/get-standards/{mediumId}', [App\Http\Controllers\SuperAdmin\StudentController::class, 'getStandards'])->name('getStandards');
     Route::get('/get-students/{standardId}', [App\Http\Controllers\SuperAdmin\StudentController::class, 'getStudents'])->name('getStudents');
+    Route::get('/get-teachers/{schoolId}', [App\Http\Controllers\SuperAdmin\StudentController::class, 'getTeachers'])->name('getTeachers');
 
 
 
@@ -142,7 +144,7 @@ Route::group(['middlware' => ['auth', 'role:SuperAdmin']], function () {
     Route::delete('superadmin/delete-Chapter/{id}', [TopicsController::class, 'destroy'])->name('delete_topic');
     Route::get('/getstandards/{mediumId}', [TopicsController::class, 'getStandards'])->name('get-standards');
     Route::get('/get-subjects/{standardId}', [TopicsController::class, 'getSubjects'])->name('get-subjects');
-
+    Route::get('/get-topics/{subjectId}', [TopicsController::class, 'getTopics'])->name('get-topics');
 
     // bulk uploads
     Route::post('/superadmin/uploadExcel', [TopicsController::class, 'uploadExcel'])->name('uploadExcel');
@@ -155,7 +157,7 @@ Route::group(['middlware' => ['auth', 'role:SuperAdmin']], function () {
 
 
     //School_SubTopics modual
-    Route::get('superadmin/SubTopics', [SubTopicsController::class, 'index'])->name('subtopics.index');
+    Route::get('superadmin/SubTopics', [App\Http\Controllers\SuperAdmin\SubTopicsController::class, 'index'])->name('subtopics.index');
     Route::get('superadmin/create-SubTopics', [SubTopicsController::class, 'create'])->name('create_subtopics');
     Route::post('superadmin/save-SubTopics', [SubTopicsController::class, 'store'])->name('save_subtopics');
     Route::get('superadmin/edit-SubTopics/{id}', [SubTopicsController::class, 'edit'])->name('edit_subtopics');

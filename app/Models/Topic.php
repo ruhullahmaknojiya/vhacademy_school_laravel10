@@ -10,8 +10,8 @@ class Topic extends Model
     use HasFactory;
 
 
-    public $table='topics';
-        public $fillable=['topic','topic_image','type','description','file_path','video_link','sub_id','topic_banner'];
+    public $table = 'topics';
+    public $fillable = [ 'medium_id','standard_id','topic', 'topic_image', 'type', 'description', 'file_path', 'video_link', 'sub_id', 'topic_banner'];
 
 
     // public function subtopic(){
@@ -28,6 +28,18 @@ class Topic extends Model
     {
         return $this->belongsTo(Subject::class, 'sub_id');
     }
+
+    public function medium()
+    {
+        return $this->belongsTo(Medium::class, 'medium_id');
+    }
+
+    public function standards()
+    {
+        return $this->belongsTo(Standard::class, 'standard_id');
+    }
+
+
 
     // public function subtopics()
     // {

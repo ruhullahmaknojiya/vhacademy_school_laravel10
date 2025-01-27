@@ -22,6 +22,44 @@ class SubTopicsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    // public function index(Request $request)
+    // {
+    //     $mediums = Medium::all();
+    //     $standards = Standard::all();
+    //     $subjects = Subject::all();
+    //     $topics = Topic::all();
+
+    //     $query = SubTopic::query();
+
+    //     if ($request->has('medium_id') && $request->medium_id) {
+    //         $query->whereHas('topic.subject.standard.medium', function ($q) use ($request) {
+    //             $q->where('id', $request->medium_id);
+    //         });
+    //     }
+
+    //     if ($request->has('standard_id') && $request->standard_id) {
+    //         $query->whereHas('topic.subject.standard', function ($q) use ($request) {
+    //             $q->where('id', $request->standard_id);
+    //         });
+    //     }
+
+    //     if ($request->has('subject_id') && $request->subject_id) {
+    //         $query->whereHas('topic.subject', function ($q) use ($request) {
+    //             $q->where('id', $request->subject_id);
+    //         });
+    //     }
+
+    //     if ($request->has('topic_id') && $request->topic_id) {
+    //         $query->where('topic_id', $request->topic_id);
+    //     }
+
+    //     $subtopics = $query->get();
+
+    //     return view('superadmin.subtopics.index', compact('mediums', 'standards', 'subjects', 'topics', 'subtopics'));
+    // }
+
+
+
     public function index(Request $request)
     {
         $mediums = Medium::all();
@@ -337,10 +375,8 @@ class SubTopicsController extends Controller
         return view('superadmin.subtopics.video.video-index', compact('mediums', 'standards', 'subjects', 'subTopics'));
     }
 
-    public function VideoUploadExcel(Request $request)
+    public function uploadExcel(Request $request)
     {
-
-
         // Validate the request
         $request->validate([
             'sub_id' => 'required|exists:subjects,id',
@@ -348,34 +384,30 @@ class SubTopicsController extends Controller
         ]);
 
         try {
+            // Retrieve the subject ID
             $subId = $request->input('sub_id');
-
-
 
             // Store the uploaded file temporarily
             $path = $request->file('file_path')->store('temp/video');
-
-            $file = storage_path('app/' . $path);
-
-
+            $filePath = storage_path('app/' . $path);
 
             // Import the Excel file
             $import = new VideoSubTopicsImport($subId);
-            // dd($import);
+            Excel::import($import, $filePath);
 
-            Excel::import($import, $file);
+            // Check if processing was stopped due to invalid rows
+            if ($import->stopProcessing) {
+                return back()->with('error', 'Import stopped due to invalid rows in the Excel file.');
+            }
 
-
-
-
-            return back()->with('success', 'Video Excel file imported successfully!');
+            return back()->with('success', 'Excel file imported successfully!');
         } catch (\Exception $e) {
-            Log::error('Error importing Video Excel file', [
+            Log::error('Error importing Excel file', [
                 'error' => $e->getMessage(),
                 'stack' => $e->getTraceAsString(),
             ]);
 
-            return back()->with('error', 'An error occurred while importing the Video Excel file.');
+            return back()->with('error', 'An error occurred while importing the Excel file.');
         }
     }
 }

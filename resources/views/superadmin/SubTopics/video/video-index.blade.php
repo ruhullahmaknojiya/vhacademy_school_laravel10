@@ -160,68 +160,47 @@ Create Video Bulk
 
 <script>
     $(document).ready(function() {
-        function populateStandards(mediumId) {
+        // Handle Medium selection to fetch Standards
+        $('#mediums').change(function() {
+            const mediumId = $(this).val();
+            $('#standards').html('<option value="">Select Standard</option>'); // Reset Standards
+            $('#subjects').html('<option value="">Select Subject</option>'); // Reset Subjects
+
             if (mediumId) {
-                $.ajax({
-                    url: "{{ route('get_standards', '') }}/" + mediumId
-                    , type: 'GET'
-                    , success: function(data) {
-                        $('#standard').empty().append('<option>Select Standard</option>');
-                        $('#subject').empty().append('<option>Select Subject</option>');
-                        $.each(data, function(key, value) {
-                            $('#standard').append('<option value="' + key + '">' + value + '</option>');
+                $.get(`/get-standards/${mediumId}`, function(data) {
+                    if (data.length > 0) {
+                        data.forEach(standard => {
+                            $('#standards').append(`<option value="${standard.id}">${standard.standard_name}</option>`);
                         });
+                    } else {
+                        $('#standards').html('<option value="">No Standards Available</option>');
                     }
+                }).fail(function() {
+                    alert('Failed to fetch standards. Please try again.');
                 });
             }
-        }
+        });
 
+        // Handle Standard selection to fetch Subjects
+        $('#standards').change(function() {
+            const standardId = $(this).val();
+            $('#subjects').html('<option value="">Select Subject</option>'); // Reset Subjects
 
-        function populateSubjects(standardId) {
             if (standardId) {
-                $.ajax({
-                    url: "{{ route('get_subjects', '') }}/" + standardId
-                    , type: 'GET'
-                    , success: function(data) {
-                        $('#subject').empty().append('<option>Select Subject</option>');
-                        $.each(data, function(key, value) {
-                            $('#subject').append('<option value="' + key + '">' + value + '</option>');
+                $.get(`/get-subjects/${standardId}`, function(data) {
+                    if (data.length > 0) {
+                        data.forEach(subject => {
+                            $('#subjects').append(`<option value="${subject.id}">${subject.subject}</option>`);
                         });
+                    } else {
+                        $('#subjects').html('<option value="">No Subjects Available</option>');
                     }
+                }).fail(function() {
+                    alert('Failed to fetch subjects. Please try again.');
                 });
             }
-        }
-
-        $('#medium').on('change', function() {
-            var mediumId = $(this).val();
-            populateStandards(mediumId);
         });
-
-        $('#standard').on('change', function() {
-            var standardId = $(this).val();
-            populateSubjects(standardId);
-        });
-
-
-        var oldMediumId = '{{ old('
-        medium_id ') }}';
-        var oldStandardId = '{{ old('
-        std_id ') }}';
-
-        if (oldMediumId) {
-            populateStandards(oldMediumId);
-            setTimeout(function() {
-                $('#medium').val(oldMediumId).trigger('change');
-            }, 500);
-        }
-
-        if (oldStandardId) {
-            setTimeout(function() {
-                $('#standard').val(oldStandardId).trigger('change');
-            }, 500);
-        }
     });
-
 </script>
 <script>
     $(document).ready(function() {

@@ -177,24 +177,23 @@
             , contentHeight: 490
             , events: [
                 @foreach($events as $event) {
-                    id: '{{ $event->id }}', // Ensure each event has a unique ID
+                    id: '{{ $event->id }}',
                     title: '{{ $event->event_title }}'
                     , start: '{{ $event->start_date }}'
                     , end: '{{ $event->end_date }}'
                     , backgroundColor: '{{ $event->color }}'
                     , borderColor: '{{ $event->color }}'
                     , description: '{{ $event->short_Description }}'
-                    , pdfLink: '{{ $event->event_pdf }}', // Update to use event_pdf
+                    , pdfLink: '{{ $event->event_pdf }}',
                     videoLink: '{{ $event->event_video }}'
                 }
                 , @endforeach
             ]
             , eventClick: function(info) {
-                // Set modal title and description
                 document.getElementById('modalEventTitle').textContent = info.event.title;
                 document.getElementById('modalEventDescription').textContent = info.event.extendedProps.description;
 
-                // Set links for PDF and video
+
                 var pdfLink = info.event.extendedProps.pdfLink ? '/storage/app/public/admin/event/' + info.event.extendedProps.pdfLink : null;
                 var videoLink = info.event.extendedProps.videoLink;
 

@@ -7,6 +7,7 @@ use App\Models\Medium;
 use App\Models\School;
 use App\Models\Standard;
 use App\Models\Student;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -15,6 +16,7 @@ class StudentController extends Controller
     {
         // Fetch all schools for the dropdown
         $schools = School::all();
+        $mediums = Medium::all();
         $students = Student::query();
         if ($request->has('school') && $request->school != '') {
             $students->where('school_id', $request->school);
@@ -33,7 +35,7 @@ class StudentController extends Controller
         $students = $students->with('school', 'medium', 'standard')->latest()->paginate(10);
 
         // Fetch related data for cascading dropdowns
-        $mediums = $request->school ? Medium::where('school_id', $request->school)->get() : [];
+        // $mediums = $request->school ? Medium::where('school_id', $request->school)->get() : [];
         $standards = $request->medium ? Standard::where('medium_id', $request->medium)->get() : [];
 
         return view('superadmin.students.index', compact('schools', 'mediums', 'standards', 'students'));
@@ -54,6 +56,7 @@ class StudentController extends Controller
 
     public function getStandards($mediumId)
     {
+        // $standards = Standard::where('medium_id', $mediumId)->get();
         $standards = Standard::where('medium_id', $mediumId)->get();
         return response()->json($standards);
     }
@@ -62,5 +65,10 @@ class StudentController extends Controller
     {
         $student = Student::where('class_id', $standardId)->paginate(10);
         return response()->json($student);
+    }
+
+    public function getTeachers($schoolId){
+        $teachers = Teacher::where('school_id', $schoolId)->get();
+        return response()->json($teachers);
     }
 }

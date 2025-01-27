@@ -26,8 +26,8 @@
             </li>
 
             {{-- User Management --}}
-            <li class="nav-item {{ request()->routeIs('school.list') ? 'menu-open' : '' }}">
-                <a href="#" class="nav-link {{ request()->routeIs('school.list', 'principle.list', 'teachers.list', 'students.list') ? 'active' : '' }}">
+            <li class="nav-item {{ request()->routeIs('school.list','superAdmin-teachers-index', 'superAdmin-students-index') ? 'menu-open' : '' }}">
+                <a href="#" class="nav-link {{ request()->routeIs('school.list','superAdmin-teachers-index', 'superAdmin-students-index') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-user"></i>
                     <p>
                         User Management
@@ -41,26 +41,22 @@
                             <p>School List</p>
                         </a>
                     </li>
+
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fas fa-user-tie nav-icon"></i>
-                            <p>Principle</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{ route('superAdmin-teachers-index') }}" class="nav-link {{ request()->routeIs('superAdmin-teachers-index') ? 'active' : '' }}">
                             <i class="fas fa-chalkboard-teacher nav-icon"></i>
                             <p>Teachers</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('superAdmin-students-index') }}" class="nav-link">
+                        <a href="{{ route('superAdmin-students-index') }}" class="nav-link {{ request()->routeIs('superAdmin-students-index') ? 'active' : '' }}">
                             <i class="fas fa-user-graduate nav-icon"></i>
                             <p>Students</p>
                         </a>
                     </li>
                 </ul>
             </li>
+
 
 
             <!-- Academic Management -->

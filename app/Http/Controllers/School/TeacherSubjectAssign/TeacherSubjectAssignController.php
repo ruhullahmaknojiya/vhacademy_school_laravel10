@@ -57,7 +57,10 @@ class TeacherSubjectAssignController extends Controller
 
     public function getStandards($medium_id)
     {
-        $standards = Standard::where('medium_id', $medium_id)->get();
+        $standards = Standard::where('medium_id', $medium_id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
         return response()->json($standards);
     }
 

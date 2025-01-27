@@ -37,13 +37,16 @@
                                     </select>
                                 </div>
                                 <div class="col-md-2">
-                                    <label for="">Medium Name</label>
+                                    <label for="medium">Medium Name</label>
                                     <select name="medium" id="medium" class="form-control">
                                         <option value="">Select Medium</option>
+                                        @foreach ($mediums as $medium)
+                                            <option value="{{ $medium->id }}">{{ $medium->medium_name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="col-md-2">
-                                    <label for="">Standard Name</label>
+                                    <label for="standard">Standard Name</label>
                                     <select name="standard" id="standard" class="form-control">
                                         <option value="">Select Standard</option>
                                     </select>
@@ -56,7 +59,7 @@
                                 </div>
                                 <div class="mt-3 col-md-2">
                                     <button type="submit" class="mt-2 btn btn-info">Filter</button>
-                                <a href="{{ route('superAdmin-students-index') }}" class="mt-2 btn btn-danger">Reset</a>
+                                    <a href="{{ route('superAdmin-students-index') }}" class="mt-2 btn btn-danger">Reset</a>
                                 </div>
                             </div>
                         </div>
@@ -72,7 +75,6 @@
                                     <th>Student Name</th>
                                     <th>Email</th>
                                     <th>MobileNumber</th>
-                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -86,10 +88,7 @@
                                     <td>{{ $student->first_name }} {{ $student->last_name }}</td>
                                     <td>{{ $student->email }}</td>
                                     <td>{{ $student->mobile_number }}</td>
-                                    <td class="d-flex justify-content-between">
-                                        <a href="" class="btn btn-primary btn-sm">Edit</a>
-                                        <a href="" class="btn btn-danger btn-sm">Delete</a>
-                                    </td>
+
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -109,22 +108,6 @@
 @push('js')
 <script>
     $(document).ready(function() {
-        $('#school').change(function() {
-            const schoolId = $(this).val();
-            $('#medium').html('<option value="">Select Medium</option>');
-            $('#standard').html('<option value="">Select Standard</option>');
-            $('#student').html('<option value="">Select Students</option>');
-
-            if (schoolId) {
-                $.get(`/get-mediums/${schoolId}`, function(data) {
-                    data.forEach(medium => {
-                        $('#medium').append(`<option value="${medium.id}">${medium.medium_name}</option>`);
-                    });
-                });
-            }
-        });
-
-
         $('#medium').change(function() {
             const mediumId = $(this).val();
             $('#standard').html('<option value="">Select Standard</option>');
@@ -141,8 +124,6 @@
 
         $('#standard').change(function() {
             const standardId = $(this).val();
-
-
             $('#student').html('<option value="">Select Students</option>');
 
             if (standardId) {
@@ -152,18 +133,14 @@
                             $('#student').append(`<option value="${student.id}">${student.first_name} ${student.last_name}</option>`);
                         });
                     } else {
-
-                        $('#student').html('<option value="">No students available</option>');
+                        $('#student').html('<option value="">No students Records are available</option>');
                     }
                 }).fail(function() {
                     alert('Failed to fetch students. Please try again.');
                 });
             }
         });
-
-
     });
-
 </script>
 
 @endpush

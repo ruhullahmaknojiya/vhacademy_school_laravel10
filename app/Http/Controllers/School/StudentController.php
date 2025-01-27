@@ -279,5 +279,5 @@ class StudentController extends Controller
         return view('schooladmin.students.importexcel.import', compact('mediums', 'standards', 'classes'));
     }
 
-    
+
 }

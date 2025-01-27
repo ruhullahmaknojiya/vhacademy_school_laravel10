@@ -64,18 +64,17 @@ Topics
                                 @endforeach
                             </select>
                         </div>
-                        <div class="mb-2 col-md-2 d-flex align-items-end">
+                        <div class="mb-3 col-md-2" style="margin-top: 20px;">
                             <button type="submit" class="mr-2 btn btn-primary">Filter</button>
                             <a href="{{ route('subtopics.index') }}" class="btn btn-danger">Reset</a>
                         </div>
-                        <div class="text-right col-md-2 align-items-center">
-                            <a href="{{ route('create_subtopics') }}" class="mt-2 btn btn-success">
+                        <div class="text-right col-md-2">
+                            <a href="{{ route('create_subtopics') }}" class="mb-2 btn btn-success">
                                 <i class="fas fa-plus-circle"></i> Create Video
                             </a>
-
-                                <a href="{{ route('VideoBulkUploadsIndex') }}" class="btn btn-info btn-sm me-2"><i class="fas fa-plus-circle"></i> Bulk Upload</a>
-
-
+                            <a href="{{ route('VideoBulkUploadsIndex') }}" class="btn btn-info">
+                                <i class="fas fa-upload"></i> Bulk Upload
+                            </a>
                         </div>
                     </div>
                 </form>
