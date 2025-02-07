@@ -34,15 +34,17 @@ Create Video Bulk
         <div class="row">
             <div class="col-sm-12">
                 <div class="card">
-                    <form action="{{ route('VideoUploadExcel') }}" method="POST" enctype="multipart/form-data">
+                    <form id="VideoExcelUploadsForm" action="{{ route('VideoUploadExcel') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="card-header">
-                            <h5 class="form-title"><span>Create Video File bulk-uploads</span>
+                            <h5 class="form-title">
+                                <span>Create Video File Bulk Uploads</span>
                                 <a href="{{ route('subtopics.index') }}"><i class="mt-2 fas fa-arrow-left" style="float: right;"></i></a>
                             </h5>
                         </div>
                         <div class="card-body">
                             <div class="row">
+                                <!-- Medium Selection -->
                                 <div class="col-12 col-sm-4">
                                     <div class="form-group local-forms">
                                         <label>Medium <span class="text-danger">*</span></label>
@@ -54,27 +56,41 @@ Create Video Bulk
                                         </select>
                                     </div>
                                 </div>
+
+                                <!-- Standard Selection -->
                                 <div class="col-12 col-sm-4">
                                     <div class="form-group local-forms">
                                         <label>Standard <span class="text-danger">*</span></label>
                                         <select name="standard_id" id="standard" class="form-control">
                                             <option value="">Select Standard</option>
-                                            <!-- Populate dynamically -->
                                         </select>
                                     </div>
                                 </div>
+
+                                <!-- Subject Selection -->
                                 <div class="col-12 col-sm-4">
                                     <div class="form-group local-forms">
                                         <label>Subject <span class="text-danger">*</span></label>
                                         <select name="sub_id" id="subject" class="form-control">
                                             <option value="">Select Subject</option>
-                                            <!-- Populate dynamically -->
                                         </select>
                                     </div>
                                 </div>
+
+                                <!-- Topic Selection -->
+                                <div class="col-12 col-sm-4">
+                                    <div class="form-group local-forms">
+                                        <label>Topic <span class="text-danger">*</span></label>
+                                        <select name="topic_id" id="topics" class="form-control">
+                                            <option value="">Select Topic</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- File Upload -->
                                 <div class="col-12 col-sm-6">
                                     <div class="form-group local-forms">
-                                        <label>Excel Uploads <span class="text-danger">*</span></label>
+                                        <label>Video File Upload <span class="text-danger">*</span></label>
                                         <input type="file" name="file_path" id="file_path" class="form-control">
                                     </div>
                                 </div>
@@ -84,7 +100,6 @@ Create Video Bulk
                             <button type="submit" class="btn btn-outline-primary">Submit</button>
                         </div>
                     </form>
-
                 </div>
             </div>
         </div>
@@ -160,20 +175,21 @@ Create Video Bulk
 
 <script>
     $(document).ready(function() {
-        // Handle Medium selection to fetch Standards
-        $('#mediums').change(function() {
-            const mediumId = $(this).val();
-            $('#standards').html('<option value="">Select Standard</option>'); // Reset Standards
-            $('#subjects').html('<option value="">Select Subject</option>'); // Reset Subjects
+        // Load Standards when Medium is selected
+        $('#medium').change(function() {
+            let mediumId = $(this).val();
+            $('#standard').html('<option value="">Select Standard</option>');
+            $('#subject').html('<option value="">Select Subject</option>');
+            $('#topics').html('<option value="">Select Topic</option>');
 
             if (mediumId) {
                 $.get(`/get-standards/${mediumId}`, function(data) {
                     if (data.length > 0) {
-                        data.forEach(standard => {
-                            $('#standards').append(`<option value="${standard.id}">${standard.standard_name}</option>`);
+                        $.each(data, function(index, standard) {
+                            $('#standard').append(`<option value="${standard.id}">${standard.standard_name}</option>`);
                         });
                     } else {
-                        $('#standards').html('<option value="">No Standards Available</option>');
+                        $('#standard').html('<option value="">No Standards Available</option>');
                     }
                 }).fail(function() {
                     alert('Failed to fetch standards. Please try again.');
@@ -181,27 +197,50 @@ Create Video Bulk
             }
         });
 
-        // Handle Standard selection to fetch Subjects
-        $('#standards').change(function() {
-            const standardId = $(this).val();
-            $('#subjects').html('<option value="">Select Subject</option>'); // Reset Subjects
+        // Load Subjects when Standard is selected
+        $('#standard').change(function() {
+            let standardId = $(this).val();
+            $('#subject').html('<option value="">Select Subject</option>');
+            $('#topics').html('<option value="">Select Topic</option>');
 
             if (standardId) {
                 $.get(`/get-subjects/${standardId}`, function(data) {
                     if (data.length > 0) {
-                        data.forEach(subject => {
-                            $('#subjects').append(`<option value="${subject.id}">${subject.subject}</option>`);
+                        $.each(data, function(index, subject) {
+                            $('#subject').append(`<option value="${subject.id}">${subject.subject}</option>`);
                         });
                     } else {
-                        $('#subjects').html('<option value="">No Subjects Available</option>');
+                        $('#subject').html('<option value="">No Subjects Available</option>');
                     }
                 }).fail(function() {
                     alert('Failed to fetch subjects. Please try again.');
                 });
             }
         });
+
+
+        $('#subject').change(function() {
+            let subjectId = $(this).val();
+            $('#topics').html('<option value="">Select Topic</option>');
+
+            if (subjectId) {
+                $.get(`/get-topics/${subjectId}`, function(data) {
+                    if (data.length > 0) {
+                        $.each(data, function(index, topic) {
+                            $('#topics').append(`<option value="${topic.id}">${topic.topic}</option>`);
+                        });
+                    } else {
+                        $('#topics').html('<option value="">No Topics Available</option>');
+                    }
+                }).fail(function() {
+                    alert('Failed to fetch topics. Please try again.');
+                });
+            }
+        });
     });
+
 </script>
+
 <script>
     $(document).ready(function() {
         $("#VideoExcelUploadsForm").submit(function(e) {
@@ -217,6 +256,9 @@ Create Video Bulk
             });
 
             let formData = new FormData(this);
+
+            // Remove previous validation errors
+            $(".text-danger").remove();
 
             $.ajax({
                 url: "{{ route('VideoUploadExcel') }}"
@@ -234,6 +276,9 @@ Create Video Bulk
                         , title: 'Success'
                         , text: response.message
                     , });
+
+                    // Reset the form after successful upload
+                    $("#VideoExcelUploadsForm")[0].reset();
                 }
                 , error: function(xhr) {
                     Swal.close();
@@ -241,8 +286,11 @@ Create Video Bulk
                     if (xhr.status === 422) {
                         let errors = xhr.responseJSON.errors;
                         let errorMessage = '';
+
                         for (let field in errors) {
-                            errorMessage += errors[field][0] + '\n';
+                            let inputField = $(`[name="${field}"]`);
+                            inputField.after(`<span class="text-danger">${errors[field][0]}</span>`);
+                            errorMessage += `${errors[field][0]}\n`;
                         }
 
                         Swal.fire({
@@ -263,6 +311,5 @@ Create Video Bulk
     });
 
 </script>
-
 
 @endpush

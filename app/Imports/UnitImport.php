@@ -50,7 +50,5 @@ class UnitImport implements ToModel, WithHeadingRow
             'type' => $row['unit_type'],
             'description' => $row['description'],
         ]);
-
-
     }
 }

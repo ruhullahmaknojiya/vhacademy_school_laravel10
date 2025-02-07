@@ -12,9 +12,10 @@ class SubTopic extends Model
     public $table = 'sub_topics';
 
     public $fillable = [
-        'sub_topic',
         'type',
         'video',
+        'medium_id',
+        'standard_id',
         'stopic_image',
         'vhm_start_title',
         'vhm_end_title',
@@ -30,23 +31,23 @@ class SubTopic extends Model
 
     public function topic()
     {
-        return $this->belongsTo(Topic::class);
+        return $this->belongsTo(Topic::class,'topic_id');
     }
 
     public function medium()
     {
-        return $this->belongsTo(Medium::class);
+        return $this->belongsTo(Medium::class,'medium_id');
     }
 
     public function standards()
     {
-        return $this->belongsTo(Standard::class);
+        return $this->belongsTo(Standard::class,'standard_id');
     }
 
 
     public function subjects()
     {
-        return $this->belongsTo(Subject::class);
+        return $this->belongsTo(Subject::class,'subject_id');
     }
 
 

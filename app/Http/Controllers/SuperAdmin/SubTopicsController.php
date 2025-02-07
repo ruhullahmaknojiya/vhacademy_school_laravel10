@@ -12,8 +12,10 @@ use App\Models\SubTopic;
 use App\Models\Topic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Log;
+use App\Imports\VideoImport;
 
 class SubTopicsController extends Controller
 {
@@ -349,7 +351,8 @@ class SubTopicsController extends Controller
 
     public function getTopics($subjectId)
     {
-        $topics = Topic::where('sub_id', $subjectId)->pluck('topic', 'id');
+        // $topics = Topic::where('sub_id', $subjectId)->pluck('topic', 'id');
+        $topics = Topic::where('sub_id', $subjectId)->get(['id', 'topic']);
         return response()->json($topics);
     }
     public function getSubTopics($topicId)
@@ -369,10 +372,8 @@ class SubTopicsController extends Controller
     {
         $subTopics = SubTopic::with('medium', 'subjects', 'standards')->orderBy('id', 'desc')->paginate(20);
         $mediums = Medium::all();
-        $standards = Standard::all();
-        $subjects = Subject::all();
-        $subTopics = SubTopic::all();
-        return view('superadmin.subtopics.video.video-index', compact('mediums', 'standards', 'subjects', 'subTopics'));
+        return view('superadmin.subtopics.video.video-index', compact('subTopics', 'mediums'));
+        // return view('superadmin.subtopics.video.video-index', compact('mediums', 'standards', 'subjects', 'subTopics'));
     }
 
     public function uploadExcel(Request $request)
@@ -409,5 +410,68 @@ class SubTopicsController extends Controller
 
             return back()->with('error', 'An error occurred while importing the Excel file.');
         }
+    }
+
+
+    public function VideoUploadExcel(Request $request)
+    {
+        // Validate the request
+        $validator = Validator::make($request->all(), [
+            'medium_id'   => 'required|exists:mediums,id',
+            'standard_id' => 'required|exists:standards,id',
+            'subject_id'      => 'required|exists:subjects,id',
+            'file_path'   => 'required|mimes:xlsx,xls|max:2048',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        if ($request->hasFile('file_path')) {
+            try {
+
+                $mediumId = $request->input('medium_id');
+
+                $standardId = $request->input('standard_id');
+
+                $subjectId = $request->input('subject_id');
+
+                // Store the uploaded file
+                $file = $request->file('file_path');
+
+                $fileName = time() . '_' . $file->getClientOriginalName();
+                $filePath = $file->storeAs('uploads/videos', $fileName, 'public');
+
+                // Import the Excel file data
+                $import = new VideoImport($mediumId, $standardId, $subjectId);
+
+                $import = new VideoImport($subjectId, $standardId, $mediumId);
+
+                Excel::import($import, $file);
+
+
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Excel file uploaded successfully! Records inserted.',
+                    'video_url' => asset('storage/' . $filePath),
+                ]);
+            } catch (\Exception $e) {
+                return response()->json(['message' => 'Error processing file: ' . $e->getMessage()], 500);
+            }
+        }
+
+        return response()->json(['message' => 'File upload failed. No file received.'], 400);
+    }
+
+
+
+
+    public function sub_topics_video_excel()
+    {
+        $subTopics = SubTopic::orderBy('id', 'desc')->paginate(20);
+
+
+        $mediums = Medium::all();
+        return view('superadmin.subtopics.video.video_excel', compact('subTopics', 'mediums'));
     }
 }

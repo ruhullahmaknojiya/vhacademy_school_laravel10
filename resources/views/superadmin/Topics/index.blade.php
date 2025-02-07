@@ -31,7 +31,7 @@ Unit
                         <h5>Unit Details</h5>
                     </div>
                     <div class="text-right col-md-6">
-                        <a href="{{ route('BulkResultIndex') }}" class="btn btn-info me-2"><i class="fas fa-upload"></i> Bulk Upload</a>
+                        <a href="{{ route('BulkResultIndex') }}" class="btn btn-info me-2"><i class="fas fa-plus-circle"></i> Bulk Upload</a>
                         <a href="{{ route('create_topic') }}" class="btn btn-primary"><i class="fas fa-plus-circle"></i> Add New Unit</a>
                     </div>
                 </div>
@@ -44,9 +44,9 @@ Unit
                             <select class="form-control filter-dropdown" name="medium_id" id="mediums">
                                 <option value="">Select Medium</option>
                                 @foreach ($mediums as $medium)
-                                    <option value="{{ $medium->id }}" {{ request('medium_id') == $medium->id ? 'selected' : '' }}>
-                                        {{ $medium->medium_name }}
-                                    </option>
+                                <option value="{{ $medium->id }}" {{ request('medium_id') == $medium->id ? 'selected' : '' }}>
+                                    {{ $medium->medium_name }}
+                                </option>
                                 @endforeach
                             </select>
                         </div>
@@ -54,12 +54,22 @@ Unit
                         <div class="col-md-3">
                             <select class="form-control filter-dropdown" name="standard_id" id="standards">
                                 <option value="">Select Standard</option>
+                                @foreach ($standards as $standard)
+                                <option value="{{ $standard->id }}" {{ request('standard_id') == $standard->id ? 'selected' : '' }}>
+                                    {{ $standard->standard_name }}
+                                </option>
+                                @endforeach
                             </select>
                         </div>
 
                         <div class="col-md-3">
-                            <select class="form-control" name="subject_id" id="subjects" style="width:140px;">
+                            <select class="form-control" name="subject_id" id="subjects" style="width:140px; ">
                                 <option value="">Select Subject</option>
+                                @foreach ($subjects as $subject)
+                                <option value="{{ $subject->id }}" {{ request('subject_id') == $subject->id ? 'selected' : '' }}>
+                                    {{ $subject->subject }}
+                                </option>
+                                @endforeach
                             </select>
                         </div>
 
@@ -126,7 +136,6 @@ Unit
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
-        // Handle Medium selection to fetch Standards
         $('#mediums').change(function() {
             const mediumId = $(this).val();
             $('#standards').html('<option value="">Select Standard</option>'); // Reset Standards

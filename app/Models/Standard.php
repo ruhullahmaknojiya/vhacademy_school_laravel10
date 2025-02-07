@@ -34,9 +34,14 @@ class Standard extends Model
     {
         return $this->hasMany(ClassTeacherAssignment::class,'standard_id');
     }
-    
+
      public function teacherSubjectAssigns()
     {
         return $this->hasMany(TeacherSubjectAssign::class, 'standard_id');
+    }
+
+    public function topics()
+    {
+        return $this->hasMany(Topic::class, 'standard_id');
     }
 }

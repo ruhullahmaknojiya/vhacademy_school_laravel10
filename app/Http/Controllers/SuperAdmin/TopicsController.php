@@ -22,75 +22,53 @@ class TopicsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    // public function index(Request $request)
-    // {
-    //     $mediums = Medium::all();
-    //     $standards = collect();
-    //     $subjects = collect();
-    //     $topics = collect();
-
-    //     $defaultMedium = Medium::first();
-    //     $defaultStandard = $defaultMedium ? Standard::where('medium_id', $defaultMedium->id)->first() : null;
-    //     $defaultSubject = $defaultStandard ? Subject::where('std_id', $defaultStandard->id)->first() : null;
-
-    //     if ($request->has('medium_id') && $request->medium_id != '') {
-    //         $standards = Standard::where('medium_id', $request->medium_id)->get();
-    //     } else if ($defaultMedium) {
-    //         $standards = Standard::where('medium_id', $defaultMedium->id)->get();
-    //         $request->medium_id = $defaultMedium->id;
-    //     }
-
-    //     if ($request->has('standard_id') && $request->standard_id != '') {
-    //         $subjects = Subject::where('std_id', $request->standard_id)->with('standard.medium')->get();
-    //     } else if ($defaultStandard) {
-    //         $subjects = Subject::where('std_id', $defaultStandard->id)->with('standard.medium')->get();
-    //         $request->standard_id = $defaultStandard->id;
-    //     }
-
-    //     if ($request->has('subject_id') && $request->subject_id != '') {
-    //         $topics = Topic::where('sub_id', $request->subject_id)->get();
-    //     } else if ($defaultSubject) {
-    //         $topics = Topic::where('sub_id', $defaultSubject->id)->get();
-    //         $request->subject_id = $defaultSubject->id;
-    //     }
-
-    //     // Include subject relationship in the final topics query
-    //     $topics = $topics->isEmpty() ? Topic::with(['subject'])->get() : $topics;
-
-    //     return view('superadmin.Topics.index', compact('mediums', 'standards', 'subjects', 'topics'));
-    // }
-
 
 
     public function index(Request $request)
     {
-        // Fetch all mediums for the Medium dropdown
-        $mediums = Medium::all();
 
-        // Initialize collections for Standards, Subjects, and Topics
+        $mediums = Medium::all();
         $standards = collect();
         $subjects = collect();
         $topics = collect();
 
-        // Handle filtering logic based on the GET parameters
+
         if ($request->has('medium_id') && $request->medium_id != '') {
             $standards = Standard::where('medium_id', $request->medium_id)->get();
-        }
 
-        if ($request->has('standard_id') && $request->standard_id != '') {
-            $subjects = Subject::where('std_id', $request->standard_id)->get();
-        }
+            if ($request->has('standard_id') && $request->standard_id != '') {
+                $subjects = Subject::where('std_id', $request->standard_id)->get();
 
-        if ($request->has('subject_id') && $request->subject_id != '') {
-            $topics = Topic::where('sub_id', $request->subject_id)->get();
-        }
+                if ($request->has('subject_id') && $request->subject_id != '') {
 
-        if ($topics->isEmpty()) {
-            $topics = Topic::with(['subject'])->latest()->paginate(2);
+                    $topics = Topic::where('medium_id', $request->medium_id)
+                        ->where('standard_id', $request->standard_id)
+                        ->where('sub_id', $request->subject_id)
+                        ->with(['subject.standard.medium'])
+                        ->paginate(100);
+
+
+                } else {
+
+                    $topics = Topic::where('medium_id', $request->medium_id)
+                        ->where('standard_id', $request->standard_id)
+                        ->with(['subject.standard.medium'])
+                        ->paginate(100);
+                }
+            } else {
+
+                $topics = Topic::where('medium_id', $request->medium_id)
+                    ->with(['subject.standard.medium'])
+                    ->paginate(50);
+            }
+        } else {
+            $topics = Topic::with(['subject.standard.medium'])->latest()->paginate(100);
         }
 
         return view('superadmin.Topics.index', compact('mediums', 'standards', 'subjects', 'topics'));
     }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -337,55 +315,54 @@ class TopicsController extends Controller
     // }
 
     public function uploadExcel(Request $request)
-{
-    // Validate the request
-    $validator = Validator::make($request->all(), [
-        'medium_id' => 'required|exists:mediums,id',
-        'standard_id' => 'required|exists:standards,id',
-        'subject_id' => 'required|exists:subjects,id',
-        'file_path' => 'required|file|mimes:xlsx,xls|max:2048',
-    ]);
+    {
+        // Validate the request
+        $validator = Validator::make($request->all(), [
+            'medium_id' => 'required|exists:mediums,id',
+            'standard_id' => 'required|exists:standards,id',
+            'subject_id' => 'required|exists:subjects,id',
+            'file_path' => 'required|file|mimes:xlsx,xls|max:2048',
+        ]);
 
-    if ($validator->fails()) {
-        return response()->json([
-            'status' => false,
-            'errors' => $validator->errors()
-        ], 422);
-    }
-
-    try {
-        // Fetch validated inputs
-        $mediumId = $request->input('medium_id');
-        $standardId = $request->input('standard_id');
-        $subjectId = $request->input('subject_id');
-        $file = $request->file('file_path');
-
-        $import = new UnitImport($subjectId, $standardId, $mediumId);
-        Excel::import($import, $file);
-
-        // Check if the import process flagged any issues
-        if ($import->stopProcessing) {
+        if ($validator->fails()) {
             return response()->json([
                 'status' => false,
-                'message' => 'The file contains empty or invalid rows. Please fix the file and re-upload.'
-            ]);
+                'errors' => $validator->errors()
+            ], 422);
         }
 
-        // Success response
-        return response()->json([
-            'status' => true,
-            'message' => 'File uploaded and processed successfully.',
-        ]);
-    } catch (\Exception $e) {
-        // Catch unexpected errors and log them
-        Log::error('Error during file upload: ' . $e->getMessage());
+        try {
+            // Fetch validated inputs
+            $mediumId = $request->input('medium_id');
+            $standardId = $request->input('standard_id');
+            $subjectId = $request->input('subject_id');
+            $file = $request->file('file_path');
 
-        return response()->json([
-            'status' => false,
-            'message' => 'An error occurred while processing the file. Please try again.',
-            'error' => $e->getMessage()
-        ], 500);
+            $import = new UnitImport($subjectId, $standardId, $mediumId);
+            Excel::import($import, $file);
+
+            // Check if the import process flagged any issues
+            if ($import->stopProcessing) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'The file contains empty or invalid rows. Please fix the file and re-upload.'
+                ]);
+            }
+
+            // Success response
+            return response()->json([
+                'status' => true,
+                'message' => 'File uploaded and processed successfully.',
+            ]);
+        } catch (\Exception $e) {
+            // Catch unexpected errors and log them
+            Log::error('Error during file upload: ' . $e->getMessage());
+
+            return response()->json([
+                'status' => false,
+                'message' => 'An error occurred while processing the file. Please try again.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
-}
-
 }

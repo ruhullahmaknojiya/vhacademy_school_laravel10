@@ -113,6 +113,12 @@
                     <p>Video</p>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="{{ route('contact-us.index') }}" class="nav-link {{ request()->routeIs('contact-us.index') ? 'active' : '' }}">
+                    <i class="fas fa-phone-alt"></i>
+                    <p>Contact-Us</p>
+                </a>
+            </li>
         </ul>
     </nav>
 </div>

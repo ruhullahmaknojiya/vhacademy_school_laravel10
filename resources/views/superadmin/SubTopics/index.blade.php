@@ -15,10 +15,10 @@ Topics
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                  <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item active">Video</li>
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Video</li>
                 </ol>
-              </div>
+            </div>
         </div>
     </div>
 </div>
@@ -33,40 +33,37 @@ Topics
                             <select class="form-control filter-dropdown" name="medium_id" id="mediums">
                                 <option value="">Select Medium</option>
                                 @foreach ($mediums as $medium)
-                                <option value="{{ $medium->id }}" {{ request()->medium_id == $medium->id ? 'selected' : '' }}>{{ $medium->medium_name }}</option>
+                                <option value="{{ $medium->id }}" {{ request()->medium_id == $medium->id ? 'selected' : '' }}>
+                                    {{ $medium->medium_name }}
+                                </option>
                                 @endforeach
                             </select>
                         </div>
+
                         <div class="mb-2 col-md-2">
                             <label for="standard" class="form-label">Standard</label>
                             <select class="form-control filter-dropdown" name="standard_id" id="standards">
                                 <option value="">Select Standard</option>
-                                @foreach ($standards as $standard)
-                                <option value="{{ $standard->id }}" {{ request()->standard_id == $standard->id ? 'selected' : '' }}>{{ $standard->standard_name }}</option>
-                                @endforeach
                             </select>
                         </div>
+
                         <div class="mb-2 col-md-2">
                             <label for="subject" class="form-label">Subject</label>
                             <select class="form-control filter-dropdown" name="subject_id" id="subjects">
                                 <option value="">Select Subject</option>
-                                @foreach ($subjects as $subject)
-                                <option value="{{ $subject->id }}" {{ request()->subject_id == $subject->id ? 'selected' : '' }}>{{ Str::limit($subject->subject, 20) }}</option>
-                                @endforeach
                             </select>
                         </div>
+
                         <div class="mb-2 col-md-2">
                             <label for="topic" class="form-label">Topic</label>
                             <select class="form-control filter-dropdown" name="topic_id" id="topics">
                                 <option value="">Select Topic</option>
-                                @foreach ($topics as $topic)
-                                <option value="{{ $topic->id }}" {{ request()->topic_id == $topic->id ? 'selected' : '' }}>{{ $topic->topic }}</option>
-                                @endforeach
                             </select>
                         </div>
                         <div class="mb-3 col-md-2" style="margin-top: 20px;">
                             <button type="submit" class="mr-2 btn btn-primary">Filter</button>
-                            <a href="{{ route('subtopics.index') }}" class="btn btn-danger">Reset</a>
+                            <a href="{{ route('subtopics.index') }}" class="mx-2 btn btn-danger">Reset</a>
+                            <a href="{{ route('videoSubTopicsExcelFile') }}" class="mt-1 btn btn-danger">Video Subtopic</a>
                         </div>
                         <div class="text-right col-md-2">
                             <a href="{{ route('create_subtopics') }}" class="mb-2 btn btn-success">
@@ -75,6 +72,7 @@ Topics
                             <a href="{{ route('VideoBulkUploadsIndex') }}" class="btn btn-info">
                                 <i class="fas fa-upload"></i> Bulk Upload
                             </a>
+
                         </div>
                     </div>
                 </form>
@@ -144,73 +142,7 @@ Topics
 @endpush
 
 @push('js')
-<script>
-    $(document).ready(function() {
-        $('#mediums').change(function() {
-            var mediumId = $(this).val();
-            if (mediumId) {
-                $.ajax({
-                    url: '{{ route("get-newstandards") }}'
-                    , type: 'GET'
-                    , data: {
-                        medium_id: mediumId
-                    }
-                    , success: function(data) {
-                        $('#standards').empty().append('<option value="">Select Standard</option>');
-                        $.each(data, function(key, value) {
-                            $('#standards').append('<option value="' + value.id + '">' + value.standard_name + '</option>');
-                        });
-                    }
-                });
-            } else {
-                $('#standards').empty().append('<option value="">Select Standard</option>');
-            }
-        });
 
-        $('#standards').change(function() {
-            var standardId = $(this).val();
-            if (standardId) {
-                $.ajax({
-                    url: '{{ route("get-newsubjects") }}'
-                    , type: 'GET'
-                    , data: {
-                        standard_id: standardId
-                    }
-                    , success: function(data) {
-                        $('#subjects').empty().append('<option value="">Select Subject</option>');
-                        $.each(data, function(key, value) {
-                            $('#subjects').append('<option value="' + value.id + '">' + value.subject + '</option>');
-                        });
-                    }
-                });
-            } else {
-                $('#subjects').empty().append('<option value="">Select Subject</option>');
-            }
-        });
-
-        $('#subjects').change(function() {
-            var subjectId = $(this).val();
-            if (subjectId) {
-                $.ajax({
-                    url: '{{ route("get-newtopics") }}'
-                    , type: 'GET'
-                    , data: {
-                        subject_id: subjectId
-                    }
-                    , success: function(data) {
-                        $('#topics').empty().append('<option value="">Select Topic</option>');
-                        $.each(data, function(key, value) {
-                            $('#topics').append('<option value="' + value.id + '">' + value.topic_name + '</option>');
-                        });
-                    }
-                });
-            } else {
-                $('#topics').empty().append('<option value="">Select Topic</option>');
-            }
-        });
-    });
-
-</script>
 <script>
     $(function() {
         $("#subtopicTable").DataTable({
@@ -220,6 +152,74 @@ Topics
             , "order": true
             , "buttons": ["copy", "csv", "excel", "pdf"]
         }).buttons().container().appendTo('#subtopicTable_wrapper .col-md-6:eq(0)');
+    });
+
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('#mediums').change(function() {
+            let mediumId = $(this).val();
+            $('#standards').html('<option value="">Select Standard</option>');
+            $('#subjects').html('<option value="">Select Subject</option>');
+            $('#topics').html('<option value="">Select Topic</option>');
+
+            if (mediumId) {
+                $.get(`/get-standards/${mediumId}`, function(data) {
+                    if (data.length > 0) {
+                        $.each(data, function(index, standard) {
+                            $('#standards').append(`<option value="${standard.id}">${standard.standard_name}</option>`);
+                        });
+                    } else {
+                        $('#standards').html('<option value="">No Standards Available</option>');
+                    }
+                }).fail(function() {
+                    alert('Failed to fetch standards. Please try again.');
+                });
+            }
+        });
+
+        // When Standard is selected, fetch Subjects
+        $('#standards').change(function() {
+            let standardId = $(this).val();
+            $('#subjects').html('<option value="">Select Subject</option>');
+            $('#topics').html('<option value="">Select Topic</option>');
+
+            if (standardId) {
+                $.get(`/get-subjects/${standardId}`, function(data) {
+                    if (data.length > 0) {
+                        $.each(data, function(index, subject) {
+                            $('#subjects').append(`<option value="${subject.id}">${subject.subject}</option>`);
+                        });
+                    } else {
+                        $('#subjects').html('<option value="">No Subjects Available</option>');
+                    }
+                }).fail(function() {
+                    alert('Failed to fetch subjects. Please try again.');
+                });
+            }
+        });
+
+
+        // When Subject is selected, fetch Topics
+        $('#subjects').change(function() {
+            let subjectId = $(this).val();
+            $('#topics').html('<option value="">Select Topic</option>'); // Reset Topics
+
+            if (subjectId) {
+                $.get(`/get-topics/${subjectId}`, function(data) {
+                    if (data.length > 0) {
+                        $.each(data, function(index, topic) {
+                            $('#topics').append(`<option value="${topic.id}">${topic.topic}</option>`);
+                        });
+                    } else {
+                        $('#topics').html('<option value="">No Topics Available</option>');
+                    }
+                }).fail(function() {
+                    alert('Failed to fetch topics. Please try again.');
+                });
+            }
+        });
     });
 
 </script>

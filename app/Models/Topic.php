@@ -41,6 +41,8 @@ class Topic extends Model
 
 
 
+
+
     // public function subtopics()
     // {
     //     return $this->hasMany(Subtopic::class, 'parent_topic_id');

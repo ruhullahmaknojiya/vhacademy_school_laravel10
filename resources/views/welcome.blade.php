@@ -38,7 +38,7 @@
                     <a class="nav-link" href="#">Contact</a>
                 </li>
             </ul>
-            <ul class="navbar-nav ml-auto">
+            <ul class="ml-auto navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" href="signin.html">Sign in</a>
                 </li>
@@ -52,7 +52,7 @@
     <!-- Main content -->
     <div class="container mt-5">
         <div class="row">
-            <div class="col-md-12 text-center">
+            <div class="text-center col-md-12">
                 <img src="{{ asset('images/logo.png') }}" alt="Welcome Image" class="img-fluid">
                 <h2 class="mt-4">Success is no accident</h2>
                 <p>It is hard work, perseverance, learning, studying, sacrifice and most of all, love of what you are doing or learning to do.</p>
@@ -61,13 +61,13 @@
     </div>
 
     <!-- Footer -->
-    <footer class="footer bg-light mt-5">
+    <footer class="mt-5 footer bg-light">
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
                     <p class="text-muted">© 2024 VHM Academy. All rights reserved.</p>
                 </div>
-                <div class="col-md-6 text-right">
+                <div class="text-right col-md-6">
                     <p class="text-muted">Contact Information: +1012345678910 | info@solutionsbricks.com</p>
                 </div>
             </div>
