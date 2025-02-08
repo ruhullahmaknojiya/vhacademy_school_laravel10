@@ -419,7 +419,7 @@ class SubTopicsController extends Controller
         $validator = Validator::make($request->all(), [
             'medium_id'   => 'required|exists:mediums,id',
             'standard_id' => 'required|exists:standards,id',
-            'subject_id'      => 'required|exists:subjects,id',
+            'subject_id'  => 'required|exists:subjects,id',
             'file_path'   => 'required|mimes:xlsx,xls|max:2048',
         ]);
 
@@ -429,26 +429,38 @@ class SubTopicsController extends Controller
 
         if ($request->hasFile('file_path')) {
             try {
+                $mediumId   = (int) $request->input('medium_id');
+                $standardId = (int) $request->input('standard_id');
+                $subjectId  = (int) $request->input('subject_id');
 
-                $mediumId = $request->input('medium_id');
+                // Fetch topic ID from the topic table based on subject_id
+                $topic = \App\Models\Topic::where('medium_id', $mediumId)
+                    ->where('standard_id', $standardId)
+                    ->where('sub_id', $subjectId)
+                    ->get();
 
-                $standardId = $request->input('standard_id');
 
-                $subjectId = $request->input('subject_id');
 
-                // Store the uploaded file
+                if (!$topic) {
+                    return response()->json(['message' => 'No topic found for the given subject.'], 404);
+                }
+
+                // Ensure it's a single instance and not a collection
+                if ($topic instanceof \Illuminate\Database\Eloquent\Collection) {
+                    $topic = $topic->first();
+                }
+
+                $topicId = $topic->id;
+
+                Log::info("Extracted IDs - Medium ID: $mediumId, Standard ID: $standardId, Subject ID: $subjectId, Topic ID: $topicId");
+
+                // File Handling
                 $file = $request->file('file_path');
-
                 $fileName = time() . '_' . $file->getClientOriginalName();
                 $filePath = $file->storeAs('uploads/videos', $fileName, 'public');
 
-                // Import the Excel file data
-                $import = new VideoImport($mediumId, $standardId, $subjectId);
-
-                $import = new VideoImport($subjectId, $standardId, $mediumId);
-
-                Excel::import($import, $file);
-
+                // Import Excel File with topic ID
+                Excel::import(new VideoImport($mediumId, $standardId, $subjectId, $topicId), $file);
 
                 return response()->json([
                     'status' => true,
@@ -456,6 +468,7 @@ class SubTopicsController extends Controller
                     'video_url' => asset('storage/' . $filePath),
                 ]);
             } catch (\Exception $e) {
+                Log::error('Error processing file:', ['error' => $e->getMessage()]);
                 return response()->json(['message' => 'Error processing file: ' . $e->getMessage()], 500);
             }
         }
@@ -465,10 +478,31 @@ class SubTopicsController extends Controller
 
 
 
+    public function getTopicsRecords(Request $request)
+    {
+        $topics = Topic::where('medium_id', $request->medium_id)
+            ->where('standard_id', $request->standard_id)
+            ->where('sub_id', $request->subject_id)
+            ->get(['id', 'topic']);
+
+
+
+        return response()->json([
+            'success' => true,
+            'topics' => $topics
+        ]);
+    }
+
+
+
 
     public function sub_topics_video_excel()
     {
-        $subTopics = SubTopic::orderBy('id', 'desc')->paginate(20);
+        $subTopics = SubTopic::with(['mediums', 'standards', 'subjects', 'topic'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(20);
+
+
 
 
         $mediums = Medium::all();

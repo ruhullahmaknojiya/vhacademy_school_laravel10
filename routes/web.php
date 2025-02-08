@@ -173,6 +173,7 @@ Route::group(['middlware' => ['auth', 'role:SuperAdmin']], function () {
 
 
     Route::get('/superadmin/video-index-file-uploads',[SubTopicsController::class, 'sub_topics_video_excel'])->name('videoSubTopicsExcelFile');
+    Route::get('/get-topics-records', [SubTopicsController::class, 'getTopicsRecords']);
 
 
     // admin Contact Us

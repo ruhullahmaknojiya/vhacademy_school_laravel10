@@ -16,6 +16,7 @@ class CourseController extends Controller
         return view('front.course', compact('mediums', 'standards'));
     }
 
+
     public function getStandards($mediumId)
     {
         $standards = Standard::where('medium_id', $mediumId)->take(8)->get();

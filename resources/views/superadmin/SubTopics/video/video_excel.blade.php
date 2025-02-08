@@ -44,7 +44,7 @@ Create Video Bulk
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <!-- Medium Selection -->
+
                                 <div class="col-12 col-sm-4">
                                     <div class="form-group local-forms">
                                         <label>Medium <span class="text-danger">*</span></label>
@@ -101,7 +101,7 @@ Create Video Bulk
                         <h5>Video File Result Excel</h5>
                     </div>
                     <div class="card-body">
-                        <table class="table table-bordered table-striped table-responsive">
+                        <table class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -109,7 +109,8 @@ Create Video Bulk
                                     <th>Standards Name</th>
                                     <th>Subjects Name</th>
                                     <th>Topic</th>
-                                    <th>Sub-Topics Type</th>
+                                    <th>Video</th>
+                                    <th>Videos Type</th>
                                     <th>Description</th>
                                     <th>Vhm Start Title</th>
                                     <th>Vhm End Title</th>
@@ -119,15 +120,15 @@ Create Video Bulk
                             <tbody>
                                 @if($subTopics->isNotEmpty())
                                 @foreach ($subTopics as $subTopic)
-
                                 <tr>
                                     <td>{{ $subTopic->id }}</td>
-                                    <td>{{ $subTopic->medium->medium_name ?? 'N/A' }}</td>
-                                    <td>{{ $subTopic->standards->standard_name ?? 'N/A' }}</td>
-                                    <td>{{ $subTopic->subjects->subject ?? 'N/A' }}</td>
-                                    <td>{{ $subTopic->topic->topic ?? 'N/A' }}</td>
+                                    <td>{{ optional($subTopic->mediums)->medium_name ?? 'N/A' }}</td>
+                                    <td>{{ optional($subTopic->standards)->standard_name ?? 'N/A' }}</td>
+                                    <td>{{ optional($subTopic->subjects)->subject ?? 'N/A' }}</td>
+                                    <td>{{ optional($subTopic->topic)->topic ?? 'N/A' }}</td>
 
 
+                                    <td>{{ $subTopic->video }}</td>
                                     <td>{{ $subTopic->type }}</td>
                                     <td>{{ $subTopic->description }}</td>
                                     <td>{{ $subTopic->vhm_start_title ?? 'N/A' }}</td>
@@ -141,7 +142,7 @@ Create Video Bulk
                                 @endforeach
                                 @else
                                 <tr>
-                                    <td colspan="11" style="text-align: center;">
+                                    <td colspan="10" style="text-align: center;">
                                         No records found.
                                     </td>
                                 </tr>
@@ -171,9 +172,10 @@ Create Video Bulk
 
 <script>
     $(document).ready(function() {
-        // Load Standards when Medium is selected
         $('#medium').change(function() {
             let mediumId = $(this).val();
+
+
             $('#standard').html('<option value="">Select Standard</option>');
             $('#subject').html('<option value="">Select Subject</option>');
             $('#topics').html('<option value="">Select Topic</option>');
@@ -313,6 +315,44 @@ Create Video Bulk
     });
 
 </script>
+<script>
+    $(document).ready(function() {
+        // Handle changes in Medium, Standard, and Subject selection
+        $("#medium, #standard, #subject").change(function() {
+            let mediumId = $("#medium").val();
+            let standardId = $("#standard").val();
+            let subjectId = $("#subject").val();
 
+            if (mediumId && standardId && subjectId) {
+                $.ajax({
+                    url: "/get-topics-records"
+                    , method: "GET"
+                    , data: {
+                        medium_id: mediumId
+                        , standard_id: standardId
+                        , subject_id: subjectId
+                    }
+                    , success: function(response) {
+                        if (response.success) {
+                            let topicsDropdown = $("#topic");
+                            topicsDropdown.empty();
+                            topicsDropdown.append('<option value="">Select Topic</option>');
+
+                            response.topics.forEach(function(topic) {
+                                topicsDropdown.append(
+                                    `<option value="${topic.id}">${topic.topic}</option>`
+                                );
+                            });
+                        }
+                    }
+                    , error: function(xhr) {
+                        console.log("Error fetching topics:", xhr.responseText);
+                    }
+                });
+            }
+        });
+    });
+
+</script>
 
 @endpush
